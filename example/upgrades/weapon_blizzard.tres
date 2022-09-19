@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://example/my_custom_resource.gd" type="Script" id=1]
+
+[resource]
+resource_name = "Weapon: Blizzard"
+script = ExtResource( 1 )
+max_duplicates = 0
+tags = "weapon magic aoe elemental"
+requires_one_of_tags = ""
+tag_delimeter = " "
+base_weight = 10.0
+multiplier_per_tag = "magic 2.0"
+multiplier_if_tag_present = ""
+multiplier_if_tag_not_present = ""
+max_tags_present = "weapon 4"
+list_item_delimeter = " "
+list_row_delimeter = "
+"

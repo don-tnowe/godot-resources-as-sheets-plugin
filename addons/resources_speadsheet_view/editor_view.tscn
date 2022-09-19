@@ -1,0 +1,383 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_cells/basic.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/resources_speadsheet_view/editor_icon_button.gd" type="Script" id=4]
+[ext_resource path="res://addons/resources_speadsheet_view/table_header.tscn" type="PackedScene" id=6]
+
+[sub_resource type="Image" id=15]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "LumAlpha8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id=4]
+flags = 4
+flags = 4
+image = SubResource( 15 )
+size = Vector2( 16, 16 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = SubResource( 4 )
+region_rect = Rect2( 0, 0, 16, 16 )
+margin_left = 2.0
+margin_right = 2.0
+margin_top = 2.0
+margin_bottom = 2.0
+
+[sub_resource type="Image" id=16]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "LumAlpha8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id=14]
+flags = 4
+flags = 4
+image = SubResource( 16 )
+size = Vector2( 16, 16 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+content_margin_left = 3.0
+content_margin_right = 3.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color( 0.147059, 0.154412, 0.159314, 1 )
+
+[node name="Control" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_neighbour_left = NodePath(".")
+focus_neighbour_top = NodePath(".")
+focus_neighbour_right = NodePath(".")
+focus_neighbour_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+grid_cell_scene = ExtResource( 3 )
+table_header_scene = ExtResource( 6 )
+path_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
+path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths")
+path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
+editor_stylebox = SubResource( 5 )
+
+[node name="HeaderContentSplit" type="VBoxContainer" parent="."]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 1022.0
+margin_bottom = 598.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HeaderContentSplit"]
+margin_right = 1020.0
+margin_bottom = 42.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer"]
+margin_right = 1020.0
+margin_bottom = 14.0
+text = "Select Resource Folder:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
+margin_top = 18.0
+margin_right = 1020.0
+margin_bottom = 42.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 107.0
+margin_bottom = 19.0
+text = "Resource Folder:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+margin_left = 111.0
+margin_right = 475.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_constants/separation = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_right = 336.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "res://assets/custom/upgrades/"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 336.0
+margin_right = 364.0
+margin_bottom = 24.0
+hint_tooltip = "Open Folder"
+icon = SubResource( 14 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+icon_name = "Folder"
+
+[node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+margin_left = 479.0
+margin_top = 5.0
+margin_right = 566.0
+margin_bottom = 19.0
+text = "Open Recent:"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 570.0
+margin_right = 934.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+margin_left = 938.0
+margin_right = 966.0
+margin_bottom = 24.0
+hint_tooltip = "Delete Selected Path"
+icon = SubResource( 14 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+icon_name = "Remove"
+
+[node name="Info" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+margin_left = 970.0
+margin_right = 1020.0
+margin_bottom = 24.0
+text = "About"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit"]
+margin_top = 46.0
+margin_right = 1020.0
+margin_bottom = 596.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FooterContentSplit" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer"]
+margin_right = 1020.0
+margin_bottom = 550.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Panel" type="PanelContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
+margin_right = 1020.0
+margin_bottom = 522.0
+mouse_filter = 2
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 11 )
+
+[node name="Scroll" type="ScrollContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 1017.0
+margin_bottom = 519.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"]
+margin_right = 5.65
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TableGrid" type="GridContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer"]
+margin_right = 5.65
+rect_min_size = Vector2( 5.65, 0 )
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
+margin_top = 526.0
+margin_right = 1020.0
+margin_bottom = 550.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Search" type="HBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
+margin_right = 1020.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
+margin_top = 5.0
+margin_right = 190.0
+margin_bottom = 19.0
+text = "Search by GDScript Condition:"
+
+[node name="Label2" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
+margin_left = 194.0
+margin_top = 3.0
+margin_right = 212.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 18, 18 )
+hint_tooltip = "Enter an expression. The table only show rows where the expression returns `true`.
+
+You can use `res.<property_name>` to get a property, and `index` to get row number. Hit ENTER to run the search.
+
+Try out these:
+- (res.number_property > 0 and res.number_property < 100)
+- (res.text_property != \"\")
+- (\"a\" in res.text_property)
+- (index < 5)"
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "(?)"
+align = 1
+
+[node name="SearchCond" type="LineEdit" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
+margin_left = 216.0
+margin_right = 1020.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "true"
+
+[node name="Control" type="Control" parent="."]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 1022.0
+margin_bottom = 598.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FileDialog" type="FileDialog" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -307.0
+margin_top = -192.0
+margin_right = 307.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 150, 52.5 )
+window_title = "Open a Folder"
+mode_overrides_title = false
+mode = 2
+
+[node name="Info" type="AcceptDialog" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -152.0
+margin_right = 320.0
+margin_bottom = 152.0
+window_title = "About"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Info"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -36.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/Info/MarginContainer"]
+margin_right = 624.0
+margin_bottom = 260.0
+bbcode_enabled = true
+bbcode_text = "[center]Edit Resources as Spreadsheet[/center]
+
+\"Welp, it is what it sounds like!\"
+
+Possible inputs:
+- [code]Ctrl + Click / Cmd + Click[/code] - Select multiple cells in one column
+- [code]Shift + Click[/code] - Select all cells between A and B in one column
+- [code]Left/Right[/code] - Move cursor along cell text
+- [code]Backspace/Delete[/code] - Erase text Left / Right from cursor
+- [code]Home/End[/code] - Move cursor to start/end of cell
+- [code]Ctrl + <move/erase> / Cmd + <move/erase>[/code] - Move through / Erase whole word
+- [code]Ctrl/Cmd + C/V[/code] - Copy cells / Paste text into cells 
+- [code]Ctrl/Cmd + (Shift) + Z[/code] - The Savior 
+If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
+
+Made by Don Tnowe. 2022.
+[url]https://twitter.com/don_tnowe[/url]"
+text = "Edit Resources as Spreadsheet
+
+\"Welp, it is what it sounds like!\"
+
+Possible inputs:
+- Ctrl + Click / Cmd + Click - Select multiple cells in one column
+- Shift + Click - Select all cells between A and B in one column
+- Left/Right - Move cursor along cell text
+- Backspace/Delete - Erase text Left / Right from cursor
+- Home/End - Move cursor to start/end of cell
+- Ctrl + <move/erase> / Cmd + <move/erase> - Move through / Erase whole word
+- Ctrl/Cmd + C/V - Copy cells / Paste text into cells 
+- Ctrl/Cmd + (Shift) + Z - The Savior 
+If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
+
+Made by Don Tnowe. 2022.
+https://twitter.com/don_tnowe"
+
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
+[connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/Info" to="Control/Info" method="popup_centered"]
+[connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
+[connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

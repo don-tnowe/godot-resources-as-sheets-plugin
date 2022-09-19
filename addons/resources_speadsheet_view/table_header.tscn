@@ -1,0 +1,23 @@
+[gd_scene format=2]
+
+[node name="Header" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -892.0
+margin_bottom = -580.0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="."]
+margin_right = 110.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "resource_name"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 114.0
+margin_top = 3.0
+margin_right = 132.0
+margin_bottom = 17.0
+mouse_filter = 0
+text = "|| "
