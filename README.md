@@ -31,3 +31,5 @@ Made by Don Tnowe in 2022.
 [https://redbladegames.netlify.app]()
 
 [https://twitter.com/don_tnowe]()
+
+Copying and Modiication is allowed in accordance to the MIT license, full text is included.
