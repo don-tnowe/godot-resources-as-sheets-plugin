@@ -8,6 +8,7 @@ A plugin for Godot 3 that adds a tab for editing folders of Resources as data ta
 - Copy-paste Text into Cells (one line, one cell)
 - Sort entries by column
 - Search by evaluating GDScript expression
+- Row stylization (color-type cells change look of the row until next color-type)
 - Saves recently opened folders between sessions.
 
 Possible inputs:
@@ -28,7 +29,7 @@ To add support of more datatypes, check out the `typed_cells` and `typed_editors
 
 Made by Don Tnowe in 2022.
 
-[https://redbladegames.netlify.app]()
+[https://redbladegames.netlify.app]()!
 
 [https://twitter.com/don_tnowe]()
 
