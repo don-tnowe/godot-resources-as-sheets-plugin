@@ -1,8 +1,8 @@
 extends CellEditor
 
 
-func can_edit_value(value, property_hint) -> bool:
-	return value is bool
+func can_edit_value(value, type, property_hint) -> bool:
+	return type == TYPE_BOOL
 
 
 func set_value(node : Control, value):

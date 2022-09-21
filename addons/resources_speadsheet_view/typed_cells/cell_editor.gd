@@ -5,7 +5,7 @@ const CELL_SCENE_DIR = "res://addons/resources_speadsheet_view/typed_cells/"
 
 
 # Override to define where the cell should be shown.
-func can_edit_value(value, property_hint) -> bool:
+func can_edit_value(value, type, property_hint) -> bool:
 	return true
 
 # Override to change how the cell is created; preload a scene or create nodes from code.
@@ -34,4 +34,4 @@ func get_text_length(node : Control):
 
 
 func set_color(node : Control, color : Color):
-	node.get_node("Back").modulate = color
+	node.get_node("Back").modulate = color * 1.0

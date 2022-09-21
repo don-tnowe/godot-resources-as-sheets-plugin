@@ -5,11 +5,14 @@
 [resource]
 resource_name = "Upgrade: Elemental Damage"
 script = ExtResource( 1 )
+color1 = Color( 1, 1, 1, 1 )
 max_duplicates = 9
 tags = "elemental"
 requires_one_of_tags = ""
+color2 = Color( 0.964706, 0.298039, 0.298039, 1 )
 tag_delimeter = " "
 base_weight = 10.0
+is_notable = false
 multiplier_per_tag = ""
 multiplier_if_tag_present = ""
 multiplier_if_tag_not_present = "elemental 0"

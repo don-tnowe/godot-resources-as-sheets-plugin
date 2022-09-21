@@ -18,6 +18,7 @@ var save_data_path : String = get_script().resource_path.get_base_dir() + "/save
 var sorting_by := ""
 var sorting_reverse := false
 var is_undo_redoing := false
+var undo_redo_version := 0
 
 var all_cell_editors := []
 
@@ -112,10 +113,10 @@ func _load_resources_from_folder(folderpath : String, sort_by : String, sort_rev
 						column_types.append(x["type"])
 						column_hints.append(x["hint"])
 						for y in all_cell_editors:
-							if y.can_edit_value(res.get(x["name"]), x["hint"]):
+							if y.can_edit_value(res.get(x["name"]), x["type"], x["hint"]):
 								column_editors.append(y)
 								break
-
+								
 				cur_dir_script = res.get_script()
 				if !(sort_by in res):
 					sort_by = "resource_path"
@@ -162,7 +163,8 @@ func _create_table(root_node : Control, columns_changed : bool):
 	while to_free > 0:
 		root_node.get_child(columns.size()).free()
 		to_free -= 1
-
+	
+	var next_color := Color.white
 	for i in rows.size():
 		for j in columns.size():
 			if root_node.get_child_count() <= (i + 1) * columns.size() + j:
@@ -177,6 +179,15 @@ func _create_table(root_node : Control, columns_changed : bool):
 			column_editors[j].set_value(new_node, rows[i].get(columns[j]))
 			if columns[j] == "resource_path":
 				column_editors[j].set_value(new_node, new_node.text.get_file())
+
+			if j == 0:
+				next_color = Color.white
+			
+			if column_types[j] == TYPE_COLOR:
+				next_color = rows[i].get(columns[j])
+
+			column_editors[j].set_color(new_node, next_color)
+
 
 
 func add_path_to_recent(path : String, is_loading : bool = false):
@@ -360,7 +371,8 @@ func _input(event : InputEvent):
 
 	# This shortcut is used by Godot as well.	
 	if Input.is_key_pressed(KEY_CONTROL) and event.scancode == KEY_Y:
-			editor_plugin.undo_redo.redo()
+		editor_plugin.undo_redo.redo()
+		return
 
 	editor_plugin.undo_redo.create_action("Set Cell Value")
 	editor_plugin.undo_redo.add_undo_method(
@@ -368,7 +380,7 @@ func _input(event : InputEvent):
 		"_update_resources",
 		edited_cells_resources.duplicate(),
 		edited_cells.duplicate(),
-		columns[_get_cell_column(edited_cells[0])],
+		_get_cell_column(edited_cells[0]),
 		_get_edited_cells_values()
 	)
 
@@ -380,11 +392,12 @@ func _input(event : InputEvent):
 		"_update_resources",
 		edited_cells_resources.duplicate(),
 		edited_cells.duplicate(),
-		columns[_get_cell_column(edited_cells[0])],
+		_get_cell_column(edited_cells[0]),
 		_get_edited_cells_values()
 	)
 	editor_plugin.undo_redo.commit_action()
 	editor_interface.get_resource_filesystem().scan()
+	undo_redo_version = editor_plugin.undo_redo.get_version()
 
 
 func _key_specific_action(event : InputEvent):
@@ -466,16 +479,13 @@ func set_cell(cell, value):
 	column_editors[column].set_value(cell, value)
 
 
-func _update_resources(update_rows : Array, update_cells : Array, update_column : String, values : Array):
+func _update_resources(update_rows : Array, update_cells : Array, update_column : int, values : Array):
 	var cells := get_node(path_table_root).get_children()
-	var cell_editor = column_editors[_get_cell_column(cells[0])]
 	for i in update_rows.size():
-		update_rows[i].set(update_column, values[i])
+		update_rows[i].set(columns[update_column], values[i])
 		ResourceSaver.save(update_rows[i].resource_path, update_rows[i])
-		if is_undo_redoing:
-			cell_editor.set_value(update_cells[i], values[i])
-
-	is_undo_redoing = false
+		if undo_redo_version > editor_plugin.undo_redo.get_version():
+			column_editors[update_column].set_value(update_cells[i], values[i])
 
 
 func _get_edited_cells_resources() -> Array:

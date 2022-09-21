@@ -5,11 +5,14 @@
 [resource]
 resource_name = "Weapon: Axe"
 script = ExtResource( 1 )
+color1 = Color( 1, 1, 0.2, 1 )
 max_duplicates = 0
 tags = "weapon strength aoe melee"
 requires_one_of_tags = ""
+color2 = Color( 0.988235, 0.584314, 0.192157, 1 )
 tag_delimeter = " "
 base_weight = 10.0
+is_notable = false
 multiplier_per_tag = "strength 2.0"
 multiplier_if_tag_present = ""
 multiplier_if_tag_not_present = ""

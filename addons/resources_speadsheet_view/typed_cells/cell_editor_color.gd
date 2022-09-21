@@ -3,8 +3,8 @@ extends CellEditor
 var _cached_color := Color.white
 
 
-func can_edit_value(value, property_hint) -> bool:
-	return value is Color
+func can_edit_value(value, type, property_hint) -> bool:
+	return type == TYPE_COLOR
 
 
 func get_value(node : Control):
