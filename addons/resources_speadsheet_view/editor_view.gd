@@ -49,16 +49,16 @@ func _on_filesystem_changed():
 	var path = editor_interface.get_resource_filesystem().get_filesystem_path(current_path)
 	if !path: return
 	if path.get_file_count() != rows.size():
-		display_folder(current_path, sorting_by, sorting_reverse)
+		display_folder(current_path, sorting_by, sorting_reverse, true)
 
 	else:
 		for k in remembered_paths:
 			if remembered_paths[k].resource_path != k:
-				display_folder(current_path, sorting_by, sorting_reverse)
+				display_folder(current_path, sorting_by, sorting_reverse, true)
 				break
 
 
-func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false):
+func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false):
 	if folderpath == "": return  # Root folder resources tend to have MANY properties.
 	if !folderpath.ends_with("/"):
 		folderpath += "/"
@@ -101,7 +101,7 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if columns.size() == 0: return
 
 	get_node(path_folder_path).text = folderpath
-	_create_table(get_node(path_table_root), current_path != folderpath)
+	_create_table(get_node(path_table_root), force_rebuild || current_path != folderpath)
 	current_path = folderpath
 
 
@@ -166,8 +166,8 @@ func add_path_to_recent(path : String, is_loading : bool = false):
 		node_recent.remove_item(idx_in_array)
 		recent_paths.remove(idx_in_array)
 	
-	recent_paths.insert(0, path)
-	node_recent.add_item(path, 0)
+	recent_paths.append(path)
+	node_recent.add_item(path)
 	node_recent.select(node_recent.get_item_count() - 1)
 
 	if !is_loading:
@@ -202,7 +202,7 @@ func _on_Path_text_entered(new_text : String):
 	current_path = new_text
 
 	add_path_to_recent(new_text)
-	display_folder(new_text)
+	display_folder(new_text, "", false, true)
 
 
 func _on_RecentPaths_item_selected(index : int):
