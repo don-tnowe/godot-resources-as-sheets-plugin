@@ -354,7 +354,9 @@ Possible inputs:
 If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
 
 Made by Don Tnowe. 2022.
-[url]https://twitter.com/don_tnowe[/url]"
+[url]https://twitter.com/don_tnowe[/url]
+Issues and contribution:
+[url]https://github.com/don-tnowe/godot-resources-as-sheets-plugin[/url]"
 text = "Edit Resources as Spreadsheet
 
 \"Welp, it is what it sounds like!\"
@@ -371,7 +373,9 @@ Possible inputs:
 If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
 
 Made by Don Tnowe. 2022.
-https://twitter.com/don_tnowe"
+https://twitter.com/don_tnowe
+Issues and contribution:
+https://github.com/don-tnowe/godot-resources-as-sheets-plugin"
 
 [connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
 [connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]

@@ -6,6 +6,8 @@ const non_typing_space := "●"
 const whitespace_chars := [
 	ord(" "), 
 	ord(","), 
+	ord(":"), 
+	ord("-"), 
 	ord(";"), 
 	ord("("), 
 	ord(")"), 
