@@ -9,8 +9,11 @@ margin_bottom = 14.0
 rect_min_size = Vector2( 58, 0 )
 mouse_filter = 0
 size_flags_vertical = 9
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="Back" type="LineEdit" parent="."]
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -22,6 +25,9 @@ context_menu_enabled = false
 virtual_keyboard_enabled = false
 caret_blink = true
 caret_blink_speed = 0.5
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Selected" type="ColorRect" parent="."]
 visible = false

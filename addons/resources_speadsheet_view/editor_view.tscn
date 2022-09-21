@@ -1,11 +1,13 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
-[ext_resource path="res://addons/resources_speadsheet_view/typed_cells/basic.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor.gd" type="Script" id=2]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_color.gd" type="Script" id=3]
 [ext_resource path="res://addons/resources_speadsheet_view/editor_icon_button.gd" type="Script" id=4]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_bool.gd" type="Script" id=5]
 [ext_resource path="res://addons/resources_speadsheet_view/table_header.tscn" type="PackedScene" id=6]
 
-[sub_resource type="Image" id=15]
+[sub_resource type="Image" id=3]
 data = {
 "data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "LumAlpha8",
@@ -14,41 +16,11 @@ data = {
 "width": 16
 }
 
-[sub_resource type="ImageTexture" id=4]
+[sub_resource type="ImageTexture" id=2]
 flags = 4
 flags = 4
-image = SubResource( 15 )
+image = SubResource( 3 )
 size = Vector2( 16, 16 )
-
-[sub_resource type="StyleBoxTexture" id=5]
-texture = SubResource( 4 )
-region_rect = Rect2( 0, 0, 16, 16 )
-margin_left = 2.0
-margin_right = 2.0
-margin_top = 2.0
-margin_bottom = 2.0
-
-[sub_resource type="Image" id=16]
-data = {
-"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
-"format": "LumAlpha8",
-"height": 16,
-"mipmaps": false,
-"width": 16
-}
-
-[sub_resource type="ImageTexture" id=14]
-flags = 4
-flags = 4
-image = SubResource( 16 )
-size = Vector2( 16, 16 )
-
-[sub_resource type="StyleBoxFlat" id=11]
-content_margin_left = 3.0
-content_margin_right = 3.0
-content_margin_top = 3.0
-content_margin_bottom = 3.0
-bg_color = Color( 0.147059, 0.154412, 0.159314, 1 )
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
@@ -70,12 +42,11 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
-grid_cell_scene = ExtResource( 3 )
 table_header_scene = ExtResource( 6 )
+cell_editor_classes = [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 2 ) ]
 path_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
 path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths")
 path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
-editor_stylebox = SubResource( 5 )
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
 margin_left = 2.0
@@ -88,7 +59,8 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HeaderContentSplit"]
 margin_right = 1020.0
-margin_bottom = 42.0
+margin_bottom = 40.0
+custom_constants/separation = 2
 __meta__ = {
 "_edit_lock_": true
 }
@@ -99,9 +71,9 @@ margin_bottom = 14.0
 text = "Select Resource Folder:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
-margin_top = 18.0
+margin_top = 16.0
 margin_right = 1020.0
-margin_bottom = 42.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_lock_": true
 }
@@ -139,7 +111,7 @@ margin_left = 336.0
 margin_right = 364.0
 margin_bottom = 24.0
 hint_tooltip = "Open Folder"
-icon = SubResource( 14 )
+icon = SubResource( 2 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
@@ -171,7 +143,7 @@ margin_left = 938.0
 margin_right = 966.0
 margin_bottom = 24.0
 hint_tooltip = "Delete Selected Path"
-icon = SubResource( 14 )
+icon = SubResource( 2 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
@@ -188,7 +160,7 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit"]
-margin_top = 46.0
+margin_top = 44.0
 margin_right = 1020.0
 margin_bottom = 596.0
 mouse_filter = 2
@@ -200,25 +172,32 @@ __meta__ = {
 
 [node name="FooterContentSplit" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer"]
 margin_right = 1020.0
-margin_bottom = 550.0
+margin_bottom = 552.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Panel" type="PanelContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
+[node name="Panel" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
 margin_right = 1020.0
-margin_bottom = 522.0
+margin_bottom = 502.0
 mouse_filter = 2
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Panel" type="Panel" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
+margin_right = 1020.0
+margin_bottom = 502.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Scroll" type="ScrollContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 1017.0
-margin_bottom = 519.0
+margin_right = 1020.0
+margin_bottom = 502.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -244,27 +223,48 @@ __meta__ = {
 }
 
 [node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
-margin_top = 526.0
+margin_top = 506.0
 margin_right = 1020.0
-margin_bottom = 550.0
+margin_bottom = 552.0
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Search" type="HBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
+[node name="PropertyEditors" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
+unique_name_in_owner = true
 margin_right = 1020.0
-margin_bottom = 24.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
+margin_top = 4.0
+margin_right = 1020.0
+margin_bottom = 18.0
+
+[node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/HBoxContainer"]
+margin_right = 102.0
+margin_bottom = 14.0
+text = "GDScript Search"
+
+[node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/HBoxContainer"]
+margin_left = 106.0
+margin_right = 1020.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Search" type="HBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
+margin_top = 22.0
+margin_right = 1020.0
+margin_bottom = 46.0
 
 [node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
 margin_top = 5.0
-margin_right = 190.0
+margin_right = 65.0
 margin_bottom = 19.0
-text = "Search by GDScript Condition:"
+text = "Condition:"
 
 [node name="Label2" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
-margin_left = 194.0
+margin_left = 69.0
 margin_top = 3.0
-margin_right = 212.0
+margin_right = 87.0
 margin_bottom = 21.0
 rect_min_size = Vector2( 18, 18 )
 hint_tooltip = "Enter an expression. The table only show rows where the expression returns `true`.
@@ -282,7 +282,7 @@ text = "(?)"
 align = 1
 
 [node name="SearchCond" type="LineEdit" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
-margin_left = 216.0
+margin_left = 91.0
 margin_right = 1020.0
 margin_bottom = 24.0
 size_flags_horizontal = 3

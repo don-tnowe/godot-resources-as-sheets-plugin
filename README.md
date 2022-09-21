@@ -22,7 +22,7 @@ Possible inputs:
 
 If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
 
-Support of more data types coming eventually.
+To add support of more datatypes, check out the `typed_cells` and `typed_editors` folders. `typed_cells` need to be added in the `editor_view` root's exported array, and `typed_editors` are placed there under the `%PropertyEditors` node.
 
 #
 

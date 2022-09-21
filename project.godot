@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "CellEditor",
+"language": "GDScript",
+"path": "res://addons/resources_speadsheet_view/typed_cells/cell_editor.gd"
+}, {
 "base": "Resource",
 "class": "DynamicWheelItem",
 "language": "GDScript",
 "path": "res://example/my_custom_resource.gd"
+}, {
+"base": "Reference",
+"class": "ResourceSpreadsheetEditor",
+"language": "GDScript",
+"path": "res://addons/resources_speadsheet_view/typed_editors/base.gd"
 }, {
 "base": "Reference",
 "class": "TextEditingUtils",
@@ -30,7 +40,9 @@ _global_script_classes=[ {
 "path": "res://addons/resources_speadsheet_view/editor_stylebox_overrider.gd"
 } ]
 _global_script_class_icons={
+"CellEditor": "",
 "DynamicWheelItem": "",
+"ResourceSpreadsheetEditor": "",
 "TextEditingUtils": "",
 "ThemeIconButton": "",
 "ThemeStylebox": ""
@@ -39,6 +51,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Edit Resources as Spreadsheets"
+run/main_scene="res://addons/resources_speadsheet_view/editor_view.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]

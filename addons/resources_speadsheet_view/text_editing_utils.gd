@@ -47,13 +47,13 @@ static func revert_non_typing(text : String) -> String:
 	return text
 
 
-static func multi_erase_right(edited_cells : Array, edit_cursor_positions : Array, callback_object : Object):
+static func multi_erase_right(edited_cells : Array, edit_cursor_positions : Array, cell_editor : Reference, callback_object : Object):
 	for i in edited_cells.size():
 		var cell = edited_cells[i]
 		var start_pos = edit_cursor_positions[i]
 		while true:
 			edit_cursor_positions[i] += 1
-			if !Input.is_key_pressed(KEY_CONTROL) or is_character_whitespace(cell.text, edit_cursor_positions[i]):
+			if !Input.is_key_pressed(KEY_CONTROL) or is_character_whitespace(_get_cell_text(cell, cell_editor), edit_cursor_positions[i]):
 				break
 
 		edit_cursor_positions[i] = min(
@@ -61,39 +61,39 @@ static func multi_erase_right(edited_cells : Array, edit_cursor_positions : Arra
 			edited_cells[i].text.length()
 		)
 		callback_object.set_cell(cell, (
-			cell.text.left(start_pos)
-			+ cell.text.substr(edit_cursor_positions[i])
+			_get_cell_text(cell, cell_editor).left(start_pos)
+			+ _get_cell_text(cell, cell_editor).substr(edit_cursor_positions[i])
 		))
 		edit_cursor_positions[i] = start_pos
 
 
-static func multi_erase_left(edited_cells : Array, edit_cursor_positions : Array, callback_object : Object):
+static func multi_erase_left(edited_cells : Array, edit_cursor_positions : Array, cell_editor : Reference, callback_object : Object):
 	for i in edited_cells.size():
 		var cell = edited_cells[i]
 		var start_pos = edit_cursor_positions[i]
 
-		edit_cursor_positions[i] = _step_cursor(cell.text, edit_cursor_positions[i], -1)
+		edit_cursor_positions[i] = _step_cursor(_get_cell_text(cell, cell_editor), edit_cursor_positions[i], -1)
 		var result_text = (
-			cell.text.substr(0, edit_cursor_positions[i])
-			+ cell.text.substr(start_pos)
+			_get_cell_text(cell, cell_editor).substr(0, edit_cursor_positions[i])
+			+ _get_cell_text(cell, cell_editor).substr(start_pos)
 		)
 		callback_object.set_cell(cell, (
-			cell.text.substr(0, edit_cursor_positions[i])
-			+ cell.text.substr(start_pos)
+			_get_cell_text(cell, cell_editor).substr(0, edit_cursor_positions[i])
+			+ _get_cell_text(cell, cell_editor).substr(start_pos)
 		))
 
 
-static func multi_move_left(edited_cells : Array, edit_cursor_positions : Array):
+static func multi_move_left(edited_cells : Array, edit_cursor_positions : Array, cell_editor : Reference):
 	for i in edit_cursor_positions.size():
 		edit_cursor_positions[i] = _step_cursor(edited_cells[i].text, edit_cursor_positions[i], -1)
 
 
-static func multi_move_right(edited_cells : Array, edit_cursor_positions : Array):
+static func multi_move_right(edited_cells : Array, edit_cursor_positions : Array, cell_editor : Reference):
 	for i in edit_cursor_positions.size():
 		edit_cursor_positions[i] = _step_cursor(edited_cells[i].text, edit_cursor_positions[i], 1)
 
 
-static func multi_paste(edited_cells : Array, edit_cursor_positions : Array, callback_object : Object):
+static func multi_paste(edited_cells : Array, edit_cursor_positions : Array, cell_editor : Reference, callback_object : Object):
 	var pasted_lines := OS.clipboard.split("\n")
 	var paste_each_line := pasted_lines.size() == edited_cells.size()
 
@@ -106,9 +106,9 @@ static func multi_paste(edited_cells : Array, edit_cursor_positions : Array, cal
 		
 		var cell = edited_cells[i]
 		callback_object.set_cell(cell, (
-			cell.text.left(edit_cursor_positions[i])
+			_get_cell_text(cell, cell_editor).left(edit_cursor_positions[i])
 			+ (pasted_lines[i] if paste_each_line else OS.clipboard)
-			+ cell.text.substr(edit_cursor_positions[i])
+			+ _get_cell_text(cell, cell_editor).substr(edit_cursor_positions[i])
 		))
 
 
@@ -122,26 +122,30 @@ static func multi_copy(edited_cells : Array):
 	OS.clipboard = copied_text.substr(1)
 
 
-static func multi_linefeed(edited_cells : Array, edit_cursor_positions : Array, callback_object : Object):
+static func multi_linefeed(edited_cells : Array, edit_cursor_positions : Array, cell_editor : Reference, callback_object : Object):
 	for i in edited_cells.size():
 		var cell = edited_cells[i]
 		callback_object.set_cell(cell, (
-			cell.text.left(edit_cursor_positions[i])
+			_get_cell_text(cell, cell_editor).left(edit_cursor_positions[i])
 			+ "\n"
-			+ cell.text.substr(edit_cursor_positions[i])
+			+ _get_cell_text(cell, cell_editor).substr(edit_cursor_positions[i])
 		))
-		edit_cursor_positions[i] = min(edit_cursor_positions[i] + 1, cell.text.length())
+		edit_cursor_positions[i] = min(edit_cursor_positions[i] + 1, _get_cell_text(cell, cell_editor).length())
 
 
-static func multi_input(input_char : String, edited_cells : Array, edit_cursor_positions : Array, callback_object : Object):
+static func multi_input(input_char : String, edited_cells : Array, edit_cursor_positions : Array, cell_editor : Reference, callback_object : Object):
 	for i in edited_cells.size():
 		var cell = edited_cells[i]
 		callback_object.set_cell(cell, (
-				cell.text.left(edit_cursor_positions[i])
+				_get_cell_text(cell, cell_editor).left(edit_cursor_positions[i])
 				+ input_char
-				+ cell.text.substr(edit_cursor_positions[i])
+				+ _get_cell_text(cell, cell_editor).substr(edit_cursor_positions[i])
 		))
-		edit_cursor_positions[i] = min(edit_cursor_positions[i] + 1, cell.text.length())
+		edit_cursor_positions[i] = min(edit_cursor_positions[i] + 1, _get_cell_text(cell, cell_editor).length())
+
+
+static func _get_cell_text(cell : Control, cell_editor : Reference):
+	return cell_editor.get_text_value(cell)
 
 
 static func _step_cursor(text : String, start : int, step : int = 1) -> int:

@@ -1,13 +1,13 @@
 tool
 extends Control
 
-export var grid_cell_scene : PackedScene
 export var table_header_scene : PackedScene
+
+export(Array, Script) var cell_editor_classes := []
 
 export var path_folder_path := NodePath("")
 export var path_recent_paths := NodePath("")
 export var path_table_root := NodePath("")
-export var editor_stylebox : StyleBox
 
 var editor_interface : EditorInterface
 var editor_plugin : EditorPlugin
@@ -17,10 +17,14 @@ var recent_paths := []
 var save_data_path : String = get_script().resource_path.get_base_dir() + "/saved_state.json"
 var sorting_by := ""
 var sorting_reverse := false
+var is_undo_redoing := false
+
+var all_cell_editors := []
 
 var columns := []
 var column_types := []
 var column_hints := []
+var column_editors := []
 var rows := []
 var remembered_paths := {}
 
@@ -30,9 +34,11 @@ var edit_cursor_positions := []
 
 func _ready():
 	get_node(path_recent_paths).clear()
+	editor_plugin.get_undo_redo().connect("version_changed", self, "_on_undo_redo_version_changed")
 	editor_interface.get_resource_filesystem()\
 		.connect("filesystem_changed", self, "_on_filesystem_changed")
 
+	# Load saved recent paths
 	var file := File.new()
 	if file.file_exists(save_data_path):
 		file.open(save_data_path, File.READ)
@@ -42,7 +48,15 @@ func _ready():
 		for x in as_var["recent_paths"]:
 			add_path_to_recent(x, true)
 
-		display_folder(recent_paths[0])
+	# Load cell editors and instantiate them
+	for x in cell_editor_classes:
+		all_cell_editors.append(x.new())
+
+	display_folder(recent_paths[0])
+
+
+func _on_undo_redo_version_changed():
+	is_undo_redoing = true
 
 
 func _on_filesystem_changed():
@@ -62,7 +76,16 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if folderpath == "": return  # Root folder resources tend to have MANY properties.
 	if !folderpath.ends_with("/"):
 		folderpath += "/"
-		
+	
+	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
+	if columns.size() == 0: return
+
+	get_node(path_folder_path).text = folderpath
+	_create_table(get_node(path_table_root), force_rebuild || current_path != folderpath)
+	current_path = folderpath
+
+
+func _load_resources_from_folder(folderpath : String, sort_by : String, sort_reverse : bool):
 	var dir := Directory.new()
 	dir.open(folderpath)
 	dir.list_dir_begin()
@@ -82,11 +105,16 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 				columns.clear()
 				column_types.clear()
 				column_hints.clear()
+				column_editors.clear()
 				for x in res.get_property_list():
 					if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
 						columns.append(x["name"])
 						column_types.append(x["type"])
 						column_hints.append(x["hint"])
+						for y in all_cell_editors:
+							if y.can_edit_value(res.get(x["name"]), x["hint"]):
+								column_editors.append(y)
+								break
 
 				cur_dir_script = res.get_script()
 				if !(sort_by in res):
@@ -97,12 +125,6 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 				remembered_paths[res.resource_path] = res
 		
 		filepath = dir.get_next()
-	
-	if columns.size() == 0: return
-
-	get_node(path_folder_path).text = folderpath
-	_create_table(get_node(path_table_root), force_rebuild || current_path != folderpath)
-	current_path = folderpath
 
 
 func _insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
@@ -144,7 +166,7 @@ func _create_table(root_node : Control, columns_changed : bool):
 	for i in rows.size():
 		for j in columns.size():
 			if root_node.get_child_count() <= (i + 1) * columns.size() + j:
-				new_node = grid_cell_scene.instance()
+				new_node = column_editors[j].create_cell()
 				new_node.connect("gui_input", self, "_on_cell_gui_input", [new_node])
 				root_node.add_child(new_node)
 
@@ -152,9 +174,9 @@ func _create_table(root_node : Control, columns_changed : bool):
 				new_node = root_node.get_child((i + 1) * columns.size() + j)
 				new_node.hint_tooltip = columns[j] + "\nOf " + rows[i].resource_path.get_file()
 
-			new_node.text = TextEditingUtils.show_non_typing(str(rows[i].get(columns[j])))
+			column_editors[j].set_value(new_node, rows[i].get(columns[j]))
 			if columns[j] == "resource_path":
-				new_node.text = new_node.text.get_file()
+				column_editors[j].set_value(new_node, new_node.text.get_file())
 
 
 func add_path_to_recent(path : String, is_loading : bool = false):
@@ -219,29 +241,29 @@ func _on_FileDialog_dir_selected(dir : String):
 
 func deselect_all_cells():
 	for x in edited_cells:
-		x.get_node("Selected").visible = false
+		column_editors[_get_cell_column(x)].set_selected(x, false)
 
-	edited_cells = []
-	edit_cursor_positions = []
+	edited_cells.clear()
+	edit_cursor_positions.clear()
 
 
 func deselect_cell(cell : Control):
 	var idx := edited_cells.find(cell)
 	if idx == -1: return
 
-	cell.get_node("Selected").visible = false
+	column_editors[_get_cell_column(cell)].set_selected(cell, false)
 	edited_cells.remove(idx)
 	edit_cursor_positions.remove(idx)
 
 
 func select_cell(cell : Control):
+	var column_index := _get_cell_column(cell)
 	if _can_select_cell(cell):
-		cell.get_node("Selected").visible = true
+		column_editors[column_index].set_selected(cell, true)
 		edited_cells.append(cell)
-		edit_cursor_positions.append(cell.text.length())
+		edit_cursor_positions.append(column_editors[column_index].get_text_length(cell))
 		return
 
-	var column_index := _get_cell_column(cell)
 	if column_index != _get_cell_column(edited_cells[edited_cells.size() - 1]):
 		return
 	
@@ -251,9 +273,9 @@ func select_cell(cell : Control):
 
 	for i in range(row_end, row_start, 1 if row_start > row_end else -1):
 		var cur_cell := table_root.get_child(i * columns.size() + column_index)
-		cur_cell.get_node("Selected").visible = true
+		column_editors[column_index].set_selected(cur_cell, true)
 		edited_cells.append(cur_cell)
-		edit_cursor_positions.append(cur_cell.text.length())
+		edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
 
 
 func _can_select_cell(cell : Control) -> bool:
@@ -335,7 +357,11 @@ func _input(event : InputEvent):
 			editor_plugin.undo_redo.undo()
 		
 		return
-		
+
+	# This shortcut is used by Godot as well.	
+	if Input.is_key_pressed(KEY_CONTROL) and event.scancode == KEY_Y:
+			editor_plugin.undo_redo.redo()
+
 	editor_plugin.undo_redo.create_action("Set Cell Value")
 	editor_plugin.undo_redo.add_undo_method(
 		self,
@@ -361,26 +387,26 @@ func _input(event : InputEvent):
 	editor_interface.get_resource_filesystem().scan()
 
 
-
 func _key_specific_action(event : InputEvent):
+	var column = _get_cell_column(edited_cells[0])
 	var ctrl_pressed := Input.is_key_pressed(KEY_CONTROL)
 	if ctrl_pressed:
 		editor_plugin.hide_bottom_panel()
 
 	# ERASING
 	if event.scancode == KEY_BACKSPACE:
-		TextEditingUtils.multi_erase_left(edited_cells, edit_cursor_positions, self)
+		TextEditingUtils.multi_erase_left(edited_cells, edit_cursor_positions, column_editors[column], self)
 
 	if event.scancode == KEY_DELETE:
-		TextEditingUtils.multi_erase_right(edited_cells, edit_cursor_positions, self)
+		TextEditingUtils.multi_erase_right(edited_cells, edit_cursor_positions, column_editors[column], self)
 		get_tree().set_input_as_handled() # Because this is one dangerous action.
 
 	# CURSOR MOVEMENT
 	elif event.scancode == KEY_LEFT:
-		TextEditingUtils.multi_move_left(edited_cells, edit_cursor_positions)
+		TextEditingUtils.multi_move_left(edited_cells, edit_cursor_positions, column_editors[column])
 	
 	elif event.scancode == KEY_RIGHT:
-		TextEditingUtils.multi_move_right(edited_cells, edit_cursor_positions)
+		TextEditingUtils.multi_move_right(edited_cells, edit_cursor_positions, column_editors[column])
 	
 	elif event.scancode == KEY_HOME:
 		for i in edit_cursor_positions.size():
@@ -388,7 +414,7 @@ func _key_specific_action(event : InputEvent):
 
 	elif event.scancode == KEY_END:
 		for i in edit_cursor_positions.size():
-			edit_cursor_positions[i] = edited_cells[i].text.length()
+			edit_cursor_positions[i] = column_editors[column].get_text_length(edited_cells[i])
 	
 	# BETWEEN-CELL NAVIGATION
 	elif event.scancode == KEY_UP:
@@ -411,15 +437,15 @@ func _key_specific_action(event : InputEvent):
 
 	# Ctrl + V
 	elif ctrl_pressed and event.scancode == KEY_V:
-		TextEditingUtils.multi_paste(edited_cells, edit_cursor_positions, self)
+		TextEditingUtils.multi_paste(edited_cells, edit_cursor_positions, column_editors[column], self)
 
 	# Line Skip
 	elif event.scancode == KEY_ENTER:
-		TextEditingUtils.multi_linefeed(edited_cells, edit_cursor_positions, self)
+		TextEditingUtils.multi_linefeed(edited_cells, edit_cursor_positions, column_editors[column], self)
 	
 	# And finally, text typing.
 	elif event.unicode != 0 and event.unicode != 127:
-		TextEditingUtils.multi_input(char(event.unicode), edited_cells, edit_cursor_positions, self)
+		TextEditingUtils.multi_input(char(event.unicode), edited_cells, edit_cursor_positions, column_editors[column], self)
 
 
 func _move_selection_on_grid(move_h : int, move_v : int):
@@ -433,18 +459,23 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 
 
 func set_cell(cell, value):
-	if columns[_get_cell_column(cell)] == "resource_path":
+	var column = _get_cell_column(cell)
+	if columns[column] == "resource_path":
 		return
-
-	cell.text = value
+		
+	column_editors[column].set_value(cell, value)
 
 
 func _update_resources(update_rows : Array, update_cells : Array, update_column : String, values : Array):
 	var cells := get_node(path_table_root).get_children()
+	var cell_editor = column_editors[_get_cell_column(cells[0])]
 	for i in update_rows.size():
 		update_rows[i].set(update_column, values[i])
-		update_cells[i].text = TextEditingUtils.show_non_typing(str(values[i]))
 		ResourceSaver.save(update_rows[i].resource_path, update_rows[i])
+		if is_undo_redoing:
+			cell_editor.set_value(update_cells[i], values[i])
+
+	is_undo_redoing = false
 
 
 func _get_edited_cells_resources() -> Array:
@@ -457,8 +488,9 @@ func _get_edited_cells_resources() -> Array:
 
 func _get_edited_cells_values() -> Array:
 	var arr := edited_cells.duplicate()
+	var cell_editor = column_editors[_get_cell_column(edited_cells[0])]
 	for i in arr.size():
-		arr[i] = str2var(TextEditingUtils.revert_non_typing(edited_cells[i].text))
+		arr[i] = cell_editor.get_value(edited_cells[i])
 
 	return arr
 
