@@ -17,6 +17,7 @@ __meta__ = {
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 0
 mouse_filter = 2
 custom_fonts/font = SubResource( 1 )
 editable = false

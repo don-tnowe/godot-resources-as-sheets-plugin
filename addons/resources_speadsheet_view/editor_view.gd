@@ -8,6 +8,7 @@ export(Array, Script) var cell_editor_classes := []
 export var path_folder_path := NodePath("")
 export var path_recent_paths := NodePath("")
 export var path_table_root := NodePath("")
+export var path_property_editors := NodePath("")
 
 var editor_interface : EditorInterface
 var editor_plugin : EditorPlugin
@@ -82,7 +83,7 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if columns.size() == 0: return
 
 	get_node(path_folder_path).text = folderpath
-	_create_table(get_node(path_table_root), force_rebuild || current_path != folderpath)
+	_create_table(get_node(path_table_root), force_rebuild or current_path != folderpath)
 	current_path = folderpath
 
 
@@ -189,7 +190,6 @@ func _create_table(root_node : Control, columns_changed : bool):
 			column_editors[j].set_color(new_node, next_color)
 
 
-
 func add_path_to_recent(path : String, is_loading : bool = false):
 	if path in recent_paths: return
 
@@ -273,6 +273,13 @@ func select_cell(cell : Control):
 		column_editors[column_index].set_selected(cell, true)
 		edited_cells.append(cell)
 		edit_cursor_positions.append(column_editors[column_index].get_text_length(cell))
+
+		for x in get_node(path_property_editors).get_children():
+			x.visible = x.can_edit_value(
+				column_editors[column_index].get_value(cell),
+				column_types[_get_cell_column(cell)],
+				column_hints[_get_cell_column(cell)]
+			)
 		return
 
 	if column_index != _get_cell_column(edited_cells[edited_cells.size() - 1]):
@@ -284,6 +291,10 @@ func select_cell(cell : Control):
 
 	for i in range(row_end, row_start, 1 if row_start > row_end else -1):
 		var cur_cell := table_root.get_child(i * columns.size() + column_index)
+		if !cur_cell.visible:
+			# When search is active, some cells will be hidden.
+			continue
+
 		column_editors[column_index].set_selected(cur_cell, true)
 		edited_cells.append(cur_cell)
 		edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
@@ -315,6 +326,9 @@ func _get_cell_row(cell) -> int:
 
 func _on_cell_gui_input(event : InputEvent, cell : Control):
 	if event is InputEventMouseButton:
+		if event.button_index != BUTTON_LEFT:
+			return
+
 		grab_focus()
 		if event.pressed:
 			if cell in edited_cells:
@@ -353,7 +367,7 @@ func _input(event : InputEvent):
 	if column_types[_get_cell_column(edited_cells[0])] == TYPE_OBJECT:
 		return
 	
-	if event.scancode == KEY_CONTROL || event.scancode == KEY_SHIFT:
+	if event.scancode == KEY_CONTROL or event.scancode == KEY_SHIFT:
 		# Modifier keys do not get processed.
 		return
 	

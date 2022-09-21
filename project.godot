@@ -19,10 +19,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://example/my_custom_resource.gd"
 }, {
-"base": "Reference",
-"class": "ResourceSpreadsheetEditor",
+"base": "Control",
+"class": "SheetsDockEditor",
 "language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/typed_editors/base.gd"
+"path": "res://addons/resources_speadsheet_view/typed_editors/dock_base.gd"
 }, {
 "base": "Reference",
 "class": "TextEditingUtils",
@@ -42,7 +42,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "CellEditor": "",
 "DynamicWheelItem": "",
-"ResourceSpreadsheetEditor": "",
+"SheetsDockEditor": "",
 "TextEditingUtils": "",
 "ThemeIconButton": "",
 "ThemeStylebox": ""

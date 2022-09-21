@@ -1,0 +1,156 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_number.gd" type="Script" id=1]
+
+[node name="EditNumber" type="VBoxContainer"]
+anchor_right = 1.0
+margin_bottom = 86.0
+rect_pivot_offset = Vector2( -460, -28 )
+script = ExtResource( 1 )
+
+[node name="Header" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 14.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+margin_right = 455.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Header/HBoxContainer"]
+margin_right = 89.0
+margin_bottom = 14.0
+text = "EDIT: Number"
+
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+margin_left = 93.0
+margin_right = 455.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Header"]
+margin_left = 459.0
+margin_right = 565.0
+margin_bottom = 14.0
+text = "PROPERTY NAME"
+
+[node name="HSeparator2" type="HSeparator" parent="Header"]
+margin_left = 569.0
+margin_right = 1024.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 18.0
+margin_right = 1024.0
+margin_bottom = 84.0
+alignment = 1
+
+[node name="CustomX" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 275.0
+margin_right = 748.0
+margin_bottom = 66.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/CustomX"]
+margin_right = 473.0
+margin_bottom = 20.0
+
+[node name="Button4" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_right = 25.0
+margin_bottom = 20.0
+text = "-X"
+
+[node name="Button10" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 29.0
+margin_right = 70.0
+margin_bottom = 20.0
+text = "-100"
+
+[node name="Button7" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 74.0
+margin_right = 107.0
+margin_bottom = 20.0
+text = "-10"
+
+[node name="Button11" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 111.0
+margin_right = 136.0
+margin_bottom = 20.0
+text = "-1"
+
+[node name="Button14" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 140.0
+margin_right = 177.0
+margin_bottom = 20.0
+text = "-0.1"
+
+[node name="NumberPanel" type="Panel" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 181.0
+margin_right = 277.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 96, 0 )
+mouse_default_cursor_shape = 10
+
+[node name="Label" type="Label" parent="HBoxContainer/CustomX/HBoxContainer/NumberPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_right = -4.0
+text = "1"
+valign = 1
+clip_text = true
+
+[node name="Button15" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 281.0
+margin_right = 321.0
+margin_bottom = 20.0
+text = "+0.1"
+
+[node name="Button12" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 325.0
+margin_right = 353.0
+margin_bottom = 20.0
+text = "+1"
+
+[node name="Button8" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 357.0
+margin_right = 393.0
+margin_bottom = 20.0
+text = "+10"
+
+[node name="Button13" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 397.0
+margin_right = 441.0
+margin_bottom = 20.0
+text = "+100"
+
+[node name="Button9" type="Button" parent="HBoxContainer/CustomX/HBoxContainer"]
+margin_left = 445.0
+margin_right = 473.0
+margin_bottom = 20.0
+text = "+X"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/CustomX"]
+margin_top = 24.0
+margin_right = 473.0
+margin_bottom = 38.0
+
+[node name="Label" type="Label" parent="HBoxContainer/CustomX/HBoxContainer2"]
+margin_right = 190.0
+margin_bottom = 14.0
+size_flags_vertical = 6
+text = "Custom Value (for +X buttons)"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/CustomX/HBoxContainer2"]
+margin_left = 194.0
+margin_right = 473.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX"]
+margin_top = 42.0
+margin_right = 473.0
+margin_bottom = 66.0
+text = "20"
+
+[connection signal="gui_input" from="HBoxContainer/CustomX/HBoxContainer/NumberPanel" to="." method="_on_NumberPanel_gui_input"]

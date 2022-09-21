@@ -5,7 +5,6 @@ extends Resource
 export var color1 := Color.white
 export var max_duplicates := 0
 export var tags := "tag_1 tag_2 tag_3"
-export var requires_one_of_tags := ""
 export var color2 := Color.white
 export(String) var tag_delimeter = " "
 export var base_weight := 10.0
