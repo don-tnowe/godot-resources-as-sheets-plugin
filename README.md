@@ -11,10 +11,15 @@ A plugin for Godot 3 that adds a tab for editing folders of Resources as data ta
     - Multiply/add numbers
     - Rotate color hues/adjust sat/val/RGB
     - Chop texture into atlas, assign results to each selected resource
+
+![Gif](./images/resources_as_sheet2.gif)
+
 - Sort entries by column
 - Search by evaluating GDScript expression
 - Row stylization (color-type cells change look of the row until next color-type)
 - Saves recently opened folders between sessions.
+
+![Gif](./images/resources_as_sheet3.gif)
 
 Possible inputs:
 - `Ctrl + Click / Cmd + Click` - Select multiple cells in one column
@@ -34,7 +39,7 @@ To add support of more datatypes, check out the `typed_cells` and `typed_editors
 
 Made by Don Tnowe in 2022.
 
-[https://redbladegames.netlify.app]()!
+[https://redbladegames.netlify.app]()
 
 [https://twitter.com/don_tnowe]()
 
