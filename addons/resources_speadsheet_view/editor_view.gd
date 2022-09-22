@@ -146,6 +146,7 @@ func _set_sorting(sort_by):
 
 
 func _create_table(root_node : Control, columns_changed : bool):
+	deselect_all_cells()
 	edited_cells = []
 	edit_cursor_positions = []
 	var new_node : Control
@@ -275,11 +276,13 @@ func select_cell(cell : Control):
 		edit_cursor_positions.append(column_editors[column_index].get_text_length(cell))
 
 		for x in get_node(path_property_editors).get_children():
-			x.visible = x.can_edit_value(
+			x.visible = x.try_edit_value(
 				column_editors[column_index].get_value(cell),
 				column_types[_get_cell_column(cell)],
 				column_hints[_get_cell_column(cell)]
 			)
+			x.get_node(x.path_property_name).text = columns[column_index]
+		
 		return
 
 	if column_index != _get_cell_column(edited_cells[edited_cells.size() - 1]):
@@ -287,9 +290,12 @@ func select_cell(cell : Control):
 	
 	var row_start = _get_cell_row(edited_cells[edited_cells.size() - 1])
 	var row_end := _get_cell_row(cell)
+	var edge_shift = -1 if row_start > row_end else 1
+	row_start += edge_shift
+	row_end += edge_shift
 	var table_root := get_node(path_table_root)
 
-	for i in range(row_end, row_start, 1 if row_start > row_end else -1):
+	for i in range(row_start, row_end, edge_shift):
 		var cur_cell := table_root.get_child(i * columns.size() + column_index)
 		if !cur_cell.visible:
 			# When search is active, some cells will be hidden.
@@ -298,6 +304,44 @@ func select_cell(cell : Control):
 		column_editors[column_index].set_selected(cur_cell, true)
 		edited_cells.append(cur_cell)
 		edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
+
+
+func set_edited_cells_values(new_cell_values : Array):
+	var column = _get_cell_column(edited_cells[0])
+	var edited_cells_resources = _get_edited_cells_resources()
+
+	editor_plugin.undo_redo.create_action("Set Cell Value Externally")
+	editor_plugin.undo_redo.add_undo_method(
+		self,
+		"_update_resources",
+		edited_cells_resources.duplicate(),
+		edited_cells.duplicate(),
+		column,
+		get_edited_cells_values()
+	)
+	for i in new_cell_values.size():
+		column_editors[column].set_value(edited_cells[i], new_cell_values[i])
+
+	editor_plugin.undo_redo.add_do_method(
+		self,
+		"_update_resources",
+		edited_cells_resources.duplicate(),
+		edited_cells.duplicate(),
+		column,
+		get_edited_cells_values()
+	)
+	editor_plugin.undo_redo.commit_action()
+	editor_interface.get_resource_filesystem().scan()
+	undo_redo_version = editor_plugin.undo_redo.get_version()
+
+
+func get_edited_cells_values() -> Array:
+	var arr := edited_cells.duplicate()
+	var cell_editor = column_editors[_get_cell_column(edited_cells[0])]
+	for i in arr.size():
+		arr[i] = cell_editor.get_value(arr[i])
+	
+	return arr
 
 
 func _can_select_cell(cell : Control) -> bool:
@@ -352,16 +396,19 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 
 func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
+		if event.button_index != BUTTON_LEFT:
+			return
+
 		grab_focus()
 		if !event.pressed:
 			deselect_all_cells()
 
 
 func _input(event : InputEvent):
-	if !event is InputEventKey or !event.pressed:
+	if !has_focus() or edited_cells.size() == 0:
 		return
-	
-	if !visible or edited_cells.size() == 0:
+
+	if !event is InputEventKey or !event.pressed:
 		return
 	
 	if column_types[_get_cell_column(edited_cells[0])] == TYPE_OBJECT:
@@ -387,7 +434,7 @@ func _input(event : InputEvent):
 	if Input.is_key_pressed(KEY_CONTROL) and event.scancode == KEY_Y:
 		editor_plugin.undo_redo.redo()
 		return
-
+	
 	editor_plugin.undo_redo.create_action("Set Cell Value")
 	editor_plugin.undo_redo.add_undo_method(
 		self,
@@ -395,7 +442,7 @@ func _input(event : InputEvent):
 		edited_cells_resources.duplicate(),
 		edited_cells.duplicate(),
 		_get_cell_column(edited_cells[0]),
-		_get_edited_cells_values()
+		get_edited_cells_values()
 	)
 
 	_key_specific_action(event)
@@ -407,7 +454,7 @@ func _input(event : InputEvent):
 		edited_cells_resources.duplicate(),
 		edited_cells.duplicate(),
 		_get_cell_column(edited_cells[0]),
-		_get_edited_cells_values()
+		get_edited_cells_values()
 	)
 	editor_plugin.undo_redo.commit_action()
 	editor_interface.get_resource_filesystem().scan()
@@ -510,15 +557,6 @@ func _get_edited_cells_resources() -> Array:
 	return arr
 
 
-func _get_edited_cells_values() -> Array:
-	var arr := edited_cells.duplicate()
-	var cell_editor = column_editors[_get_cell_column(edited_cells[0])]
-	for i in arr.size():
-		arr[i] = cell_editor.get_value(edited_cells[i])
-
-	return arr
-
-
 func _on_SearchCond_text_entered(new_text : String):
 	var new_script := GDScript.new()
 	new_script.source_code = "static func can_show(res, index):\n\treturn " + new_text
@@ -531,7 +569,3 @@ func _on_SearchCond_text_entered(new_text : String):
 		var row_visible = new_script_instance.can_show(rows[i], i)
 		for j in columns.size():
 			table_elements[(i + 1) * columns.size() + j].visible = row_visible
-
-
-func _on_focus_exited():
-	deselect_all_cells()

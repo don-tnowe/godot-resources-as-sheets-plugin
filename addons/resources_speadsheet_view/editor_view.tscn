@@ -237,6 +237,17 @@ __meta__ = {
 unique_name_in_owner = true
 margin_right = 1020.0
 
+[node name="EditColor" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource( 7 )]
+visible = false
+anchor_right = 0.0
+margin_right = 1020.0
+
+[node name="EditNumber" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource( 8 )]
+visible = false
+anchor_right = 0.0
+margin_right = 1020.0
+margin_bottom = 84.0
+
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
 margin_top = 4.0
 margin_right = 1020.0
@@ -380,7 +391,6 @@ https://twitter.com/don_tnowe
 Issues and contribution:
 https://github.com/don-tnowe/godot-resources-as-sheets-plugin"
 
-[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
 [connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
