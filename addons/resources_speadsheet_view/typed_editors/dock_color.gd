@@ -99,7 +99,7 @@ func _on_Button_pressed():
 		_color_picker_panel.rect_global_position.y = clamp(
 			_color_picker_panel.rect_global_position.y, 
 			0, 
-			sheet._editor_plugin.get_editor_interface().get_base_control().rect_size.y
+			sheet.editor_plugin.get_editor_interface().get_base_control().rect_size.y
 		)
 		_color_picker.color = _stored_value
 
@@ -119,4 +119,4 @@ func update_cell_values():
 	for i in values.size():
 		values[i] = _stored_value
 
-	sheet.set_edited_cells_values(values)
+	sheet.set_edited_cells_values(values, true)

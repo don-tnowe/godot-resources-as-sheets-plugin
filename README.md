@@ -4,8 +4,10 @@
 
 A plugin for Godot 3 that adds a tab for editing folders of Resources as data tables. It was made from neccessity when trying to develop another plugin.
 
+- Select multiple cells in one column (Shift/Ctrl+Click) to edit them in the Inspector simultaneously.
 - Multi-cell text editing (visible cursor not included, unfortunately)
 - Copy-paste Text into Cells (one line, one cell)
+- Special mass operations for some datatypes (rotate color hues/adjust sat/val/RGB, multiply/add numbers...)
 - Sort entries by column
 - Search by evaluating GDScript expression
 - Row stylization (color-type cells change look of the row until next color-type)
