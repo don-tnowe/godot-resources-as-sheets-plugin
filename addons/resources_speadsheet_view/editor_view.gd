@@ -292,9 +292,7 @@ func deselect_cell(cell : Control):
 func select_cell(cell : Control):
 	var column_index := _get_cell_column(cell)
 	if _can_select_cell(cell):
-		column_editors[column_index].set_selected(cell, true)
-		edited_cells.append(cell)
-		edit_cursor_positions.append(column_editors[column_index].get_text_length(cell))
+		_add_cell_to_selection(cell)
 		_try_open_docks(cell)
 		inspector_resource = rows[_get_cell_row(cell)].duplicate()
 		editor_plugin.get_editor_interface().edit_resource(inspector_resource)
@@ -319,6 +317,12 @@ func select_cell(cell : Control):
 		column_editors[column_index].set_selected(cur_cell, true)
 		edited_cells.append(cur_cell)
 		edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
+
+
+func _add_cell_to_selection(cell : Control):
+	column_editors[_get_cell_column(cell)].set_selected(cell, true)
+	edited_cells.append(cell)
+	edit_cursor_positions.append(column_editors[_get_cell_column(cell)].get_text_length(cell))
 
 
 func _try_open_docks(cell : Control):
@@ -613,9 +617,20 @@ func _on_inspector_property_edited(property : String):
 	if inspector_resource == null: return
 
 	var value = inspector_resource.get(property)
-	for x in edited_cells:
-		rows[_get_cell_row(x)].set(property, value)
-		_update_row(_get_cell_row(x))
+	var values = []
+	values.resize(edited_cells.size())
+	for i in edited_cells.size():
+		values[i] = value
 	
-	# Resources could stop being null, sooooo...
+	var previously_edited = edited_cells
+	if columns[_get_cell_column(edited_cells[0])] != property:
+		previously_edited = previously_edited.duplicate()
+		var new_column := columns.find(property)
+		deselect_all_cells()
+		var index := 0
+		for i in previously_edited.size():
+			index = (_get_cell_row(previously_edited[i]) + 1) * columns.size() + new_column
+			_add_cell_to_selection(get_node(path_table_root).get_child(index))
+	
+	set_edited_cells_values(values)
 	_try_open_docks(edited_cells[0])
