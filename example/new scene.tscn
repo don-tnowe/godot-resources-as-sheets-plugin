@@ -1,0 +1,34 @@
+[gd_scene format=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 51.0
+margin_top = 54.0
+margin_right = 374.0
+margin_bottom = 371.0
+rect_rotation = -15.0
+color = Color( 0, 1, 0.0156863, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 484.0
+margin_top = 66.0
+margin_right = 807.0
+margin_bottom = 383.0
+rect_rotation = 15.0
+color = Color( 0, 0.905882, 1, 1 )
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+margin_left = -39.0
+margin_top = 324.0
+margin_right = 284.0
+margin_bottom = 641.0
+rect_rotation = -30.0
+color = Color( 0, 0.0156863, 1, 1 )
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+margin_left = 271.0
+margin_top = 219.0
+margin_right = 594.0
+margin_bottom = 536.0
+color = Color( 0.686275, 0, 1, 1 )

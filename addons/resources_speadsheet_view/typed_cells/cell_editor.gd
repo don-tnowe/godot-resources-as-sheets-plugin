@@ -9,7 +9,8 @@ func can_edit_value(value, type, property_hint) -> bool:
 	return true
 
 # Override to change how the cell is created; preload a scene or create nodes from code.
-func create_cell() -> Control:
+# Caller is an instance of `editor_view.tscn`.
+func create_cell(caller : Control) -> Control:
 	return load(CELL_SCENE_DIR + "basic.tscn").instance()
 
 # Override to change behaviour when the cell is clicked to be selected.

@@ -1,6 +1,8 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://example/my_custom_resource.gd" type="Script" id=1]
+[ext_resource path="res://example/icons/4.tres" type="Texture" id=2]
+[ext_resource path="res://example/new scene.tscn" type="PackedScene" id=3]
 
 [resource]
 resource_name = "Weapon: Chaos Blast"
@@ -8,6 +10,8 @@ script = ExtResource( 1 )
 color1 = Color( 1, 1, 0.2, 1 )
 max_duplicates = 1
 tags = "weapon magic legendary chaosblast aoe"
+icon = ExtResource( 2 )
+custom_scene = ExtResource( 3 )
 color2 = Color( 0.40631, 0.190945, 0.832031, 1 )
 tag_delimeter = " "
 base_weight = 1.0

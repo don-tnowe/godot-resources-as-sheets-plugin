@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://example/my_custom_resource.gd" type="Script" id=1]
+[ext_resource path="res://example/icons/3.tres" type="Texture" id=2]
 
 [resource]
 resource_name = "Weapon: Spear"
@@ -8,6 +9,7 @@ script = ExtResource( 1 )
 color1 = Color( 1, 1, 0.2, 1 )
 max_duplicates = 1
 tags = "weapon strength spear melee"
+icon = ExtResource( 2 )
 color2 = Color( 0.988235, 0.584314, 0.192157, 1 )
 tag_delimeter = " "
 base_weight = 10.0

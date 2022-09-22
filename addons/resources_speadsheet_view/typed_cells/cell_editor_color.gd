@@ -3,7 +3,7 @@ extends CellEditor
 var _cached_color := Color.white
 
 
-func create_cell() -> Control:
+func create_cell(caller : Control) -> Control:
 	var node = load(CELL_SCENE_DIR + "basic.tscn").instance()
 	var color = ColorRect.new()
 	node.align = Label.ALIGN_RIGHT

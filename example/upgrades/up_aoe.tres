@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://example/my_custom_resource.gd" type="Script" id=1]
+[ext_resource path="res://example/icons/6.tres" type="Texture" id=2]
 
 [resource]
 resource_name = "Upgrade: Area of Effect"
@@ -8,7 +9,7 @@ script = ExtResource( 1 )
 color1 = Color( 1, 1, 1, 1 )
 max_duplicates = 4
 tags = "aoe"
-requires_one_of_tags = ""
+icon = ExtResource( 2 )
 color2 = Color( 0.964706, 0.298039, 0.298039, 1 )
 tag_delimeter = " "
 base_weight = 10.0

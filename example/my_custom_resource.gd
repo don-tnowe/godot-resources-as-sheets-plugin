@@ -5,16 +5,18 @@ extends Resource
 export var color1 := Color.white
 export var max_duplicates := 0
 export var tags := "tag_1 tag_2 tag_3"
+export var icon : Texture
+export var custom_scene : PackedScene
 export var color2 := Color.white
-export(String) var tag_delimeter = " "
+export var tag_delimeter := " "
 export var base_weight := 10.0
 export var is_notable := false
 export(String, MULTILINE) var multiplier_per_tag := ""
 export(String, MULTILINE) var multiplier_if_tag_present := ""
 export(String, MULTILINE) var multiplier_if_tag_not_present := ""
 export(String, MULTILINE) var max_tags_present := ""
-export(String) var list_item_delimeter = " "
-export(String) var list_row_delimeter = ";"
+export var list_item_delimeter := " "
+export var list_row_delimeter := ";"
 
 var is_cached := false
 var tag_array := []

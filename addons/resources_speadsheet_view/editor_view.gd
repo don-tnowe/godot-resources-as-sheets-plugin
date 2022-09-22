@@ -180,7 +180,7 @@ func _update_row(row_index : int):
 	var next_color := Color.white
 	for i in columns.size():
 		if root_node.get_child_count() <= (row_index + 1) * columns.size() + i:
-			current_node = column_editors[i].create_cell()
+			current_node = column_editors[i].create_cell(self)
 			current_node.connect("gui_input", self, "_on_cell_gui_input", [current_node])
 			root_node.add_child(current_node)
 
@@ -399,10 +399,6 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 					deselect_all_cells()
 
 				select_cell(cell)
-
-	if event is InputEventMouseMotion:
-		if Input.is_mouse_button_pressed(BUTTON_LEFT):
-			select_cell(cell)
 
 
 func _gui_input(event : InputEvent):
