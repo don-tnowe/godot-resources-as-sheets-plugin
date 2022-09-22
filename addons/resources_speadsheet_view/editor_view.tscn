@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_string.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_color.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_number.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_resource.gd" type="Script" id=9]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_texture.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -244,6 +245,12 @@ anchor_right = 0.0
 margin_right = 1020.0
 
 [node name="EditNumber" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource( 8 )]
+visible = false
+anchor_right = 0.0
+margin_right = 1020.0
+margin_bottom = 84.0
+
+[node name="EditTexture" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource( 10 )]
 visible = false
 anchor_right = 0.0
 margin_right = 1020.0

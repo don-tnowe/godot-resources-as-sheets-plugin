@@ -73,6 +73,9 @@ func _on_filesystem_changed():
 	else:
 		for k in remembered_paths:
 			if remembered_paths[k].resource_path != k:
+				var res = remembered_paths[k]
+				remembered_paths.erase(k)
+				remembered_paths[res.resource_path] = res
 				display_folder(current_path, sorting_by, sorting_reverse, true)
 				break
 
@@ -292,15 +295,7 @@ func select_cell(cell : Control):
 		column_editors[column_index].set_selected(cell, true)
 		edited_cells.append(cell)
 		edit_cursor_positions.append(column_editors[column_index].get_text_length(cell))
-
-		for x in get_node(path_property_editors).get_children():
-			x.visible = x.try_edit_value(
-				column_editors[column_index].get_value(cell),
-				column_types[_get_cell_column(cell)],
-				column_hints[_get_cell_column(cell)]
-			)
-			x.get_node(x.path_property_name).text = columns[column_index]
-		
+		_try_open_docks(cell)
 		inspector_resource = rows[_get_cell_row(cell)].duplicate()
 		editor_plugin.get_editor_interface().edit_resource(inspector_resource)
 		return
@@ -324,6 +319,17 @@ func select_cell(cell : Control):
 		column_editors[column_index].set_selected(cur_cell, true)
 		edited_cells.append(cur_cell)
 		edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
+
+
+func _try_open_docks(cell : Control):
+	var column_index = _get_cell_column(cell)
+	for x in get_node(path_property_editors).get_children():
+		x.visible = x.try_edit_value(
+			column_editors[column_index].get_value(cell),
+			column_types[column_index],
+			column_hints[column_index]
+		)
+		x.get_node(x.path_property_name).text = columns[column_index]
 
 
 func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = false):
@@ -610,3 +616,6 @@ func _on_inspector_property_edited(property : String):
 	for x in edited_cells:
 		rows[_get_cell_row(x)].set(property, value)
 		_update_row(_get_cell_row(x))
+	
+	# Resources could stop being null, sooooo...
+	_try_open_docks(edited_cells[0])

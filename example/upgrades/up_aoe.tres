@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://example/my_custom_resource.gd" type="Script" id=1]
-[ext_resource path="res://example/icons/6.tres" type="Texture" id=2]
+[ext_resource path="res://example/icons/all_icons/all_icons_6.tres" type="Texture" id=2]
 
 [resource]
 resource_name = "Upgrade: Area of Effect"

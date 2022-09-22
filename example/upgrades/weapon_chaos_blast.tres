@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://example/my_custom_resource.gd" type="Script" id=1]
-[ext_resource path="res://example/icons/4.tres" type="Texture" id=2]
+[ext_resource path="res://example/icons/all_icons/all_icons_4.tres" type="Texture" id=2]
 [ext_resource path="res://example/new scene.tscn" type="PackedScene" id=3]
 
 [resource]

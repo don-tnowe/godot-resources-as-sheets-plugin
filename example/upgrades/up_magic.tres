@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://example/my_custom_resource.gd" type="Script" id=1]
-[ext_resource path="res://example/icons/5.tres" type="Texture" id=2]
+[ext_resource path="res://example/icons/all_icons/all_icons_5.tres" type="Texture" id=2]
 
 [resource]
 resource_name = "Upgrade: Magic"
@@ -10,7 +10,7 @@ color1 = Color( 1, 1, 1, 1 )
 max_duplicates = 9
 tags = "magic"
 icon = ExtResource( 2 )
-color2 = Color( 0.189457, 0.452246, 0.902344, 1 )
+color2 = Color( 0.188235, 0.45098, 0.901961, 1 )
 tag_delimeter = " "
 base_weight = 10.0
 is_notable = false
