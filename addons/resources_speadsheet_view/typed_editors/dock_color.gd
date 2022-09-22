@@ -80,7 +80,7 @@ func _increment_values(by : float, property : int):
 
 
 func _increment_values_custom(multiplier : float, property : int):
-	if property == 4 || property == 5:
+	if property == 4 or property == 5:
 		# Numbered buttons increment by 5 for Sat and Value, so hue is x0.5 effect. Negate it here
 		multiplier *= 2.0
 		

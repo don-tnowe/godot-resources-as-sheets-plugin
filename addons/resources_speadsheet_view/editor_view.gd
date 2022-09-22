@@ -134,11 +134,22 @@ func _load_resources_from_folder(folderpath : String, sort_by : String, sort_rev
 
 func _insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
 	for i in rows.size():
-		if sort_reverse != (res.get(sort_by) < rows[i].get(sort_by)):
+		if sort_reverse == _compare_values(res.get(sort_by), rows[i].get(sort_by)):
 			rows.insert(i, res)
 			return
 
 	rows.append(res)
+
+
+func _compare_values(a, b) -> bool:
+	if a == null or b == null: return b == null
+	if a is Color:
+		return a.h > b.h if a.h != b.h else a.v > b.v
+
+	if a is Resource:
+		return a.resource_path > b.resource_path
+	
+	return a > b
 
 
 func _set_sorting(sort_by):
