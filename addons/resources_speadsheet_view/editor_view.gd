@@ -560,6 +560,18 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 			# Set cell values, but only when undoing/redoing (set_cell() normally fills these in)
 			column_editors[update_column].set_value(update_cells[i], values[i])
 
+		if column_types[update_column] == TYPE_COLOR:
+			for j in columns.size() - update_column:
+				if j != 0 and column_types[j + update_column] == TYPE_COLOR:
+					break
+				
+				column_editors[j + update_column].set_color(
+					update_cells[i].get_parent().get_child(
+						(_get_cell_row(update_cells[i]) + 1) * columns.size() + update_column + j
+					),
+					values[i]
+				)
+
 
 func _get_edited_cells_resources() -> Array:
 	var arr := edited_cells.duplicate()
