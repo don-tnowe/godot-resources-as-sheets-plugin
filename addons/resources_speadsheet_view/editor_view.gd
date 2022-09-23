@@ -379,7 +379,7 @@ func _try_open_docks(cell : Control):
 		x.get_node(x.path_property_name).text = columns[column_index]
 
 
-func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = false):
+func set_edited_cells_values(new_cell_values : Array):
 	var column = _get_cell_column(edited_cells[0])
 	var edited_cells_resources = _get_edited_cells_resources()
 
@@ -400,11 +400,6 @@ func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = 
 		self,
 		"_update_selected_cells_text"
 	)
-	for i in new_cell_values.size():
-		column_editors[column].set_value(edited_cells[i], new_cell_values[i])
-		if update_whole_row:
-			_update_row(_get_cell_row(edited_cells[i]) + 1)
-
 	editor_plugin.undo_redo.add_do_method(
 		self,
 		"_update_resources",
@@ -636,12 +631,8 @@ func set_cell(cell, value):
 
 
 func _update_resources(update_rows : Array, update_cells : Array, update_column : int, values : Array):
-	var cells := get_node(path_table_root).get_children()
 	for i in update_rows.size():
-		if undo_redo_version > editor_plugin.undo_redo.get_version():
-			# Set cell values, but only when undoing/redoing (set_cell() normally fills these in)
-			column_editors[update_column].set_value(update_cells[i], values[i])
-
+		column_editors[update_column].set_value(update_cells[i], values[i])
 		values[i] = _try_convert(values[i], column_types[update_column])
 		if values[i] == null:
 			continue
@@ -709,6 +700,7 @@ func _on_ProcessExpr_text_entered(new_text : String):
 func _on_inspector_property_edited(property : String):
 	if !visible: return
 	if inspector_resource == null: return
+	if undo_redo_version > editor_plugin.undo_redo.get_version(): return
 
 	var value = inspector_resource.get(property)
 	var values = []

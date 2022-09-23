@@ -11,10 +11,11 @@ var _stored_type := 0
 
 
 func _ready():
-	recent_container.get_child(1).add_item("Add")
-	recent_container.get_child(1).add_item("Erase")
-	recent_container.get_child(1).add_item("Delete From Recent")
-	recent_container.get_child(1).select(0)
+	if recent_container.get_child(1).get_item_count() < 3:
+		recent_container.get_child(1).add_item("Add")
+		recent_container.get_child(1).add_item("Erase")
+		recent_container.get_child(1).add_item("Delete From Recent")
+		recent_container.get_child(1).select(0)
 
 
 func try_edit_value(value, type, propert_hint) -> bool:

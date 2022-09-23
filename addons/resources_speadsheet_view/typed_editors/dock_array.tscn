@@ -73,18 +73,13 @@ margin_right = 320.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 
-[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer/Panel"]
-margin_right = 320.0
-margin_bottom = 52.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Panel"]
+[node name="Label" type="TextEdit" parent="HBoxContainer/HBoxContainer/Panel"]
 margin_right = 320.0
 margin_bottom = 52.0
 rect_min_size = Vector2( 128, 0 )
 size_flags_vertical = 5
 text = "[]"
-align = 2
-autowrap = true
+readonly = true
 
 [node name="VSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer"]
 margin_left = 324.0
