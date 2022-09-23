@@ -52,6 +52,7 @@ path_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBox
 path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths")
 path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
 path_property_editors = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
+path_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
 margin_left = 2.0
@@ -64,7 +65,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HeaderContentSplit"]
 margin_right = 1020.0
-margin_bottom = 40.0
+margin_bottom = 46.0
 custom_constants/separation = 2
 __meta__ = {
 "_edit_lock_": true
@@ -101,10 +102,9 @@ __meta__ = {
 
 [node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 336.0
+margin_right = 308.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "res://assets/custom/upgrades/"
 caret_blink = true
 caret_blink_speed = 0.5
 __meta__ = {
@@ -112,8 +112,8 @@ __meta__ = {
 }
 
 [node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 336.0
-margin_right = 364.0
+margin_left = 308.0
+margin_right = 336.0
 margin_bottom = 24.0
 hint_tooltip = "Open Folder"
 icon = SubResource( 2 )
@@ -122,6 +122,18 @@ __meta__ = {
 "_edit_lock_": true
 }
 icon_name = "Folder"
+
+[node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 336.0
+margin_right = 364.0
+margin_bottom = 24.0
+hint_tooltip = "Refresh"
+icon = SubResource( 2 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+icon_name = "Refresh"
 
 [node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
 margin_left = 479.0
@@ -164,8 +176,28 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit"]
+[node name="Sep" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+margin_top = 42.0
+margin_right = 1020.0
+margin_bottom = 42.0
+
+[node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 margin_top = 44.0
+margin_right = 1020.0
+margin_bottom = 44.0
+rect_clip_content = true
+
+[node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns"]
+margin_right = 1020.0
+custom_constants/separation = 0
+
+[node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+margin_top = 46.0
+margin_right = 1020.0
+margin_bottom = 46.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit"]
+margin_top = 50.0
 margin_right = 1020.0
 margin_bottom = 596.0
 mouse_filter = 2
@@ -177,7 +209,7 @@ __meta__ = {
 
 [node name="FooterContentSplit" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer"]
 margin_right = 1020.0
-margin_bottom = 552.0
+margin_bottom = 546.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -186,7 +218,7 @@ __meta__ = {
 
 [node name="Panel" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
 margin_right = 1020.0
-margin_bottom = 502.0
+margin_bottom = 496.0
 mouse_filter = 2
 size_flags_vertical = 3
 __meta__ = {
@@ -195,14 +227,14 @@ __meta__ = {
 
 [node name="Panel" type="Panel" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
 margin_right = 1020.0
-margin_bottom = 502.0
+margin_bottom = 496.0
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Scroll" type="ScrollContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
 margin_right = 1020.0
-margin_bottom = 502.0
+margin_bottom = 496.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -228,9 +260,9 @@ __meta__ = {
 }
 
 [node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
-margin_top = 506.0
+margin_top = 500.0
 margin_right = 1020.0
-margin_bottom = 552.0
+margin_bottom = 546.0
 __meta__ = {
 "_edit_lock_": true
 }
@@ -401,8 +433,10 @@ https://github.com/don-tnowe/godot-resources-as-sheets-plugin"
 
 [connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Refresh" to="." method="_on_Path_text_entered"]
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/Info" to="Control/Info" method="popup_centered"]
+[connection signal="scroll_started" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll" to="." method="_on_Scroll_scroll_ended"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

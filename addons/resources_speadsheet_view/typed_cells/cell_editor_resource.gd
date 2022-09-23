@@ -24,7 +24,7 @@ func set_value(node : Control, value):
 	if !value is Resource: return
 	
 	node.editor_description = value.resource_path
-	node.get_node("Box/Label").text = value.resource_name + "[" + value.resource_path.get_file() + "]"
+	node.get_node("Box/Label").text = value.resource_name + "[" + value.resource_path.get_file().get_basename() + "]"
 	if value is Texture:
 		node.get_node("Box/Tex").visible = true
 		node.get_node("Box/Tex").texture = value

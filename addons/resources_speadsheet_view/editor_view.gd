@@ -9,6 +9,7 @@ export var path_folder_path := NodePath("")
 export var path_recent_paths := NodePath("")
 export var path_table_root := NodePath("")
 export var path_property_editors := NodePath("")
+export var path_columns := NodePath("")
 
 var editor_interface : EditorInterface
 var editor_plugin : EditorPlugin
@@ -57,7 +58,7 @@ func _ready():
 	for x in cell_editor_classes:
 		all_cell_editors.append(x.new())
 
-	display_folder(recent_paths[0])
+	display_folder(recent_paths[0], "resource_name", false, true)
 
 
 func _on_undo_redo_version_changed():
@@ -164,6 +165,7 @@ func _set_sorting(sort_by):
 
 func _create_table(columns_changed : bool):
 	var root_node = get_node(path_table_root)
+	var headers_node = get_node(path_columns)
 	deselect_all_cells()
 	edited_cells = []
 	edit_cursor_positions = []
@@ -173,13 +175,16 @@ func _create_table(columns_changed : bool):
 		for x in root_node.get_children():
 			x.queue_free()
 		
+		for x in headers_node.get_children():
+			x.queue_free()
+
 		for x in columns:
 			new_node = table_header_scene.instance()
-			root_node.add_child(new_node)
+			headers_node.add_child(new_node)
 			new_node.get_node("Button").text = x
 			new_node.get_node("Button").connect("pressed", self, "_set_sorting", [x])
-
-	var to_free = root_node.get_child_count() - (rows.size() + 1) * columns.size()
+	
+	var to_free = root_node.get_child_count() - rows.size() * columns.size()
 	while to_free > 0:
 		root_node.get_child(columns.size()).free()
 		to_free -= 1
@@ -187,19 +192,46 @@ func _create_table(columns_changed : bool):
 	for i in rows.size():
 		_update_row(i)
 
+	_update_column_sizes()
+
+
+func _update_column_sizes():
+	yield(get_tree(), "idle_frame")
+	var column_headers := get_node(path_columns).get_children()
+	var table_root := get_node(path_table_root)
+	var min_width := 0
+	var cell : Control
+
+	get_node(path_columns).get_parent().rect_min_size.y = get_node(path_columns).rect_size.y
+	for i in column_headers.size():
+		cell = table_root.get_child(i)
+		column_headers[i].rect_min_size.x = 0
+		cell.rect_min_size.x = 0
+		column_headers[i].rect_size.x = 0
+		# cell.rect_size.x = 0
+
+		min_width = max(column_headers[i].get_minimum_size().x, cell.rect_size.x)
+		cell.rect_min_size.x = column_headers[i].get_minimum_size().x
+		column_headers[i].rect_min_size.x = min_width
+		column_headers[i].rect_size.x = min_width
+		
+	# yield(get_tree(), "idle_frame")
+	# for i in column_headers.size():
+	# 	column_headers[i].rect_size.x = column_headers[i].rect_min_size.x
+
 
 func _update_row(row_index : int):
 	var root_node = get_node(path_table_root)
 	var current_node : Control
 	var next_color := Color.white
 	for i in columns.size():
-		if root_node.get_child_count() <= (row_index + 1) * columns.size() + i:
+		if root_node.get_child_count() <= row_index * columns.size() + i:
 			current_node = column_editors[i].create_cell(self)
 			current_node.connect("gui_input", self, "_on_cell_gui_input", [current_node])
 			root_node.add_child(current_node)
 
 		else:
-			current_node = root_node.get_child((row_index + 1) * columns.size() + i)
+			current_node = root_node.get_child(row_index * columns.size() + i)
 			current_node.hint_tooltip = columns[i] + "\nOf " + rows[row_index].resource_path.get_file()
 
 		column_editors[i].set_value(current_node, rows[row_index].get(columns[i]))
@@ -253,11 +285,14 @@ func save_data():
 	))
 
 
-func _on_Path_text_entered(new_text : String):
-	current_path = new_text
+func _on_Path_text_entered(new_text : String = ""):
+	if new_text != "":
+		current_path = new_text
+		add_path_to_recent(new_text)
+		display_folder(new_text, "", false, true)
 
-	add_path_to_recent(new_text)
-	display_folder(new_text, "", false, true)
+	else:
+		display_folder(current_path, sorting_by, sorting_reverse, true)
 
 
 func _on_RecentPaths_item_selected(index : int):
@@ -301,8 +336,8 @@ func select_cell(cell : Control):
 	if column_index != _get_cell_column(edited_cells[edited_cells.size() - 1]):
 		return
 	
-	var row_start = _get_cell_row(edited_cells[edited_cells.size() - 1]) + 1
-	var row_end := _get_cell_row(cell) + 1
+	var row_start = _get_cell_row(edited_cells[edited_cells.size() - 1])
+	var row_end := _get_cell_row(cell)
 	var edge_shift = -1 if row_start > row_end else 1
 	row_start += edge_shift
 	row_end += edge_shift
@@ -315,8 +350,9 @@ func select_cell(cell : Control):
 			continue
 
 		column_editors[column_index].set_selected(cur_cell, true)
-		edited_cells.append(cur_cell)
-		edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
+		if !cur_cell in edited_cells:
+			edited_cells.append(cur_cell)
+			edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
 
 
 func _add_cell_to_selection(cell : Control):
@@ -365,6 +401,7 @@ func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = 
 	editor_plugin.undo_redo.commit_action()
 	editor_interface.get_resource_filesystem().scan()
 	undo_redo_version = editor_plugin.undo_redo.get_version()
+	_update_column_sizes()
 
 
 func get_edited_cells_values() -> Array:
@@ -397,11 +434,18 @@ func _get_cell_column(cell) -> int:
 
 
 func _get_cell_row(cell) -> int:
-	return cell.get_position_in_parent() / columns.size() - 1
+	return cell.get_position_in_parent() / columns.size()
 
+
+func _update_scroll():
+	get_node(path_columns).rect_position.x = -get_node(path_table_root).get_node("../..").scroll_horizontal
+	
 
 func _on_cell_gui_input(event : InputEvent, cell : Control):
 	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_WHEEL_UP || event.button_index == BUTTON_WHEEL_DOWN:
+			_update_scroll()
+
 		if event.button_index != BUTTON_LEFT:
 			return
 
@@ -424,6 +468,9 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 
 func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_WHEEL_UP || event.button_index == BUTTON_WHEEL_DOWN:
+			_update_scroll()
+
 		if event.button_index != BUTTON_LEFT:
 			return
 
@@ -584,10 +631,12 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 				
 				column_editors[j + update_column].set_color(
 					update_cells[i].get_parent().get_child(
-						(_get_cell_row(update_cells[i]) + 1) * columns.size() + update_column + j
+						_get_cell_row(update_cells[i]) * columns.size() + update_column + j
 					),
 					values[i]
 				)
+
+	_update_column_sizes()
 
 
 func _get_edited_cells_resources() -> Array:
@@ -629,8 +678,8 @@ func _on_inspector_property_edited(property : String):
 		deselect_all_cells()
 		var index := 0
 		for i in previously_edited.size():
-			index = (_get_cell_row(previously_edited[i]) + 1) * columns.size() + new_column
+			index = _get_cell_row(previously_edited[i]) * columns.size() + new_column
 			_add_cell_to_selection(get_node(path_table_root).get_child(index))
-	
+
 	set_edited_cells_values(values)
 	_try_open_docks(edited_cells[0])
