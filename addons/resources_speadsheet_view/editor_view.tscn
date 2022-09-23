@@ -71,10 +71,20 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
 margin_right = 1020.0
 margin_bottom = 14.0
-text = "Select Resource Folder:"
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+margin_right = 91.0
+margin_bottom = 14.0
+text = "Folder Display"
+
+[node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+margin_left = 95.0
+margin_right = 1020.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
 margin_top = 16.0
@@ -92,7 +102,7 @@ text = "Resource Folder:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
 margin_left = 111.0
-margin_right = 475.0
+margin_right = 491.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
@@ -102,7 +112,7 @@ __meta__ = {
 
 [node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 308.0
+margin_right = 296.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 caret_blink = true
@@ -112,8 +122,8 @@ __meta__ = {
 }
 
 [node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 308.0
-margin_right = 336.0
+margin_left = 296.0
+margin_right = 324.0
 margin_bottom = 24.0
 hint_tooltip = "Open Folder"
 icon = SubResource( 2 )
@@ -124,8 +134,8 @@ __meta__ = {
 icon_name = "Folder"
 
 [node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 336.0
-margin_right = 364.0
+margin_left = 324.0
+margin_right = 352.0
 margin_bottom = 24.0
 hint_tooltip = "Refresh"
 icon = SubResource( 2 )
@@ -135,10 +145,22 @@ __meta__ = {
 }
 icon_name = "Refresh"
 
+[node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 352.0
+margin_right = 380.0
+margin_bottom = 24.0
+hint_tooltip = "Remove Path from Recent"
+icon = SubResource( 2 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+icon_name = "Remove"
+
 [node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 479.0
+margin_left = 495.0
 margin_top = 5.0
-margin_right = 566.0
+margin_right = 582.0
 margin_bottom = 19.0
 text = "Open Recent:"
 __meta__ = {
@@ -147,25 +169,13 @@ __meta__ = {
 
 [node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 570.0
-margin_right = 934.0
+margin_left = 586.0
+margin_right = 966.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 938.0
-margin_right = 966.0
-margin_bottom = 24.0
-hint_tooltip = "Delete Selected Path"
-icon = SubResource( 2 )
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_lock_": true
-}
-icon_name = "Remove"
 
 [node name="Info" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
 margin_left = 970.0
@@ -259,6 +269,22 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
+self_modulate = Color( 1, 1, 1, 0.498039 )
+margin_right = 1020.0
+margin_bottom = 496.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "No folder selected!
+Please select a folder to edit using the controls above.
+
+Then, Shift+Click or Ctrl+Click cells to edit them using the keyboard,
+Inspector dock or this screen's bottom panels.
+
+To find out keybindings available, open the \"About\" menu."
+align = 1
+valign = 1
+
 [node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
 margin_top = 500.0
 margin_right = 1020.0
@@ -294,12 +320,12 @@ margin_right = 1020.0
 margin_bottom = 18.0
 
 [node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/HBoxContainer"]
-margin_right = 102.0
+margin_right = 183.0
 margin_bottom = 14.0
-text = "GDScript Search"
+text = "GDScript Search and Process"
 
 [node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/HBoxContainer"]
-margin_left = 106.0
+margin_left = 187.0
 margin_right = 1020.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
@@ -337,10 +363,50 @@ align = 1
 
 [node name="SearchCond" type="LineEdit" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
 margin_left = 91.0
-margin_right = 1020.0
+margin_right = 509.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 text = "true"
+
+[node name="VSeparator" type="VSeparator" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
+margin_left = 513.0
+margin_right = 517.0
+margin_bottom = 24.0
+
+[node name="Label3" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
+margin_left = 521.0
+margin_top = 5.0
+margin_right = 575.0
+margin_bottom = 19.0
+text = "Process:"
+
+[node name="Label4" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
+margin_left = 579.0
+margin_top = 3.0
+margin_right = 597.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 18, 18 )
+hint_tooltip = "Enter an expression. The values in selected cells will be replaced with calculated new values.
+
+You can use `value` to get the cell's value, `res.<property_name>` to get a property, `row_index` to get row number
+and `cell_index` to get the cell's selection order. Hit ENTER to run the search.
+
+These are some valid expressions:
+- (res.property1 + res.property2)
+- (res.property1.replace(\"old_string\", \"new_string\"))
+- (load(\"res://path/to_resource.tres\"))
+
+Don't forget quotation marks on strings and str() on non-strings."
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "(?)"
+align = 1
+
+[node name="ProcessExpr" type="LineEdit" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
+margin_left = 601.0
+margin_right = 1020.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 
 [node name="Control" type="Control" parent="."]
 margin_left = 2.0
@@ -434,9 +500,10 @@ https://github.com/don-tnowe/godot-resources-as-sheets-plugin"
 [connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Refresh" to="." method="_on_Path_text_entered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
-[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/Info" to="Control/Info" method="popup_centered"]
 [connection signal="scroll_started" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll" to="." method="_on_Scroll_scroll_ended"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
+[connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

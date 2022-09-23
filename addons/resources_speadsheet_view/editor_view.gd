@@ -83,6 +83,7 @@ func _on_filesystem_changed():
 
 func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false):
 	if folderpath == "": return  # Root folder resources tend to have MANY properties.
+	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
 	if !folderpath.ends_with("/"):
 		folderpath += "/"
 	
@@ -208,17 +209,12 @@ func _update_column_sizes():
 		column_headers[i].rect_min_size.x = 0
 		cell.rect_min_size.x = 0
 		column_headers[i].rect_size.x = 0
-		# cell.rect_size.x = 0
 
 		min_width = max(column_headers[i].get_minimum_size().x, cell.rect_size.x)
 		cell.rect_min_size.x = column_headers[i].get_minimum_size().x
 		column_headers[i].rect_min_size.x = min_width
 		column_headers[i].rect_size.x = min_width
 		
-	# yield(get_tree(), "idle_frame")
-	# for i in column_headers.size():
-	# 	column_headers[i].rect_size.x = column_headers[i].rect_min_size.x
-
 
 func _update_row(row_index : int):
 	var root_node = get_node(path_table_root)
@@ -659,6 +655,22 @@ func _on_SearchCond_text_entered(new_text : String):
 		var row_visible = new_script_instance.can_show(rows[i], i)
 		for j in columns.size():
 			table_elements[(i + 1) * columns.size() + j].visible = row_visible
+
+
+func _on_ProcessExpr_text_entered(new_text : String):
+	var new_script := GDScript.new()
+	new_script.source_code = "static func get_result(value, res, row_index, cell_index):\n\treturn " + new_text
+	new_script.reload()
+
+	var new_script_instance = new_script.new()
+	var values = get_edited_cells_values()
+	var cur_row := 0
+	
+	for i in values.size():
+		cur_row = _get_cell_row(edited_cells[i])
+		values[i] = new_script_instance.get_result(values[i], rows[cur_row], cur_row, i)
+
+	set_edited_cells_values(values)
 
 
 func _on_inspector_property_edited(property : String):
