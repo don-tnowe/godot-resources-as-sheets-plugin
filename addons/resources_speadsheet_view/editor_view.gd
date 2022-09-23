@@ -32,6 +32,7 @@ var rows := []
 var remembered_paths := {}
 
 var edited_cells := []
+var edited_cells_text := []
 var edit_cursor_positions := []
 var inspector_resource : Resource
 
@@ -172,6 +173,7 @@ func _create_table(columns_changed : bool):
 	var headers_node = get_node(path_columns)
 	deselect_all_cells()
 	edited_cells = []
+	edited_cells_text = []
 	edit_cursor_positions = []
 	var new_node : Control
 	if columns_changed:
@@ -311,6 +313,7 @@ func deselect_all_cells():
 		column_editors[_get_cell_column(x)].set_selected(x, false)
 
 	edited_cells.clear()
+	edited_cells_text.clear()
 	edit_cursor_positions.clear()
 
 
@@ -320,6 +323,7 @@ func deselect_cell(cell : Control):
 
 	column_editors[_get_cell_column(cell)].set_selected(cell, false)
 	edited_cells.remove(idx)
+	edited_cells_text.remove(idx)
 	edit_cursor_positions.remove(idx)
 
 
@@ -351,13 +355,17 @@ func select_cell(cell : Control):
 		column_editors[column_index].set_selected(cur_cell, true)
 		if !cur_cell in edited_cells:
 			edited_cells.append(cur_cell)
-			edit_cursor_positions.append(column_editors[column_index].get_text_length(cur_cell))
+			if column_editors[column_index].is_text():
+				edited_cells_text.append(str(cur_cell.text))
+				edit_cursor_positions.append(cur_cell.text.length())
 
 
 func _add_cell_to_selection(cell : Control):
 	column_editors[_get_cell_column(cell)].set_selected(cell, true)
 	edited_cells.append(cell)
-	edit_cursor_positions.append(column_editors[_get_cell_column(cell)].get_text_length(cell))
+	if column_editors[_get_cell_column(cell)].is_text():
+		edited_cells_text.append(str(cell.text))
+		edit_cursor_positions.append(cell.text.length())
 
 
 func _try_open_docks(cell : Control):
@@ -375,7 +383,11 @@ func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = 
 	var column = _get_cell_column(edited_cells[0])
 	var edited_cells_resources = _get_edited_cells_resources()
 
-	editor_plugin.undo_redo.create_action("Set Cell Value Externally")
+	# Duplicated here since if using text editing, edited_cells_text needs to modified
+	# but here, it would be converted from a String breaking editing
+	new_cell_values = new_cell_values.duplicate()
+
+	editor_plugin.undo_redo.create_action("Set Cell Values")
 	editor_plugin.undo_redo.add_undo_method(
 		self,
 		"_update_resources",
@@ -383,6 +395,10 @@ func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = 
 		edited_cells.duplicate(),
 		column,
 		get_edited_cells_values()
+	)
+	editor_plugin.undo_redo.add_undo_method(
+		self,
+		"_update_selected_cells_text"
 	)
 	for i in new_cell_values.size():
 		column_editors[column].set_value(edited_cells[i], new_cell_values[i])
@@ -395,12 +411,21 @@ func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = 
 		edited_cells_resources.duplicate(),
 		edited_cells.duplicate(),
 		column,
-		get_edited_cells_values()
+		new_cell_values.duplicate()
 	)
 	editor_plugin.undo_redo.commit_action()
 	editor_interface.get_resource_filesystem().scan()
 	undo_redo_version = editor_plugin.undo_redo.get_version()
 	_update_column_sizes()
+
+
+func _update_selected_cells_text():
+	if edited_cells_text.size() == 0:
+		return
+		
+	for i in edited_cells.size():
+		edited_cells_text[i] = str(edited_cells[i].text)
+		edit_cursor_positions[i] = edited_cells_text[i].length()
 
 
 func get_edited_cells_values() -> Array:
@@ -411,6 +436,10 @@ func get_edited_cells_values() -> Array:
 		arr[i] = rows[_get_cell_row(arr[i])].get(columns[column_index])
 	
 	return arr
+
+
+func get_cell_value(cell : Control):
+	return rows[_get_cell_row(cell)].get(columns[_get_cell_column(cell)])
 
 
 func _can_select_cell(cell : Control) -> bool:
@@ -480,21 +509,20 @@ func _gui_input(event : InputEvent):
 
 
 func _input(event : InputEvent):
-	if !has_focus() or edited_cells.size() == 0:
-		return
-
 	if !event is InputEventKey or !event.pressed:
 		return
 	
-	if column_types[_get_cell_column(edited_cells[0])] == TYPE_OBJECT:
+	if !has_focus() or edited_cells.size() == 0:
+		return
+
+	var column = _get_cell_column(edited_cells[0])
+	if column_types[column] == TYPE_OBJECT || columns[column] == "resource_path":
 		return
 	
 	if event.scancode == KEY_CONTROL or event.scancode == KEY_SHIFT:
 		# Modifier keys do not get processed.
 		return
 	
-	var edited_cells_resources = _get_edited_cells_resources()
-
 	# Ctrl + Z (before, and instead of, committing the action!)
 	if Input.is_key_pressed(KEY_CONTROL) and event.scancode == KEY_Z:
 		if Input.is_key_pressed(KEY_SHIFT):
@@ -510,28 +538,12 @@ func _input(event : InputEvent):
 		editor_plugin.undo_redo.redo()
 		return
 	
-	editor_plugin.undo_redo.create_action("Set Cell Value")
-	editor_plugin.undo_redo.add_undo_method(
-		self,
-		"_update_resources",
-		edited_cells_resources.duplicate(),
-		edited_cells.duplicate(),
-		_get_cell_column(edited_cells[0]),
-		get_edited_cells_values()
-	)
-
+	if !column_editors[column].is_text():
+		return
+	
 	_key_specific_action(event)
 	grab_focus()
 	
-	editor_plugin.undo_redo.add_do_method(
-		self,
-		"_update_resources",
-		edited_cells_resources.duplicate(),
-		edited_cells.duplicate(),
-		_get_cell_column(edited_cells[0]),
-		get_edited_cells_values()
-	)
-	editor_plugin.undo_redo.commit_action()
 	editor_interface.get_resource_filesystem().scan()
 	undo_redo_version = editor_plugin.undo_redo.get_version()
 
@@ -542,20 +554,16 @@ func _key_specific_action(event : InputEvent):
 	if ctrl_pressed:
 		editor_plugin.hide_bottom_panel()
 
-	# ERASING
-	if event.scancode == KEY_BACKSPACE:
-		TextEditingUtils.multi_erase_left(edited_cells, edit_cursor_positions, column_editors[column], self)
-
-	if event.scancode == KEY_DELETE:
-		TextEditingUtils.multi_erase_right(edited_cells, edit_cursor_positions, column_editors[column], self)
-		get_tree().set_input_as_handled() # Because this is one dangerous action.
-
 	# CURSOR MOVEMENT
-	elif event.scancode == KEY_LEFT:
-		TextEditingUtils.multi_move_left(edited_cells, edit_cursor_positions, column_editors[column])
+	if event.scancode == KEY_LEFT:
+		TextEditingUtils.multi_move_left(
+			edited_cells_text, edit_cursor_positions, Input.is_key_pressed(KEY_CONTROL)
+		)
 	
 	elif event.scancode == KEY_RIGHT:
-		TextEditingUtils.multi_move_right(edited_cells, edit_cursor_positions, column_editors[column])
+		TextEditingUtils.multi_move_right(
+			edited_cells_text, edit_cursor_positions, Input.is_key_pressed(KEY_CONTROL)
+		)
 	
 	elif event.scancode == KEY_HOME:
 		for i in edit_cursor_positions.size():
@@ -563,7 +571,7 @@ func _key_specific_action(event : InputEvent):
 
 	elif event.scancode == KEY_END:
 		for i in edit_cursor_positions.size():
-			edit_cursor_positions[i] = column_editors[column].get_text_length(edited_cells[i])
+			edit_cursor_positions[i] = edited_cells_text[i].length()
 	
 	# BETWEEN-CELL NAVIGATION
 	elif event.scancode == KEY_UP:
@@ -582,19 +590,31 @@ func _key_specific_action(event : InputEvent):
 
 	# Ctrl + C (so you can edit in a proper text editor instead of this wacky nonsense)
 	elif ctrl_pressed and event.scancode == KEY_C:
-		TextEditingUtils.multi_copy(edited_cells)
+		TextEditingUtils.multi_copy(edited_cells_text)
 
 	# Ctrl + V
 	elif ctrl_pressed and event.scancode == KEY_V:
-		TextEditingUtils.multi_paste(edited_cells, edit_cursor_positions, column_editors[column], self)
+		set_edited_cells_values(TextEditingUtils.multi_paste(
+			edited_cells_text, edit_cursor_positions
+		))
 
-	# Line Skip
-	elif event.scancode == KEY_ENTER:
-		TextEditingUtils.multi_linefeed(edited_cells, edit_cursor_positions, column_editors[column], self)
-	
+	# ERASING
+	elif event.scancode == KEY_BACKSPACE:
+		set_edited_cells_values(TextEditingUtils.multi_erase_left(
+			edited_cells_text, edit_cursor_positions, Input.is_key_pressed(KEY_CONTROL)
+		))
+
+	elif event.scancode == KEY_DELETE:
+		set_edited_cells_values(TextEditingUtils.multi_erase_right(
+			edited_cells_text, edit_cursor_positions, Input.is_key_pressed(KEY_CONTROL)
+		))
+		get_tree().set_input_as_handled() # Because this is one dangerous action.
+
 	# And finally, text typing.
 	elif event.unicode != 0 and event.unicode != 127:
-		TextEditingUtils.multi_input(char(event.unicode), edited_cells, edit_cursor_positions, column_editors[column], self)
+		set_edited_cells_values(TextEditingUtils.multi_input(
+			char(event.unicode), edited_cells_text, edit_cursor_positions
+		))
 
 
 func _move_selection_on_grid(move_h : int, move_v : int):
@@ -618,12 +638,16 @@ func set_cell(cell, value):
 func _update_resources(update_rows : Array, update_cells : Array, update_column : int, values : Array):
 	var cells := get_node(path_table_root).get_children()
 	for i in update_rows.size():
-		update_rows[i].set(columns[update_column], values[i])
-		ResourceSaver.save(update_rows[i].resource_path, update_rows[i])
 		if undo_redo_version > editor_plugin.undo_redo.get_version():
 			# Set cell values, but only when undoing/redoing (set_cell() normally fills these in)
 			column_editors[update_column].set_value(update_cells[i], values[i])
 
+		values[i] = _try_convert(values[i], column_types[update_column])
+		if values[i] == null:
+			continue
+
+		update_rows[i].set(columns[update_column], convert(values[i], column_types[update_column]))
+		ResourceSaver.save(update_rows[i].resource_path, update_rows[i])
 		if column_types[update_column] == TYPE_COLOR:
 			for j in columns.size() - update_column:
 				if j != 0 and column_types[j + update_column] == TYPE_COLOR:
@@ -637,6 +661,11 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 				)
 
 	_update_column_sizes()
+
+
+func _try_convert(value, type):
+	# If it can't convert, returns null.
+	return convert(value, type)
 
 
 func _get_edited_cells_resources() -> Array:

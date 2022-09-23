@@ -38,8 +38,8 @@ func set_color(node : Control, color : Color):
 	node.get_node("Back").modulate = color * 0.6 if node.editor_description == "" else color
 
 
-func get_text_length(node : Control):
-	return -1
+func is_text():
+	return false
 
 
 func _on_preview_loaded(path : String, preview : Texture, thumbnail_preview : Texture, node):

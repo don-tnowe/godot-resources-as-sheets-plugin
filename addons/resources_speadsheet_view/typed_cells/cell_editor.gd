@@ -17,17 +17,13 @@ func create_cell(caller : Control) -> Control:
 func set_selected(node : Control, selected : bool):
   node.get_node("Selected").visible = selected
 
-# Override to change behaviour when the cell is edited via keyboard.
+# Override to change how the value is displayed.
 func set_value(node : Control, value):
 	node.text = TextEditingUtils.show_non_typing(str(value))
 
-
-func get_text_value(node : Control):
-	return node.text
-
-# Override for text-based types to allow multi-editing.
-func get_text_length(node : Control):
-	return node.text.length()
+# Override to prevent the cell from being edited as text.
+func is_text():
+	return true
 
 
 func set_color(node : Control, color : Color):

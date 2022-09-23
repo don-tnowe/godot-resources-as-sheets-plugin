@@ -25,9 +25,5 @@ func set_value(node : Control, value):
 			children[i].self_modulate = Color(str(value[i]).hash()) + Color(0.25, 0.25, 0.25, 1.0)
 
 
-func get_text_value(node : Control):
-	return ""
-
-
-func get_text_length(node : Control):
-	return -1
+func is_text():
+	return false
