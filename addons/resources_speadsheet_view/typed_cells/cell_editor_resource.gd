@@ -34,11 +34,6 @@ func set_value(node : Control, value):
 		previewer.queue_resource_preview(value.resource_path, self, "_on_preview_loaded", node)
 
 
-func get_value(node : Control):
-	if node.editor_description == "": return null
-	return load(node.editor_description)
-
-
 func set_color(node : Control, color : Color):
 	node.get_node("Back").modulate = color * 0.6 if node.editor_description == "" else color
 

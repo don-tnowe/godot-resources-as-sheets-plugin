@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_string.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_number.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_resource.gd" type="Script" id=9]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_texture.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_array.gd" type="Script" id=11]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_array.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -47,7 +49,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 table_header_scene = ExtResource( 6 )
-cell_editor_classes = [ ExtResource( 3 ), ExtResource( 5 ), ExtResource( 9 ), ExtResource( 2 ) ]
+cell_editor_classes = [ ExtResource( 11 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 9 ), ExtResource( 2 ) ]
 path_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
 path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths")
 path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
@@ -296,6 +298,12 @@ __meta__ = {
 [node name="PropertyEditors" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
 unique_name_in_owner = true
 margin_right = 1020.0
+
+[node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource( 12 )]
+visible = false
+anchor_right = 0.0
+margin_right = 1020.0
+margin_bottom = 2.22834e+06
 
 [node name="EditColor" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource( 7 )]
 visible = false

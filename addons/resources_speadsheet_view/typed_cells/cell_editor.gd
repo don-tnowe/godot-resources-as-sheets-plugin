@@ -22,10 +22,6 @@ func set_value(node : Control, value):
 	node.text = TextEditingUtils.show_non_typing(str(value))
 
 
-func get_value(node : Control):
-	return str2var(TextEditingUtils.revert_non_typing(node.text))
-
-
 func get_text_value(node : Control):
 	return node.text
 

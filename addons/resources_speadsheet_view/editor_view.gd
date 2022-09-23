@@ -154,6 +154,9 @@ func _compare_values(a, b) -> bool:
 	if a is Resource:
 		return a.resource_path > b.resource_path
 	
+	if a is Array or a is PoolStringArray or a is PoolRealArray or a is PoolIntArray:
+		return a.size() > b.size()
+		
 	return a > b
 
 
@@ -361,7 +364,7 @@ func _try_open_docks(cell : Control):
 	var column_index = _get_cell_column(cell)
 	for x in get_node(path_property_editors).get_children():
 		x.visible = x.try_edit_value(
-			column_editors[column_index].get_value(cell),
+			rows[_get_cell_row(cell)].get(columns[column_index]),
 			column_types[column_index],
 			column_hints[column_index]
 		)
@@ -402,9 +405,10 @@ func set_edited_cells_values(new_cell_values : Array, update_whole_row : bool = 
 
 func get_edited_cells_values() -> Array:
 	var arr := edited_cells.duplicate()
-	var cell_editor = column_editors[_get_cell_column(edited_cells[0])]
+	var column_index := _get_cell_column(edited_cells[0])
+	var cell_editor = column_editors[column_index]
 	for i in arr.size():
-		arr[i] = cell_editor.get_value(arr[i])
+		arr[i] = rows[_get_cell_row(arr[i])].get(columns[column_index])
 	
 	return arr
 
