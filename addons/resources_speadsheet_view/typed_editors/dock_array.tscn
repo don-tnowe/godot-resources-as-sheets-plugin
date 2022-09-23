@@ -187,21 +187,31 @@ margin_bottom = 52.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
-margin_top = 3.0
+margin_top = 4.0
 margin_right = 48.0
-margin_bottom = 17.0
+margin_bottom = 18.0
 text = "Recent:"
 
 [node name="OptionButton" type="OptionButton" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
 margin_left = 52.0
 margin_right = 106.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 text = "Add"
 items = [ "Add", null, false, 0, null, "Erase", null, false, 1, null, "Delete From Recent", null, false, 2, null ]
 selected = 0
+
+[node name="AddRecentFromSel" type="Button" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+margin_left = 110.0
+margin_right = 138.0
+margin_bottom = 22.0
+hint_tooltip = "Copy Selection into this List"
+icon = SubResource( 2 )
+script = ExtResource( 2 )
+icon_name = "ListSelect"
 
 [connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/String" to="." method="_on_String_pressed"]
 [connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Int" to="." method="_on_Int_pressed"]
 [connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Float" to="." method="_on_Float_pressed"]
 [connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Variant" to="." method="_on_Variant_pressed"]
 [connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Remove" to="." method="_on_Remove_pressed"]
+[connection signal="pressed" from="HBoxContainer/Control2/HBoxContainer/HFlowContainer/AddRecentFromSel" to="." method="_on_AddRecentFromSel_pressed"]

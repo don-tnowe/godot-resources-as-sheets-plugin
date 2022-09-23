@@ -71,6 +71,7 @@ func _add_recent(value):
 
 	var node := Button.new()
 	node.text = str(value)
+	node.self_modulate = Color(value.hash()) + Color(0.25, 0.25, 0.25, 1.0)
 	node.connect("pressed", self, "_on_recent_clicked", [node, value])
 	recent_container.add_child(node)
 
@@ -113,3 +114,9 @@ func _on_String_pressed():
 
 func _on_Variant_pressed():
 	_add_value(str2var(value_input.text))
+
+
+func _on_AddRecentFromSel_pressed():
+	for x in sheet.get_edited_cells_values():
+		for y in x:
+			_add_recent(y)
