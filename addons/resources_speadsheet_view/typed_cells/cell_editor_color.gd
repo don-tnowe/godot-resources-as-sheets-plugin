@@ -27,7 +27,4 @@ func set_value(node : Control, value):
 		node.text = value.to_html(true)
 		_cached_color = value
 
-
-func set_color(node : Control, color : Color):
-	.set_color(node, color)
-	node.get_node("Color").color = color
+	node.get_node("Color").color = value

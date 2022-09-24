@@ -11,6 +11,8 @@ func create_cell(caller : Control) -> Control:
 
 func set_value(node : Control, value):
 	var children = node.get_node("Box").get_children()
+	node.rect_min_size.x = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "array_min_width")
+	var colored = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "color_arrays")
 	while children.size() < value.size():
 		children.append(Label.new())
 		node.get_node("Box").add_child(children[children.size() - 1])
@@ -22,7 +24,7 @@ func set_value(node : Control, value):
 		else:
 			children[i].visible = true
 			children[i].text = str(value[i])
-			children[i].self_modulate = Color(str(value[i]).hash()) + Color(0.25, 0.25, 0.25, 1.0)
+			children[i].self_modulate = Color.white if !colored else Color(str(value[i]).hash()) + Color(0.25, 0.25, 0.25, 1.0)
 
 
 func is_text():

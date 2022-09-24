@@ -6,7 +6,7 @@ size = 8
 [node name="Label" type="MarginContainer"]
 margin_right = 58.0
 margin_bottom = 14.0
-rect_min_size = Vector2( 58, 0 )
+rect_min_size = Vector2( 128, 0 )
 size_flags_vertical = 9
 __meta__ = {
 "_edit_lock_": true
@@ -15,7 +15,6 @@ __meta__ = {
 [node name="Box" type="HFlowContainer" parent="."]
 margin_right = 128.0
 margin_bottom = 14.0
-rect_min_size = Vector2( 128, 0 )
 mouse_filter = 2
 custom_constants/vseparation = 0
 custom_constants/hseparation = 0

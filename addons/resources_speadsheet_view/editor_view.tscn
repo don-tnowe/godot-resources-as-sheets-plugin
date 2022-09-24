@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_string.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_array.gd" type="Script" id=11]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_array.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_enum.gd" type="Script" id=13]
+[ext_resource path="res://addons/resources_speadsheet_view/settings_grid.gd" type="Script" id=14]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -52,7 +53,7 @@ __meta__ = {
 table_header_scene = ExtResource( 6 )
 cell_editor_classes = [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 9 ), ExtResource( 2 ) ]
 path_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
-path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths")
+path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths")
 path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
 path_property_editors = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
 path_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
@@ -89,23 +90,17 @@ margin_right = 1020.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
+[node name="HBoxContainer" type="HSplitContainer" parent="HeaderContentSplit/VBoxContainer"]
 margin_top = 16.0
 margin_right = 1020.0
 margin_bottom = 40.0
+split_offset = -249
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_top = 5.0
-margin_right = 107.0
-margin_bottom = 19.0
-text = "Resource Folder:"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 111.0
-margin_right = 491.0
+margin_right = 553.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
@@ -113,9 +108,16 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 107.0
+margin_bottom = 19.0
+text = "Resource Folder:"
+
 [node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 296.0
+margin_left = 107.0
+margin_right = 469.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 caret_blink = true
@@ -125,8 +127,8 @@ __meta__ = {
 }
 
 [node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 296.0
-margin_right = 324.0
+margin_left = 469.0
+margin_right = 497.0
 margin_bottom = 24.0
 hint_tooltip = "Open Folder"
 icon = SubResource( 2 )
@@ -137,8 +139,8 @@ __meta__ = {
 icon_name = "Folder"
 
 [node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 324.0
-margin_right = 352.0
+margin_left = 497.0
+margin_right = 525.0
 margin_bottom = 24.0
 hint_tooltip = "Refresh"
 icon = SubResource( 2 )
@@ -149,8 +151,8 @@ __meta__ = {
 icon_name = "Refresh"
 
 [node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 352.0
-margin_right = 380.0
+margin_left = 525.0
+margin_right = 553.0
 margin_bottom = 24.0
 hint_tooltip = "Remove Path from Recent"
 icon = SubResource( 2 )
@@ -160,34 +162,48 @@ __meta__ = {
 }
 icon_name = "Remove"
 
-[node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 495.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+margin_left = 565.0
+margin_right = 1020.0
+margin_bottom = 24.0
+
+[node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
 margin_top = 5.0
-margin_right = 582.0
+margin_right = 87.0
 margin_bottom = 19.0
 text = "Open Recent:"
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
-margin_left = 586.0
-margin_right = 966.0
+margin_left = 91.0
+margin_right = 369.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+clip_text = true
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Info" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 970.0
-margin_right = 1020.0
+[node name="Info" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+margin_left = 373.0
+margin_right = 423.0
 margin_bottom = 24.0
 text = "About"
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Settings" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+margin_left = 427.0
+margin_right = 455.0
+margin_bottom = 24.0
+hint_tooltip = "Settings"
+icon = SubResource( 2 )
+script = ExtResource( 4 )
+icon_name = "GDScript"
 
 [node name="Sep" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 margin_top = 42.0
@@ -506,12 +522,124 @@ https://twitter.com/don_tnowe
 Issues and contribution:
 https://github.com/don-tnowe/godot-resources-as-sheets-plugin"
 
+[node name="Settings" type="AcceptDialog" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -235.0
+margin_top = -123.0
+margin_right = 185.0
+margin_bottom = 88.0
+window_title = "Settings"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MarginContainer" type="ScrollContainer" parent="Control/Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -36.0
+scroll_horizontal_enabled = false
+
+[node name="RichTextLabel" type="VBoxContainer" parent="Control/Settings/MarginContainer"]
+margin_right = 404.0
+margin_bottom = 167.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="Control/Settings/MarginContainer/RichTextLabel"]
+margin_right = 404.0
+margin_bottom = 150.0
+columns = 2
+script = ExtResource( 14 )
+
+[node name="Label" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_top = 5.0
+margin_right = 326.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Color-type cells style rows"
+
+[node name="ColorRows" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_left = 330.0
+margin_right = 404.0
+margin_bottom = 24.0
+pressed = true
+text = "Enable"
+
+[node name="Label2" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_top = 33.0
+margin_right = 326.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "Colored array elements"
+
+[node name="ColorArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_left = 330.0
+margin_top = 28.0
+margin_right = 404.0
+margin_bottom = 52.0
+pressed = true
+text = "Enable"
+
+[node name="Label3" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_top = 61.0
+margin_right = 326.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+text = "Array cell min width"
+
+[node name="ArrayMinWidth" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_left = 330.0
+margin_top = 56.0
+margin_right = 404.0
+margin_bottom = 80.0
+min_value = 32.0
+max_value = 512.0
+value = 128.0
+
+[node name="Label4" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_top = 84.0
+margin_right = 326.0
+margin_bottom = 115.0
+size_flags_horizontal = 3
+text = "Clip header text (headers less likely to break but text wont be fully visible)"
+autowrap = true
+
+[node name="ClipHeaders" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_left = 330.0
+margin_top = 84.0
+margin_right = 404.0
+margin_bottom = 115.0
+text = "Enable"
+
+[node name="Label5" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_top = 119.0
+margin_right = 326.0
+margin_bottom = 150.0
+size_flags_horizontal = 3
+text = "Duplicate arrays on edit (slower, but can be undone)"
+autowrap = true
+
+[node name="DupeArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_left = 330.0
+margin_top = 119.0
+margin_right = 404.0
+margin_bottom = 150.0
+pressed = true
+text = "Enable"
+
 [connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Refresh" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
-[connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
-[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/Info" to="Control/Info" method="popup_centered"]
+[connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Info" to="Control/Info" method="popup_centered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Settings" to="Control/Settings" method="popup_centered"]
 [connection signal="scroll_started" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll" to="." method="_on_Scroll_scroll_ended"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]

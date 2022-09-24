@@ -42,8 +42,12 @@ func _add_value(value):
 	_stored_value.append(value)
 	var values = sheet.get_edited_cells_values()
 	var cur_value
+	var dupe_array : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
 	for i in values.size():
 		cur_value = values[i]
+		if dupe_array:
+			cur_value = cur_value.duplicate()
+
 		cur_value.append(value)
 		values[i] = cur_value
 
@@ -54,8 +58,12 @@ func _remove_value(value):
 	_stored_value.erase(value)
 	var values = sheet.get_edited_cells_values()
 	var cur_value
+	var dupe_array : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
 	for i in values.size():
 		cur_value = values[i]
+		if dupe_array:
+			cur_value = cur_value.duplicate()
+
 		if cur_value.has(value): # erase() not defined in PoolArrays
 			cur_value.remove(cur_value.find(value))
 		

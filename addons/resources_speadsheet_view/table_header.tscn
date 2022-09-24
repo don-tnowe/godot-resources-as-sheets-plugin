@@ -9,14 +9,15 @@ size_flags_horizontal = 3
 custom_constants/separation = 0
 
 [node name="Button" type="Button" parent="."]
-margin_right = 110.0
+margin_right = 102.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "resource_name"
+clip_text = true
 
 [node name="Label" type="Button" parent="."]
-margin_left = 110.0
-margin_right = 140.0
+margin_left = 102.0
+margin_right = 132.0
 margin_bottom = 20.0
 text = "|| "

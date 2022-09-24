@@ -7,8 +7,8 @@ export var box_name := "Background" setget _set_box_name
 
 
 func _ready():
-	_set_box_name(box_class)
-	_set_box_class(box_name)
+	_set_box_name(box_name)
+	_set_box_class(box_class)
 
 
 func _set_box_name(v):

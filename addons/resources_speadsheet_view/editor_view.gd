@@ -189,6 +189,7 @@ func _create_table(columns_changed : bool):
 			new_node = table_header_scene.instance()
 			headers_node.add_child(new_node)
 			new_node.get_node("Button").text = x
+			new_node.get_node("Button").hint_tooltip = x
 			new_node.get_node("Button").connect("pressed", self, "_set_sorting", [x])
 	
 	var to_free = root_node.get_child_count() - rows.size() * columns.size()
@@ -197,7 +198,7 @@ func _create_table(columns_changed : bool):
 		to_free -= 1
 	
 	for i in rows.size():
-		_update_row(i)
+		_update_row(i, ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "color_rows"))
 
 	_update_column_sizes()
 
@@ -206,24 +207,29 @@ func _update_column_sizes():
 	yield(get_tree(), "idle_frame")
 	var column_headers := get_node(path_columns).get_children()
 	var table_root := get_node(path_table_root)
+	var clip_text : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "clip_headers")
 	var min_width := 0
 	var cell : Control
 
 	get_node(path_columns).get_parent().rect_min_size.y = get_node(path_columns).rect_size.y
 	for i in column_headers.size():
 		cell = table_root.get_child(i)
-		# Skip these 3 and enable header Clip Text to fix misaligned headers
+
+		column_headers[i].get_child(0).clip_text = clip_text
 		column_headers[i].rect_min_size.x = 0
 		cell.rect_min_size.x = 0
 		column_headers[i].rect_size.x = 0
 
-		min_width = max(column_headers[i].get_minimum_size().x, cell.rect_size.x)
-		cell.rect_min_size.x = column_headers[i].get_minimum_size().x
+		min_width = max(column_headers[i].rect_size.x, cell.rect_size.x)
 		column_headers[i].rect_min_size.x = min_width
+		cell.rect_min_size.x = column_headers[i].get_minimum_size().x
 		column_headers[i].rect_size.x = min_width
+
+	get_node(path_columns).queue_sort()
+
 		
 
-func _update_row(row_index : int):
+func _update_row(row_index : int, color_rows : bool = true):
 	var root_node = get_node(path_table_root)
 	var current_node : Control
 	var next_color := Color.white
@@ -241,7 +247,7 @@ func _update_row(row_index : int):
 		if columns[i] == "resource_path":
 			column_editors[i].set_value(current_node, current_node.text.get_file())
 
-		if column_types[i] == TYPE_COLOR:
+		if color_rows and column_types[i] == TYPE_COLOR:
 			next_color = rows[row_index].get(columns[i])
 
 		column_editors[i].set_color(current_node, next_color)
@@ -661,7 +667,7 @@ func _try_convert(value, type):
 		# "off" displayed in lowercase, "ON" in uppercase.
 		return value[0] == "o"
 
-	# If it can't convert, returns null.
+	# If it can't convert, throws exception and returns null.
 	return convert(value, type)
 
 
