@@ -9,9 +9,8 @@ func set_value(node : Control, value):
 	if value is bool:
 		_set_value_internal(node, value)
 
-	# Does not work properly with new text input system
-	# else:
-	# 	_set_value_internal(node, !node.text.begins_with("O"))
+	else:
+		_set_value_internal(node, !node.text.begins_with("O"))
 
 
 func _set_value_internal(node, value):

@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/typed_cells/cell_editor.gd"
 }, {
-"base": "Resource",
-"class": "DynamicWheelItem",
-"language": "GDScript",
-"path": "res://example/my_custom_resource.gd"
-}, {
 "base": "Control",
 "class": "SheetsDockEditor",
 "language": "GDScript",
@@ -41,7 +36,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "CellEditor": "",
-"DynamicWheelItem": "",
 "SheetsDockEditor": "",
 "TextEditingUtils": "",
 "ThemeIconButton": "",

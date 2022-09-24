@@ -58,6 +58,7 @@ func _ready():
 	# Load cell editors and instantiate them
 	for x in cell_editor_classes:
 		all_cell_editors.append(x.new())
+		all_cell_editors[all_cell_editors.size() - 1].hint_strings_array = column_hints
 
 	display_folder(recent_paths[0], "resource_name", false, true)
 
@@ -121,7 +122,7 @@ func _load_resources_from_folder(folderpath : String, sort_by : String, sort_rev
 					if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
 						columns.append(x["name"])
 						column_types.append(x["type"])
-						column_hints.append(x["hint"])
+						column_hints.append(x["hint_string"].split(","))
 						for y in all_cell_editors:
 							if y.can_edit_value(res.get(x["name"]), x["type"], x["hint"]):
 								column_editors.append(y)
@@ -211,6 +212,7 @@ func _update_column_sizes():
 	get_node(path_columns).get_parent().rect_min_size.y = get_node(path_columns).rect_size.y
 	for i in column_headers.size():
 		cell = table_root.get_child(i)
+		# Skip these 3 and enable header Clip Text to fix misaligned headers
 		column_headers[i].rect_min_size.x = 0
 		cell.rect_min_size.x = 0
 		column_headers[i].rect_size.x = 0
@@ -323,8 +325,9 @@ func deselect_cell(cell : Control):
 
 	column_editors[_get_cell_column(cell)].set_selected(cell, false)
 	edited_cells.remove(idx)
-	edited_cells_text.remove(idx)
-	edit_cursor_positions.remove(idx)
+	if edited_cells_text.size() != 0:
+		edited_cells_text.remove(idx)
+		edit_cursor_positions.remove(idx)
 
 
 func select_cell(cell : Control):
@@ -334,8 +337,10 @@ func select_cell(cell : Control):
 		_try_open_docks(cell)
 		inspector_resource = rows[_get_cell_row(cell)].duplicate()
 		editor_plugin.get_editor_interface().edit_resource(inspector_resource)
-		return
 
+
+func select_cells_to(cell : Control):
+	var column_index := _get_cell_column(cell)
 	if column_index != _get_cell_column(edited_cells[edited_cells.size() - 1]):
 		return
 	
@@ -467,34 +472,30 @@ func _update_scroll():
 
 func _on_cell_gui_input(event : InputEvent, cell : Control):
 	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_WHEEL_UP || event.button_index == BUTTON_WHEEL_DOWN:
-			_update_scroll()
-
+		_update_scroll()
 		if event.button_index != BUTTON_LEFT:
 			return
 
 		grab_focus()
 		if event.pressed:
-			if cell in edited_cells:
-				if !Input.is_key_pressed(KEY_CONTROL):
+			if Input.is_key_pressed(KEY_CONTROL):
+				if cell in edited_cells:
 					deselect_cell(cell)
 
 				else:
-					deselect_all_cells()
 					select_cell(cell)
 
-			else:
-				if !(Input.is_key_pressed(KEY_SHIFT) or Input.is_key_pressed(KEY_CONTROL)):
-					deselect_all_cells()
+			elif Input.is_key_pressed(KEY_SHIFT):
+				select_cells_to(cell)
 
+			else:
+				deselect_all_cells()
 				select_cell(cell)
 
 
 func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_WHEEL_UP || event.button_index == BUTTON_WHEEL_DOWN:
-			_update_scroll()
-
+		_update_scroll()
 		if event.button_index != BUTTON_LEFT:
 			return
 
@@ -655,6 +656,11 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 
 
 func _try_convert(value, type):
+	if type == TYPE_BOOL:
+		_update_selected_cells_text()
+		# "off" displayed in lowercase, "ON" in uppercase.
+		return value[0] == "o"
+
 	# If it can't convert, returns null.
 	return convert(value, type)
 

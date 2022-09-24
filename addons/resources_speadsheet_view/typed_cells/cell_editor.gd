@@ -3,6 +3,8 @@ extends Reference
 
 const CELL_SCENE_DIR = "res://addons/resources_speadsheet_view/typed_cells/"
 
+var hint_strings_array := []
+
 
 # Override to define where the cell should be shown.
 func can_edit_value(value, type, property_hint) -> bool:

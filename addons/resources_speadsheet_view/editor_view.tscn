@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_string.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_texture.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_array.gd" type="Script" id=11]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_array.tscn" type="PackedScene" id=12]
+[ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_enum.gd" type="Script" id=13]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -49,7 +50,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 table_header_scene = ExtResource( 6 )
-cell_editor_classes = [ ExtResource( 11 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 9 ), ExtResource( 2 ) ]
+cell_editor_classes = [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 9 ), ExtResource( 2 ) ]
 path_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
 path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/RecentPaths")
 path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
