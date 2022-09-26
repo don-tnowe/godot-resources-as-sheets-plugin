@@ -607,7 +607,7 @@ margin_top = 84.0
 margin_right = 326.0
 margin_bottom = 115.0
 size_flags_horizontal = 3
-text = "Clip header text (headers less likely to break but text wont be fully visible)"
+text = "Clip header text (more compact view but header text wont be fully visible) (restart when switching)"
 autowrap = true
 
 [node name="ClipHeaders" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
@@ -615,6 +615,7 @@ margin_left = 330.0
 margin_top = 84.0
 margin_right = 404.0
 margin_bottom = 115.0
+pressed = true
 text = "Enable"
 
 [node name="Label5" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
@@ -640,7 +641,6 @@ text = "Enable"
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Info" to="Control/Info" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Settings" to="Control/Settings" method="popup_centered"]
-[connection signal="scroll_started" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll" to="." method="_on_Scroll_scroll_ended"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

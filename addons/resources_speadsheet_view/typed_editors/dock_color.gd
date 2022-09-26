@@ -63,17 +63,17 @@ func _increment_values(by : float, property : int):
 			# Hue has 360 degrees and loops
 			_stored_value.h += by / 360.0
 			for i in cell_values.size():
-				cell_values[i].h = fposmod(cell_values[i].h + by / 180.0, 1.0)
+				cell_values[i].h = fposmod(cell_values[i].h + by / 360.0, 1.0)
 				
 		4:
 			_stored_value.s += by * 0.005
 			for i in cell_values.size():
-				cell_values[i].s += by * 0.01
+				cell_values[i].s += by * 0.005
 				
 		5:
 			_stored_value.v += by * 0.005
 			for i in cell_values.size():
-				cell_values[i].v += by * 0.01
+				cell_values[i].v += by * 0.005
 
 	_set_stored_value(_stored_value)
 	sheet.set_edited_cells_values(cell_values)
@@ -119,4 +119,4 @@ func update_cell_values():
 	for i in values.size():
 		values[i] = _stored_value
 
-	sheet.set_edited_cells_values(values, true)
+	sheet.set_edited_cells_values(values)

@@ -35,6 +35,7 @@ var edited_cells := []
 var edited_cells_text := []
 var edit_cursor_positions := []
 var inspector_resource : Resource
+var search_cond : Reference
 
 
 func _ready():
@@ -94,7 +95,11 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 
 	get_node(path_folder_path).text = folderpath
 	_create_table(force_rebuild or current_path != folderpath)
+	_apply_search_cond()
 	current_path = folderpath
+	yield(get_tree(), "idle_frame")
+	if get_node(path_table_root).get_child_count() == 0:
+		display_folder(folderpath, sort_by, sort_reverse, force_rebuild)
 
 
 func _load_resources_from_folder(folderpath : String, sort_by : String, sort_reverse : bool):
@@ -219,6 +224,7 @@ func _update_column_sizes():
 		column_headers[i].rect_min_size.x = 0
 		cell.rect_min_size.x = 0
 		column_headers[i].rect_size.x = 0
+		get_node(path_columns).queue_sort()
 
 		min_width = max(column_headers[i].rect_size.x, cell.rect_size.x)
 		column_headers[i].rect_min_size.x = min_width
@@ -226,7 +232,6 @@ func _update_column_sizes():
 		column_headers[i].rect_size.x = min_width
 
 	get_node(path_columns).queue_sort()
-
 		
 
 func _update_row(row_index : int, color_rows : bool = true):
@@ -241,16 +246,28 @@ func _update_row(row_index : int, color_rows : bool = true):
 
 		else:
 			current_node = root_node.get_child(row_index * columns.size() + i)
-			current_node.hint_tooltip = columns[i] + "\nOf " + rows[row_index].resource_path.get_file()
+			current_node.hint_tooltip = columns[i] + "\nOf " + rows[row_index].resource_path.get_file().get_basename()
 
 		column_editors[i].set_value(current_node, rows[row_index].get(columns[i]))
 		if columns[i] == "resource_path":
-			column_editors[i].set_value(current_node, current_node.text.get_file())
+			column_editors[i].set_value(current_node, current_node.text.get_file().get_basename())
 
 		if color_rows and column_types[i] == TYPE_COLOR:
 			next_color = rows[row_index].get(columns[i])
 
 		column_editors[i].set_color(current_node, next_color)
+
+
+func _apply_search_cond():
+	if search_cond == null:
+		_on_SearchCond_text_entered("true")
+
+	var table_elements = get_node(path_table_root).get_children()
+	
+	for i in rows.size():
+		var row_visible = search_cond.can_show(rows[i], i)
+		for j in columns.size():
+			table_elements[i * columns.size() + j].visible = row_visible
 
 
 func add_path_to_recent(path : String, is_loading : bool = false):
@@ -685,15 +702,14 @@ func _on_SearchCond_text_entered(new_text : String):
 	new_script.reload()
 
 	var new_script_instance = new_script.new()
-	var table_elements = get_node(path_table_root).get_children()
-	
-	for i in rows.size():
-		var row_visible = new_script_instance.can_show(rows[i], i)
-		for j in columns.size():
-			table_elements[(i + 1) * columns.size() + j].visible = row_visible
+	search_cond = new_script_instance
+	_apply_search_cond()
 
 
 func _on_ProcessExpr_text_entered(new_text : String):
+	if new_text == "":
+		new_text = "true"
+
 	var new_script := GDScript.new()
 	new_script.source_code = "static func get_result(value, res, row_index, cell_index):\n\treturn " + new_text
 	new_script.reload()
