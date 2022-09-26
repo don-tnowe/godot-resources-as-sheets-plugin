@@ -32,6 +32,10 @@ func set_value(node : Control, value):
 	else:
 		node.get_node("Box/Tex").visible = false
 		previewer.queue_resource_preview(value.resource_path, self, &"_on_preview_loaded", node)
+		
+	node.get_node("Box/Tex").custom_minimum_size = Vector2.ONE * ProjectSettings.get_setting(
+		SettingsGrid.SETTING_PREFIX + "resource_preview_size"
+	)
 
 
 func set_color(node : Control, color : Color):

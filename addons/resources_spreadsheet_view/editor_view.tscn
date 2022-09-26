@@ -23,7 +23,7 @@ colors = PackedColorArray(1, 1, 1, 0.490196, 1, 1, 1, 0.0458716, 1, 1, 1, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_18il8"]
 gradient = SubResource("Gradient_8kp6w")
 
-[sub_resource type="Image" id="Image_7onqo"]
+[sub_resource type="Image" id="Image_kkv0i"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 93, 93, 55, 255, 97, 97, 58, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 98, 98, 47, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 94, 94, 46, 255, 93, 93, 236, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -32,8 +32,8 @@ data = {
 "width": 16
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_5qo8i"]
-image = SubResource("Image_7onqo")
+[sub_resource type="ImageTexture" id="ImageTexture_qhily"]
+image = SubResource("Image_kkv0i")
 
 [node name="Control" type="MarginContainer" node_paths=PackedStringArray("node_folder_path", "node_recent_paths", "node_table_root", "node_property_editors", "node_columns")]
 anchors_preset = 15
@@ -185,7 +185,7 @@ offset_left = 837.0
 offset_right = 861.0
 offset_bottom = 31.0
 tooltip_text = "Open Folder"
-icon = SubResource("ImageTexture_5qo8i")
+icon = SubResource("ImageTexture_qhily")
 script = ExtResource("4")
 icon_name = "Folder"
 
@@ -195,7 +195,7 @@ offset_left = 861.0
 offset_right = 885.0
 offset_bottom = 31.0
 tooltip_text = "Remove Path from Recent"
-icon = SubResource("ImageTexture_5qo8i")
+icon = SubResource("ImageTexture_qhily")
 script = ExtResource("4")
 icon_name = "Remove"
 
@@ -392,7 +392,7 @@ offset_left = 37.0
 offset_right = 61.0
 offset_bottom = 26.0
 tooltip_text = "Refresh"
-icon = SubResource("ImageTexture_5qo8i")
+icon = SubResource("ImageTexture_qhily")
 script = ExtResource("4")
 icon_name = "Loop"
 
@@ -601,7 +601,7 @@ https://github.com/don-tnowe/godot-resources-as-sheets-plugin"
 
 [node name="Settings" type="AcceptDialog" parent="Control"]
 title = "Settings"
-size = Vector2i(600, 320)
+size = Vector2i(616, 377)
 popup_window = true
 
 [node name="MarginContainer" type="ScrollContainer" parent="Control/Settings"]
@@ -611,8 +611,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = -556.0
-offset_bottom = -377.0
+offset_right = -544.0
+offset_bottom = -320.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -625,15 +625,15 @@ size_flags_vertical = 3
 
 [node name="GridContainer" type="GridContainer" parent="Control/Settings/MarginContainer/RichTextLabel"]
 layout_mode = 2
-offset_right = 588.0
-offset_bottom = 192.0
+offset_right = 600.0
+offset_bottom = 227.0
 columns = 2
 script = ExtResource("14")
 
 [node name="Label" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
 offset_top = 2.0
-offset_right = 501.0
+offset_right = 513.0
 offset_bottom = 28.0
 size_flags_horizontal = 3
 text = "Color-type cells style rows"
@@ -641,8 +641,8 @@ autowrap_mode = 2
 
 [node name="ColorRows" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
-offset_left = 505.0
-offset_right = 588.0
+offset_left = 517.0
+offset_right = 600.0
 offset_bottom = 31.0
 button_pressed = true
 text = "Enable"
@@ -650,7 +650,7 @@ text = "Enable"
 [node name="Label2" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
 offset_top = 37.0
-offset_right = 501.0
+offset_right = 513.0
 offset_bottom = 63.0
 size_flags_horizontal = 3
 text = "Colored array elements"
@@ -658,9 +658,9 @@ autowrap_mode = 2
 
 [node name="ColorArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
-offset_left = 505.0
+offset_left = 517.0
 offset_top = 35.0
-offset_right = 588.0
+offset_right = 600.0
 offset_bottom = 66.0
 button_pressed = true
 text = "Enable"
@@ -668,7 +668,7 @@ text = "Enable"
 [node name="Label3" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
 offset_top = 72.0
-offset_right = 501.0
+offset_right = 513.0
 offset_bottom = 98.0
 size_flags_horizontal = 3
 text = "Array cell min width"
@@ -676,47 +676,66 @@ autowrap_mode = 2
 
 [node name="ArrayMinWidth" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
-offset_left = 505.0
+offset_left = 517.0
 offset_top = 70.0
-offset_right = 588.0
+offset_right = 600.0
 offset_bottom = 101.0
 min_value = 32.0
 max_value = 512.0
 value = 128.0
 
+[node name="Label6" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_top = 107.0
+offset_right = 513.0
+offset_bottom = 133.0
+size_flags_horizontal = 3
+text = "Resource preview size (Including Textures)"
+autowrap_mode = 2
+
+[node name="ResourcePreviewSize" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
+offset_top = 105.0
+offset_right = 600.0
+offset_bottom = 136.0
+min_value = 12.0
+max_value = 1024.0
+value = 48.0
+
 [node name="Label4" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
-offset_top = 105.0
-offset_right = 501.0
-offset_bottom = 157.0
+offset_top = 140.0
+offset_right = 513.0
+offset_bottom = 192.0
 size_flags_horizontal = 3
 text = "Clip header text (more compact view but header text wont be fully visible) (restart when switching)"
 autowrap_mode = 2
 
 [node name="ClipHeaders" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
-offset_left = 505.0
-offset_top = 105.0
-offset_right = 588.0
-offset_bottom = 157.0
+offset_left = 517.0
+offset_top = 140.0
+offset_right = 600.0
+offset_bottom = 192.0
 button_pressed = true
 text = "Enable"
 
 [node name="Label5" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
-offset_top = 163.0
-offset_right = 501.0
-offset_bottom = 189.0
+offset_top = 198.0
+offset_right = 513.0
+offset_bottom = 224.0
 size_flags_horizontal = 3
 text = "Duplicate arrays on edit (slower, but can be undone)"
 autowrap_mode = 2
 
 [node name="DupeArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
-offset_left = 505.0
-offset_top = 161.0
-offset_right = 588.0
-offset_bottom = 192.0
+offset_left = 517.0
+offset_top = 196.0
+offset_right = 600.0
+offset_bottom = 227.0
 button_pressed = true
 text = "Enable"
 
@@ -727,5 +746,7 @@ text = "Enable"
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
+[connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
+[connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Refresh" to="." method="_on_Path_text_entered"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
