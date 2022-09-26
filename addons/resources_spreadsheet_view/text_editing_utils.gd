@@ -1,26 +1,26 @@
 class_name TextEditingUtils
-extends Reference
+extends RefCounted
 
 const non_typing_paragraph := "¶"
 const non_typing_space := "●"
 const whitespace_chars := [
-	ord(" "), 
-	ord(","), 
-	ord(":"), 
-	ord("-"), 
-	ord(";"), 
-	ord("("), 
-	ord(")"), 
-	ord("."), 
-	ord(non_typing_paragraph), 
-	ord(non_typing_space),
+	32, # " "
+	44, # ","
+	58, # ":"
+	45, # "-"
+	59, # ";"
+	40, # "("
+	41, # ")"
+	46, # "."
+	182, # "¶" Linefeed
+	967, # "●" Whitespace
 ]
 
 
 static func is_character_whitespace(text : String, idx : int) -> bool:
 	if idx <= 0: return true  # Stop at the edges.
 	if idx >= text.length(): return true
-	return text.ord_at(idx) in whitespace_chars
+	return text.unicode_at(idx) in whitespace_chars
 
 
 static func show_non_typing(text : String) -> String:
@@ -89,7 +89,7 @@ static func multi_move_right(values : Array, cursor_positions : Array, ctrl_pres
 
 
 static func multi_paste(values : Array, cursor_positions : Array):
-	var pasted_lines := OS.clipboard.split("\n")
+	var pasted_lines := DisplayServer.clipboard_get().split("\n")
 	var paste_each_line := pasted_lines.size() == values.size()
 
 	for i in values.size():
@@ -112,7 +112,7 @@ static func multi_copy(values : Array):
 	for i in values.size():
 		values[i] = values[i]
 	
-	OS.clipboard = "\n".join(values)
+	DisplayServer.clipboard_set("\n".join(values))
 
 
 static func multi_input(input_char : String, values : Array, cursor_positions : Array):

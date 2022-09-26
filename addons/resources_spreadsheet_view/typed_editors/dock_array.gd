@@ -1,16 +1,17 @@
-tool
+@tool
 extends SheetsDockEditor
 
-onready var recent_container := $"HBoxContainer/Control2/HBoxContainer/HFlowContainer"
-onready var contents_label := $"HBoxContainer/HBoxContainer/Panel/Label"
-onready var button_box := $"HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"
-onready var value_input := $"HBoxContainer/HBoxContainer/Control/VBoxContainer/LineEdit"
+@onready var recent_container := $"HBoxContainer/Control2/HBoxContainer/HFlowContainer"
+@onready var contents_label := $"HBoxContainer/HBoxContainer/Panel/Label"
+@onready var button_box := $"HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"
+@onready var value_input := $"HBoxContainer/HBoxContainer/Control/VBoxContainer/LineEdit"
 
 var _stored_value
 var _stored_type := 0
 
 
 func _ready():
+	super._ready()
 	if recent_container.get_child(1).get_item_count() < 3:
 		recent_container.get_child(1).add_item("Add")
 		recent_container.get_child(1).add_item("Erase")
@@ -20,8 +21,9 @@ func _ready():
 
 func try_edit_value(value, type, propert_hint) -> bool:
 	if (
-		type != TYPE_ARRAY and type != TYPE_STRING_ARRAY
-		and type != TYPE_INT_ARRAY and type != TYPE_REAL_ARRAY
+		type != TYPE_ARRAY and type != TYPE_PACKED_STRING_ARRAY
+		and type != TYPE_PACKED_INT32_ARRAY and type != TYPE_PACKED_FLOAT32_ARRAY
+		and type != TYPE_PACKED_INT64_ARRAY and type != TYPE_PACKED_FLOAT64_ARRAY
 	):
 		return false
 
@@ -30,9 +32,9 @@ func try_edit_value(value, type, propert_hint) -> bool:
 	contents_label.text = str(value)
 	
 	var is_generic_array = _stored_type == TYPE_ARRAY
-	button_box.get_child(1).visible = is_generic_array or _stored_type == TYPE_STRING_ARRAY
-	button_box.get_child(2).visible = is_generic_array or _stored_type == TYPE_INT_ARRAY
-	button_box.get_child(3).visible = is_generic_array or _stored_type == TYPE_REAL_ARRAY
+	button_box.get_child(1).visible = is_generic_array or _stored_type == TYPE_PACKED_STRING_ARRAY
+	button_box.get_child(2).visible = is_generic_array or _stored_type == TYPE_PACKED_INT32_ARRAY or _stored_type == TYPE_PACKED_INT64_ARRAY
+	button_box.get_child(3).visible = is_generic_array or _stored_type == TYPE_PACKED_FLOAT32_ARRAY or _stored_type == TYPE_PACKED_FLOAT64_ARRAY
 	button_box.get_child(4).visible = is_generic_array
 
 	return true
@@ -55,9 +57,9 @@ func _add_value(value):
 
 
 func _remove_value(value):
-	_stored_value.erase(value)
+	_stored_value.remove_at(_stored_value.find(value))
 	var values = sheet.get_edited_cells_values()
-	var cur_value
+	var cur_value : Array
 	var dupe_array : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
 	for i in values.size():
 		cur_value = values[i]
@@ -65,7 +67,7 @@ func _remove_value(value):
 			cur_value = cur_value.duplicate()
 
 		if cur_value.has(value): # erase() not defined in PoolArrays
-			cur_value.remove(cur_value.find(value))
+			cur_value.remove_at(cur_value.find(value))
 		
 		values[i] = cur_value
 
@@ -80,7 +82,7 @@ func _add_recent(value):
 	var node := Button.new()
 	node.text = str(value)
 	node.self_modulate = Color(value.hash()) + Color(0.25, 0.25, 0.25, 1.0)
-	node.connect("pressed", self, "_on_recent_clicked", [node, value])
+	node.pressed.connect(_on_recent_clicked.bind(node, value))
 	recent_container.add_child(node)
 
 
@@ -98,7 +100,11 @@ func _on_recent_clicked(button, value):
 
 
 func _on_Remove_pressed():
-	_remove_value(str2var(value_input.text))
+	if str_to_var(value_input.text) != null:
+		_remove_value(str_to_var(value_input.text))
+		
+	else:
+		_remove_value(value_input.text)
 
 
 func _on_ClearRecent_pressed():
@@ -108,20 +114,21 @@ func _on_ClearRecent_pressed():
 	
 
 func _on_Float_pressed():
-	_add_value(float(value_input.text))
+	_add_value(value_input.text.to_float())
 
 
 func _on_Int_pressed():
-	_add_value(int(value_input.text))
+	_add_value(value_input.text.to_int())
 
 
 func _on_String_pressed():
+	if value_input.text == "": return
 	_add_value(value_input.text)
 	_add_recent(value_input.text)
 
 
 func _on_Variant_pressed():
-	_add_value(str2var(value_input.text))
+	_add_value(str_to_var(value_input.text))
 
 
 func _on_AddRecentFromSel_pressed():

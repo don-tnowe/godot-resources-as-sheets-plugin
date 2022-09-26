@@ -1,17 +1,17 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://ce2kulhm7amkp"]
 
-[ext_resource path="res://example/Random Upgrades/icons/all_icons/all_icons_5.tres" type="Texture" id=1]
-[ext_resource path="res://example/Random Upgrades/upgrade_data.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://djjpa8lluue1g" path="res://example/Random Upgrades/icons/all_icons/all_icons_5.tres" id="1_we1lq"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
 
 [resource]
 resource_name = "Upgrade: Magic"
-script = ExtResource( 2 )
-color1 = Color( 1, 1, 1, 1 )
+script = ExtResource("2")
+color1 = Color(1, 1, 1, 1)
 max_duplicates = 9
-tags = [ "magic" ]
+tags = ["magic"]
 type = 1
-icon = ExtResource( 1 )
-color2 = Color( 0.188235, 0.45098, 0.901961, 1 )
+icon = ExtResource("1_we1lq")
+color2 = Color(0.188235, 0.45098, 0.901961, 1)
 base_weight = 10.0
 is_notable = false
 multiplier_per_tag = ""

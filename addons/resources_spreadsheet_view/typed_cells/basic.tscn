@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cf55cbb2buavn"]
+
+[node name="Label" type="Label"]
+custom_minimum_size = Vector2i(80, 32)
+size_flags_vertical = 9
+mouse_filter = 0
+
+[node name="Back" type="LineEdit" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_filter = 2
+editable = false
+expand_to_text_length = true
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+caret_blink = true
+
+[node name="Selected" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.247059)

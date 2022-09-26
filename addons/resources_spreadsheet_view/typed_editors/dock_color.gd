@@ -1,15 +1,16 @@
-tool
+@tool
 extends SheetsDockEditor
 
-onready var _value_rect := $"EditColor/ColorProper/ColorRect"
-onready var _color_picker_panel := $"EditColor/VSeparator6/Panel"
-onready var _color_picker := $"EditColor/VSeparator6/Panel/MarginContainer/ColorPicker"
-onready var _custom_value_edit := $"EditColor/CustomX/LineEdit"
+@onready var _value_rect := $"EditColor/ColorProper/ColorRect"
+@onready var _color_picker_panel := $"EditColor/VSeparator6/Panel"
+@onready var _color_picker := $"EditColor/VSeparator6/Panel/MarginContainer/ColorPicker"
+@onready var _custom_value_edit := $"EditColor/CustomX/LineEdit"
 
-var _stored_value := Color.white
+var _stored_value := Color.WHITE
 
 
 func _ready():
+	super._ready()
 	_connect_buttons($"EditColor/RGBGrid", 0, 0)
 	_connect_buttons($"EditColor/RGBGrid", 5, 1)
 	_connect_buttons($"EditColor/RGBGrid", 10, 2)
@@ -19,14 +20,14 @@ func _ready():
 
 
 func _connect_buttons(grid, start_index, property_bind):
-	grid.get_child(start_index + 0).connect("pressed", self, "_increment_values_custom", [-1.0, property_bind])
-	grid.get_child(start_index + 1).connect("pressed", self, "_increment_values", [-10.0, property_bind])
-	grid.get_child(start_index + 3).connect("pressed", self, "_increment_values", [10.0, property_bind])
-	grid.get_child(start_index + 4).connect("pressed", self, "_increment_values_custom", [1.0, property_bind])
+	grid.get_child(start_index + 0).pressed.connect(_increment_values_custom.bind(-1.0, property_bind))
+	grid.get_child(start_index + 1).pressed.connect(_increment_values.bind(-10.0, property_bind))
+	grid.get_child(start_index + 3).pressed.connect(_increment_values.bind(10.0, property_bind))
+	grid.get_child(start_index + 4).pressed.connect(_increment_values_custom.bind(1.0, property_bind))
 
 
 func try_edit_value(value, type, property_hint) -> bool:
-	_color_picker_panel.set_as_toplevel(false)
+	_color_picker_panel.top_level = false
 	if type != TYPE_COLOR:
 		return false
 	
@@ -84,22 +85,22 @@ func _increment_values_custom(multiplier : float, property : int):
 		# Numbered buttons increment by 5 for Sat and Value, so hue is x0.5 effect. Negate it here
 		multiplier *= 2.0
 		
-	_increment_values(float(_custom_value_edit.text) * multiplier, property)
+	_increment_values(_custom_value_edit.text.to_float() * multiplier, property)
 
 
 func _on_Button_pressed():
 	_color_picker_panel.visible = !_color_picker_panel.visible
 	if _color_picker_panel.visible:
-		_color_picker_panel.set_as_toplevel(true)
-		_color_picker_panel.rect_global_position = (
-			sheet.rect_global_position
-			+ Vector2(0, sheet.rect_size.y - _color_picker_panel.rect_size.y)
+		_color_picker_panel.top_level = true
+		_color_picker_panel.global_position = (
+			sheet.global_position
+			+ Vector2(0, sheet.size.y - _color_picker_panel.size.y)
 			+ Vector2(16, -16)
 		)
-		_color_picker_panel.rect_global_position.y = clamp(
-			_color_picker_panel.rect_global_position.y, 
+		_color_picker_panel.global_position.y = clamp(
+			_color_picker_panel.global_position.y, 
 			0, 
-			sheet.editor_plugin.get_editor_interface().get_base_control().rect_size.y
+			sheet.editor_plugin.get_editor_interface().get_base_control().size.y
 		)
 		_color_picker.color = _stored_value
 

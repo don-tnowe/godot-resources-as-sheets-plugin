@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://c883vslpx6ajp"]
+
+[ext_resource type="Texture2D" uid="uid://c08qavfwqr3k7" path="res://icon.png" id="1"]
+
+[node name="Label" type="MarginContainer"]
+offset_right = 127.0
+offset_bottom = 64.0
+mouse_filter = 0
+
+[node name="Back" type="LineEdit" parent="."]
+show_behind_parent = true
+layout_mode = 2
+offset_right = 127.0
+offset_bottom = 64.0
+focus_mode = 0
+mouse_filter = 2
+editable = false
+expand_to_text_length = true
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+caret_blink = true
+
+[node name="Selected" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+offset_right = 127.0
+offset_bottom = 64.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.247059)
+
+[node name="Box" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 127.0
+offset_bottom = 64.0
+mouse_filter = 2
+
+[node name="Tex" type="TextureRect" parent="Box"]
+custom_minimum_size = Vector2i(64, 64)
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("1")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Box"]
+layout_mode = 2
+offset_left = 68.0
+offset_top = 19.0
+offset_right = 127.0
+offset_bottom = 45.0
+size_flags_horizontal = 3
+text = "res.tres"
+horizontal_alignment = 1

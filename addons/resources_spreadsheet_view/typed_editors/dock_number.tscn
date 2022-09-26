@@ -1,9 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_number.gd" type="Script" id=1]
+[ext_resource path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.gd" type="Script" id=1]
 
 [node name="EditNumber" type="VBoxContainer"]
-anchor_right = 1.0
 margin_bottom = 86.0
 rect_pivot_offset = Vector2( -460, -28 )
 mouse_filter = 0
@@ -66,7 +65,7 @@ text = "Fill with Sequence"
 margin_left = 120.0
 margin_right = 134.0
 margin_bottom = 14.0
-hint_tooltip = "Fill selected cells with a number sequence. Order is the same as the cells were selected.
+tooltip_text = "Fill selected cells with a number sequence. Order is the same as the cells were selected.
 - You must specify Start.
 - If all values specified, selected cells will have a repeating sequence
 of numbers from Start to End, with increment of Step, not including End.
@@ -87,21 +86,21 @@ margin_bottom = 42.0
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
 margin_right = 58.0
 margin_bottom = 24.0
-hint_tooltip = "Start (must not be blank)"
+tooltip_text = "Start (must not be blank)"
 placeholder_text = "Start *"
 
 [node name="LineEdit2" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
 margin_left = 62.0
 margin_right = 120.0
 margin_bottom = 24.0
-hint_tooltip = "End"
+tooltip_text = "End"
 placeholder_text = "End"
 
 [node name="LineEdit3" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
 margin_left = 124.0
 margin_right = 182.0
 margin_bottom = 24.0
-hint_tooltip = "End"
+tooltip_text = "End"
 placeholder_text = "Step"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/CustomX2"]

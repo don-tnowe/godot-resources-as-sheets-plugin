@@ -1,0 +1,132 @@
+[gd_scene load_steps=3 format=3 uid="uid://rww3gpl052bn"]
+
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c08qavfwqr3k7" path="res://icon.png" id="2"]
+
+[node name="EditTexture" type="VBoxContainer"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.0694444
+offset_bottom = 126.0
+grow_horizontal = 2
+mouse_filter = 0
+script = ExtResource("1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 26.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+layout_mode = 2
+offset_right = 506.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Header/HBoxContainer"]
+layout_mode = 2
+offset_right = 103.0
+offset_bottom = 26.0
+text = "EDIT: Texture"
+
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+layout_mode = 2
+offset_left = 107.0
+offset_right = 506.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Header"]
+layout_mode = 2
+offset_left = 510.0
+offset_right = 642.0
+offset_bottom = 26.0
+text = "PROPERTY NAME"
+
+[node name="HSeparator2" type="HSeparator" parent="Header"]
+layout_mode = 2
+offset_left = 646.0
+offset_right = 1152.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+offset_top = 30.0
+offset_right = 1152.0
+offset_bottom = 126.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+offset_left = 394.0
+offset_right = 758.0
+offset_bottom = 96.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2i(96, 96)
+layout_mode = 2
+offset_right = 96.0
+offset_bottom = 96.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+offset_left = 100.0
+offset_right = 104.0
+offset_bottom = 96.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+offset_left = 108.0
+offset_right = 364.0
+offset_bottom = 96.0
+size_flags_horizontal = 3
+auto_translate = false
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+offset_right = 256.0
+offset_bottom = 26.0
+size_flags_vertical = 3
+text = "Atlas Chopper"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+offset_top = 30.0
+offset_right = 256.0
+offset_bottom = 61.0
+size_flags_vertical = 4
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+offset_right = 126.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+placeholder_text = "H Count"
+
+[node name="LineEdit2" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+offset_left = 130.0
+offset_right = 256.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+placeholder_text = "V Count"
+
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2i(256, 0)
+layout_mode = 2
+offset_top = 65.0
+offset_right = 256.0
+offset_bottom = 96.0
+size_flags_vertical = 4
+text = "Chop chop chop!!!"
+
+[connection signal="pressed" from="CenterContainer/HBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]

@@ -1,7 +1,7 @@
-tool
+@tool
 extends SheetsDockEditor
 
-var _stored_value : Texture
+var _stored_value : Texture2D
 
 
 func try_edit_value(value, type, property_hint) -> bool:
@@ -14,8 +14,8 @@ func try_edit_value(value, type, property_hint) -> bool:
 
 
 func _on_Button_pressed():
-	var h_count = int($"CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit".text)
-	var v_count = int($"CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit2".text)
+	var h_count = $"CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit".text.to_int()
+	var v_count = $"CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit2".text.to_int()
 	# No, Scene Unique Names can not be used in-editor (last time i checked)
 
 	var folder_name := _stored_value.resource_path.get_basename()
@@ -32,7 +32,7 @@ func _on_Button_pressed():
 			tile.atlas = _stored_value
 			tile_array.append(tile)
 			tile.take_over_path(folder_name + "/" + folder_name.get_file() + "_" + str(j * v_count + i + 1) + ".tres")
-			ResourceSaver.save(tile.resource_path, tile)
+			ResourceSaver.save(tile)
 
 	tile_array.resize(sheet.edited_cells.size())
 	sheet.set_edited_cells_values(tile_array)

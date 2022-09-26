@@ -1,10 +1,10 @@
-tool
+@tool
 extends SheetsDockEditor
 
-onready var _value_label := $"HBoxContainer/HBoxContainer/NumberPanel/Label"
-onready var _button_grid := $"HBoxContainer/HBoxContainer/GridContainer"
-onready var _sequence_gen_inputs := $"HBoxContainer/CustomX2/HBoxContainer"
-onready var _custom_value_edit := $"HBoxContainer/CustomX/LineEdit"
+@onready var _value_label := $"HBoxContainer/HBoxContainer/NumberPanel/Label"
+@onready var _button_grid := $"HBoxContainer/HBoxContainer/GridContainer"
+@onready var _sequence_gen_inputs := $"HBoxContainer/CustomX2/HBoxContainer"
+@onready var _custom_value_edit := $"HBoxContainer/CustomX/LineEdit"
 
 var _stored_value = 0
 var _stored_value_is_int := false
@@ -13,29 +13,30 @@ var _mouse_down := false
 
 
 func _ready():
-	_button_grid.get_child(0).connect("pressed", self, "_increment_values", [0.1])
-	_button_grid.get_child(1).connect("pressed", self, "_increment_values", [1])
-	_button_grid.get_child(2).connect("pressed", self, "_increment_values", [10])
-	_button_grid.get_child(3).connect("pressed", self, "_increment_values", [100])
-	_button_grid.get_child(4).connect("pressed", self, "_increment_values_custom", [true, false])
-	_button_grid.get_child(5).connect("pressed", self, "_increment_values_custom", [true, true])
+	super._ready()
+	_button_grid.get_child(0).pressed.connect(_increment_values.bind(0.1))
+	_button_grid.get_child(1).pressed.connect(_increment_values.bind(1))
+	_button_grid.get_child(2).pressed.connect(_increment_values.bind(10))
+	_button_grid.get_child(3).pressed.connect(_increment_values.bind(100))
+	_button_grid.get_child(4).pressed.connect(_increment_values_custom.bind(true, false))
+	_button_grid.get_child(5).pressed.connect(_increment_values_custom.bind(true, true))
 
-	_button_grid.get_child(6).connect("pressed", self, "_increment_values", [-0.1])
-	_button_grid.get_child(7).connect("pressed", self, "_increment_values", [-1])
-	_button_grid.get_child(8).connect("pressed", self, "_increment_values", [-10])
-	_button_grid.get_child(9).connect("pressed", self, "_increment_values", [-100])
-	_button_grid.get_child(10).connect("pressed", self, "_increment_values_custom",[false, false])
-	_button_grid.get_child(11).connect("pressed", self, "_increment_values_custom",[false, true])
+	_button_grid.get_child(6).pressed.connect(_increment_values.bind(-0.1))
+	_button_grid.get_child(7).pressed.connect(_increment_values.bind(-1))
+	_button_grid.get_child(8).pressed.connect(_increment_values.bind(-10))
+	_button_grid.get_child(9).pressed.connect(_increment_values.bind(-100))
+	_button_grid.get_child(10).pressed.connect(_increment_values_custom.bind(false, false))
+	_button_grid.get_child(11).pressed.connect(_increment_values_custom.bind(false, true))
 
 
 func try_edit_value(value, type, property_hint) -> bool:
-	if type != TYPE_REAL and type != TYPE_INT:
+	if type != TYPE_FLOAT and type != TYPE_INT:
 		return false
 	
 	_stored_value = value
 	_value_label.text = str(value)
 	
-	_stored_value_is_int = type != TYPE_REAL
+	_stored_value_is_int = type != TYPE_FLOAT
 	_button_grid.columns = 5 if _stored_value_is_int else 6
 	_button_grid.get_child(0).visible = !_stored_value_is_int
 	_button_grid.get_child(6).visible = !_stored_value_is_int
@@ -78,7 +79,7 @@ func _increment_values_custom(positive : bool, multiplier : bool):
 
 
 func _on_NumberPanel_gui_input(event):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			_mouse_drag_increment = 0.0
@@ -87,7 +88,7 @@ func _on_NumberPanel_gui_input(event):
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			if _mouse_down:
-				Input.warp_mouse_position(_value_label.rect_global_position + _value_label.rect_size * 0.5)
+				Input.warp_mouse(_value_label.global_position + _value_label.size * 0.5)
 				
 			_increment_values(_mouse_drag_increment)
 			_mouse_down = false
