@@ -1,18 +1,18 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://d1suh8iai43st"]
 
-[ext_resource path="res://example/Random Upgrades/icons/all_icons/all_icons_2.tres" type="Texture" id=1]
-[ext_resource path="res://example/Random Upgrades/upgrade_data.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://dfpwu4ra3fxgx" path="res://example/Random Upgrades/icons/all_icons/all_icons_2.tres" id="1_442ey"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
 
 [resource]
 resource_name = "Mastery: Strength"
-script = ExtResource( 2 )
-color1 = Color( 1, 0.847059, 0.160784, 1 )
+script = ExtResource("2")
+color1 = Color(1, 0.847059, 0.160784, 1)
 max_duplicates = 9
-tags = [ "strength", "mastery" ]
+tags = ["strength", "mastery"]
 type = 2
-attributes = [ 0, 0, 4 ]
-icon = ExtResource( 1 )
-color2 = Color( 0.992157, 0.941176, 0.2, 1 )
+attributes = [0, 0, 4]
+icon = ExtResource("1_442ey")
+color2 = Color(0.992157, 0.941176, 0.2, 1)
 base_weight = 1.0
 is_notable = true
 multiplier_per_tag = ""

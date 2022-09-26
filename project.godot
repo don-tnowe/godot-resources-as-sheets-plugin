@@ -6,50 +6,56 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
+config_version=5
 
-_global_script_classes=[ {
-"base": "Reference",
-"class": "CellEditor",
-"language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/typed_cells/cell_editor.gd"
+_global_script_classes=[{
+"base": "RefCounted",
+"class": &"CellEditor",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/typed_cells/cell_editor.gd"
 }, {
 "base": "CellEditor",
-"class": "CellEditorArray",
-"language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/typed_cells/cell_editor_array.gd"
+"class": &"CellEditorArray",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd"
 }, {
 "base": "GridContainer",
-"class": "SettingsGrid",
-"language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/settings_grid.gd"
+"class": &"SettingsGrid",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/settings_grid.gd"
 }, {
 "base": "Control",
-"class": "SheetsDockEditor",
-"language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/typed_editors/dock_base.gd"
+"class": &"SheetsDockEditor",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/typed_editors/dock_base.gd"
 }, {
-"base": "Reference",
-"class": "TextEditingUtils",
-"language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/text_editing_utils.gd"
+"base": "RefCounted",
+"class": &"TextEditingUtils",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/text_editing_utils.gd"
+}, {
+"base": "Control",
+"class": &"ThemeColorSetter",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/editor_color_setter.gd"
 }, {
 "base": "Button",
-"class": "ThemeIconButton",
-"language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/editor_icon_button.gd"
+"class": &"ThemeIconButton",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/editor_icon_button.gd"
 }, {
 "base": "Control",
-"class": "ThemeStylebox",
-"language": "GDScript",
-"path": "res://addons/resources_speadsheet_view/editor_stylebox_overrider.gd"
-} ]
+"class": &"ThemeStylebox",
+"language": &"GDScript",
+"path": "res://addons/resources_spreadsheet_view/editor_stylebox_overrider.gd"
+}]
 _global_script_class_icons={
 "CellEditor": "",
 "CellEditorArray": "",
 "SettingsGrid": "",
 "SheetsDockEditor": "",
 "TextEditingUtils": "",
+"ThemeColorSetter": "",
 "ThemeIconButton": "",
 "ThemeStylebox": ""
 }
@@ -63,14 +69,16 @@ resources_spreadsheet_view/color_arrays=true
 resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
 
 [application]
 
 config/name="Addon: Resources as Sheets"
+config/features=PackedStringArray("4.0")
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/resources_speadsheet_view/plugin.cfg" )
+enabled=PackedStringArray("res://addons/resources_spreadsheet_view/plugin.cfg")
 
 [rendering]
 

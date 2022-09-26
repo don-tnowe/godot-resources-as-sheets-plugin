@@ -1,18 +1,18 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dys7hpijn82t0"]
 
-[ext_resource path="res://example/Random Upgrades/icons/all_icons/all_icons_1.tres" type="Texture" id=1]
-[ext_resource path="res://example/Random Upgrades/upgrade_data.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://c3bx6kf7frbwk" path="res://example/Random Upgrades/icons/all_icons/all_icons_1.tres" id="1"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
 
 [resource]
 resource_name = "Upgrade: Health"
-script = ExtResource( 2 )
-color1 = Color( 1, 1, 1, 1 )
+script = ExtResource("2")
+color1 = Color(1, 1, 1, 1)
 max_duplicates = 9
-tags = [ "health", "melee" ]
+tags = ["health", "melee"]
 type = 1
-attributes = [ 2 ]
-icon = ExtResource( 1 )
-color2 = Color( 0.129412, 1, 0.243137, 1 )
+attributes = [2]
+icon = ExtResource("1")
+color2 = Color(0.129412, 1, 0.243137, 1)
 base_weight = 10.0
 is_notable = false
 multiplier_per_tag = "strength 1.5 melee 2.0"

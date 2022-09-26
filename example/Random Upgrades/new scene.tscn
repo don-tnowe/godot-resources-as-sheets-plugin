@@ -1,34 +1,31 @@
-[gd_scene format=2]
+[gd_scene format=3 uid="uid://b4cix5ebtpdbf"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = 51.0
-margin_top = 54.0
-margin_right = 374.0
-margin_bottom = 371.0
-rect_rotation = -15.0
-color = Color( 0, 1, 0.0156863, 1 )
+offset_left = 363.0
+offset_top = 83.0
+offset_right = 718.0
+offset_bottom = 632.0
+color = Color(0, 1, 0.0156863, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="."]
-margin_left = 484.0
-margin_top = 66.0
-margin_right = 807.0
-margin_bottom = 383.0
-rect_rotation = 15.0
-color = Color( 0, 0.905882, 1, 1 )
+offset_left = 833.0
+offset_top = 304.0
+offset_right = 1095.0
+offset_bottom = 653.0
+color = Color(0, 0.905882, 1, 1)
 
 [node name="ColorRect3" type="ColorRect" parent="."]
-margin_left = -39.0
-margin_top = 324.0
-margin_right = 284.0
-margin_bottom = 641.0
-rect_rotation = -30.0
-color = Color( 0, 0.0156863, 1, 1 )
+offset_left = 553.0
+offset_top = 491.0
+offset_right = 929.0
+offset_bottom = 770.0
+color = Color(0, 0.0156863, 1, 1)
 
 [node name="ColorRect4" type="ColorRect" parent="."]
-margin_left = 271.0
-margin_top = 219.0
-margin_right = 594.0
-margin_bottom = 536.0
-color = Color( 0.686275, 0, 1, 1 )
+offset_left = 746.0
+offset_top = 397.0
+offset_right = 1077.0
+offset_bottom = 632.0
+color = Color(0.686275, 0, 1, 1)

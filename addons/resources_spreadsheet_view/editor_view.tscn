@@ -1,0 +1,830 @@
+[gd_scene load_steps=23 format=3 uid="uid://dpdgrocww8a51"]
+
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="2"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_color.gd" id="3"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="4"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_bool.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://bya5ugi40ptxl" path="res://addons/resources_spreadsheet_view/table_header.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b3a3bo6cfyh5t" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="8"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum_array.gd" id="8_2kaah"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="9"]
+[ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="10"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="10_b87c7"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd" id="11"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/table_pages.gd" id="11_5gh4r"]
+[ext_resource type="PackedScene" uid="uid://c3a2cip8ffccv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_array.tscn" id="12"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum.gd" id="13"]
+[ext_resource type="PackedScene" uid="uid://ddqak780cwwfj" path="res://addons/resources_spreadsheet_view/typed_editors/dock_enum_array.tscn" id="13_7nia1"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="14"]
+
+[sub_resource type="Gradient" id="Gradient_8kp6w"]
+offsets = PackedFloat32Array(0, 0.995413, 1)
+colors = PackedColorArray(1, 1, 1, 0.490196, 1, 1, 1, 0.0458716, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_18il8"]
+gradient = SubResource("Gradient_8kp6w")
+
+[sub_resource type="Image" id="Image_1jisk"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 93, 93, 55, 255, 97, 97, 58, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 98, 98, 47, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 94, 94, 46, 255, 93, 93, 236, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_wgkau"]
+image = SubResource("Image_1jisk")
+
+[node name="Control" type="MarginContainer" node_paths=PackedStringArray("node_folder_path", "node_recent_paths", "node_table_root", "node_property_editors", "node_columns", "node_hide_columns_button", "node_page_manager")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+focus_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1")
+table_header_scene = ExtResource("6")
+cell_editor_classes = [ExtResource("8_2kaah"), ExtResource("11"), ExtResource("5"), ExtResource("3"), ExtResource("13"), ExtResource("9"), ExtResource("2")]
+node_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
+node_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths")
+node_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
+node_property_editors = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
+node_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
+node_hide_columns_button = NodePath("HeaderContentSplit/VBoxContainer/MenuStrip/VisibleCols")
+node_page_manager = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages")
+metadata/_edit_lock_ = true
+
+[node name="HeaderContentSplit" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 3.0
+offset_right = 1149.0
+offset_bottom = 643.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HeaderContentSplit"]
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 113.0
+
+[node name="MenuStrip" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 31.0
+
+[node name="File" type="Button" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
+layout_mode = 2
+offset_right = 35.0
+offset_bottom = 31.0
+tooltip_text = "Settings"
+focus_mode = 0
+toggle_mode = true
+button_pressed = true
+text = "File"
+flat = true
+
+[node name="SearchProcess" type="Button" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
+layout_mode = 2
+offset_left = 39.0
+offset_right = 153.0
+offset_bottom = 31.0
+tooltip_text = "Settings"
+focus_mode = 0
+toggle_mode = true
+text = "Filter/Process"
+flat = true
+
+[node name="VisibleCols" type="MenuButton" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
+layout_mode = 2
+offset_left = 157.0
+offset_right = 249.0
+offset_bottom = 31.0
+text = "Hide/Show"
+
+[node name="VSeparator" type="Control" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 253.0
+offset_right = 1005.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+
+[node name="Settings" type="Button" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
+layout_mode = 2
+offset_left = 1009.0
+offset_right = 1079.0
+offset_bottom = 31.0
+tooltip_text = "Settings"
+focus_mode = 0
+text = "Settings"
+flat = true
+
+[node name="VSeparator2" type="VSeparator" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
+layout_mode = 2
+offset_left = 1083.0
+offset_right = 1087.0
+offset_bottom = 31.0
+
+[node name="Info" type="Button" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
+layout_mode = 2
+offset_left = 1091.0
+offset_right = 1146.0
+offset_bottom = 31.0
+focus_mode = 0
+text = "About"
+flat = true
+
+[node name="HBoxContainer" type="HSplitContainer" parent="HeaderContentSplit/VBoxContainer"]
+layout_mode = 2
+offset_top = 35.0
+offset_right = 1146.0
+offset_bottom = 66.0
+split_offset = -249
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+offset_right = 885.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="ColorRect4" type="ColorRect" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2i(6, 18)
+layout_mode = 2
+offset_right = 6.0
+offset_bottom = 31.0
+script = ExtResource("10_b87c7")
+
+[node name="TextureRect" type="TextureRect" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/ColorRect4"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 48.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_18il8")
+ignore_texture_size = true
+
+[node name="ColorRect3" type="Control" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2i(2, 0)
+layout_mode = 2
+anchors_preset = 0
+offset_left = 6.0
+offset_right = 8.0
+offset_bottom = 31.0
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 2.0
+offset_right = 137.0
+offset_bottom = 28.0
+text = "Resource Folder:"
+
+[node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 137.0
+offset_right = 837.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+caret_blink = true
+
+[node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+offset_left = 837.0
+offset_right = 861.0
+offset_bottom = 31.0
+tooltip_text = "Open Folder"
+icon = SubResource("ImageTexture_wgkau")
+script = ExtResource("4")
+icon_name = "Folder"
+
+[node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+offset_left = 861.0
+offset_right = 885.0
+offset_bottom = 31.0
+tooltip_text = "Remove Path from Recent"
+icon = SubResource("ImageTexture_wgkau")
+script = ExtResource("4")
+icon_name = "Remove"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+offset_left = 897.0
+offset_right = 1146.0
+offset_bottom = 31.0
+
+[node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+offset_top = 2.0
+offset_right = 104.0
+offset_bottom = 28.0
+text = "Open Recent:"
+
+[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 108.0
+offset_right = 249.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+clip_text = true
+fit_to_longest_item = false
+
+[node name="Search" type="VBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
+visible = false
+layout_mode = 2
+offset_top = 70.0
+offset_right = 1146.0
+offset_bottom = 127.0
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Search"]
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 26.0
+
+[node name="ColorRect4" type="ColorRect" parent="HeaderContentSplit/VBoxContainer/Search/HBoxContainer"]
+modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2i(6, 18)
+layout_mode = 2
+offset_right = 6.0
+offset_bottom = 26.0
+size_flags_vertical = 5
+script = ExtResource("10_b87c7")
+
+[node name="TextureRect" type="TextureRect" parent="HeaderContentSplit/VBoxContainer/Search/HBoxContainer/ColorRect4"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 48.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_18il8")
+ignore_texture_size = true
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/HBoxContainer"]
+layout_mode = 2
+offset_left = 10.0
+offset_right = 219.0
+offset_bottom = 26.0
+text = "GDScript Filter and Process"
+
+[node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/VBoxContainer/Search/HBoxContainer"]
+layout_mode = 2
+offset_left = 223.0
+offset_right = 1146.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+
+[node name="Search" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Search"]
+layout_mode = 2
+offset_top = 26.0
+offset_right = 1146.0
+offset_bottom = 57.0
+
+[node name="ColorRect2" type="ColorRect" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2i(6, 18)
+layout_mode = 2
+offset_right = 6.0
+offset_bottom = 31.0
+size_flags_vertical = 5
+script = ExtResource("10_b87c7")
+
+[node name="TextureRect" type="TextureRect" parent="HeaderContentSplit/VBoxContainer/Search/Search/ColorRect2"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 48.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_18il8")
+ignore_texture_size = true
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+offset_left = 10.0
+offset_top = 2.0
+offset_right = 90.0
+offset_bottom = 28.0
+text = "Condition:"
+
+[node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+offset_left = 94.0
+offset_top = 2.0
+offset_right = 112.0
+offset_bottom = 28.0
+tooltip_text = "Enter an expression. The table only show rows where the expression returns `true`.
+
+You can use `res.<property_name>` to get a property, and `index` to get row number. Hit ENTER to run the search.
+
+Try out these:
+- (res.number_property > 0 and res.number_property < 100)
+- (res.text_property != \\\"\\\")
+- (\\\"a\\\" in res.text_property)
+- (index < 5)"
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "(?)"
+
+[node name="SearchCond" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+offset_left = 116.0
+offset_right = 580.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "true"
+
+[node name="VSeparator" type="VSeparator" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+offset_left = 584.0
+offset_right = 588.0
+offset_bottom = 31.0
+
+[node name="Label3" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+offset_left = 592.0
+offset_top = 2.0
+offset_right = 656.0
+offset_bottom = 28.0
+text = "Process:"
+
+[node name="Label4" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+offset_left = 660.0
+offset_top = 2.0
+offset_right = 678.0
+offset_bottom = 28.0
+tooltip_text = "Enter an expression. The values in selected cells will be replaced with calculated new values.
+
+You can use `value` to get the cell's value, `res.<property_name>` to get a property, `row_index` to get row number
+and `cell_index` to get the cell's selection order. Hit ENTER to run the search.
+
+These are some valid expressions:
+- (res.property1 + res.property2)
+- (res.property1.replace(\\\"old_string\\\", \\\"new_string\\\"))
+- (load(\\\"res://path/to_resource.tres\\\"))
+
+Don't forget quotation marks on strings and str() on non-strings."
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "(?)"
+
+[node name="ProcessExpr" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+offset_left = 682.0
+offset_right = 1146.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
+layout_mode = 2
+offset_top = 70.0
+offset_right = 1146.0
+offset_bottom = 101.0
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+offset_top = 2.0
+offset_right = 33.0
+offset_bottom = 28.0
+text = "Grid"
+
+[node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+offset_left = 37.0
+offset_right = 61.0
+offset_bottom = 31.0
+tooltip_text = "Refresh"
+icon = SubResource("ImageTexture_wgkau")
+script = ExtResource("4")
+icon_name = "Loop"
+
+[node name="Pages" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3" node_paths=PackedStringArray("node_editor_view_root")]
+layout_mode = 2
+offset_left = 65.0
+offset_right = 320.0
+offset_bottom = 31.0
+script = ExtResource("11_5gh4r")
+node_editor_view_root = NodePath("../../../..")
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
+layout_mode = 2
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 28.0
+text = "Page:"
+
+[node name="Pagelist" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
+layout_mode = 2
+offset_left = 46.0
+offset_right = 46.0
+offset_bottom = 31.0
+
+[node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
+layout_mode = 2
+offset_left = 50.0
+offset_top = 2.0
+offset_right = 168.0
+offset_bottom = 28.0
+text = "Rows per page:"
+
+[node name="LineEdit" type="SpinBox" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
+layout_mode = 2
+offset_left = 172.0
+offset_right = 255.0
+offset_bottom = 31.0
+min_value = 2.0
+max_value = 300.0
+value = 50.0
+
+[node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+offset_left = 324.0
+offset_right = 1146.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+
+[node name="Sep" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+layout_mode = 2
+anchors_preset = 0
+offset_top = 105.0
+offset_right = 1146.0
+offset_bottom = 105.0
+
+[node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+anchors_preset = 0
+offset_top = 109.0
+offset_right = 1146.0
+offset_bottom = 109.0
+
+[node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns"]
+layout_mode = 0
+theme_override_constants/separation = 0
+
+[node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+layout_mode = 2
+anchors_preset = 0
+offset_top = 113.0
+offset_right = 1146.0
+offset_bottom = 113.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit"]
+layout_mode = 2
+offset_top = 117.0
+offset_right = 1146.0
+offset_bottom = 643.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="FooterContentSplit" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer"]
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 526.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 522.0
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 522.0
+
+[node name="Scroll" type="ScrollContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 522.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"]
+layout_mode = 2
+
+[node name="TableGrid" type="GridContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
+self_modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 2
+offset_right = 1146.0
+offset_bottom = 522.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "No folder selected!
+Please select a folder to edit using the text field or Open button above.
+
+Then, Shift+Click or Ctrl+Click cells to edit them using the keyboard,
+Inspector dock or this screen's bottom panels.
+
+To find out keybindings available, open the \"About\" menu."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
+layout_mode = 2
+offset_top = 526.0
+offset_right = 1146.0
+offset_bottom = 526.0
+
+[node name="PropertyEditors" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 1146.0
+
+[node name="EditEnumArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("13_7nia1")]
+visible = false
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+offset_right = 1146.0
+offset_bottom = 61.0
+grow_horizontal = 2
+
+[node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("12")]
+visible = false
+layout_mode = 2
+offset_bottom = 4.0
+
+[node name="EditColor" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("7")]
+visible = false
+layout_mode = 2
+anchors_preset = 0
+grow_horizontal = 1
+
+[node name="EditNumber" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("8")]
+visible = false
+layout_mode = 2
+offset_bottom = 126.0
+grow_horizontal = 2
+
+[node name="EditTexture" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("10")]
+visible = false
+layout_mode = 2
+offset_bottom = 286.0
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 3.0
+offset_right = 1149.0
+offset_bottom = 643.0
+mouse_filter = 2
+
+[node name="FileDialog" type="FileDialog" parent="Control"]
+title = "Open"
+size = Vector2i(1168, 630)
+popup_window = true
+ok_button_text = "Select Current Folder"
+mode_overrides_title = false
+file_mode = 2
+
+[node name="Control" type="Control" parent="Control/FileDialog"]
+custom_minimum_size = Vector2i(1152, 573)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 8.0
+offset_bottom = -67.0
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+mouse_filter = 2
+
+[node name="Info" type="AcceptDialog" parent="Control"]
+title = "About"
+size = Vector2i(1000, 500)
+popup_window = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Info"]
+custom_minimum_size = Vector2i(1000, 500)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -144.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control/Info/MarginContainer"]
+layout_mode = 2
+offset_right = 1000.0
+offset_bottom = 500.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/Info/MarginContainer"]
+layout_mode = 2
+offset_right = 1000.0
+offset_bottom = 500.0
+bbcode_enabled = true
+text = "Edit Resources as Spreadsheet
+
+\"Welp, it is what it sounds like!\"
+
+Possible inputs:
+- Ctrl + Click / Cmd + Click - Select multiple cells in one column
+- Shift + Click - Select all cells between A and B in one column
+- Left/Right - Move cursor along cell text
+- Backspace/Delete - Erase text Left / Right from cursor
+- Home/End - Move cursor to start/end of cell
+- Ctrl + <move/erase> / Cmd + <move/erase> - Move through / Erase whole word
+- Ctrl/Cmd + C/V - Copy cells / Paste text into cells 
+- Ctrl/Cmd + (Shift) + Z - The Savior 
+If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
+
+Made by Don Tnowe. 2022.
+https://twitter.com/don_tnowe
+Issues and contribution:
+https://github.com/don-tnowe/godot-resources-as-sheets-plugin"
+
+[node name="Settings" type="AcceptDialog" parent="Control"]
+title = "Settings"
+size = Vector2i(616, 377)
+popup_window = true
+
+[node name="MarginContainer" type="ScrollContainer" parent="Control/Settings"]
+custom_minimum_size = Vector2i(600, 320)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -544.0
+offset_bottom = -320.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="VBoxContainer" parent="Control/Settings/MarginContainer"]
+layout_mode = 2
+offset_right = 600.0
+offset_bottom = 320.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="Control/Settings/MarginContainer/RichTextLabel"]
+layout_mode = 2
+offset_right = 600.0
+offset_bottom = 227.0
+columns = 2
+script = ExtResource("14")
+
+[node name="Label" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_top = 2.0
+offset_right = 513.0
+offset_bottom = 28.0
+size_flags_horizontal = 3
+text = "Color-type cells style rows"
+autowrap_mode = 2
+
+[node name="ColorRows" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
+offset_right = 600.0
+offset_bottom = 31.0
+button_pressed = true
+text = "Enable"
+
+[node name="Label2" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_top = 37.0
+offset_right = 513.0
+offset_bottom = 63.0
+size_flags_horizontal = 3
+text = "Colored array elements"
+autowrap_mode = 2
+
+[node name="ColorArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
+offset_top = 35.0
+offset_right = 600.0
+offset_bottom = 66.0
+button_pressed = true
+text = "Enable"
+
+[node name="Label3" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_top = 72.0
+offset_right = 513.0
+offset_bottom = 98.0
+size_flags_horizontal = 3
+text = "Array cell min width"
+autowrap_mode = 2
+
+[node name="ArrayMinWidth" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
+offset_top = 70.0
+offset_right = 600.0
+offset_bottom = 101.0
+min_value = 32.0
+max_value = 512.0
+value = 128.0
+
+[node name="Label4" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_top = 105.0
+offset_right = 513.0
+offset_bottom = 157.0
+size_flags_horizontal = 3
+text = "Clip header text (more compact view but header text wont be fully visible) (restart when switching)"
+autowrap_mode = 2
+
+[node name="ClipHeaders" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
+offset_top = 105.0
+offset_right = 600.0
+offset_bottom = 157.0
+text = "Enable"
+
+[node name="Label5" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_top = 163.0
+offset_right = 513.0
+offset_bottom = 189.0
+size_flags_horizontal = 3
+text = "Duplicate arrays on edit (slower, but can be undone)"
+autowrap_mode = 2
+
+[node name="DupeArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
+offset_top = 161.0
+offset_right = 600.0
+offset_bottom = 192.0
+button_pressed = true
+text = "Enable"
+
+[node name="Label6" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_top = 198.0
+offset_right = 513.0
+offset_bottom = 224.0
+size_flags_horizontal = 3
+text = "Resource preview size"
+autowrap_mode = 2
+
+[node name="ResourcePreviewSize" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
+offset_top = 196.0
+offset_right = 600.0
+offset_bottom = 227.0
+min_value = 8.0
+max_value = 1024.0
+value = 12.0
+
+[connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_grid_updated"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/File" to="." method="_on_File_pressed"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/SearchProcess" to="." method="_on_SearchProcess_pressed"]
+[connection signal="about_to_popup" from="HeaderContentSplit/VBoxContainer/MenuStrip/VisibleCols" to="." method="_on_visible_cols_about_to_popup"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/Settings" to="Control/Settings" method="popup_centered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/Info" to="Control/Info" method="popup_centered"]
+[connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_path_text_submitted"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
+[connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
+[connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/SearchCond" to="." method="_on_search_cond_text_submitted"]
+[connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/ProcessExpr" to="." method="_on_process_expr_text_submitted"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Refresh" to="." method="_on_path_text_submitted"]
+[connection signal="value_changed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages/LineEdit" to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_LineEdit_value_changed"]
+[connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

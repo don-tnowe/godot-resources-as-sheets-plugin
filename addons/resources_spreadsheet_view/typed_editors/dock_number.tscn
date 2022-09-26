@@ -1,0 +1,266 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.gd" type="Script" id=1]
+
+[node name="EditNumber" type="VBoxContainer"]
+margin_bottom = 86.0
+rect_pivot_offset = Vector2( -460, -28 )
+mouse_filter = 0
+script = ExtResource( 1 )
+
+[node name="Header" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 14.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+margin_right = 455.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Header/HBoxContainer"]
+margin_right = 89.0
+margin_bottom = 14.0
+text = "EDIT: Number"
+
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+margin_left = 93.0
+margin_right = 455.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Header"]
+margin_left = 459.0
+margin_right = 565.0
+margin_bottom = 14.0
+text = "PROPERTY NAME"
+
+[node name="HSeparator2" type="HSeparator" parent="Header"]
+margin_left = 569.0
+margin_right = 1024.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 18.0
+margin_right = 1024.0
+margin_bottom = 84.0
+alignment = 1
+
+[node name="CustomX2" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 202.0
+margin_right = 384.0
+margin_bottom = 66.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
+margin_right = 182.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer3"]
+margin_right = 116.0
+margin_bottom = 14.0
+size_flags_vertical = 6
+text = "Fill with Sequence"
+
+[node name="Label2" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer3"]
+margin_left = 120.0
+margin_right = 134.0
+margin_bottom = 14.0
+tooltip_text = "Fill selected cells with a number sequence. Order is the same as the cells were selected.
+- You must specify Start.
+- If all values specified, selected cells will have a repeating sequence
+of numbers from Start to End, with increment of Step, not including End.
+- If both End AND Step are empty, cells are filled with Start.
+- If End is omitted, selected cells will have values from Start to (Step x CellCount).
+- If Step is omitted, selected cells will have values from Start to End inclusive,
+step based on cell count."
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+size_flags_vertical = 6
+text = "(?)"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
+margin_top = 18.0
+margin_right = 182.0
+margin_bottom = 42.0
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+margin_right = 58.0
+margin_bottom = 24.0
+tooltip_text = "Start (must not be blank)"
+placeholder_text = "Start *"
+
+[node name="LineEdit2" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+margin_left = 62.0
+margin_right = 120.0
+margin_bottom = 24.0
+tooltip_text = "End"
+placeholder_text = "End"
+
+[node name="LineEdit3" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+margin_left = 124.0
+margin_right = 182.0
+margin_bottom = 24.0
+tooltip_text = "End"
+placeholder_text = "Step"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
+margin_top = 46.0
+margin_right = 182.0
+margin_bottom = 66.0
+
+[node name="SequenceFill" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2"]
+margin_right = 89.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Replace"
+
+[node name="SequenceFill2" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2"]
+margin_left = 93.0
+margin_right = 182.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Add"
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+margin_left = 388.0
+margin_right = 392.0
+margin_bottom = 66.0
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 396.0
+margin_right = 620.0
+margin_bottom = 66.0
+alignment = 1
+
+[node name="NumberPanel" type="MarginContainer" parent="HBoxContainer/HBoxContainer"]
+margin_right = 224.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 96, 0 )
+mouse_default_cursor_shape = 10
+size_flags_vertical = 3
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+
+[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer/NumberPanel"]
+margin_right = 224.0
+margin_bottom = 18.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/NumberPanel"]
+margin_top = 2.0
+margin_right = 224.0
+margin_bottom = 16.0
+text = "1"
+valign = 1
+clip_text = true
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/HBoxContainer"]
+margin_top = 22.0
+margin_right = 224.0
+margin_bottom = 66.0
+columns = 6
+
+[node name="Button15" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_right = 40.0
+margin_bottom = 20.0
+text = "+0.1"
+
+[node name="Button12" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 44.0
+margin_right = 72.0
+margin_bottom = 20.0
+text = "+1"
+
+[node name="Button8" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 76.0
+margin_right = 112.0
+margin_bottom = 20.0
+text = "+10"
+
+[node name="Button13" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 116.0
+margin_right = 160.0
+margin_bottom = 20.0
+text = "+100"
+
+[node name="Button9" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 164.0
+margin_right = 192.0
+margin_bottom = 20.0
+text = "+X"
+
+[node name="Button16" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 196.0
+margin_right = 224.0
+margin_bottom = 20.0
+text = "*X"
+
+[node name="Button14" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_top = 24.0
+margin_right = 40.0
+margin_bottom = 44.0
+text = "-0.1"
+
+[node name="Button11" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 44.0
+margin_top = 24.0
+margin_right = 72.0
+margin_bottom = 44.0
+text = "-1"
+
+[node name="Button7" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 76.0
+margin_top = 24.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "-10"
+
+[node name="Button10" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 116.0
+margin_top = 24.0
+margin_right = 160.0
+margin_bottom = 44.0
+text = "-100"
+
+[node name="Button4" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 164.0
+margin_top = 24.0
+margin_right = 192.0
+margin_bottom = 44.0
+text = "-X"
+
+[node name="Button5" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+margin_left = 196.0
+margin_top = 24.0
+margin_right = 224.0
+margin_bottom = 44.0
+text = "/X"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+margin_left = 624.0
+margin_right = 628.0
+margin_bottom = 66.0
+
+[node name="CustomX" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 632.0
+margin_right = 822.0
+margin_bottom = 66.0
+
+[node name="Label" type="Label" parent="HBoxContainer/CustomX"]
+margin_top = 12.0
+margin_right = 190.0
+margin_bottom = 26.0
+size_flags_vertical = 6
+text = "Custom Value (for +X buttons)"
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX"]
+margin_top = 42.0
+margin_right = 190.0
+margin_bottom = 66.0
+text = "1000"
+
+[connection signal="pressed" from="HBoxContainer/CustomX2/HBoxContainer2/SequenceFill" to="." method="_on_SequenceFill_pressed"]
+[connection signal="pressed" from="HBoxContainer/CustomX2/HBoxContainer2/SequenceFill2" to="." method="_on_SequenceFill_pressed" binds= [ true ]]
+[connection signal="gui_input" from="HBoxContainer/HBoxContainer/NumberPanel" to="." method="_on_NumberPanel_gui_input"]
