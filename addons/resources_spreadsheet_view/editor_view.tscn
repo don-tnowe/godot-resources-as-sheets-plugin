@@ -759,8 +759,18 @@ min_value = 32.0
 max_value = 512.0
 value = 128.0
 
-[node name="Label4" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+[node name="Label6" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
+offset_top = 107.0
+offset_right = 513.0
+offset_bottom = 133.0
+size_flags_horizontal = 3
+text = "Resource preview size (Including Textures)"
+autowrap_mode = 2
+
+[node name="ResourcePreviewSize" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+layout_mode = 2
+offset_left = 517.0
 offset_top = 105.0
 offset_right = 513.0
 offset_bottom = 157.0
