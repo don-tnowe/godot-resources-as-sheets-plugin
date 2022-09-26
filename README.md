@@ -19,7 +19,8 @@ A plugin for Godot 3 (and now 4!) that adds a tab for editing folders of Resourc
 - Search by evaluating GDScript expression
 - Apply GDScript expression to selected rows
 - Row stylization (color-type cells change look of the row until next color-type)
-- Saves recently opened folders between sessions.
+- Saves recently opened folders between sessions
+- Full Undo/Redo support.
 
 ![Gif](./images/resources_as_sheet3.gif)
 
@@ -38,7 +39,6 @@ If clipboard contains as many lines as there are cells selected, each line is pa
 To add support of more datatypes, check out the `typed_cells` and `typed_editors` folders. `typed_cells` need to be added in the `editor_view` root's exported array, and `typed_editors` are placed there under the `%PropertyEditors` node.
 
 #
-
 Made by Don Tnowe in 2022.
 
 [https://redbladegames.netlify.app]()
