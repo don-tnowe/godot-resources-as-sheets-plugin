@@ -2,8 +2,9 @@
 
     "Welp, it is what it sounds like!"
 
-A plugin for Godot 3 that adds a tab for editing folders of Resources as data tables. It was made from neccessity when trying to develop another plugin.
+A plugin for Godot 3 (and now 4!) that adds a tab for editing folders of Resources as data tables. It was made from neccessity when trying to develop another plugin.
 
+- Edit Text, Numbers, Colors and Booleans via keyboard, and view Resources, Arrays and Enums editable through Inspector
 - Select multiple cells in one column (Shift/Ctrl+Click) to edit them in the Inspector simultaneously.
 - Multi-cell text editing (visible cursor not included, unfortunately)
 - Copy-paste Text into Cells (one line, one cell)
@@ -16,6 +17,7 @@ A plugin for Godot 3 that adds a tab for editing folders of Resources as data ta
 
 - Sort entries by column
 - Search by evaluating GDScript expression
+- Apply GDScript expression to selected rows
 - Row stylization (color-type cells change look of the row until next color-type)
 - Saves recently opened folders between sessions.
 
