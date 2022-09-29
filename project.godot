@@ -54,7 +54,7 @@ color_arrays=true
 
 resources_spreadsheet_view/color_rows=true
 resources_spreadsheet_view/color_arrays=true
-resources_spreadsheet_view/clip_headers=true
+resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/array_min_width=128.0
 
