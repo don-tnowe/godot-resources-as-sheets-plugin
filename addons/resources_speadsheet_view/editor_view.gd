@@ -227,7 +227,7 @@ func _update_column_sizes():
 	var min_width := 0
 	var cell : Control
 
-	get_node(path_columns).get_parent().rect_min_size.y = get_node(path_columns).rect_size.y
+	get_node(path_columns).get_parent().rect_min_size.y = column_headers[0].rect_size.y
 	for i in column_headers.size():
 		cell = table_root.get_child(i)
 
@@ -235,15 +235,15 @@ func _update_column_sizes():
 		column_headers[i].rect_min_size.x = 0
 		cell.rect_min_size.x = 0
 		column_headers[i].rect_size.x = 0
-		get_node(path_columns).queue_sort()
 
 		min_width = max(column_headers[i].rect_size.x, cell.rect_size.x)
 		column_headers[i].rect_min_size.x = min_width
 		cell.rect_min_size.x = column_headers[i].get_minimum_size().x
 		column_headers[i].rect_size.x = min_width
 
-	get_node(path_columns).queue_sort()
-	table_root.queue_sort()
+	yield(get_tree(), "idle_frame")
+	for i in column_headers.size():
+		column_headers[i].rect_position.x = table_root.get_child(i).rect_position.x
 		
 
 func _update_row(row_index : int, color_rows : bool = true):
@@ -656,15 +656,6 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 		)
 	)
 	deselect_cell(edited_cells[0])
-
-
-func set_cell(cell, value):
-	var column = _get_cell_column(cell)
-	if columns[column] == "resource_path":
-		return
-		
-	print(cell)
-	column_editors[column].set_value(cell, value)
 
 
 func _update_resources(update_rows : Array, update_cells : Array, update_column : int, values : Array):

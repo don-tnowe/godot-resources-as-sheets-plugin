@@ -216,9 +216,8 @@ margin_right = 1020.0
 margin_bottom = 44.0
 rect_clip_content = true
 
-[node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns"]
+[node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer/Columns"]
 margin_right = 1020.0
-custom_constants/separation = 0
 
 [node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 margin_top = 46.0
