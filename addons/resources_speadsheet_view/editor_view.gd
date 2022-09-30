@@ -94,7 +94,11 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if columns.size() == 0: return
 
 	get_node(path_folder_path).text = folderpath
-	_create_table(force_rebuild or current_path != folderpath)
+	_create_table(
+		force_rebuild
+		or current_path != folderpath
+		or columns.size() != get_node(path_columns).get_child_count()
+	)
 	_apply_search_cond()
 	current_path = folderpath
 	yield(get_tree(), "idle_frame")
@@ -185,7 +189,7 @@ func _create_table(columns_changed : bool):
 	if columns_changed:
 		root_node.columns = columns.size()
 		for x in root_node.get_children():
-			x.queue_free()
+			x.free()
 		
 		for x in headers_node.get_children():
 			x.queue_free()
@@ -202,16 +206,23 @@ func _create_table(columns_changed : bool):
 		root_node.get_child(columns.size()).free()
 		to_free -= 1
 	
+	var color_rows = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "color_rows")
 	for i in rows.size():
-		_update_row(i, ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "color_rows"))
+		_update_row(i, color_rows)
 
 	_update_column_sizes()
 
 
 func _update_column_sizes():
 	yield(get_tree(), "idle_frame")
-	var column_headers := get_node(path_columns).get_children()
 	var table_root := get_node(path_table_root)
+	var column_headers := get_node(path_columns).get_children()
+
+	if table_root.get_child_count() < column_headers.size(): return
+	if column_headers.size() != columns.size():
+		display_folder(current_path, sorting_by, sorting_reverse, true)
+		return
+
 	var clip_text : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "clip_headers")
 	var min_width := 0
 	var cell : Control
@@ -232,6 +243,7 @@ func _update_column_sizes():
 		column_headers[i].rect_size.x = min_width
 
 	get_node(path_columns).queue_sort()
+	table_root.queue_sort()
 		
 
 func _update_row(row_index : int, color_rows : bool = true):
@@ -247,7 +259,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 		else:
 			current_node = root_node.get_child(row_index * columns.size() + i)
 			current_node.hint_tooltip = columns[i] + "\nOf " + rows[row_index].resource_path.get_file().get_basename()
-
+		
 		column_editors[i].set_value(current_node, rows[row_index].get(columns[i]))
 		if columns[i] == "resource_path":
 			column_editors[i].set_value(current_node, current_node.text.get_file().get_basename())
@@ -651,6 +663,7 @@ func set_cell(cell, value):
 	if columns[column] == "resource_path":
 		return
 		
+	print(cell)
 	column_editors[column].set_value(cell, value)
 
 
