@@ -197,7 +197,7 @@ func _create_table(columns_changed : bool):
 		for x in columns:
 			new_node = table_header_scene.instance()
 			headers_node.add_child(new_node)
-			new_node.get_node("Button").text = x
+			new_node.get_node("Button").text = TextEditingUtils.string_snake_to_naming_case(x)
 			new_node.get_node("Button").hint_tooltip = x
 			new_node.get_node("Button").connect("pressed", self, "_set_sorting", [x])
 	
@@ -258,7 +258,11 @@ func _update_row(row_index : int, color_rows : bool = true):
 
 		else:
 			current_node = root_node.get_child(row_index * columns.size() + i)
-			current_node.hint_tooltip = columns[i] + "\nOf " + rows[row_index].resource_path.get_file().get_basename()
+			current_node.hint_tooltip = (
+				TextEditingUtils.string_snake_to_naming_case(columns[i])
+				+ "\n---\n"
+				+ "Of " + rows[row_index].resource_path.get_file().get_basename()
+			)
 		
 		column_editors[i].set_value(current_node, rows[row_index].get(columns[i]))
 		if columns[i] == "resource_path":
