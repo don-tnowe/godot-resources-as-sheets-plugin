@@ -16,7 +16,7 @@ size_flags_vertical = 0
 text = "resource_name"
 clip_text = true
 
-[node name="Label" type="Button" parent="."]
+[node name="Button2" type="Button" parent="."]
 margin_left = 102.0
 margin_right = 132.0
 margin_bottom = 20.0

@@ -57,6 +57,7 @@ path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBo
 path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
 path_property_editors = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
 path_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
+path_hide_columns_button = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols")
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
 margin_left = 2.0
@@ -100,7 +101,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_right = 553.0
+margin_right = 521.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
@@ -117,7 +118,7 @@ text = "Resource Folder:"
 [node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 margin_left = 107.0
-margin_right = 469.0
+margin_right = 437.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 caret_blink = true
@@ -127,8 +128,8 @@ __meta__ = {
 }
 
 [node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 469.0
-margin_right = 497.0
+margin_left = 437.0
+margin_right = 465.0
 margin_bottom = 24.0
 hint_tooltip = "Open Folder"
 icon = SubResource( 2 )
@@ -139,8 +140,8 @@ __meta__ = {
 icon_name = "Folder"
 
 [node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 497.0
-margin_right = 525.0
+margin_left = 465.0
+margin_right = 493.0
 margin_bottom = 24.0
 hint_tooltip = "Refresh"
 icon = SubResource( 2 )
@@ -151,8 +152,8 @@ __meta__ = {
 icon_name = "Refresh"
 
 [node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 525.0
-margin_right = 553.0
+margin_left = 493.0
+margin_right = 521.0
 margin_bottom = 24.0
 hint_tooltip = "Remove Path from Recent"
 icon = SubResource( 2 )
@@ -163,7 +164,7 @@ __meta__ = {
 icon_name = "Remove"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 565.0
+margin_left = 533.0
 margin_right = 1020.0
 margin_bottom = 24.0
 
@@ -196,9 +197,26 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Settings" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+[node name="VisibleCols" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
 margin_left = 427.0
 margin_right = 455.0
+margin_bottom = 24.0
+hint_tooltip = "Hide/Show Columns"
+icon = SubResource( 2 )
+script = ExtResource( 4 )
+icon_name = "GuiVisibilityVisible"
+
+[node name="PopupMenu" type="PopupMenu" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols"]
+margin_left = 14.0
+margin_top = 16.0
+margin_right = 34.0
+margin_bottom = 36.0
+hide_on_checkable_item_selection = false
+allow_search = true
+
+[node name="Settings" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+margin_left = 459.0
+margin_right = 487.0
 margin_bottom = 24.0
 hint_tooltip = "Settings"
 icon = SubResource( 2 )
@@ -614,7 +632,6 @@ margin_left = 330.0
 margin_top = 84.0
 margin_right = 404.0
 margin_bottom = 115.0
-pressed = true
 text = "Enable"
 
 [node name="Label5" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
@@ -633,12 +650,20 @@ margin_bottom = 150.0
 pressed = true
 text = "Enable"
 
+[node name="HeaderOptions" type="PopupMenu" parent="Control"]
+margin_left = 275.0
+margin_top = 175.0
+margin_right = 287.0
+margin_bottom = 195.0
+
 [connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Refresh" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Info" to="Control/Info" method="popup_centered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols" to="." method="_on_VisibleCols_pressed"]
+[connection signal="id_pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols/PopupMenu" to="." method="_on_VisibleCols_id_pressed"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Settings" to="Control/Settings" method="popup_centered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]
