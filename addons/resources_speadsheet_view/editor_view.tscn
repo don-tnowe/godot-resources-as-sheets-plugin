@@ -42,10 +42,10 @@ focus_previous = NodePath(".")
 focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+custom_constants/margin_right = 3
+custom_constants/margin_top = 0
+custom_constants/margin_left = 3
+custom_constants/margin_bottom = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
@@ -57,51 +57,87 @@ path_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBo
 path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
 path_property_editors = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
 path_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
-path_hide_columns_button = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols")
+path_hide_columns_button = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer2/VisibleCols")
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 1022.0
-margin_bottom = 598.0
+margin_left = 3.0
+margin_right = 1021.0
+margin_bottom = 597.0
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HeaderContentSplit"]
-margin_right = 1020.0
-margin_bottom = 46.0
+margin_right = 1018.0
+margin_bottom = 54.0
 custom_constants/separation = 2
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
-margin_right = 1020.0
-margin_bottom = 14.0
+margin_right = 1018.0
+margin_bottom = 22.0
 
 [node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+margin_top = 4.0
 margin_right = 91.0
-margin_bottom = 14.0
+margin_bottom = 18.0
 text = "Folder Display"
 
-[node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
 margin_left = 95.0
-margin_right = 1020.0
-margin_bottom = 14.0
+margin_right = 746.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 
+[node name="VisibleCols" type="MenuButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+margin_left = 750.0
+margin_right = 871.0
+margin_bottom = 22.0
+hint_tooltip = "Hide/Show Columns"
+text = "Hide Columns"
+icon = SubResource( 2 )
+script = ExtResource( 4 )
+icon_name = "GuiVisibilityVisible"
+
+[node name="Settings" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+margin_left = 875.0
+margin_right = 956.0
+margin_bottom = 22.0
+hint_tooltip = "Settings"
+text = "Settings"
+icon = SubResource( 2 )
+flat = true
+script = ExtResource( 4 )
+icon_name = "GDScript"
+
+[node name="HSeparator2" type="VSeparator" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+margin_left = 960.0
+margin_right = 964.0
+margin_bottom = 22.0
+
+[node name="Info" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer2"]
+margin_left = 968.0
+margin_right = 1018.0
+margin_bottom = 22.0
+text = "About"
+flat = true
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="HBoxContainer" type="HSplitContainer" parent="HeaderContentSplit/VBoxContainer"]
-margin_top = 16.0
-margin_right = 1020.0
-margin_bottom = 40.0
+margin_top = 24.0
+margin_right = 1018.0
+margin_bottom = 48.0
 split_offset = -249
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_right = 521.0
+margin_right = 637.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
@@ -118,7 +154,7 @@ text = "Resource Folder:"
 [node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 margin_left = 107.0
-margin_right = 437.0
+margin_right = 553.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 caret_blink = true
@@ -128,8 +164,8 @@ __meta__ = {
 }
 
 [node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 437.0
-margin_right = 465.0
+margin_left = 553.0
+margin_right = 581.0
 margin_bottom = 24.0
 hint_tooltip = "Open Folder"
 icon = SubResource( 2 )
@@ -140,8 +176,8 @@ __meta__ = {
 icon_name = "Folder"
 
 [node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 465.0
-margin_right = 493.0
+margin_left = 581.0
+margin_right = 609.0
 margin_bottom = 24.0
 hint_tooltip = "Refresh"
 icon = SubResource( 2 )
@@ -152,8 +188,8 @@ __meta__ = {
 icon_name = "Refresh"
 
 [node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 493.0
-margin_right = 521.0
+margin_left = 609.0
+margin_right = 637.0
 margin_bottom = 24.0
 hint_tooltip = "Remove Path from Recent"
 icon = SubResource( 2 )
@@ -164,8 +200,8 @@ __meta__ = {
 icon_name = "Remove"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 533.0
-margin_right = 1020.0
+margin_left = 649.0
+margin_right = 1018.0
 margin_bottom = 24.0
 
 [node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
@@ -188,64 +224,29 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Info" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
-margin_left = 373.0
-margin_right = 423.0
-margin_bottom = 24.0
-text = "About"
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="VisibleCols" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
-margin_left = 427.0
-margin_right = 455.0
-margin_bottom = 24.0
-hint_tooltip = "Hide/Show Columns"
-icon = SubResource( 2 )
-script = ExtResource( 4 )
-icon_name = "GuiVisibilityVisible"
-
-[node name="PopupMenu" type="PopupMenu" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols"]
-margin_left = 14.0
-margin_top = 16.0
-margin_right = 34.0
-margin_bottom = 36.0
-hide_on_checkable_item_selection = false
-allow_search = true
-
-[node name="Settings" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
-margin_left = 459.0
-margin_right = 487.0
-margin_bottom = 24.0
-hint_tooltip = "Settings"
-icon = SubResource( 2 )
-script = ExtResource( 4 )
-icon_name = "GDScript"
-
 [node name="Sep" type="Control" parent="HeaderContentSplit/VBoxContainer"]
-margin_top = 42.0
-margin_right = 1020.0
-margin_bottom = 42.0
+margin_top = 50.0
+margin_right = 1018.0
+margin_bottom = 50.0
 
 [node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer"]
-margin_top = 44.0
-margin_right = 1020.0
-margin_bottom = 44.0
+margin_top = 52.0
+margin_right = 1018.0
+margin_bottom = 52.0
 rect_clip_content = true
 
 [node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer/Columns"]
 margin_right = 1020.0
 
 [node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
-margin_top = 46.0
-margin_right = 1020.0
-margin_bottom = 46.0
+margin_top = 54.0
+margin_right = 1018.0
+margin_bottom = 54.0
 
 [node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit"]
-margin_top = 50.0
-margin_right = 1020.0
-margin_bottom = 596.0
+margin_top = 58.0
+margin_right = 1018.0
+margin_bottom = 597.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -254,8 +255,8 @@ __meta__ = {
 }
 
 [node name="FooterContentSplit" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer"]
-margin_right = 1020.0
-margin_bottom = 546.0
+margin_right = 1018.0
+margin_bottom = 539.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -263,8 +264,8 @@ __meta__ = {
 }
 
 [node name="Panel" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
-margin_right = 1020.0
-margin_bottom = 496.0
+margin_right = 1018.0
+margin_bottom = 489.0
 mouse_filter = 2
 size_flags_vertical = 3
 __meta__ = {
@@ -272,15 +273,15 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
-margin_right = 1020.0
-margin_bottom = 496.0
+margin_right = 1018.0
+margin_bottom = 489.0
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Scroll" type="ScrollContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
-margin_right = 1020.0
-margin_bottom = 496.0
+margin_right = 1018.0
+margin_bottom = 489.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -307,8 +308,8 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
 self_modulate = Color( 1, 1, 1, 0.498039 )
-margin_right = 1020.0
-margin_bottom = 496.0
+margin_right = 1018.0
+margin_bottom = 489.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "No folder selected!
@@ -322,16 +323,16 @@ align = 1
 valign = 1
 
 [node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
-margin_top = 500.0
-margin_right = 1020.0
-margin_bottom = 546.0
+margin_top = 493.0
+margin_right = 1018.0
+margin_bottom = 539.0
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="PropertyEditors" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
 unique_name_in_owner = true
-margin_right = 1020.0
+margin_right = 1018.0
 
 [node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource( 12 )]
 visible = false
@@ -358,7 +359,7 @@ margin_bottom = 84.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
 margin_top = 4.0
-margin_right = 1020.0
+margin_right = 1018.0
 margin_bottom = 18.0
 
 [node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/HBoxContainer"]
@@ -368,13 +369,13 @@ text = "GDScript Search and Process"
 
 [node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/HBoxContainer"]
 margin_left = 187.0
-margin_right = 1020.0
+margin_right = 1018.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Search" type="HBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer"]
 margin_top = 22.0
-margin_right = 1020.0
+margin_right = 1018.0
 margin_bottom = 46.0
 
 [node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
@@ -405,27 +406,27 @@ align = 1
 
 [node name="SearchCond" type="LineEdit" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
 margin_left = 91.0
-margin_right = 509.0
+margin_right = 508.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 text = "true"
 
 [node name="VSeparator" type="VSeparator" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
-margin_left = 513.0
-margin_right = 517.0
+margin_left = 512.0
+margin_right = 516.0
 margin_bottom = 24.0
 
 [node name="Label3" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
-margin_left = 521.0
+margin_left = 520.0
 margin_top = 5.0
-margin_right = 575.0
+margin_right = 574.0
 margin_bottom = 19.0
 text = "Process:"
 
 [node name="Label4" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
-margin_left = 579.0
+margin_left = 578.0
 margin_top = 3.0
-margin_right = 597.0
+margin_right = 596.0
 margin_bottom = 21.0
 rect_min_size = Vector2( 18, 18 )
 hint_tooltip = "Enter an expression. The values in selected cells will be replaced with calculated new values.
@@ -445,16 +446,15 @@ text = "(?)"
 align = 1
 
 [node name="ProcessExpr" type="LineEdit" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search"]
-margin_left = 601.0
-margin_right = 1020.0
+margin_left = 600.0
+margin_right = 1018.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="Control" type="Control" parent="."]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 1022.0
-margin_bottom = 598.0
+margin_left = 3.0
+margin_right = 1021.0
+margin_bottom = 597.0
 mouse_filter = 2
 __meta__ = {
 "_edit_lock_": true
@@ -650,21 +650,14 @@ margin_bottom = 150.0
 pressed = true
 text = "Enable"
 
-[node name="HeaderOptions" type="PopupMenu" parent="Control"]
-margin_left = 275.0
-margin_top = 175.0
-margin_right = 287.0
-margin_bottom = 195.0
-
+[connection signal="about_to_show" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/VisibleCols" to="." method="_on_VisibleCols_about_to_show"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/Settings" to="Control/Settings" method="popup_centered"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/Info" to="Control/Info" method="popup_centered"]
 [connection signal="text_entered" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Refresh" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
-[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Info" to="Control/Info" method="popup_centered"]
-[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols" to="." method="_on_VisibleCols_pressed"]
-[connection signal="id_pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/VisibleCols/PopupMenu" to="." method="_on_VisibleCols_id_pressed"]
-[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/Settings" to="Control/Settings" method="popup_centered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

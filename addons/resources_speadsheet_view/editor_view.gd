@@ -20,7 +20,6 @@ var recent_paths := []
 var save_data_path : String = get_script().resource_path.get_base_dir() + "/saved_state.json"
 var sorting_by := ""
 var sorting_reverse := false
-var is_undo_redoing := false
 var undo_redo_version := 0
 
 var all_cell_editors := []
@@ -43,11 +42,12 @@ var hidden_columns := {}
 
 func _ready():
 	get_node(path_recent_paths).clear()
-	editor_plugin.get_undo_redo().connect("version_changed", self, "_on_undo_redo_version_changed")
 	editor_interface.get_resource_filesystem()\
 		.connect("filesystem_changed", self, "_on_filesystem_changed")
 	editor_interface.get_inspector()\
 		.connect("property_edited", self, "_on_inspector_property_edited")
+	get_node(path_hide_columns_button).get_popup()\
+		.connect("id_pressed", self, "_on_VisibleCols_id_pressed")
 
 	# Load saved recent paths
 	var file := File.new()
@@ -67,10 +67,6 @@ func _ready():
 		all_cell_editors[all_cell_editors.size() - 1].hint_strings_array = column_hints
 
 	display_folder(recent_paths[0], "resource_name", false, true)
-
-
-func _on_undo_redo_version_changed():
-	is_undo_redoing = true
 
 
 func _on_filesystem_changed():
@@ -205,10 +201,9 @@ func _create_table(columns_changed : bool):
 		for x in columns:
 			new_node = table_header_scene.instance()
 			headers_node.add_child(new_node)
-			new_node.get_node("Button").text = TextEditingUtils.string_snake_to_naming_case(x)
-			new_node.get_node("Button").hint_tooltip = x
+			new_node.editor_view = self
+			new_node.set_label(x)
 			new_node.get_node("Button").connect("pressed", self, "_set_sorting", [x])
-			new_node.get_node("Button2").connect("pressed", self, "_on_header_extra_pressed", [new_node.get_position_in_parent()])
 	
 	var to_free = root_node.get_child_count() - rows.size() * columns.size()
 	while to_free > 0:
@@ -430,6 +425,19 @@ func select_cells_to(cell : Control):
 			if column_editors[column_index].is_text():
 				edited_cells_text.append(str(cur_cell.text))
 				edit_cursor_positions.append(cur_cell.text.length())
+
+
+func select_column(column_index : int):
+	deselect_all_cells()
+	select_cell(get_node(path_table_root).get_child(column_index))
+	select_cells_to(get_node(path_table_root).get_child(column_index + columns.size() * (rows.size() - 1)))
+
+
+func hide_column(column_index : int):
+	hidden_columns[current_path][columns[column_index]] = true
+	save_data()
+	_update_hidden_columns()
+	_update_column_sizes()
 
 
 func _add_cell_to_selection(cell : Control):
@@ -786,24 +794,18 @@ func _on_inspector_property_edited(property : String):
 	_try_open_docks(edited_cells[0])
 
 
-func _on_VisibleCols_pressed():
-	var popup = get_node(path_hide_columns_button).get_child(0)
-	if popup.visible:
-		popup.hide()
-		return
-	
+func _on_VisibleCols_about_to_show():
+	var popup = get_node(path_hide_columns_button).get_popup()
 	popup.clear()
+	popup.hide_on_checkable_item_selection = false
 	
 	for i in columns.size():
 		popup.add_check_item(TextEditingUtils.string_snake_to_naming_case(columns[i]), i)
 		popup.set_item_checked(i, hidden_columns[current_path].has(columns[i]))
-	
-	popup.rect_global_position = get_global_mouse_position()
-	popup.show()
 
 
 func _on_VisibleCols_id_pressed(id : int):
-	var popup = get_node(path_hide_columns_button).get_child(0)
+	var popup = get_node(path_hide_columns_button).get_popup()
 	if popup.is_item_checked(id):
 		popup.set_item_checked(id, false)
 		hidden_columns[current_path].erase(columns[id])
@@ -815,36 +817,3 @@ func _on_VisibleCols_id_pressed(id : int):
 	save_data()
 	_update_hidden_columns()
 	_update_column_sizes()
-	# display_folder(current_path, sorting_by, sorting_reverse, true)
-
-
-func _on_header_extra_pressed(column : int):
-	var popup = $"Control/HeaderOptions"
-	if popup.visible:
-		popup.hide()
-		popup.disconnect("id_pressed", self, "_on_HeaderOptions_id_pressed")
-		return
-
-	popup.rect_global_position = get_global_mouse_position()
-	if popup.get_item_count() == 0:
-		popup.add_item("Select all cells", 0)
-		popup.add_item("Hide column", 1)
-	
-	popup.connect("id_pressed", self, "_on_HeaderOptions_id_pressed", [column])
-	popup.show()
-
-
-func _on_HeaderOptions_id_pressed(id : int, column : int):
-	$"Control/HeaderOptions".disconnect("id_pressed", self, "_on_HeaderOptions_id_pressed")
-	$"Control/HeaderOptions".hide()
-	if id == 0:
-		deselect_all_cells()
-		select_cell(get_node(path_table_root).get_child(column))
-		select_cells_to(get_node(path_table_root).get_child(column + columns.size() * (rows.size() - 1)))
-
-	else:
-		hidden_columns[current_path][columns[column]] = true
-		save_data()
-		_update_hidden_columns()
-		_update_column_sizes()
-		# display_folder(current_path, sorting_by, sorting_reverse, true)
