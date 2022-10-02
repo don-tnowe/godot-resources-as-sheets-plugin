@@ -392,13 +392,12 @@ margin_bottom = 21.0
 rect_min_size = Vector2( 18, 18 )
 hint_tooltip = "Enter an expression. The table only show rows where the expression returns `true`.
 
-You can use `res.<property_name>` to get a property, and `index` to get row number. Hit ENTER to run the search.
+You can use `res.<property_name>` to get a property. Hit ENTER to run the search.
 
 Try out these:
 - (res.number_property > 0 and res.number_property < 100)
 - (res.text_property != \"\")
-- (\"a\" in res.text_property)
-- (index < 5)"
+- (\"a\" in res.text_property)"
 mouse_filter = 0
 mouse_default_cursor_shape = 16
 text = "(?)"
@@ -450,6 +449,7 @@ margin_left = 600.0
 margin_right = 1018.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+text = "value"
 
 [node name="Control" type="Control" parent="."]
 margin_left = 3.0

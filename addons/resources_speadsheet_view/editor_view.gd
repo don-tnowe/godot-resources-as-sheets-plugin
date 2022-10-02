@@ -73,7 +73,7 @@ func _on_filesystem_changed():
 	var path = editor_interface.get_resource_filesystem().get_filesystem_path(current_path)
 	if !path: return
 	if path.get_file_count() != rows.size():
-		display_folder(current_path, sorting_by, sorting_reverse, true)
+		refresh()
 
 	else:
 		for k in remembered_paths:
@@ -81,7 +81,7 @@ func _on_filesystem_changed():
 				var res = remembered_paths[k]
 				remembered_paths.erase(k)
 				remembered_paths[res.resource_path] = res
-				display_folder(current_path, sorting_by, sorting_reverse, true)
+				refresh()
 				break
 
 
@@ -90,7 +90,10 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
 	if !folderpath.ends_with("/"):
 		folderpath += "/"
-	
+
+	if search_cond == null:
+		_on_SearchCond_text_entered("true")
+
 	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
 	if columns.size() == 0: return
 
@@ -100,7 +103,6 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 		or current_path != folderpath
 		or columns.size() != get_node(path_columns).get_child_count()
 	)
-	_apply_search_cond()
 	current_path = folderpath
 	_update_hidden_columns()
 	_update_column_sizes()
@@ -108,6 +110,10 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	yield(get_tree(), "idle_frame")
 	if get_node(path_table_root).get_child_count() == 0:
 		display_folder(folderpath, sort_by, sort_reverse, force_rebuild)
+
+
+func refresh():
+	display_folder(current_path, sorting_by, sorting_reverse, true)
 
 
 func _load_resources_from_folder(folderpath : String, sort_by : String, sort_reverse : bool):
@@ -153,11 +159,14 @@ func _load_resources_from_folder(folderpath : String, sort_by : String, sort_rev
 
 
 func _insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
+	if !search_cond.can_show(res, rows.size()):
+		return
+		
 	for i in rows.size():
 		if sort_reverse == _compare_values(res.get(sort_by), rows[i].get(sort_by)):
 			rows.insert(i, res)
 			return
-
+	
 	rows.append(res)
 
 
@@ -222,7 +231,7 @@ func _update_column_sizes():
 
 	if table_root.get_child_count() < column_headers.size(): return
 	if column_headers.size() != columns.size():
-		display_folder(current_path, sorting_by, sorting_reverse, true)
+		refresh()
 		return
 
 	var clip_text : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "clip_headers")
@@ -274,18 +283,6 @@ func _update_row(row_index : int, color_rows : bool = true):
 			next_color = rows[row_index].get(columns[i])
 
 		column_editors[i].set_color(current_node, next_color)
-
-
-func _apply_search_cond():
-	if search_cond == null:
-		_on_SearchCond_text_entered("true")
-
-	var table_elements = get_node(path_table_root).get_children()
-	
-	for i in rows.size():
-		var row_visible = search_cond.can_show(rows[i], i)
-		for j in columns.size():
-			table_elements[i * columns.size() + j].visible = row_visible
 
 
 func _update_hidden_columns():
@@ -357,7 +354,7 @@ func _on_Path_text_entered(new_text : String = ""):
 		display_folder(new_text, "", false, true)
 
 	else:
-		display_folder(current_path, sorting_by, sorting_reverse, true)
+		refresh()
 
 
 func _on_RecentPaths_item_selected(index : int):
@@ -747,7 +744,7 @@ func _on_SearchCond_text_entered(new_text : String):
 
 	var new_script_instance = new_script.new()
 	search_cond = new_script_instance
-	_apply_search_cond()
+	refresh()
 
 
 func _on_ProcessExpr_text_entered(new_text : String):
