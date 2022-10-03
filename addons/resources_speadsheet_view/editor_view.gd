@@ -27,6 +27,7 @@ var all_cell_editors := []
 var columns := []
 var column_types := []
 var column_hints := []
+var column_hint_strings := []
 var column_editors := []
 var rows := []
 var remembered_paths := {}
@@ -64,7 +65,7 @@ func _ready():
 	# Load cell editors and instantiate them
 	for x in cell_editor_classes:
 		all_cell_editors.append(x.new())
-		all_cell_editors[all_cell_editors.size() - 1].hint_strings_array = column_hints
+		all_cell_editors[all_cell_editors.size() - 1].hint_strings_array = column_hint_strings
 
 	display_folder(recent_paths[0], "resource_name", false, true)
 
@@ -136,12 +137,14 @@ func _load_resources_from_folder(folderpath : String, sort_by : String, sort_rev
 				columns.clear()
 				column_types.clear()
 				column_hints.clear()
+				column_hint_strings.clear()
 				column_editors.clear()
 				for x in res.get_property_list():
 					if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
 						columns.append(x["name"])
 						column_types.append(x["type"])
-						column_hints.append(x["hint_string"].split(","))
+						column_hints.append(x["hint"])
+						column_hint_strings.append(x["hint_string"].split(","))
 						for y in all_cell_editors:
 							if y.can_edit_value(res.get(x["name"]), x["type"], x["hint"]):
 								column_editors.append(y)
@@ -437,6 +440,10 @@ func hide_column(column_index : int):
 	_update_column_sizes()
 
 
+func get_selected_column() -> int:
+	return _get_cell_column(edited_cells[0])
+
+
 func _add_cell_to_selection(cell : Control):
 	column_editors[_get_cell_column(cell)].set_selected(cell, true)
 	edited_cells.append(cell)
@@ -584,7 +591,7 @@ func _input(event : InputEvent):
 		return
 
 	var column = _get_cell_column(edited_cells[0])
-	if column_types[column] == TYPE_OBJECT || columns[column] == "resource_path":
+	if column_types[column] == TYPE_OBJECT or columns[column] == "resource_path":
 		return
 	
 	if event.scancode == KEY_CONTROL or event.scancode == KEY_SHIFT:

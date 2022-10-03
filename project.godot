@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/typed_cells/cell_editor.gd"
 }, {
+"base": "CellEditor",
+"class": "CellEditorArray",
+"language": "GDScript",
+"path": "res://addons/resources_speadsheet_view/typed_cells/cell_editor_array.gd"
+}, {
 "base": "GridContainer",
 "class": "SettingsGrid",
 "language": "GDScript",
@@ -41,6 +46,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "CellEditor": "",
+"CellEditorArray": "",
 "SettingsGrid": "",
 "SheetsDockEditor": "",
 "TextEditingUtils": "",
@@ -57,6 +63,10 @@ resources_spreadsheet_view/color_arrays=true
 resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/array_min_width=128.0
+
+[application]
+
+config/name="Addon: Resources as Sheets"
 
 [editor_plugins]
 

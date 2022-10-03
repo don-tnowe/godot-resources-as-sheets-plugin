@@ -10,6 +10,7 @@ color1 = Color( 1, 1, 1, 1 )
 max_duplicates = 9
 tags = [ "health", "melee" ]
 type = 1
+attributes = [ 2 ]
 icon = ExtResource( 1 )
 color2 = Color( 0.129412, 1, 0.243137, 1 )
 base_weight = 10.0
