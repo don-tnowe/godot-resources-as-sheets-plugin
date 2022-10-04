@@ -7,7 +7,7 @@ var hint_strings_array := []
 
 
 # Override to define where the cell should be shown.
-func can_edit_value(value, type, property_hint) -> bool:
+func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return value != null
 
 # Override to change how the cell is created; preload a scene or create nodes from code.
@@ -27,6 +27,6 @@ func set_value(node : Control, value):
 func is_text():
 	return true
 
-
+# Override to change behaviour when there are color cells to the left of this cell.
 func set_color(node : Control, color : Color):
 	node.get_node("Back").modulate = color * 1.0

@@ -2,7 +2,7 @@ class_name CellEditorArray
 extends CellEditor
 
 
-func can_edit_value(value, type, property_hint) -> bool:
+func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return type == TYPE_STRING_ARRAY or type == TYPE_ARRAY
 
 

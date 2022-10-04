@@ -15,7 +15,7 @@ func create_cell(caller : Control) -> Control:
 	return node
 
 
-func can_edit_value(value, type, property_hint) -> bool:
+func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return type == TYPE_COLOR
 
 

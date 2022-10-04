@@ -1,8 +1,13 @@
 extends CellEditorArray
 
 
-func can_edit_value(value, type, property_hint) -> bool:
-	return (type == TYPE_INT_ARRAY or type == TYPE_ARRAY) and property_hint == 26
+func can_edit_value(value, type, property_hint, column_index) -> bool:
+	if (type != TYPE_INT_ARRAY and type != TYPE_ARRAY) or property_hint != 26:
+		return false
+
+	print(column_index)
+	print(hint_strings_array[column_index][0])
+	return hint_strings_array[column_index][0].begins_with("2/3:")
 
 
 func _write_value_to_child(value, hint_arr : PoolStringArray, child : Label, colored : bool):

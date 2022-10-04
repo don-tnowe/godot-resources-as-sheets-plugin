@@ -139,14 +139,16 @@ func _load_resources_from_folder(folderpath : String, sort_by : String, sort_rev
 				column_hints.clear()
 				column_hint_strings.clear()
 				column_editors.clear()
+				var column_index = -1
 				for x in res.get_property_list():
 					if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
+						column_index += 1
 						columns.append(x["name"])
 						column_types.append(x["type"])
 						column_hints.append(x["hint"])
 						column_hint_strings.append(x["hint_string"].split(","))
 						for y in all_cell_editors:
-							if y.can_edit_value(res.get(x["name"]), x["type"], x["hint"]):
+							if y.can_edit_value(res.get(x["name"]), x["type"], x["hint"], column_index):
 								column_editors.append(y)
 								break
 								

@@ -11,7 +11,7 @@ enum Attributes {
 
 export var color1 := Color.white
 export var max_duplicates := 0
-export var tags : Array
+export(Array, String) var tags : Array
 export(int, "Weapon", "Passive", "Mastery") var type := 0
 export(Array, Attributes) var attributes
 export var icon : Texture
