@@ -593,9 +593,6 @@ func _input(event : InputEvent):
 		return
 
 	var column = _get_cell_column(edited_cells[0])
-	if column_types[column] == TYPE_OBJECT or columns[column] == "resource_path":
-		return
-	
 	if event.scancode == KEY_CONTROL or event.scancode == KEY_SHIFT:
 		# Modifier keys do not get processed.
 		return
@@ -613,9 +610,6 @@ func _input(event : InputEvent):
 	# This shortcut is used by Godot as well.	
 	if Input.is_key_pressed(KEY_CONTROL) and event.scancode == KEY_Y:
 		editor_plugin.undo_redo.redo()
-		return
-	
-	if !column_editors[column].is_text():
 		return
 	
 	_key_specific_action(event)
@@ -668,7 +662,11 @@ func _key_specific_action(event : InputEvent):
 	# Ctrl + C (so you can edit in a proper text editor instead of this wacky nonsense)
 	elif ctrl_pressed and event.scancode == KEY_C:
 		TextEditingUtils.multi_copy(edited_cells_text)
-
+			
+	# The following actions do not work on non-editable cells.
+	if !column_editors[column].is_text() or columns[column] == "resource_path":
+		return
+	
 	# Ctrl + V
 	elif ctrl_pressed and event.scancode == KEY_V:
 		set_edited_cells_values(TextEditingUtils.multi_paste(
@@ -688,6 +686,11 @@ func _key_specific_action(event : InputEvent):
 		get_tree().set_input_as_handled() # Because this is one dangerous action.
 
 	# And finally, text typing.
+	elif event.scancode == KEY_ENTER:
+		set_edited_cells_values(TextEditingUtils.multi_input(
+			"\n", edited_cells_text, edit_cursor_positions
+		))
+
 	elif event.unicode != 0 and event.unicode != 127:
 		set_edited_cells_values(TextEditingUtils.multi_input(
 			char(event.unicode), edited_cells_text, edit_cursor_positions
