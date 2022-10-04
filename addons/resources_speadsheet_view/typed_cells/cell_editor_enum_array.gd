@@ -5,8 +5,6 @@ func can_edit_value(value, type, property_hint, column_index) -> bool:
 	if (type != TYPE_INT_ARRAY and type != TYPE_ARRAY) or property_hint != 26:
 		return false
 
-	print(column_index)
-	print(hint_strings_array[column_index][0])
 	return hint_strings_array[column_index][0].begins_with("2/3:")
 
 
