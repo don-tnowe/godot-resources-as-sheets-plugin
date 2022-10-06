@@ -451,7 +451,7 @@ func select_cells_to(cell : Control):
 func select_column(column_index : int):
 	deselect_all_cells()
 	select_cell(get_node(path_table_root).get_child(column_index))
-	select_cells_to(get_node(path_table_root).get_child(column_index + columns.size() * (rows.size() - 1)))
+	select_cells_to(get_node(path_table_root).get_child(column_index + columns.size() * (last_row - first_row - 1)))
 
 
 func hide_column(column_index : int):
