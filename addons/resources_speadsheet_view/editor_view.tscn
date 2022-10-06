@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_string.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://addons/resources_speadsheet_view/settings_grid.gd" type="Script" id=14]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_enum_array.gd" type="Script" id=15]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_enum_array.tscn" type="PackedScene" id=16]
+[ext_resource path="res://addons/resources_speadsheet_view/table_pages.gd" type="Script" id=17]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -60,6 +61,7 @@ path_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSpli
 path_property_editors = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
 path_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
 path_hide_columns_button = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer2/VisibleCols")
+path_page_manager = NodePath("HeaderContentSplit/VBoxContainer/Pages")
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
 margin_left = 3.0
@@ -71,7 +73,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HeaderContentSplit"]
 margin_right = 1018.0
-margin_bottom = 54.0
+margin_bottom = 56.0
 custom_constants/separation = 2
 __meta__ = {
 "_edit_lock_": true
@@ -226,27 +228,66 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Sep" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+[node name="Sep4" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 margin_top = 50.0
 margin_right = 1018.0
 margin_bottom = 50.0
 
-[node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+[node name="Pages" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
+visible = false
+margin_top = 50.0
+margin_right = 1018.0
+margin_bottom = 74.0
+script = ExtResource( 17 )
+path_editor_view_root = NodePath("../../..")
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/Pages"]
+margin_top = 5.0
+margin_right = 34.0
+margin_bottom = 19.0
+text = "Page:"
+
+[node name="Pagelist" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Pages"]
+margin_left = 38.0
+margin_right = 38.0
+margin_bottom = 24.0
+
+[node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/Pages"]
+margin_left = 42.0
+margin_top = 5.0
+margin_right = 138.0
+margin_bottom = 19.0
+text = "Rows per page:"
+
+[node name="LineEdit" type="SpinBox" parent="HeaderContentSplit/VBoxContainer/Pages"]
+margin_left = 142.0
+margin_right = 200.0
+margin_bottom = 24.0
+min_value = 2.0
+max_value = 300.0
+value = 50.0
+
+[node name="Sep3" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 margin_top = 52.0
 margin_right = 1018.0
 margin_bottom = 52.0
+
+[node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer"]
+margin_top = 54.0
+margin_right = 1018.0
+margin_bottom = 54.0
 rect_clip_content = true
 
 [node name="Columns" type="Control" parent="HeaderContentSplit/VBoxContainer/Columns"]
 margin_right = 1020.0
 
 [node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
-margin_top = 54.0
+margin_top = 56.0
 margin_right = 1018.0
-margin_bottom = 54.0
+margin_bottom = 56.0
 
 [node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit"]
-margin_top = 58.0
+margin_top = 60.0
 margin_right = 1018.0
 margin_bottom = 597.0
 mouse_filter = 2
@@ -258,7 +299,7 @@ __meta__ = {
 
 [node name="FooterContentSplit" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer"]
 margin_right = 1018.0
-margin_bottom = 539.0
+margin_bottom = 537.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -267,7 +308,7 @@ __meta__ = {
 
 [node name="Panel" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
 margin_right = 1018.0
-margin_bottom = 489.0
+margin_bottom = 487.0
 mouse_filter = 2
 size_flags_vertical = 3
 __meta__ = {
@@ -276,14 +317,14 @@ __meta__ = {
 
 [node name="Panel" type="Panel" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
 margin_right = 1018.0
-margin_bottom = 489.0
+margin_bottom = 487.0
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Scroll" type="ScrollContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
 margin_right = 1018.0
-margin_bottom = 489.0
+margin_bottom = 487.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -311,7 +352,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
 self_modulate = Color( 1, 1, 1, 0.498039 )
 margin_right = 1018.0
-margin_bottom = 489.0
+margin_bottom = 487.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "No folder selected!
@@ -325,9 +366,9 @@ align = 1
 valign = 1
 
 [node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
-margin_top = 493.0
+margin_top = 491.0
 margin_right = 1018.0
-margin_bottom = 539.0
+margin_bottom = 537.0
 __meta__ = {
 "_edit_lock_": true
 }
@@ -658,6 +699,7 @@ margin_bottom = 150.0
 pressed = true
 text = "Enable"
 
+[connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/Pages" method="_on_Control_grid_updated"]
 [connection signal="about_to_show" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/VisibleCols" to="." method="_on_VisibleCols_about_to_show"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/Settings" to="Control/Settings" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/Info" to="Control/Info" method="popup_centered"]
@@ -666,6 +708,7 @@ text = "Enable"
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Refresh" to="." method="_on_Path_text_entered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
 [connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
+[connection signal="value_changed" from="HeaderContentSplit/VBoxContainer/Pages/LineEdit" to="HeaderContentSplit/VBoxContainer/Pages" method="_on_LineEdit_value_changed"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

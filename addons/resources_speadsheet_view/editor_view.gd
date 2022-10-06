@@ -1,6 +1,8 @@
 tool
 extends Control
 
+signal grid_updated()
+
 export var table_header_scene : PackedScene
 
 export(Array, Script) var cell_editor_classes := []
@@ -11,6 +13,7 @@ export var path_table_root := NodePath("")
 export var path_property_editors := NodePath("")
 export var path_columns := NodePath("")
 export var path_hide_columns_button := NodePath("")
+export var path_page_manager := NodePath("")
 
 var editor_interface : EditorInterface
 var editor_plugin : EditorPlugin
@@ -39,6 +42,8 @@ var inspector_resource : Resource
 var search_cond : Reference
 
 var hidden_columns := {}
+var first_row := 0
+var last_row := 0
 
 
 func _ready():
@@ -95,6 +100,8 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if search_cond == null:
 		_on_SearchCond_text_entered("true")
 
+	first_row = get_node(path_page_manager).first_row
+	last_row = min(get_node(path_page_manager).last_row, rows.size())
 	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
 	if columns.size() == 0: return
 
@@ -112,9 +119,12 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if get_node(path_table_root).get_child_count() == 0:
 		display_folder(folderpath, sort_by, sort_reverse, force_rebuild)
 
+	else:
+		emit_signal("grid_updated")
 
-func refresh():
-	display_folder(current_path, sorting_by, sorting_reverse, true)
+
+func refresh(force_rebuild : bool = true):
+	display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
 
 
 func _load_resources_from_folder(folderpath : String, sort_by : String, sort_reverse : bool):
@@ -219,14 +229,23 @@ func _create_table(columns_changed : bool):
 			new_node.set_label(x)
 			new_node.get_node("Button").connect("pressed", self, "_set_sorting", [x])
 	
-	var to_free = root_node.get_child_count() - rows.size() * columns.size()
+	var to_free = root_node.get_child_count() - (last_row - first_row) * columns.size()
 	while to_free > 0:
-		root_node.get_child(columns.size()).free()
+		root_node.get_child(0).free()
 		to_free -= 1
 	
 	var color_rows = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "color_rows")
-	for i in rows.size():
-		_update_row(i, color_rows)
+	
+	_update_row_range(
+		first_row,
+		last_row,
+		color_rows
+	)
+
+
+func _update_row_range(first : int, last : int, color_rows : bool):
+	for i in last - first:
+		_update_row(first + i, color_rows)
 
 
 func _update_column_sizes():
@@ -267,13 +286,13 @@ func _update_row(row_index : int, color_rows : bool = true):
 	var current_node : Control
 	var next_color := Color.white
 	for i in columns.size():
-		if root_node.get_child_count() <= row_index * columns.size() + i:
+		if root_node.get_child_count() <= (row_index - first_row) * columns.size() + i:
 			current_node = column_editors[i].create_cell(self)
 			current_node.connect("gui_input", self, "_on_cell_gui_input", [current_node])
 			root_node.add_child(current_node)
 
 		else:
-			current_node = root_node.get_child(row_index * columns.size() + i)
+			current_node = root_node.get_child((row_index - first_row) * columns.size() + i)
 			current_node.hint_tooltip = (
 				TextEditingUtils.string_snake_to_naming_case(columns[i])
 				+ "\n---\n"
@@ -301,7 +320,7 @@ func _update_hidden_columns():
 		var column_visible = !hidden_columns[current_path].has(columns[i])
 
 		get_node(path_columns).get_child(i).visible = column_visible
-		for j in rows.size():
+		for j in last_row - first_row:
 			node_table_root.get_child(j * columns.size() + i).visible = column_visible
 
 		if column_visible:
@@ -408,8 +427,8 @@ func select_cells_to(cell : Control):
 	if column_index != _get_cell_column(edited_cells[edited_cells.size() - 1]):
 		return
 	
-	var row_start = _get_cell_row(edited_cells[edited_cells.size() - 1])
-	var row_end := _get_cell_row(cell)
+	var row_start = _get_cell_row(edited_cells[edited_cells.size() - 1]) - first_row
+	var row_end := _get_cell_row(cell) - first_row
 	var edge_shift = -1 if row_start > row_end else 1
 	row_start += edge_shift
 	row_end += edge_shift
@@ -544,7 +563,7 @@ func _get_cell_column(cell) -> int:
 
 
 func _get_cell_row(cell) -> int:
-	return cell.get_position_in_parent() / columns.size()
+	return cell.get_position_in_parent() / columns.size() + first_row
 
 
 func _update_scroll():
@@ -723,7 +742,7 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 				
 				column_editors[j + update_column].set_color(
 					update_cells[i].get_parent().get_child(
-						_get_cell_row(update_cells[i]) * columns.size() + update_column + j
+						_get_cell_row(update_cells[i]) * columns.size() + update_column + j - first_row
 					),
 					values[i]
 				)
@@ -797,7 +816,7 @@ func _on_inspector_property_edited(property : String):
 		var index := 0
 		for i in previously_edited.size():
 			index = _get_cell_row(previously_edited[i]) * columns.size() + new_column
-			_add_cell_to_selection(get_node(path_table_root).get_child(index))
+			_add_cell_to_selection(get_node(path_table_root).get_child(index - first_row))
 
 	set_edited_cells_values(values)
 	_try_open_docks(edited_cells[0])
