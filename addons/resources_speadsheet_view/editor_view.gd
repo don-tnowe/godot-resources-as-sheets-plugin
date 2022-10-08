@@ -78,7 +78,7 @@ func _ready():
 func _on_filesystem_changed():
 	var path = editor_interface.get_resource_filesystem().get_filesystem_path(current_path)
 	if !path: return
-	if path.get_file_count() != rows.size():
+	if path.get_file_count() != remembered_paths.size():
 		refresh()
 
 	else:
@@ -611,7 +611,6 @@ func _input(event : InputEvent):
 	if !has_focus() or edited_cells.size() == 0:
 		return
 
-	var column = _get_cell_column(edited_cells[0])
 	if event.scancode == KEY_CONTROL or event.scancode == KEY_SHIFT:
 		# Modifier keys do not get processed.
 		return
