@@ -15,4 +15,5 @@ data_*/
 mono_crash.*.json
 
 # Editor Plugin persistent data
-addons/resources_speadsheet_view/saved_state.json
+/addons/resources_spreadsheet_view/saved_state.json
+/addons/resources_speadsheet_view/saved_state.json
