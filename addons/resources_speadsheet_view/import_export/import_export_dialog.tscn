@@ -1,0 +1,113 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/import_export_dialog.gd" type="Script" id=1]
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/property_list_item.tscn" type="PackedScene" id=2]
+
+[node name="Control" type="WindowDialog"]
+pause_mode = 2
+margin_right = 493.0
+margin_bottom = 294.0
+popup_exclusive = true
+window_title = "Import/Export As Text"
+script = ExtResource( 1 )
+prop_list_item_scene = ExtResource( 2 )
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+tab_align = 0
+
+[node name="Import" type="VBoxContainer" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Import"]
+margin_right = 485.0
+margin_bottom = 234.0
+size_flags_vertical = 3
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Import/MarginContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 481.0
+margin_bottom = 234.0
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer"]
+margin_right = 477.0
+margin_bottom = 76.0
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer"]
+margin_right = 477.0
+margin_bottom = 76.0
+columns = 2
+
+[node name="Label" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_top = 3.0
+margin_right = 246.0
+margin_bottom = 17.0
+text = "Use as filename:"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_left = 250.0
+margin_right = 477.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_top = 29.0
+margin_right = 246.0
+margin_bottom = 43.0
+text = "Class Name"
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_left = 250.0
+margin_top = 24.0
+margin_right = 477.0
+margin_bottom = 48.0
+
+[node name="CheckBox" type="CheckBox" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_top = 52.0
+margin_right = 246.0
+margin_bottom = 76.0
+pressed = true
+text = "First row contains property names"
+
+[node name="Control" type="Control" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_left = 250.0
+margin_top = 52.0
+margin_right = 477.0
+margin_bottom = 76.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Import"]
+margin_top = 238.0
+margin_right = 485.0
+margin_bottom = 258.0
+alignment = 1
+
+[node name="Ok" type="Button" parent="TabContainer/Import/HBoxContainer"]
+margin_left = 182.0
+margin_right = 244.0
+margin_bottom = 20.0
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="TabContainer/Import/HBoxContainer"]
+margin_left = 248.0
+margin_right = 302.0
+margin_bottom = 20.0
+text = "Cancel"
+
+[connection signal="item_selected" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/OptionButton" to="." method="_on_filename_options_item_selected"]
+[connection signal="text_changed" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/LineEdit" to="." method="_on_classname_field_text_changed"]
+[connection signal="toggled" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/CheckBox" to="." method="_on_remove_first_row_toggled"]
+[connection signal="pressed" from="TabContainer/Import/HBoxContainer/Ok" to="." method="_on_Ok_pressed"]
+[connection signal="pressed" from="TabContainer/Import/HBoxContainer/Cancel" to="." method="hide"]
