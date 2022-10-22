@@ -39,6 +39,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/import_export/formats_edit/edit_tres.gd"
 }, {
+"base": "Resource",
+"class": "SpreadsheetImport",
+"language": "GDScript",
+"path": "res://addons/resources_speadsheet_view/import_export/spreadsheet_import.gd"
+}, {
+"base": "Reference",
 "class": "TextEditingUtils",
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/text_editing_utils.gd"
@@ -58,6 +64,9 @@ _global_script_class_icons={
 "CellEditorArray": "",
 "SettingsGrid": "",
 "SheetsDockEditor": "",
+"SpreadsheetEditFormat": "",
+"SpreadsheetEditFormatTres": "",
+"SpreadsheetImport": "",
 "TextEditingUtils": "",
 "ThemeIconButton": "",
 "ThemeStylebox": ""

@@ -94,20 +94,27 @@ margin_right = 485.0
 margin_bottom = 258.0
 alignment = 1
 
-[node name="Ok" type="Button" parent="TabContainer/Import/HBoxContainer"]
-margin_left = 182.0
-margin_right = 244.0
+[node name="Ok2" type="Button" parent="TabContainer/Import/HBoxContainer"]
+margin_left = 50.0
+margin_right = 168.0
 margin_bottom = 20.0
-text = "Confirm"
+text = "Confirm and edit"
+
+[node name="Ok" type="Button" parent="TabContainer/Import/HBoxContainer"]
+margin_left = 172.0
+margin_right = 376.0
+margin_bottom = 20.0
+text = "Convert to Resources and edit"
 
 [node name="Cancel" type="Button" parent="TabContainer/Import/HBoxContainer"]
-margin_left = 248.0
-margin_right = 302.0
+margin_left = 380.0
+margin_right = 434.0
 margin_bottom = 20.0
 text = "Cancel"
 
 [connection signal="item_selected" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/OptionButton" to="." method="_on_filename_options_item_selected"]
 [connection signal="text_changed" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/LineEdit" to="." method="_on_classname_field_text_changed"]
 [connection signal="toggled" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/CheckBox" to="." method="_on_remove_first_row_toggled"]
+[connection signal="pressed" from="TabContainer/Import/HBoxContainer/Ok2" to="." method="_on_OkSafe_pressed"]
 [connection signal="pressed" from="TabContainer/Import/HBoxContainer/Ok" to="." method="_on_Ok_pressed"]
 [connection signal="pressed" from="TabContainer/Import/HBoxContainer/Cancel" to="." method="hide"]
