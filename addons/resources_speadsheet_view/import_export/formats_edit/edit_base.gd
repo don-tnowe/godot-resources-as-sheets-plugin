@@ -7,12 +7,12 @@ var editor_view : Control
 func get_value(entry, key : String):
 	pass
 
-## Override to define writing behaviour. This is NOT supposed to save - use `save_entry`.
-func set_value(entry, key : String, value):
+## Override to define writing behaviour. This is NOT supposed to save - use `save_entries`.
+func set_value(entry, key : String, value, index : int):
 	pass
 
 ## Override to define how the data gets saved.
-func save_entry(all_entries : Array, index : int):
+func save_entries(all_entries : Array, indices : Array):
 	pass
 
 ## Override to allow editing rows from the Inspector.

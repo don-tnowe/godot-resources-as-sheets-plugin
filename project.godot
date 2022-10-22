@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/import_export/formats_edit/edit_base.gd"
 }, {
+"base": "SpreadsheetEditFormatTres",
+"class": "SpreadsheetEditFormatCsv",
+"language": "GDScript",
+"path": "res://addons/resources_speadsheet_view/import_export/formats_edit/edit_csv.gd"
+}, {
 "base": "SpreadsheetEditFormat",
 "class": "SpreadsheetEditFormatTres",
 "language": "GDScript",
@@ -58,6 +63,11 @@ _global_script_classes=[ {
 "class": "ThemeStylebox",
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/editor_stylebox_overrider.gd"
+}, {
+"base": "Resource",
+"class": "TrainBigmartsalesprediction",
+"language": "GDScript",
+"path": "res://aa/train_BigMartSalesPrediction.gd"
 } ]
 _global_script_class_icons={
 "CellEditor": "",
@@ -65,11 +75,13 @@ _global_script_class_icons={
 "SettingsGrid": "",
 "SheetsDockEditor": "",
 "SpreadsheetEditFormat": "",
+"SpreadsheetEditFormatCsv": "",
 "SpreadsheetEditFormatTres": "",
 "SpreadsheetImport": "",
 "TextEditingUtils": "",
 "ThemeIconButton": "",
-"ThemeStylebox": ""
+"ThemeStylebox": "",
+"TrainBigmartsalesprediction": ""
 }
 color_rows=false
 color_arrays=true

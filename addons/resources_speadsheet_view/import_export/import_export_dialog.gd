@@ -10,25 +10,25 @@ onready var node_filename_props := $"TabContainer/Import/MarginContainer/ScrollC
 onready var prop_list := $"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer"
 
 var entries := []
-var uniques := {}
 
 var property_used_as_filename := 0
 var import_data : SpreadsheetImport
-var delimeter := ","
 
 
 func _on_FileDialogText_file_selected(path : String):
 	import_data = SpreadsheetImport.new()
-	import_data.path = path
+	import_data.initialize(path)
+
 	_open_dialog()
 	popup_centered()
 
 
 func _open_dialog():
 	node_classname_field.text = TextEditingUtils\
-		.string_snake_to_naming_case(import_data.path.get_file().get_basename())\
+		.string_snake_to_naming_case(import_data.edited_path.get_file().get_basename())\
 		.replace(" ", "")
-	
+	import_data.script_classname = node_classname_field.text
+
 	_load_entries()
 	_load_property_names()
 	_create_prop_editors()
@@ -36,17 +36,17 @@ func _open_dialog():
 
 func _load_entries():
 	var file = File.new()
-	file.open(import_data.path, File.READ)
+	file.open(import_data.edited_path, File.READ)
 
-	delimeter = ";"
-	var text_lines := [file.get_line().split(delimeter)]
+	import_data.delimeter = ";"
+	var text_lines := [file.get_line().split(import_data.delimeter)]
 	var line = text_lines[0]
 	if line.size() == 1:
-		delimeter = ","
-		text_lines[0] = text_lines[0][0].split(delimeter)
+		import_data.delimeter = ","
+		text_lines[0] = text_lines[0][0].split(import_data.delimeter)
 
 	while !file.eof_reached():
-		line = file.get_csv_line(delimeter)
+		line = file.get_csv_line(import_data.delimeter)
 		if line.size() == text_lines[0].size():
 			text_lines.append(line)
 
@@ -99,7 +99,8 @@ func _generate_class():
 		new_script.source_code = "extends Resource\n\n"
 	
 	# Enums
-	uniques = {}
+	var uniques = {}
+	import_data.uniques = uniques
 	for i in import_data.prop_types.size():
 		if import_data.prop_types[i] == SpreadsheetImport.PropType.ENUM:
 			var cur_value := ""
@@ -114,21 +115,22 @@ func _generate_class():
 				if !uniques[i].has(cur_value):
 					uniques[i][cur_value] = uniques[i].size()
 			
-			new_script.source_code += import_data.create_enum_for_prop(i, uniques)
-
+			new_script.source_code += import_data.create_enum_for_prop(i)
+	
 	# Properties
 	for i in import_data.prop_names.size():
 		new_script.source_code += import_data.create_property_line_for_prop(i)
 
-	ResourceSaver.save(import_data.path.get_basename() + ".gd", new_script)
+	ResourceSaver.save(import_data.edited_path.get_basename() + ".gd", new_script)
 	new_script.reload()
-	new_script = load(import_data.path.get_basename() + ".gd")  # Because when instanced, objects have a copy of the script
-	import_data.new_script = new_script
+	
+	# Because when instanced, objects have a copy of the script
+	import_data.new_script = load(import_data.edited_path.get_basename() + ".gd")
 
 
 func _export_tres_folder():
 	var dir = Directory.new()
-	dir.make_dir_recursive(import_data.path.get_basename())
+	dir.make_dir_recursive(import_data.edited_path.get_basename())
 
 	import_data.prop_used_as_filename = import_data.prop_names[property_used_as_filename]
 	var new_res : Resource
@@ -136,7 +138,7 @@ func _export_tres_folder():
 		if import_data.remove_first_row && i == 0:
 			continue
 	
-		new_res = import_data.strings_to_resource(entries[i], uniques)
+		new_res = import_data.strings_to_resource(entries[i])
 		ResourceSaver.save(new_res.resource_path, new_res)
 
 
@@ -145,7 +147,7 @@ func _on_Ok_pressed():
 	_generate_class()
 	_export_tres_folder()
 	yield(get_tree(), "idle_frame")
-	editor_view.display_folder(import_data.path.get_basename())
+	editor_view.display_folder(import_data.edited_path.get_basename() + "/")
 	yield(get_tree(), "idle_frame")
 	editor_view.refresh()
 
@@ -155,7 +157,7 @@ func _on_OkSafe_pressed():
 	_generate_class()
 	import_data.save()
 	yield(get_tree(), "idle_frame")
-	editor_view.display_folder(import_data.path.get_basename())
+	editor_view.display_folder(import_data.resource_path)
 	yield(get_tree(), "idle_frame")
 	editor_view.refresh()
 

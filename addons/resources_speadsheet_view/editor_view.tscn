@@ -535,7 +535,8 @@ margin_bottom = 192.0
 rect_min_size = Vector2( 150, 52.5 )
 window_title = "Open a Folder"
 mode_overrides_title = false
-mode = 2
+mode = 3
+filters = PoolStringArray( "*_spreadsheet_import.tres" )
 
 [node name="FileDialogText" type="FileDialog" parent="Control"]
 anchor_left = 0.5
@@ -753,4 +754,5 @@ text = "Enable"
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/SearchCond" to="." method="_on_SearchCond_text_entered"]
 [connection signal="text_entered" from="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/Search/ProcessExpr" to="." method="_on_ProcessExpr_text_entered"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
+[connection signal="file_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
 [connection signal="file_selected" from="Control/FileDialogText" to="Control/ImportExport" method="_on_FileDialogText_file_selected"]

@@ -40,7 +40,7 @@ var edited_cells_text := []
 var edit_cursor_positions := []
 var inspector_resource : Resource
 var search_cond : Reference
-var io := SpreadsheetEditFormatTres.new()
+var io : Reference
 
 var hidden_columns := {}
 var first_row := 0
@@ -55,8 +55,6 @@ func _ready():
 		.connect("property_edited", self, "_on_inspector_property_edited")
 	get_node(path_hide_columns_button).get_popup()\
 		.connect("id_pressed", self, "_on_VisibleCols_id_pressed")
-
-	io.editor_view = self
 
 	# Load saved recent paths
 	var file := File.new()
@@ -95,9 +93,9 @@ func _on_filesystem_changed():
 
 
 func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false):
-	if folderpath == "": return  # Root folder resources tend to have MANY properties.
+	if folderpath == "": return  # Root folder resources tend to have MANY properties.W
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
-	if folderpath.ends_with(".tres"):
+	if folderpath.ends_with(".tres") && !folderpath.ends_with(SpreadsheetImport.SUFFIX):
 		folderpath = folderpath.get_base_dir() + "/"
 
 	if search_cond == null:
@@ -118,7 +116,7 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	_update_hidden_columns()
 	_update_column_sizes()
 
-	yield(get_tree(), "idle_frame")
+	yield(get_tree().create_timer(0.5), "timeout")
 	if get_node(path_table_root).get_child_count() == 0:
 		display_folder(folderpath, sort_by, sort_reverse, force_rebuild)
 
@@ -130,8 +128,35 @@ func refresh(force_rebuild : bool = true):
 	display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
 
 
-func _load_resources_from_folder(folderpath : String, sort_by : String, sort_reverse : bool):
-	rows = io.import_from_path(folderpath, funcref(self, "insert_row_sorted"), sort_by, sort_reverse)
+func _load_resources_from_folder(path : String, sort_by : String, sort_reverse : bool):
+	if path.ends_with("/"):
+		io = SpreadsheetEditFormatTres.new()
+
+	else:
+		io = load(path).view_script.new()
+	
+	io.editor_view = self
+	rows = io.import_from_path(path, funcref(self, "insert_row_sorted"), sort_by, sort_reverse)
+
+
+func fill_property_data(res):
+	columns.clear()
+	column_types.clear()
+	column_hints.clear()
+	column_hint_strings.clear()
+	column_editors.clear()
+	var column_index = -1
+	for x in res.get_property_list():
+		if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
+			column_index += 1
+			columns.append(x["name"])
+			column_types.append(x["type"])
+			column_hints.append(x["hint"])
+			column_hint_strings.append(x["hint_string"].split(","))
+			for y in all_cell_editors:
+				if y.can_edit_value(io.get_value(res, x["name"]), x["type"], x["hint"], column_index):
+					column_editors.append(y)
+					break
 
 
 func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
@@ -348,10 +373,10 @@ func _on_RecentPaths_item_selected(index : int):
 	display_folder(current_path)
 
 
-func _on_FileDialog_dir_selected(dir : String):
-	get_node(path_folder_path).text = dir
-	add_path_to_recent(dir)
-	display_folder(dir)
+func _on_FileDialog_dir_selected(path : String):
+	get_node(path_folder_path).text = path
+	add_path_to_recent(path)
+	display_folder(path)
 
 
 func deselect_all_cells():
@@ -687,7 +712,11 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 
 
 func _update_resources(update_rows : Array, update_cells : Array, update_column : int, values : Array):
+	var saved_indices = []
+	saved_indices.resize(update_rows.size())
 	for i in update_rows.size():
+		var row = _get_cell_row(update_cells[i])
+		saved_indices[i] = row
 		column_editors[update_column].set_value(update_cells[i], values[i])
 		values[i] = _try_convert(values[i], column_types[update_column])
 		if values[i] == null:
@@ -696,9 +725,9 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 		io.set_value(
 			update_rows[i],
 			columns[update_column],
-			convert(values[i], column_types[update_column])
+			values[i],
+			row
 		)
-		io.save_entry(rows, i)
 		if column_types[update_column] == TYPE_COLOR:
 			for j in columns.size() - update_column:
 				if j != 0 and column_types[j + update_column] == TYPE_COLOR:
@@ -711,6 +740,7 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 					values[i]
 				)
 
+	io.save_entries(rows, saved_indices)
 	_update_column_sizes()
 
 
