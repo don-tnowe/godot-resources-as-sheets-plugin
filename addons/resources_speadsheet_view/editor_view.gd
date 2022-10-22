@@ -40,6 +40,7 @@ var edited_cells_text := []
 var edit_cursor_positions := []
 var inspector_resource : Resource
 var search_cond : Reference
+var io := SpreadsheetEditFormatTres.new()
 
 var hidden_columns := {}
 var first_row := 0
@@ -54,6 +55,8 @@ func _ready():
 		.connect("property_edited", self, "_on_inspector_property_edited")
 	get_node(path_hide_columns_button).get_popup()\
 		.connect("id_pressed", self, "_on_VisibleCols_id_pressed")
+
+	io.editor_view = self
 
 	# Load saved recent paths
 	var file := File.new()
@@ -94,15 +97,15 @@ func _on_filesystem_changed():
 func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false):
 	if folderpath == "": return  # Root folder resources tend to have MANY properties.
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
-	if !folderpath.ends_with("/"):
-		folderpath += "/"
+	if folderpath.ends_with(".tres"):
+		folderpath = folderpath.get_base_dir() + "/"
 
 	if search_cond == null:
 		_on_SearchCond_text_entered("true")
 
+	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
 	first_row = get_node(path_page_manager).first_row
 	last_row = min(get_node(path_page_manager).last_row, rows.size())
-	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
 	if columns.size() == 0: return
 
 	get_node(path_folder_path).text = folderpath
@@ -128,64 +131,22 @@ func refresh(force_rebuild : bool = true):
 
 
 func _load_resources_from_folder(folderpath : String, sort_by : String, sort_reverse : bool):
-	var dir := Directory.new()
-	dir.open(folderpath)
-	dir.list_dir_begin()
-
-	rows.clear()
-	remembered_paths.clear()
-	var cur_dir_script : Script = null
-
-	var filepath = dir.get_next()
-	var res : Resource
-
-	while filepath != "":
-		if filepath.ends_with(".tres"):
-			filepath = folderpath + filepath
-			res = load(filepath)
-			if !is_instance_valid(cur_dir_script):
-				columns.clear()
-				column_types.clear()
-				column_hints.clear()
-				column_hint_strings.clear()
-				column_editors.clear()
-				var column_index = -1
-				for x in res.get_property_list():
-					if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
-						column_index += 1
-						columns.append(x["name"])
-						column_types.append(x["type"])
-						column_hints.append(x["hint"])
-						column_hint_strings.append(x["hint_string"].split(","))
-						for y in all_cell_editors:
-							if y.can_edit_value(res.get(x["name"]), x["type"], x["hint"], column_index):
-								column_editors.append(y)
-								break
-								
-				cur_dir_script = res.get_script()
-				if !(sort_by in res):
-					sort_by = "resource_path"
-
-			if res.get_script() == cur_dir_script:
-				_insert_row_sorted(res, rows, sort_by, sort_reverse)
-				remembered_paths[res.resource_path] = res
-		
-		filepath = dir.get_next()
+	rows = io.import_from_path(folderpath, funcref(self, "insert_row_sorted"), sort_by, sort_reverse)
 
 
-func _insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
+func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
 	if !search_cond.can_show(res, rows.size()):
 		return
 		
 	for i in rows.size():
-		if sort_reverse == _compare_values(res.get(sort_by), rows[i].get(sort_by)):
+		if sort_reverse == compare_values(io.get_value(res, sort_by), io.get_value(rows[i], sort_by)):
 			rows.insert(i, res)
 			return
 	
 	rows.append(res)
 
 
-func _compare_values(a, b) -> bool:
+func compare_values(a, b) -> bool:
 	if a == null or b == null: return b == null
 	if a is Color:
 		return a.h > b.h if a.h != b.h else a.v > b.v
@@ -299,12 +260,12 @@ func _update_row(row_index : int, color_rows : bool = true):
 				+ "Of " + rows[row_index].resource_path.get_file().get_basename()
 			)
 		
-		column_editors[i].set_value(current_node, rows[row_index].get(columns[i]))
+		column_editors[i].set_value(current_node, io.get_value(rows[row_index], columns[i]))
 		if columns[i] == "resource_path":
 			column_editors[i].set_value(current_node, current_node.text.get_file().get_basename())
 
 		if color_rows and column_types[i] == TYPE_COLOR:
-			next_color = rows[row_index].get(columns[i])
+			next_color = io.get_value(rows[row_index], columns[i])
 
 		column_editors[i].set_color(current_node, next_color)
 
@@ -477,7 +438,7 @@ func _try_open_docks(cell : Control):
 	var column_index = _get_cell_column(cell)
 	for x in get_node(path_property_editors).get_children():
 		x.visible = x.try_edit_value(
-			rows[_get_cell_row(cell)].get(columns[column_index]),
+			io.get_value(rows[_get_cell_row(cell)], columns[column_index]),
 			column_types[column_index],
 			column_hints[column_index]
 		)
@@ -533,13 +494,13 @@ func get_edited_cells_values() -> Array:
 	var column_index := _get_cell_column(edited_cells[0])
 	var cell_editor = column_editors[column_index]
 	for i in arr.size():
-		arr[i] = rows[_get_cell_row(arr[i])].get(columns[column_index])
+		arr[i] = io.get_value(rows[_get_cell_row(arr[i])], columns[column_index])
 	
 	return arr
 
 
 func get_cell_value(cell : Control):
-	return rows[_get_cell_row(cell)].get(columns[_get_cell_column(cell)])
+	return io.get_value(rows[_get_cell_row(cell)], columns[_get_cell_column(cell)])
 
 
 func _can_select_cell(cell : Control) -> bool:
@@ -731,9 +692,13 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 		values[i] = _try_convert(values[i], column_types[update_column])
 		if values[i] == null:
 			continue
-
-		update_rows[i].set(columns[update_column], convert(values[i], column_types[update_column]))
-		ResourceSaver.save(update_rows[i].resource_path, update_rows[i])
+		
+		io.set_value(
+			update_rows[i],
+			columns[update_column],
+			convert(values[i], column_types[update_column])
+		)
+		io.save_entry(rows, i)
 		if column_types[update_column] == TYPE_COLOR:
 			for j in columns.size() - update_column:
 				if j != 0 and column_types[j + update_column] == TYPE_COLOR:

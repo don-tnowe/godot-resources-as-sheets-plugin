@@ -30,6 +30,15 @@ _global_script_classes=[ {
 "path": "res://addons/resources_speadsheet_view/typed_editors/dock_base.gd"
 }, {
 "base": "Reference",
+"class": "SpreadsheetEditFormat",
+"language": "GDScript",
+"path": "res://addons/resources_speadsheet_view/import_export/formats_edit/edit_base.gd"
+}, {
+"base": "SpreadsheetEditFormat",
+"class": "SpreadsheetEditFormatTres",
+"language": "GDScript",
+"path": "res://addons/resources_speadsheet_view/import_export/formats_edit/edit_tres.gd"
+}, {
 "class": "TextEditingUtils",
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/text_editing_utils.gd"
