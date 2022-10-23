@@ -2,6 +2,8 @@ tool
 extends WindowDialog
 
 export var prop_list_item_scene : PackedScene
+export(Array, Script) var formats_export
+export(Array, Script) var formats_import
 
 onready var editor_view := $"../.."
 onready var node_filename_options := $"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/OptionButton"
@@ -18,60 +20,23 @@ var import_data : SpreadsheetImport
 func _on_FileDialogText_file_selected(path : String):
 	import_data = SpreadsheetImport.new()
 	import_data.initialize(path)
-
-	_open_dialog()
+	_reset_controls()
+	_open_dialog(path)
 	popup_centered()
 
 
-func _open_dialog():
+func _open_dialog(path : String):
 	node_classname_field.text = TextEditingUtils\
 		.string_snake_to_naming_case(import_data.edited_path.get_file().get_basename())\
 		.replace(" ", "")
 	import_data.script_classname = node_classname_field.text
 
-	_load_entries()
+	for x in formats_import:
+		if x.new().can_edit_path(path):
+			entries = x.new().import_as_arrays(import_data)
+
 	_load_property_names()
 	_create_prop_editors()
-
-
-func _load_entries():
-	var file = File.new()
-	file.open(import_data.edited_path, File.READ)
-
-	import_data.delimeter = ";"
-	var text_lines := [file.get_line().split(import_data.delimeter)]
-	var space_after_delimeter = false
-	var line = text_lines[0]
-	if line.size() == 1:
-		import_data.delimeter = ","
-		line = line[0].split(import_data.delimeter)
-		text_lines[0] = line
-		if line[1].begins_with(" "):
-			for i in line.size():
-				line[i] = line[i].trim_prefix(" ")
-			
-			text_lines[0] = line
-			space_after_delimeter = true
-			import_data.delimeter = ", "
-
-	while !file.eof_reached():
-		line = file.get_csv_line(import_data.delimeter[0])
-		if space_after_delimeter:
-			for i in line.size():
-				line[i] = line[i].trim_prefix(" ")
-
-		if line.size() == text_lines[0].size():
-			text_lines.append(line)
-
-		elif line.size() != 1:
-			line.resize(text_lines[0].size())
-			text_lines.append(line)
-
-	entries = []
-	entries.resize(text_lines.size())
-
-	for i in entries.size():
-		entries[i] = text_lines[i]
 
 
 func _load_property_names():
@@ -89,10 +54,8 @@ func _load_property_names():
 			.replace("\\", "_")\
 			.to_lower()
 		
-		if entries[1][i].is_valid_integer():
-			import_data.prop_types[i] = SpreadsheetImport.PropType.INT
-
-		elif entries[1][i].is_valid_float():
+		# Don't imply Ints automatically - further rows might have floats
+		if entries[1][i].is_valid_float():
 			import_data.prop_types[i] = SpreadsheetImport.PropType.REAL
 				
 		elif entries[1][i].begins_with("res://"):
@@ -118,29 +81,16 @@ func _create_prop_editors():
 
 func _generate_class(save_script = true):
 	var new_script = GDScript.new()
-	if import_data.script_classname != "":
+	if save_script and import_data.script_classname != "":
 		new_script.source_code = "class_name " + import_data.script_classname + " \nextends Resource\n\n"
 
 	else:
 		new_script.source_code = "extends Resource\n\n"
 	
 	# Enums
-	var uniques = {}
-	import_data.uniques = uniques
+	import_data.uniques = import_data.get_uniques(entries)
 	for i in import_data.prop_types.size():
 		if import_data.prop_types[i] == SpreadsheetImport.PropType.ENUM:
-			var cur_value := ""
-			uniques[i] = {}
-			for j in entries.size():
-				if j == 0 and import_data.remove_first_row: continue
-
-				cur_value = entries[j][i].replace(" ", "_").to_upper()
-				if cur_value == "":
-					cur_value = "N_A"
-				
-				if !uniques[i].has(cur_value):
-					uniques[i][cur_value] = uniques[i].size()
-			
 			new_script.source_code += import_data.create_enum_for_prop(i)
 	
 	# Properties
@@ -169,7 +119,7 @@ func _export_tres_folder():
 		ResourceSaver.save(new_res.resource_path, new_res)
 
 
-func _on_Ok_pressed():
+func _on_import_to_tres_pressed():
 	hide()
 	_generate_class()
 	_export_tres_folder()
@@ -179,12 +129,26 @@ func _on_Ok_pressed():
 	editor_view.refresh()
 
 
-func _on_OkSafe_pressed():
+func _on_import_edit_pressed():
 	hide()
 	_generate_class(false)
+	import_data.prop_used_as_filename = ""
 	import_data.save()
 	yield(get_tree(), "idle_frame")
 	editor_view.display_folder(import_data.resource_path)
+	yield(get_tree(), "idle_frame")
+	editor_view.refresh()
+
+
+func _on_export_csv_pressed():
+	hide()
+	var exported_cols = editor_view.columns.duplicate()
+	exported_cols.erase("resource_path")
+	exported_cols.erase("resource_local_to_scene")
+	for x in editor_view.hidden_columns[editor_view.current_path].keys():
+		exported_cols.erase(x)
+
+	SpreadsheetExportFormatCsv.export_to_file(editor_view.rows, exported_cols, import_data.edited_path, import_data)
 	yield(get_tree(), "idle_frame")
 	editor_view.refresh()
 
@@ -196,6 +160,8 @@ func _on_classname_field_text_changed(new_text : String):
 
 func _on_remove_first_row_toggled(button_pressed : bool):
 	import_data.remove_first_row = button_pressed
+	$"TabContainer/Export/HBoxContainer2/Button".pressed = true
+	$"TabContainer/Export/HBoxContainer3/CheckBox".pressed = true
 
 
 func _on_filename_options_item_selected(index):
@@ -208,3 +174,20 @@ func _on_list_item_type_selected(type : int, index : int):
 
 func _on_list_item_name_changed(name : String, index : int):
 	import_data.prop_names[index] = name.replace(" ", "")
+
+
+func _on_export_delimeter_pressed(del : String):
+	import_data.delimeter = del + import_data.delimeter.substr(1)
+
+
+func _on_export_space_toggled(button_pressed : bool):
+	import_data.delimeter = (
+		import_data.delimeter[0]
+		if !button_pressed else
+		import_data.delimeter + " "
+	)
+
+
+func _reset_controls():
+	$"TabContainer/Export/HBoxContainer2/CheckBox".pressed = false
+	_on_remove_first_row_toggled(true)

@@ -2,8 +2,6 @@ tool
 class_name SpreadsheetImport
 extends Resource
 
-const SUFFIX := "_spreadsheet_import.tres"
-
 enum PropType {
 	BOOL,
 	INT,
@@ -17,6 +15,16 @@ enum PropType {
 	OBJECT,
 	ENUM,
 	MAX,
+}
+
+const SUFFIX := "_spreadsheet_import.tres"
+const TYPE_MAP := {
+	TYPE_STRING : PropType.STRING,
+	TYPE_REAL : PropType.REAL,
+	TYPE_BOOL : PropType.BOOL,
+	TYPE_INT : PropType.INT,
+	TYPE_OBJECT : PropType.OBJECT,
+	TYPE_COLOR : PropType.COLOR,
 }
 
 export var prop_types : Array
@@ -75,6 +83,11 @@ func string_to_property(string : String, col_index : int):
 
 
 func property_to_string(value, col_index : int) -> String:
+	if prop_types[col_index] is PoolStringArray:
+		return TextEditingUtils.string_snake_to_naming_case(
+			prop_types[col_index][value]
+		)
+
 	match prop_types[col_index]:
 		PropType.STRING:
 			return value
@@ -185,3 +198,44 @@ func resource_to_strings(res : Resource):
 		strings[i] = property_to_string(res.get(prop_names[i]), i)
 	
 	return PoolStringArray(strings)
+
+
+func get_uniques(entries : Array) -> Dictionary:
+	var result = {}
+	for i in prop_types.size():
+		if prop_types[i] == PropType.ENUM:
+			var cur_value := ""
+			result[i] = {}
+			for j in entries.size():
+				if j == 0 and remove_first_row: continue
+
+				cur_value = entries[j][i].replace(" ", "_").to_upper()
+				if cur_value == "":
+					cur_value = "N_A"
+				
+				if !result[i].has(cur_value):
+					result[i][cur_value] = result[i].size()
+
+	return result
+
+
+static func get_resource_property_types(res : Resource, properties : Array) -> Array:
+	var result = []
+	result.resize(properties.size())
+	result.fill(PropType.STRING)
+	var cur_type := 0
+	for x in res.get_property_list():
+		var found = properties.find(x["name"])
+		if found == -1: continue
+		if x["usage"] & PROPERTY_USAGE_EDITOR != 0:
+			if x["hint"] == PROPERTY_HINT_ENUM:
+				var enum_values = x["hint_string"].split(",")
+				for i in enum_values.size():
+					enum_values[i] = enum_values[i].left(enum_values[i].find(":"))
+
+				result[found] = enum_values
+
+			else:
+				result[found] = TYPE_MAP.get(x["type"], PropType.STRING)
+	
+	return result
