@@ -79,7 +79,16 @@ func _load_property_names():
 	import_data.prop_types.resize(import_data.prop_names.size())
 	import_data.prop_types.fill(4)
 	for i in import_data.prop_names.size():
-		import_data.prop_names[i] = entries[0][i].replace(" ", "_").to_lower()
+		import_data.prop_names[i] = entries[0][i]\
+			.replace(" ", "_")\
+			.replace("-", "_")\
+			.replace(".", "_")\
+			.replace(",", "_")\
+			.replace("\t", "_")\
+			.replace("/", "_")\
+			.replace("\\", "_")\
+			.to_lower()
+		
 		if entries[1][i].is_valid_integer():
 			import_data.prop_types[i] = SpreadsheetImport.PropType.INT
 
@@ -107,7 +116,7 @@ func _create_prop_editors():
 		new_node.connect_all_signals(self, i)
 
 
-func _generate_class():
+func _generate_class(save_script = true):
 	var new_script = GDScript.new()
 	if import_data.script_classname != "":
 		new_script.source_code = "class_name " + import_data.script_classname + " \nextends Resource\n\n"
@@ -123,7 +132,7 @@ func _generate_class():
 			var cur_value := ""
 			uniques[i] = {}
 			for j in entries.size():
-				if j == 0 && import_data.remove_first_row: continue
+				if j == 0 and import_data.remove_first_row: continue
 
 				cur_value = entries[j][i].replace(" ", "_").to_upper()
 				if cur_value == "":
@@ -137,12 +146,13 @@ func _generate_class():
 	# Properties
 	for i in import_data.prop_names.size():
 		new_script.source_code += import_data.create_property_line_for_prop(i)
-
-	ResourceSaver.save(import_data.edited_path.get_basename() + ".gd", new_script)
-	new_script.reload()
 	
-	# Because when instanced, objects have a copy of the script
-	import_data.new_script = load(import_data.edited_path.get_basename() + ".gd")
+	import_data.new_script = new_script
+	new_script.reload()
+	if save_script:
+		ResourceSaver.save(import_data.edited_path.get_basename() + ".gd", new_script)
+		# Because when instanced, objects have a copy of the script
+		import_data.new_script = load(import_data.edited_path.get_basename() + ".gd")
 
 
 func _export_tres_folder():
@@ -171,7 +181,7 @@ func _on_Ok_pressed():
 
 func _on_OkSafe_pressed():
 	hide()
-	_generate_class()
+	_generate_class(false)
 	import_data.save()
 	yield(get_tree(), "idle_frame")
 	editor_view.display_folder(import_data.resource_path)
