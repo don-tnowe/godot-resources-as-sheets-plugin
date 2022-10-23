@@ -92,7 +92,7 @@ func _on_filesystem_changed():
 				break
 
 
-func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false):
+func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false, is_echo : bool = false):
 	if folderpath == "": return  # Root folder resources tend to have MANY properties.W
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
 	if folderpath.ends_with(".tres") && !folderpath.ends_with(SpreadsheetImport.SUFFIX):
@@ -115,10 +115,11 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	current_path = folderpath
 	_update_hidden_columns()
 	_update_column_sizes()
-
-	yield(get_tree().create_timer(0.5), "timeout")
+	
+	if is_echo: return
+	yield(get_tree().create_timer(0.25), "timeout")
 	if get_node(path_table_root).get_child_count() == 0:
-		display_folder(folderpath, sort_by, sort_reverse, force_rebuild)
+		display_folder(folderpath, sort_by, sort_reverse, force_rebuild, true)
 
 	else:
 		emit_signal("grid_updated")
