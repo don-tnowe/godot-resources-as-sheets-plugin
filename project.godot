@@ -63,11 +63,6 @@ _global_script_classes=[ {
 "class": "ThemeStylebox",
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/editor_stylebox_overrider.gd"
-}, {
-"base": "Resource",
-"class": "TrainBigmartsalesprediction",
-"language": "GDScript",
-"path": "res://aa/train_BigMartSalesPrediction.gd"
 } ]
 _global_script_class_icons={
 "CellEditor": "",
@@ -80,8 +75,7 @@ _global_script_class_icons={
 "SpreadsheetImport": "",
 "TextEditingUtils": "",
 "ThemeIconButton": "",
-"ThemeStylebox": "",
-"TrainBigmartsalesprediction": ""
+"ThemeStylebox": ""
 }
 color_rows=false
 color_arrays=true

@@ -167,7 +167,7 @@ func create_enum_for_prop(col_index):
 
 func strings_to_resource(strings : Array):
   var new_res = new_script.new()
-  for j in prop_names.size():
+  for j in min(prop_names.size(), strings.size()):
     new_res.set(prop_names[j], string_to_property(strings[j], j))
   
   if prop_used_as_filename != "":
