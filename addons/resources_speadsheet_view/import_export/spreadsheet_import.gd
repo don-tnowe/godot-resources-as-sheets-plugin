@@ -35,10 +35,10 @@ export var uniques : Dictionary
 
 
 func initialize(path):
-  resource_path = path.get_basename() + SUFFIX
-  edited_path = path
-  prop_types = []
-  prop_names = []
+	resource_path = path.get_basename() + SUFFIX
+	edited_path = path
+	prop_types = []
+	prop_names = []
 
 
 func save():
@@ -46,140 +46,142 @@ func save():
 
 
 func string_to_property(string : String, col_index : int):
-  match prop_types[col_index]:
-    PropType.STRING:
-      return string
+	match prop_types[col_index]:
+		PropType.STRING:
+			return string
 
-    PropType.BOOL:
-      string = string.to_lower()
-      return !string in ["no", "disabled", "-", "false", "absent", "wrong", "off", ""]
+		PropType.BOOL:
+			string = string.to_lower()
+			return !string in ["no", "disabled", "-", "false", "absent", "wrong", "off", ""]
 
-    PropType.REAL:
-      return string.to_float()
+		PropType.REAL:
+			return string.to_float()
 
-    PropType.INT:
-      return string.to_int()
+		PropType.INT:
+			return string.to_int()
 
-    PropType.COLOR:
-      return Color(string)
+		PropType.COLOR:
+			return Color(string)
 
-    PropType.OBJECT:
-      return load(string)
+		PropType.OBJECT:
+			return load(string)
 
-    PropType.ENUM:
-      if string == "":
-        return int(uniques[col_index]["N_A"])
+		PropType.ENUM:
+			if string == "":
+				return int(uniques[col_index]["N_A"])
 
-      else:
-        return int(uniques[col_index][string.to_upper().replace(" ", "_")])
+			else:
+				return int(uniques[col_index][string.to_upper().replace(" ", "_")])
 
 
-func property_to_string(value, col_index : int):
-  match prop_types[col_index]:
-    PropType.STRING:
-      return value
+func property_to_string(value, col_index : int) -> String:
+	match prop_types[col_index]:
+		PropType.STRING:
+			return value
 
-    PropType.BOOL:
-      return str(value)  # TODO: make this actually persist
+		PropType.BOOL:
+			return str(value)  # TODO: make this actually persist
 
-    PropType.REAL, PropType.INT:
-      return str(value)
+		PropType.REAL, PropType.INT:
+			return str(value)
 
-    PropType.COLOR:
-      return value.to_html()
+		PropType.COLOR:
+			return value.to_html()
 
-    PropType.OBJECT:
-      return value.resource_path
+		PropType.OBJECT:
+			return value.resource_path
 
-    PropType.ENUM:
-      var dict = uniques[col_index]
-      for k in dict:
-        if dict[k] == value:
-          return TextEditingUtils.string_snake_to_naming_case(k)
+		PropType.ENUM:
+			var dict = uniques[col_index]
+			for k in dict:
+				if dict[k] == value:
+					return TextEditingUtils.string_snake_to_naming_case(k)
+		
+	return str(value)
 
 
 func create_property_line_for_prop(col_index : int):
-  var result = "export var " + prop_names[col_index] + " :"
-  match prop_types[col_index]:
-    PropType.STRING:
-      return result + "= \"\"\n"
+	var result = "export var " + prop_names[col_index] + " :"
+	match prop_types[col_index]:
+		PropType.STRING:
+			return result + "= \"\"\n"
 
-    PropType.BOOL:
-      return result + "= false\n"
+		PropType.BOOL:
+			return result + "= false\n"
 
-    PropType.REAL:
-      return result + "= 0.0\n"
+		PropType.REAL:
+			return result + "= 0.0\n"
 
-    PropType.INT:
-      return result + "= 0\n"
+		PropType.INT:
+			return result + "= 0\n"
 
-    PropType.COLOR:
-      return result + "= Color.white\n"
+		PropType.COLOR:
+			return result + "= Color.white\n"
 
-    PropType.OBJECT:
-      return result + " Resource\n"
+		PropType.OBJECT:
+			return result + " Resource\n"
 
-    PropType.ENUM:
-      return result.replace(
-        "export var",
-        "export(" + _escape_forbidden_enum_names(
-            TextEditingUtils\
-              .string_snake_to_naming_case(prop_names[col_index])\
-              .replace(" ", "")
-          ) + ") var"
-      ) + "= 0\n"
+		PropType.ENUM:
+			return result.replace(
+				"export var",
+				"export(" + _escape_forbidden_enum_names(
+						TextEditingUtils\
+							.string_snake_to_naming_case(prop_names[col_index])\
+							.replace(" ", "")
+					) + ") var"
+			) + "= 0\n"
 
 
 func _escape_forbidden_enum_names(string : String) -> String:
-  if ClassDB.class_exists(string):
-    return string + "_"
-  
-  # Not in ClassDB, but are engine types and can be property names
-  if string in [
-    "Color", "String", "Plane",
-    "Basis", "Transform", "Variant",
-  ]:
-    return string + "_"
+	if ClassDB.class_exists(string):
+		return string + "_"
+	
+	# Not in ClassDB, but are engine types and can be property names
+	if string in [
+		"Color", "String", "Plane",
+		"Basis", "Transform", "Variant",
+	]:
+		return string + "_"
 
-  return string
+	return string
 
 
 func create_enum_for_prop(col_index):
-  var result := (
-    "enum "
-    + _escape_forbidden_enum_names(
-      TextEditingUtils\
-        .string_snake_to_naming_case(prop_names[col_index])\
-        .replace(" ", "")
-    ) + " {\n"
-  )
-  for k in uniques[col_index]:
-    result += (
-      "\t"
-      + k  # Enum Entry
-      + " = "
-      + str(uniques[col_index][k])  # Value
-      + ",\n"
-    )
-  result += "\tMAX,\n}\n\n"
-  return result
+	var result := (
+		"enum "
+		+ _escape_forbidden_enum_names(
+			TextEditingUtils\
+				.string_snake_to_naming_case(prop_names[col_index])\
+				.replace(" ", "")
+		) + " {\n"
+	)
+	for k in uniques[col_index]:
+		result += (
+			"\t"
+			+ k  # Enum Entry
+			+ " = "
+			+ str(uniques[col_index][k])  # Value
+			+ ",\n"
+		)
+	result += "\tMAX,\n}\n\n"
+	return result
 
 
 func strings_to_resource(strings : Array):
-  var new_res = new_script.new()
-  for j in min(prop_names.size(), strings.size()):
-    new_res.set(prop_names[j], string_to_property(strings[j], j))
-  
-  if prop_used_as_filename != "":
-    new_res.resource_path = edited_path.get_basename() + "/" + new_res.get(prop_used_as_filename) + ".tres"
-  
-  return new_res
+	var new_res = new_script.new()
+	for j in min(prop_names.size(), strings.size()):
+		new_res.set(prop_names[j], string_to_property(strings[j], j))
+	
+	if prop_used_as_filename != "":
+		new_res.resource_path = edited_path.get_basename() + "/" + new_res.get(prop_used_as_filename) + ".tres"
+	
+	return new_res
 
 
 func resource_to_strings(res : Resource):
-  var strings := []
-  strings.resize(prop_names.size())
-  for i in prop_names.size():
-    strings[i] = property_to_string(res.get(prop_names[i]), i)
-  
-  return PoolStringArray(strings)
+	var strings := []
+	strings.resize(prop_names.size())
+	for i in prop_names.size():
+		strings[i] = property_to_string(res.get(prop_names[i]), i)
+	
+	return PoolStringArray(strings)
