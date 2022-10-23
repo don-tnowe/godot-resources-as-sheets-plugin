@@ -72,7 +72,8 @@ func _ready():
 	for x in cell_editor_classes:
 		all_cell_editors.append(x.new())
 		all_cell_editors[all_cell_editors.size() - 1].hint_strings_array = column_hint_strings
-
+	
+	get_node(path_recent_paths).selected = 0
 	display_folder(recent_paths[0], "resource_name", false, true)
 
 
@@ -95,12 +96,16 @@ func _on_filesystem_changed():
 func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false, is_echo : bool = false):
 	if folderpath == "": return  # Root folder resources tend to have MANY properties.W
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
-	if folderpath.ends_with(".tres") && !folderpath.ends_with(SpreadsheetImport.SUFFIX):
-		folderpath = folderpath.get_base_dir() + "/"
+	if folderpath.get_extension() == "":
+		folderpath = folderpath.trim_suffix("/") + "/"
 
+	if folderpath.ends_with(".tres") and !folderpath.ends_with(SpreadsheetImport.SUFFIX):
+		folderpath = folderpath.get_base_dir() + "/"
+	
 	if search_cond == null:
 		_on_SearchCond_text_entered("true")
 
+	add_path_to_recent(folderpath)
 	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
 	first_row = get_node(path_page_manager).first_row
 	last_row = min(get_node(path_page_manager).last_row, rows.size())
@@ -361,7 +366,6 @@ func save_data():
 func _on_Path_text_entered(new_text : String = ""):
 	if new_text != "":
 		current_path = new_text
-		add_path_to_recent(new_text)
 		display_folder(new_text, "", false, true)
 
 	else:
@@ -376,7 +380,6 @@ func _on_RecentPaths_item_selected(index : int):
 
 func _on_FileDialog_dir_selected(path : String):
 	get_node(path_folder_path).text = path
-	add_path_to_recent(path)
 	display_folder(path)
 
 

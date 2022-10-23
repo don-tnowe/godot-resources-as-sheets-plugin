@@ -142,7 +142,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_right = 484.0
+margin_right = 475.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
@@ -159,7 +159,7 @@ text = "Resource Folder:"
 [node name="Path" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 margin_left = 107.0
-margin_right = 400.0
+margin_right = 391.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 caret_blink = true
@@ -169,8 +169,8 @@ __meta__ = {
 }
 
 [node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 400.0
-margin_right = 428.0
+margin_left = 391.0
+margin_right = 419.0
 margin_bottom = 24.0
 hint_tooltip = "Open Folder of Resources"
 icon = SubResource( 2 )
@@ -181,8 +181,8 @@ __meta__ = {
 icon_name = "Folder"
 
 [node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 428.0
-margin_right = 456.0
+margin_left = 419.0
+margin_right = 447.0
 margin_bottom = 24.0
 hint_tooltip = "Refresh"
 icon = SubResource( 2 )
@@ -193,8 +193,8 @@ __meta__ = {
 icon_name = "Refresh"
 
 [node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 456.0
-margin_right = 484.0
+margin_left = 447.0
+margin_right = 475.0
 margin_bottom = 24.0
 hint_tooltip = "Remove Path from Recent"
 icon = SubResource( 2 )
@@ -205,7 +205,7 @@ __meta__ = {
 icon_name = "Remove"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
-margin_left = 496.0
+margin_left = 487.0
 margin_right = 1018.0
 margin_bottom = 24.0
 
@@ -231,10 +231,10 @@ __meta__ = {
 
 [node name="SelectFile" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
 margin_left = 373.0
-margin_right = 522.0
+margin_right = 531.0
 margin_bottom = 24.0
 hint_tooltip = "Import/Export Text File"
-text = "Import from text..."
+text = "Import/Export CSV..."
 icon = SubResource( 2 )
 script = ExtResource( 4 )
 __meta__ = {
@@ -536,7 +536,7 @@ rect_min_size = Vector2( 150, 52.5 )
 window_title = "Open a Folder"
 mode_overrides_title = false
 mode = 3
-filters = PoolStringArray( "*_spreadsheet_import.tres" )
+filters = PoolStringArray( "*.tres" )
 
 [node name="FileDialogText" type="FileDialog" parent="Control"]
 anchor_left = 0.5
@@ -554,6 +554,7 @@ mode = 0
 filters = PoolStringArray( "*.csv" )
 
 [node name="ImportExport" parent="Control" instance=ExtResource( 18 )]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
