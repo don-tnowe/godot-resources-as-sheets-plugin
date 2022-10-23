@@ -145,7 +145,7 @@ static func _step_cursor(text : String, start : int, step : int = 1, ctrl_presse
 static func string_snake_to_naming_case(string : String, add_spaces : bool = true) -> String:
 	if string == "": return ""
 
-	var split = string.split("_")
+	var split = string.split("_", false)
 	for i in split.size():
 		split[i] = split[i][0].to_upper() + split[i].substr(1).to_lower()
 	

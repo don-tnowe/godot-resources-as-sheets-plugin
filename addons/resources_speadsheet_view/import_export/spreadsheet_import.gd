@@ -52,7 +52,7 @@ func string_to_property(string : String, col_index : int):
 
     PropType.BOOL:
       string = string.to_lower()
-      return !string in ["no", "disabled", "-", "false", "absent", "wrong", ""]
+      return !string in ["no", "disabled", "-", "false", "absent", "wrong", "off", ""]
 
     PropType.REAL:
       return string.to_float()
@@ -122,19 +122,36 @@ func create_property_line_for_prop(col_index : int):
     PropType.ENUM:
       return result.replace(
         "export var",
-        "export("
-          + TextEditingUtils.string_snake_to_naming_case(
-            prop_names[col_index]
-          ).replace(" ", "")
-          + ") var"
+        "export(" + _escape_forbidden_enum_names(
+            TextEditingUtils\
+              .string_snake_to_naming_case(prop_names[col_index])\
+              .replace(" ", "")
+          ) + ") var"
       ) + "= 0\n"
+
+
+func _escape_forbidden_enum_names(string : String) -> String:
+  if ClassDB.class_exists(string):
+    return string + "_"
+  
+  # Not in ClassDB, but are engine types and can be property names
+  if string in [
+    "Color", "String", "Plane",
+    "Basis", "Transform", "Variant",
+  ]:
+    return string + "_"
+
+  return string
 
 
 func create_enum_for_prop(col_index):
   var result := (
     "enum "
-    + TextEditingUtils.string_snake_to_naming_case(prop_names[col_index]).replace(" ", "")
-    + " {\n"
+    + _escape_forbidden_enum_names(
+      TextEditingUtils\
+        .string_snake_to_naming_case(prop_names[col_index])\
+        .replace(" ", "")
+    ) + " {\n"
   )
   for k in uniques[col_index]:
     result += (
