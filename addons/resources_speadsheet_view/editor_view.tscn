@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/editor_view.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/typed_cells/cell_editor_string.gd" type="Script" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_enum_array.tscn" type="PackedScene" id=16]
 [ext_resource path="res://addons/resources_speadsheet_view/table_pages.gd" type="Script" id=17]
 [ext_resource path="res://addons/resources_speadsheet_view/import_export/import_export_dialog.tscn" type="PackedScene" id=18]
+[ext_resource path="res://addons/resources_speadsheet_view/selection_actions.tscn" type="PackedScene" id=19]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -596,14 +597,16 @@ bbcode_text = "[center]Edit Resources as Spreadsheet[/center]
 \"Welp, it is what it sounds like!\"
 
 Possible inputs:
-- [code]Ctrl + Click / Cmd + Click[/code] - Select multiple cells in one column
-- [code]Shift + Click[/code] - Select all cells between A and B in one column
-- [code]Left/Right[/code] - Move cursor along cell text
-- [code]Backspace/Delete[/code] - Erase text Left / Right from cursor
-- [code]Home/End[/code] - Move cursor to start/end of cell
-- [code]Ctrl + <move/erase> / Cmd + <move/erase>[/code] - Move through / Erase whole word
-- [code]Ctrl/Cmd + C/V[/code] - Copy cells / Paste text into cells 
-- [code]Ctrl/Cmd + (Shift) + Z[/code] - The Savior 
+- Ctrl + Click / Cmd + Click[/code] - Select multiple cells in one column
+- Shift + Click[/code] - Select all cells between A and B in one column
+- Left/Right[/code] - Move cursor along cell text
+- Backspace/Delete[/code] - Erase text Left / Right from cursor
+- Home/End[/code] - Move cursor to start/end of cell
+- Ctrl + <move/erase> / Cmd + <move/erase>[/code] - Move through / Erase whole word
+- Ctrl/Cmd + R - Rename resource
+- Ctrl/Cmd + D - Duplicate selected rows
+- Ctrl/Cmd + C/V[/code] - Copy cells / Paste text into cells 
+- Ctrl/Cmd + (Shift) + Z[/code] - The Savior 
 If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
 
 Made by Don Tnowe. 2022.
@@ -615,14 +618,16 @@ text = "Edit Resources as Spreadsheet
 \"Welp, it is what it sounds like!\"
 
 Possible inputs:
-- Ctrl + Click / Cmd + Click - Select multiple cells in one column
-- Shift + Click - Select all cells between A and B in one column
-- Left/Right - Move cursor along cell text
-- Backspace/Delete - Erase text Left / Right from cursor
-- Home/End - Move cursor to start/end of cell
-- Ctrl + <move/erase> / Cmd + <move/erase> - Move through / Erase whole word
-- Ctrl/Cmd + C/V - Copy cells / Paste text into cells 
-- Ctrl/Cmd + (Shift) + Z - The Savior 
+- Ctrl + Click / Cmd + Click[/code] - Select multiple cells in one column
+- Shift + Click[/code] - Select all cells between A and B in one column
+- Left/Right[/code] - Move cursor along cell text
+- Backspace/Delete[/code] - Erase text Left / Right from cursor
+- Home/End[/code] - Move cursor to start/end of cell
+- Ctrl + <move/erase> / Cmd + <move/erase>[/code] - Move through / Erase whole word
+- Ctrl/Cmd + R - Rename resource
+- Ctrl/Cmd + D - Duplicate selected rows
+- Ctrl/Cmd + C/V[/code] - Copy cells / Paste text into cells 
+- Ctrl/Cmd + (Shift) + Z[/code] - The Savior 
 If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
 
 Made by Don Tnowe. 2022.
@@ -741,6 +746,11 @@ margin_bottom = 150.0
 pressed = true
 text = "Enable"
 
+[node name="SelectionActions" parent="Control" instance=ExtResource( 19 )]
+visible = false
+
+[connection signal="cells_context" from="." to="Control/SelectionActions" method="_on_grid_cells_context"]
+[connection signal="cells_selected" from="." to="Control/SelectionActions" method="_on_grid_cells_selected"]
 [connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/Pages" method="_on_Control_grid_updated"]
 [connection signal="about_to_show" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/VisibleCols" to="." method="_on_VisibleCols_about_to_show"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer2/Settings" to="Control/Settings" method="popup_centered"]

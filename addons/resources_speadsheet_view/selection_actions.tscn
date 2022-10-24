@@ -1,0 +1,182 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/editor_icon_button.gd" type="Script" id=1]
+[ext_resource path="res://addons/resources_speadsheet_view/selection_actions.gd" type="Script" id=2]
+
+[sub_resource type="Image" id=3]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "LumAlpha8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id=2]
+flags = 4
+flags = 4
+image = SubResource( 3 )
+size = Vector2( 16, 16 )
+
+[node name="SelectionActions" type="MarginContainer"]
+margin_right = 84.0
+margin_bottom = 44.0
+mouse_filter = 2
+size_flags_horizontal = 9
+script = ExtResource( 2 )
+
+[node name="Control2" type="Control" parent="."]
+margin_right = 84.0
+margin_bottom = 44.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control2"]
+show_behind_parent = true
+margin_left = -2.0
+margin_top = -18.0
+margin_bottom = 2.0
+
+[node name="ColorRect2" type="ColorRect" parent="Control2"]
+show_behind_parent = true
+anchor_bottom = 1.0
+margin_left = -2.0
+
+[node name="Label" type="Label" parent="Control2"]
+margin_left = 2.0
+margin_top = -16.0
+margin_right = 50.0
+margin_bottom = -2.0
+text = "Actions"
+
+[node name="ColorRect3" type="Panel" parent="Control2/Label"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0
+margin_top = -2.0
+margin_bottom = 2.0
+mouse_filter = 2
+
+[node name="GridContainer" type="GridContainer" parent="."]
+margin_right = 84.0
+margin_bottom = 44.0
+mouse_filter = 2
+size_flags_horizontal = 9
+size_flags_vertical = 9
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+columns = 3
+
+[node name="Duplicate" type="Button" parent="GridContainer"]
+margin_right = 28.0
+margin_bottom = 22.0
+hint_tooltip = "Duplicate Selected Rows (Ctrl+D)"
+icon = SubResource( 2 )
+script = ExtResource( 1 )
+icon_name = "Duplicate"
+
+[node name="CbCopy" type="Button" parent="GridContainer"]
+margin_left = 28.0
+margin_right = 56.0
+margin_bottom = 22.0
+hint_tooltip = "Copy to Clipboard (Ctrl+C)"
+icon = SubResource( 2 )
+script = ExtResource( 1 )
+icon_name = "ActionCopy"
+
+[node name="CbPaste" type="Button" parent="GridContainer"]
+margin_left = 56.0
+margin_right = 84.0
+margin_bottom = 22.0
+hint_tooltip = "Paste Clipboard (Ctrl+V)"
+icon = SubResource( 2 )
+script = ExtResource( 1 )
+icon_name = "ActionPaste"
+
+[node name="Rename" type="Button" parent="GridContainer"]
+margin_top = 22.0
+margin_right = 28.0
+margin_bottom = 44.0
+hint_tooltip = "Rename Selected Rows (Ctrl+R)"
+icon = SubResource( 2 )
+script = ExtResource( 1 )
+icon_name = "Edit"
+
+[node name="Delete" type="Button" parent="GridContainer"]
+margin_left = 28.0
+margin_top = 22.0
+margin_right = 56.0
+margin_bottom = 44.0
+hint_tooltip = "DELETE Selected Rows"
+icon = SubResource( 2 )
+script = ExtResource( 1 )
+icon_name = "Remove"
+
+[node name="Control" type="Control" parent="."]
+margin_right = 84.0
+margin_bottom = 44.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.498039 )
+
+[node name="Popup" type="Popup" parent="Control/ColorRect"]
+visible = true
+margin_left = 42.0
+margin_top = 22.0
+margin_right = 42.0
+margin_bottom = 22.0
+mouse_filter = 2
+popup_exclusive = true
+
+[node name="Panel" type="PanelContainer" parent="Control/ColorRect/Popup"]
+margin_right = 14.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 192, 0 )
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/Popup/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 185.0
+margin_bottom = 73.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+margin_right = 178.0
+margin_bottom = 14.0
+text = "Input new name..."
+
+[node name="LineEdit" type="LineEdit" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+margin_top = 18.0
+margin_right = 178.0
+margin_bottom = 42.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+margin_top = 46.0
+margin_right = 178.0
+margin_bottom = 66.0
+alignment = 1
+
+[node name="Button" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 44.0
+margin_right = 75.0
+margin_bottom = 20.0
+text = "OK"
+
+[node name="Button2" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 79.0
+margin_right = 133.0
+margin_bottom = 20.0
+text = "Cancel"
+
+[connection signal="pressed" from="GridContainer/Duplicate" to="." method="_on_Duplicate_pressed"]
+[connection signal="pressed" from="GridContainer/CbCopy" to="." method="_on_CbCopy_pressed"]
+[connection signal="pressed" from="GridContainer/CbPaste" to="." method="_on_CbPaste_pressed"]
+[connection signal="pressed" from="GridContainer/Rename" to="." method="_on_Rename_pressed"]
+[connection signal="pressed" from="GridContainer/Delete" to="." method="_on_Delete_pressed"]
+[connection signal="pressed" from="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer/Button" to="." method="_on_editbox_accepted"]
+[connection signal="pressed" from="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer/Button2" to="." method="_on_editbox_closed"]

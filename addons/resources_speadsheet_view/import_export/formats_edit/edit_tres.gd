@@ -19,6 +19,38 @@ func create_resource(entry) -> Resource:
 	return entry
 
 
+func duplicate_rows(rows : Array, name_input : String):
+	if rows.size() == 1:
+		var new_row = rows[0].duplicate()
+		new_row.resource_path = rows[0].resource_path.get_base_dir() + "/" + name_input + ".tres"
+		ResourceSaver.save(new_row.resource_path, new_row)
+		return
+
+	var new_row
+	for x in rows:
+		new_row = x.duplicate()
+		new_row.resource_path = x.resource_path.get_basename() + name_input + ".tres"
+		ResourceSaver.save(new_row.resource_path, new_row)
+
+
+func rename_row(row, new_name : String):
+	var dir = Directory.new()
+	var new_row = row
+	dir.remove(row.resource_path)
+	new_row.resource_path = row.resource_path.get_base_dir() + "/" + new_name + ".tres"
+	ResourceSaver.save(new_row.resource_path, new_row)
+
+
+func delete_rows(rows):
+	var dir = Directory.new()
+	for x in rows:
+		dir.remove(x.resource_path)
+
+
+func has_row_names():
+	return true
+
+
 func import_from_path(folderpath : String, insert_func : FuncRef, sort_by : String, sort_reverse : bool = false) -> Array:
 	var rows := []
 	var dir := Directory.new()

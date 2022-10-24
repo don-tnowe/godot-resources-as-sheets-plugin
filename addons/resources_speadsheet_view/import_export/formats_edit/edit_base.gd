@@ -19,6 +19,18 @@ func save_entries(all_entries : Array, indices : Array):
 func create_resource(entry) -> Resource:
 	return Resource.new()
 
-## Override to define 
+## Override to define duplication behaviour. `name_input` should be a suffix if multiple entries, and full name if one.
+func duplicate_rows(rows : Array, name_input : String):
+	pass
+
+## Override to define removal behaviour.
+func delete_rows(rows : Array):
+	pass
+
+## Override with `return true` if `resource_name` is defined.
+func has_row_names():
+	return false
+
+## Override to define import behaviour. Must return the `rows` value for the editor view.
 func import_from_path(folderpath : String, insert_func : FuncRef, sort_by : String, sort_reverse : bool = false) -> Array:
 	return []

@@ -39,6 +39,20 @@ func create_resource(entry) -> Resource:
 	return entry
 
 
+func duplicate_rows(rows : Array, name_input : String):
+	# Not today (TODO)
+	pass
+
+
+func delete_rows(rows):
+	pass
+
+
+func has_row_names():
+	return false
+
+
+
 func import_from_path(path : String, insert_func : FuncRef, sort_by : String, sort_reverse : bool = false) -> Array:
 	import_data = load(path)
 	var file = File.new()

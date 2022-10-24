@@ -16,3 +16,6 @@ mono_crash.*.json
 
 # Editor Plugin persistent data
 addons/resources_speadsheet_view/saved_state.json
+
+# Tools used during development
+addons/editor_icon_previewer/

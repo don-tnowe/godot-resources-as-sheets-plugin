@@ -10,7 +10,7 @@
 pause_mode = 2
 visible = true
 margin_right = 493.0
-margin_bottom = 294.0
+margin_bottom = 351.0
 popup_exclusive = true
 window_title = "Import/Export As Text"
 script = ExtResource( 1 )
@@ -20,6 +20,7 @@ formats_import = [ ExtResource( 3 ) ]
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = 15.0
 tab_align = 0
 use_hidden_tabs_for_min_size = true
 
@@ -33,7 +34,7 @@ margin_bottom = -4.0
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Import"]
 margin_right = 485.0
-margin_bottom = 234.0
+margin_bottom = 306.0
 size_flags_vertical = 3
 custom_constants/margin_right = 4
 custom_constants/margin_top = 4
@@ -44,17 +45,17 @@ custom_constants/margin_bottom = 0
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 481.0
-margin_bottom = 234.0
+margin_bottom = 306.0
 scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer"]
 margin_right = 477.0
-margin_bottom = 76.0
+margin_bottom = 132.0
 size_flags_horizontal = 3
 
 [node name="GridContainer" type="GridContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_right = 477.0
-margin_bottom = 76.0
+margin_bottom = 132.0
 columns = 2
 
 [node name="Label" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
@@ -94,10 +95,72 @@ margin_top = 52.0
 margin_right = 477.0
 margin_bottom = 76.0
 
+[node name="Label4" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_top = 83.0
+margin_right = 246.0
+margin_bottom = 97.0
+text = "Boolean True/False"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_left = 250.0
+margin_top = 80.0
+margin_right = 477.0
+margin_bottom = 100.0
+
+[node name="Case" type="OptionButton" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer"]
+margin_right = 148.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Caps Every Word"
+clip_text = true
+items = [ "all lower", null, false, 0, null, "caps Except First", null, false, 1, null, "Caps Every Word", null, false, 2, null, "ALL CAPS", null, false, 3, null ]
+selected = 2
+
+[node name="Separator" type="OptionButton" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer"]
+margin_left = 152.0
+margin_right = 227.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Space \" \""
+clip_text = true
+items = [ "Space \" \"", null, false, 0, null, "Underscore \"_\"", null, false, 1, null, "Kebab \"-\"", null, false, 2, null ]
+selected = 0
+
+[node name="Label3" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_top = 109.0
+margin_right = 246.0
+margin_bottom = 123.0
+text = "Enum word case/separator"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_left = 250.0
+margin_top = 104.0
+margin_right = 477.0
+margin_bottom = 128.0
+
+[node name="True" type="LineEdit" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer2"]
+margin_right = 111.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Yes"
+
+[node name="False" type="LineEdit" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer2"]
+margin_left = 115.0
+margin_right = 227.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "No"
+
+[node name="Control2" type="Control" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_top = 132.0
+margin_right = 246.0
+margin_bottom = 132.0
+
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Import"]
-margin_top = 238.0
+margin_top = 310.0
 margin_right = 485.0
-margin_bottom = 258.0
+margin_bottom = 330.0
 alignment = 1
 
 [node name="Ok2" type="Button" parent="TabContainer/Import/HBoxContainer"]
@@ -129,7 +192,7 @@ margin_bottom = -4.0
 
 [node name="Info" type="Label" parent="TabContainer/Export"]
 margin_right = 485.0
-margin_bottom = 65.0
+margin_bottom = 99.0
 size_flags_vertical = 0
 text = "The currently edited folder will be exported into the selected file.
 
@@ -139,14 +202,14 @@ Hidden columns will NOT be exported."
 autowrap = true
 
 [node name="HSeparator" type="HSeparator" parent="TabContainer/Export"]
-margin_top = 69.0
+margin_top = 103.0
 margin_right = 485.0
-margin_bottom = 73.0
+margin_bottom = 107.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Export"]
-margin_top = 77.0
+margin_top = 111.0
 margin_right = 485.0
-margin_bottom = 101.0
+margin_bottom = 135.0
 alignment = 1
 
 [node name="Label2" type="Label" parent="TabContainer/Export/HBoxContainer2"]
@@ -188,26 +251,94 @@ margin_bottom = 24.0
 text = "With space after"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Export"]
-margin_top = 105.0
+margin_top = 139.0
 margin_right = 485.0
-margin_bottom = 129.0
+margin_bottom = 163.0
 
 [node name="CheckBox" type="CheckBox" parent="TabContainer/Export/HBoxContainer3"]
-margin_right = 246.0
+margin_right = 281.0
 margin_bottom = 24.0
 pressed = true
 text = "First row contains property names (CSV)"
 
-[node name="Control" type="Control" parent="TabContainer/Export"]
-margin_top = 133.0
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Export"]
+margin_top = 167.0
 margin_right = 485.0
-margin_bottom = 234.0
+margin_bottom = 215.0
+columns = 2
+
+[node name="Label4" type="Label" parent="TabContainer/Export/GridContainer"]
+margin_top = 3.0
+margin_right = 241.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Boolean True/False"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Export/GridContainer"]
+margin_left = 245.0
+margin_right = 485.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Case" type="OptionButton" parent="TabContainer/Export/GridContainer/HBoxContainer"]
+margin_right = 157.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Caps Every Word"
+clip_text = true
+items = [ "all lower", null, false, 0, null, "caps Except First", null, false, 1, null, "Caps Every Word", null, false, 2, null, "ALL CAPS", null, false, 3, null ]
+selected = 2
+
+[node name="Separator" type="OptionButton" parent="TabContainer/Export/GridContainer/HBoxContainer"]
+margin_left = 161.0
+margin_right = 240.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Space \" \""
+clip_text = true
+items = [ "Space \" \"", null, false, 0, null, "Underscore \"_\"", null, false, 1, null, "Kebab \"-\"", null, false, 2, null ]
+selected = 0
+
+[node name="Label3" type="Label" parent="TabContainer/Export/GridContainer"]
+margin_top = 29.0
+margin_right = 241.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+text = "Enum word case/separator"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Export/GridContainer"]
+margin_left = 245.0
+margin_top = 24.0
+margin_right = 485.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="True" type="LineEdit" parent="TabContainer/Export/GridContainer/HBoxContainer2"]
+margin_right = 118.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Yes"
+
+[node name="False" type="LineEdit" parent="TabContainer/Export/GridContainer/HBoxContainer2"]
+margin_left = 122.0
+margin_right = 240.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "No"
+
+[node name="Control" type="Control" parent="TabContainer/Export"]
+margin_top = 219.0
+margin_right = 485.0
+margin_bottom = 306.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Export"]
-margin_top = 238.0
+margin_top = 310.0
 margin_right = 485.0
-margin_bottom = 258.0
+margin_bottom = 330.0
 alignment = 1
 
 [node name="Button" type="Button" parent="TabContainer/Export/HBoxContainer"]

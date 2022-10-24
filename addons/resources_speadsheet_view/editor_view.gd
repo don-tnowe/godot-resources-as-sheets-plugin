@@ -2,6 +2,8 @@ tool
 extends Control
 
 signal grid_updated()
+signal cells_selected(cells)
+signal cells_context(cells)
 
 export var table_header_scene : PackedScene
 
@@ -390,6 +392,7 @@ func deselect_all_cells():
 	edited_cells.clear()
 	edited_cells_text.clear()
 	edit_cursor_positions.clear()
+	emit_signal("cells_selected", [])
 
 
 func deselect_cell(cell : Control):
@@ -401,6 +404,8 @@ func deselect_cell(cell : Control):
 	if edited_cells_text.size() != 0:
 		edited_cells_text.remove(idx)
 		edit_cursor_positions.remove(idx)
+		
+	emit_signal("cells_selected", edited_cells)
 
 
 func select_cell(cell : Control):
@@ -410,6 +415,8 @@ func select_cell(cell : Control):
 		_try_open_docks(cell)
 		inspector_resource = rows[_get_cell_row(cell)].duplicate()
 		editor_plugin.get_editor_interface().edit_resource(inspector_resource)
+
+	emit_signal("cells_selected", edited_cells)
 
 
 func select_cells_to(cell : Control):
@@ -436,6 +443,8 @@ func select_cells_to(cell : Control):
 			if column_editors[column_index].is_text():
 				edited_cells_text.append(str(cur_cell.text))
 				edit_cursor_positions.append(cur_cell.text.length())
+
+	emit_signal("cells_selected", edited_cells)
 
 
 func select_column(column_index : int):
@@ -507,6 +516,31 @@ func set_edited_cells_values(new_cell_values : Array):
 	editor_interface.get_resource_filesystem().scan()
 	undo_redo_version = editor_plugin.undo_redo.get_version()
 	_update_column_sizes()
+
+
+func rename_row(row, new_name):
+	if !has_row_names(): return
+		
+	io.rename_row(row, new_name)
+	refresh()
+
+
+func duplicate_selected_rows(new_name : String):
+	io.duplicate_rows(_get_edited_cells_resources(), new_name)
+	refresh()
+
+
+func delete_selected_rows():
+	io.delete_rows(_get_edited_cells_resources())
+	refresh()
+
+
+func has_row_names():
+	return io.has_row_names()
+
+
+func get_last_selected_row():
+	return rows[_get_cell_row(edited_cells[-1])]
 
 
 func _update_selected_cells_text():
@@ -587,6 +621,9 @@ func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
 		_update_scroll()
 		if event.button_index != BUTTON_LEFT:
+			if event.button_index == BUTTON_RIGHT:
+				emit_signal("cells_context", edited_cells)
+				
 			return
 
 		grab_focus()
@@ -606,20 +643,21 @@ func _input(event : InputEvent):
 		return
 	
 	# Ctrl + Z (before, and instead of, committing the action!)
-	if Input.is_key_pressed(KEY_CONTROL) and event.scancode == KEY_Z:
-		if Input.is_key_pressed(KEY_SHIFT):
-			editor_plugin.undo_redo.redo()
-		# Ctrl + z
-		else:
-			editor_plugin.undo_redo.undo()
-		
-		return
+	if Input.is_key_pressed(KEY_CONTROL):
+		if event.scancode == KEY_Z:
+			if Input.is_key_pressed(KEY_SHIFT):
+				editor_plugin.undo_redo.redo()
+			# Ctrl + z
+			else:
+				editor_plugin.undo_redo.undo()
+			
+			return
 
-	# This shortcut is used by Godot as well.	
-	if Input.is_key_pressed(KEY_CONTROL) and event.scancode == KEY_Y:
-		editor_plugin.undo_redo.redo()
-		return
-	
+		# This shortcut is used by Godot as well.
+		if event.scancode == KEY_Y:
+			editor_plugin.undo_redo.redo()
+			return
+				
 	_key_specific_action(event)
 	grab_focus()
 	
@@ -670,6 +708,7 @@ func _key_specific_action(event : InputEvent):
 	# Ctrl + C (so you can edit in a proper text editor instead of this wacky nonsense)
 	elif ctrl_pressed and event.scancode == KEY_C:
 		TextEditingUtils.multi_copy(edited_cells_text)
+		get_tree().set_input_as_handled()
 			
 	# The following actions do not work on non-editable cells.
 	if !column_editors[column].is_text() or columns[column] == "resource_path":
@@ -680,6 +719,7 @@ func _key_specific_action(event : InputEvent):
 		set_edited_cells_values(TextEditingUtils.multi_paste(
 			edited_cells_text, edit_cursor_positions
 		))
+		get_tree().set_input_as_handled()
 
 	# ERASING
 	elif event.scancode == KEY_BACKSPACE:
@@ -759,7 +799,8 @@ func _try_convert(value, type):
 
 
 func _get_edited_cells_resources() -> Array:
-	var arr := edited_cells.duplicate()
+	var arr := []
+	arr.resize(edited_cells.size())
 	for i in arr.size():
 		arr[i] = rows[_get_cell_row(edited_cells[i])]
 
