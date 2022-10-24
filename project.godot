@@ -99,6 +99,7 @@ resources_spreadsheet_view/color_arrays=true
 resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/context_menu_on_leftclick=false
 
 [application]
 

@@ -598,6 +598,13 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 	if event is InputEventMouseButton:
 		_update_scroll()
 		if event.button_index != BUTTON_LEFT:
+			if event.button_index == BUTTON_RIGHT && event.is_pressed():
+				if !cell in edited_cells:
+					deselect_all_cells()
+					select_cell(cell)
+
+				emit_signal("cells_context", edited_cells)
+
 			return
 
 		grab_focus()
@@ -621,9 +628,9 @@ func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
 		_update_scroll()
 		if event.button_index != BUTTON_LEFT:
-			if event.button_index == BUTTON_RIGHT:
+			if event.button_index == BUTTON_RIGHT && event.is_pressed():
 				emit_signal("cells_context", edited_cells)
-				
+
 			return
 
 		grab_focus()

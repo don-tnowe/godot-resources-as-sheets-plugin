@@ -660,56 +660,56 @@ scroll_horizontal_enabled = false
 
 [node name="RichTextLabel" type="VBoxContainer" parent="Control/Settings/MarginContainer"]
 margin_right = 404.0
-margin_bottom = 167.0
+margin_bottom = 195.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="GridContainer" type="GridContainer" parent="Control/Settings/MarginContainer/RichTextLabel"]
-margin_right = 404.0
-margin_bottom = 150.0
+margin_right = 392.0
+margin_bottom = 195.0
 columns = 2
 script = ExtResource( 14 )
 
 [node name="Label" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 margin_top = 5.0
-margin_right = 326.0
+margin_right = 314.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Color-type cells style rows"
 
 [node name="ColorRows" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-margin_left = 330.0
-margin_right = 404.0
+margin_left = 318.0
+margin_right = 392.0
 margin_bottom = 24.0
 pressed = true
 text = "Enable"
 
 [node name="Label2" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 margin_top = 33.0
-margin_right = 326.0
+margin_right = 314.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 text = "Colored array elements"
 
 [node name="ColorArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-margin_left = 330.0
+margin_left = 318.0
 margin_top = 28.0
-margin_right = 404.0
+margin_right = 392.0
 margin_bottom = 52.0
 pressed = true
 text = "Enable"
 
 [node name="Label3" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 margin_top = 61.0
-margin_right = 326.0
+margin_right = 314.0
 margin_bottom = 75.0
 size_flags_horizontal = 3
 text = "Array cell min width"
 
 [node name="ArrayMinWidth" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-margin_left = 330.0
+margin_left = 318.0
 margin_top = 56.0
-margin_right = 404.0
+margin_right = 392.0
 margin_bottom = 80.0
 min_value = 32.0
 max_value = 512.0
@@ -717,33 +717,48 @@ value = 128.0
 
 [node name="Label4" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 margin_top = 84.0
-margin_right = 326.0
-margin_bottom = 115.0
+margin_right = 314.0
+margin_bottom = 132.0
 size_flags_horizontal = 3
 text = "Clip header text (more compact view but header text wont be fully visible) (restart when switching)"
 autowrap = true
 
 [node name="ClipHeaders" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-margin_left = 330.0
+margin_left = 318.0
 margin_top = 84.0
-margin_right = 404.0
-margin_bottom = 115.0
+margin_right = 392.0
+margin_bottom = 132.0
 text = "Enable"
 
 [node name="Label5" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-margin_top = 119.0
-margin_right = 326.0
-margin_bottom = 150.0
+margin_top = 136.0
+margin_right = 314.0
+margin_bottom = 167.0
 size_flags_horizontal = 3
 text = "Duplicate arrays on edit (slower, but can be undone)"
 autowrap = true
 
 [node name="DupeArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-margin_left = 330.0
-margin_top = 119.0
-margin_right = 404.0
-margin_bottom = 150.0
+margin_left = 318.0
+margin_top = 136.0
+margin_right = 392.0
+margin_bottom = 167.0
 pressed = true
+text = "Enable"
+
+[node name="Label6" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_top = 176.0
+margin_right = 314.0
+margin_bottom = 190.0
+size_flags_horizontal = 3
+text = "Context menu opens on left-click too"
+autowrap = true
+
+[node name="ContextMenuOnLeftclick" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
+margin_left = 318.0
+margin_top = 171.0
+margin_right = 392.0
+margin_bottom = 195.0
 text = "Enable"
 
 [node name="SelectionActions" parent="Control" instance=ExtResource( 19 )]

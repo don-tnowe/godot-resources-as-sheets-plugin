@@ -29,20 +29,29 @@ func _on_grid_cells_context(cells):
 
 
 func _on_grid_cells_selected(cells):
-	open(cells)
+	if ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "context_menu_on_leftclick"):
+		open(cells, true)
+
+	else: hide()
 
 
-func open(cells):
+func open(cells : Array, pin_to_cell : bool = false):
 	if cells.size() == 0:
 		hide()
 		cell = null
 		return
 	
-	cell = cells[-1]
-	rect_global_position = Vector2(
-		cell.rect_global_position.x + cell.rect_size.x,
-		cell.rect_global_position.y
-	)
+	if pin_to_cell:
+		cell = cells[-1]
+		rect_global_position = Vector2(
+			cell.rect_global_position.x + cell.rect_size.x,
+			cell.rect_global_position.y
+		)
+
+	else:
+		cell = null
+		rect_global_position = get_global_mouse_position() + Vector2.ONE
+
 	rect_size = Vector2.ZERO
 	show()
 	$"Control2/Label".text = str(cells.size()) + (" Cells" if cells.size() % 10 != 1 else " Cell")
