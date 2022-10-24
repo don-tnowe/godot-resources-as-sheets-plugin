@@ -53,6 +53,7 @@ func open(cells : Array, pin_to_cell : bool = false):
 		rect_global_position = get_global_mouse_position() + Vector2.ONE
 
 	rect_size = Vector2.ZERO
+	set_as_toplevel(true)
 	show()
 	$"Control2/Label".text = str(cells.size()) + (" Cells" if cells.size() % 10 != 1 else " Cell")
 	$"GridContainer/Rename".visible = get_node(editor_view).has_row_names()
@@ -62,7 +63,10 @@ func open(cells : Array, pin_to_cell : bool = false):
 
 
 func _unhandled_input(event):
-	if !is_visible_in_tree(): return
+	if !get_node(editor_view).is_visible_in_tree():
+		hide()
+		return
+	
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_CONTROL):
 			# Dupe
@@ -81,6 +85,10 @@ func _unhandled_input(event):
 
 func _input(event):
 	if cell == null: return
+	if !get_node(editor_view).is_visible_in_tree():
+		hide()
+		return
+	
 	rect_global_position = Vector2(
 		cell.rect_global_position.x + cell.rect_size.x,
 		cell.rect_global_position.y

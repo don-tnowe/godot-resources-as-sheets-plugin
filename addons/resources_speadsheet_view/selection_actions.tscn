@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/resources_speadsheet_view/editor_icon_button.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/selection_actions.gd" type="Script" id=2]
 
-[sub_resource type="Image" id=7]
+[sub_resource type="Image" id=6]
 data = {
 "data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "LumAlpha8",
@@ -15,10 +15,10 @@ data = {
 [sub_resource type="ImageTexture" id=2]
 flags = 4
 flags = 4
-image = SubResource( 7 )
+image = SubResource( 6 )
 size = Vector2( 16, 16 )
 
-[sub_resource type="Image" id=8]
+[sub_resource type="Image" id=7]
 data = {
 "data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "LumAlpha8",
@@ -27,14 +27,14 @@ data = {
 "width": 16
 }
 
-[sub_resource type="ImageTexture" id=5]
+[sub_resource type="ImageTexture" id=4]
 flags = 4
 flags = 4
-image = SubResource( 8 )
+image = SubResource( 7 )
 size = Vector2( 16, 16 )
 
-[sub_resource type="StyleBoxTexture" id=6]
-texture = SubResource( 5 )
+[sub_resource type="StyleBoxTexture" id=5]
+texture = SubResource( 4 )
 region_rect = Rect2( 0, 0, 16, 16 )
 margin_left = 2.0
 margin_right = 2.0
@@ -100,6 +100,7 @@ columns = 3
 margin_right = 28.0
 margin_bottom = 22.0
 hint_tooltip = "Duplicate Selected Rows (Ctrl+D)"
+mouse_filter = 1
 icon = SubResource( 2 )
 script = ExtResource( 1 )
 icon_name = "Duplicate"
@@ -109,6 +110,7 @@ margin_left = 28.0
 margin_right = 56.0
 margin_bottom = 22.0
 hint_tooltip = "Copy to Clipboard (Ctrl+C)"
+mouse_filter = 1
 icon = SubResource( 2 )
 script = ExtResource( 1 )
 icon_name = "ActionCopy"
@@ -118,6 +120,7 @@ margin_left = 56.0
 margin_right = 84.0
 margin_bottom = 22.0
 hint_tooltip = "Paste Clipboard (Ctrl+V)"
+mouse_filter = 1
 icon = SubResource( 2 )
 script = ExtResource( 1 )
 icon_name = "ActionPaste"
@@ -127,6 +130,7 @@ margin_top = 22.0
 margin_right = 28.0
 margin_bottom = 44.0
 hint_tooltip = "Rename Selected Rows (Ctrl+R)"
+mouse_filter = 1
 icon = SubResource( 2 )
 script = ExtResource( 1 )
 icon_name = "Edit"
@@ -137,6 +141,7 @@ margin_top = 22.0
 margin_right = 56.0
 margin_bottom = 44.0
 hint_tooltip = "DELETE Selected Rows"
+mouse_filter = 1
 icon = SubResource( 2 )
 script = ExtResource( 1 )
 icon_name = "Remove"
@@ -166,7 +171,7 @@ margin_right = 14.0
 margin_bottom = 14.0
 rect_min_size = Vector2( 192, 0 )
 mouse_filter = 2
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 5 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/Popup/Panel"]
 margin_left = 7.0
