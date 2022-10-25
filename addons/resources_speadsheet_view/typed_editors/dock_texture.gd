@@ -31,7 +31,7 @@ func _on_Button_pressed():
 			tile.region = Rect2(tile_size * Vector2(i, j), tile_size)
 			tile.atlas = _stored_value
 			tile_array.append(tile)
-			tile.take_over_path(folder_name + "/" + folder_name.get_file() + "_" + str(j * v_count + i + 1) + ".tres")
+			tile.take_over_path(folder_name + "/" + folder_name.get_file() + "_" + str(j * h_count + i + 1) + ".tres")
 			ResourceSaver.save(tile.resource_path, tile)
 
 	tile_array.resize(sheet.edited_cells.size())
