@@ -18,13 +18,14 @@ static func import_as_arrays(import_data) -> Array:
 		import_data.delimeter = ","
 		line = line[0].split(import_data.delimeter)
 		text_lines[0] = line
-		if line[1].begins_with(" "):
-			for i in line.size():
-				line[i] = line[i].trim_prefix(" ")
-			
-			text_lines[0] = line
-			space_after_delimeter = true
-			import_data.delimeter = ", "
+
+	if line[1].begins_with(" "):
+		for i in line.size():
+			line[i] = line[i].trim_prefix(" ")
+		
+		text_lines[0] = line
+		space_after_delimeter = true
+		import_data.delimeter += " "
 
 	while !file.eof_reached():
 		line = file.get_csv_line(import_data.delimeter[0])

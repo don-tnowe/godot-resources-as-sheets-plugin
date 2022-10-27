@@ -95,7 +95,8 @@ func _generate_class(save_script = true):
 	
 	# Properties
 	for i in import_data.prop_names.size():
-		new_script.source_code += import_data.create_property_line_for_prop(i)
+		if import_data.prop_names[i] != "resource_name":
+			new_script.source_code += import_data.create_property_line_for_prop(i)
 	
 	import_data.new_script = new_script
 	new_script.reload()
@@ -136,6 +137,10 @@ func _on_import_edit_pressed():
 	import_data.save()
 	yield(get_tree(), "idle_frame")
 	editor_view.display_folder(import_data.resource_path)
+	editor_view.hidden_columns[editor_view.current_path] = {
+		"resource_path" : true,
+		"resource_local_to_scene" : true,
+	}
 	yield(get_tree(), "idle_frame")
 	editor_view.refresh()
 

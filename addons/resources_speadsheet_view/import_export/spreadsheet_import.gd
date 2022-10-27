@@ -83,6 +83,7 @@ func string_to_property(string : String, col_index : int):
 
 
 func property_to_string(value, col_index : int) -> String:
+	if value == null: return ""
 	if prop_types[col_index] is PoolStringArray:
 		return TextEditingUtils.string_snake_to_naming_case(
 			prop_types[col_index][value]
@@ -90,7 +91,7 @@ func property_to_string(value, col_index : int) -> String:
 
 	match prop_types[col_index]:
 		PropType.STRING:
-			return value
+			return str(value)
 
 		PropType.BOOL:
 			return str(value)  # TODO: make this actually persist
