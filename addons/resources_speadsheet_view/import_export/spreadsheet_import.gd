@@ -84,6 +84,10 @@ func string_to_property(string : String, col_index : int):
 
 func property_to_string(value, col_index : int) -> String:
 	if value == null: return ""
+	if col_index == 0:
+		if prop_names[col_index] == "resource_path":
+			return value.get_file().get_basename()
+	
 	if prop_types[col_index] is PoolStringArray:
 		return TextEditingUtils.string_snake_to_naming_case(
 			prop_types[col_index][value]

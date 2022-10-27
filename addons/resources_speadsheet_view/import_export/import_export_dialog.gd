@@ -148,7 +148,6 @@ func _on_import_edit_pressed():
 func _on_export_csv_pressed():
 	hide()
 	var exported_cols = editor_view.columns.duplicate()
-	exported_cols.erase("resource_path")
 	exported_cols.erase("resource_local_to_scene")
 	for x in editor_view.hidden_columns[editor_view.current_path].keys():
 		exported_cols.erase(x)
