@@ -17,6 +17,35 @@ var property_used_as_filename := 0
 var import_data : SpreadsheetImport
 
 
+func _ready():
+	var create_file_button = Button.new()
+	create_file_button.connect("pressed", self, "_on_create_file_pressed")
+	$"../FileDialogText".get_child(3).get_child(3).add_child_below_node(
+		$"../FileDialogText".get_child(3).get_child(3).get_child(1),
+		create_file_button
+	)
+	create_file_button.text = "Create File"
+	create_file_button.visible = true
+	create_file_button.icon = get_icon("New", "EditorIcons")
+
+
+func _on_create_file_pressed():
+	var file = File.new()
+	var new_name = (
+		$"../FileDialogText".get_child(3).get_child(3).get_child(1).text
+	)
+	if new_name == "":
+		new_name += editor_view.current_path.get_base_dir().get_file()
+
+	file.open(
+		$"../FileDialogText".get_child(3).get_child(0).get_child(4).text
+		+ "/"
+		+ new_name.get_basename() + ".csv", File.WRITE
+	)
+	file.close()
+	$"../FileDialogText".invalidate()
+
+
 func _on_FileDialogText_file_selected(path : String):
 	import_data = SpreadsheetImport.new()
 	import_data.initialize(path)
