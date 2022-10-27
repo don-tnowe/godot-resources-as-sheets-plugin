@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/spreadsheet_import.gd" type="Script" id=1]
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/formats_edit/edit_csv.gd" type="Script" id=2]
+[ext_resource path="res://example/Random Upgrades/upgrades_csv/upgrades.gd" type="Script" id=3]
+
+[resource]
+script = ExtResource( 1 )
+prop_types = [ 3, 3, 2, 3, 10, 3, 9, 3, 3, 2, 0, 3, 3, 3, 3, 3, 3 ]
+prop_names = [ "resource_name", "color1", "max_duplicates", "tags", "type", "attributes", "icon", "custom_scene", "color2", "base_weight", "is_notable", "multiplier_per_tag", "multiplier_if_tag_present", "multiplier_if_tag_not_present", "max_tags_present", "list_item_delimeter", "list_row_delimeter" ]
+edited_path = "res://example/Random Upgrades/upgrades_csv/upgrades.csv"
+prop_used_as_filename = ""
+script_classname = "Upgrades"
+remove_first_row = true
+new_script = ExtResource( 3 )
+view_script = ExtResource( 2 )
+delimeter = ";"
+enum_format = [ 3, " ", "Yes", "No" ]
+uniques = {
+4: {
+"MASTERY": 1,
+"PASSIVE": 0,
+"WEAPON": 2
+}
+}

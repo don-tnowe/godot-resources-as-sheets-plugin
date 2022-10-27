@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/import_export_enum_format.gd" type="Script" id=1]
+
+[node name="EnumFormat" type="GridContainer"]
+margin_right = 400.0
+margin_bottom = 48.0
+rect_pivot_offset = Vector2( 40, 71 )
+columns = 2
+script = ExtResource( 1 )
+
+[node name="Label3" type="Label" parent="."]
+margin_top = 3.0
+margin_right = 198.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Enum word case/separator"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 202.0
+margin_right = 400.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Case" type="OptionButton" parent="HBoxContainer"]
+margin_right = 129.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Caps Every Word"
+clip_text = true
+items = [ "all lower", null, false, 0, null, "caps Except First", null, false, 1, null, "Caps Every Word", null, false, 2, null, "ALL CAPS", null, false, 3, null ]
+selected = 2
+
+[node name="Separator" type="OptionButton" parent="HBoxContainer"]
+margin_left = 133.0
+margin_right = 198.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Space \" \""
+clip_text = true
+items = [ "Space \" \"", null, false, 0, null, "Underscore \"_\"", null, false, 1, null, "Kebab \"-\"", null, false, 2, null ]
+selected = 0
+
+[node name="Label4" type="Label" parent="."]
+margin_top = 29.0
+margin_right = 198.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+text = "Boolean True/False"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+margin_left = 202.0
+margin_top = 24.0
+margin_right = 400.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+
+[node name="True" type="LineEdit" parent="HBoxContainer2"]
+margin_right = 97.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Yes"
+
+[node name="False" type="LineEdit" parent="HBoxContainer2"]
+margin_left = 101.0
+margin_right = 198.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "No"
+
+[connection signal="mouse_entered" from="Label3" to="." method="_on_Label3_mouse_entered"]
+[connection signal="item_selected" from="HBoxContainer/Case" to="." method="_send_signal"]
+[connection signal="item_selected" from="HBoxContainer/Separator" to="." method="_send_signal"]
+[connection signal="text_changed" from="HBoxContainer2/True" to="." method="_send_signal"]
+[connection signal="text_changed" from="HBoxContainer2/False" to="." method="_send_signal"]

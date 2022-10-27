@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/import_export/import_export_dialog.gd" type="Script" id=1]
 [ext_resource path="res://addons/resources_speadsheet_view/import_export/property_list_item.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/resources_speadsheet_view/import_export/formats_import/import_csv.gd" type="Script" id=3]
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/import_export_enum_format.tscn" type="PackedScene" id=4]
 
 [sub_resource type="ButtonGroup" id=1]
 
@@ -31,10 +32,11 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Import"]
 margin_right = 485.0
-margin_bottom = 306.0
+margin_bottom = 298.0
 size_flags_vertical = 3
 custom_constants/margin_right = 4
 custom_constants/margin_top = 4
@@ -45,7 +47,7 @@ custom_constants/margin_bottom = 0
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 481.0
-margin_bottom = 306.0
+margin_bottom = 298.0
 scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer"]
@@ -55,7 +57,7 @@ size_flags_horizontal = 3
 
 [node name="GridContainer" type="GridContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_right = 477.0
-margin_bottom = 132.0
+margin_bottom = 80.0
 columns = 2
 
 [node name="Label" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
@@ -95,72 +97,22 @@ margin_top = 52.0
 margin_right = 477.0
 margin_bottom = 76.0
 
-[node name="Label4" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 83.0
-margin_right = 246.0
-margin_bottom = 97.0
-text = "Boolean True/False"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 250.0
-margin_top = 80.0
-margin_right = 477.0
-margin_bottom = 100.0
-
-[node name="Case" type="OptionButton" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer"]
-margin_right = 148.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-text = "Caps Every Word"
-clip_text = true
-items = [ "all lower", null, false, 0, null, "caps Except First", null, false, 1, null, "Caps Every Word", null, false, 2, null, "ALL CAPS", null, false, 3, null ]
-selected = 2
-
-[node name="Separator" type="OptionButton" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer"]
-margin_left = 152.0
-margin_right = 227.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-text = "Space \" \""
-clip_text = true
-items = [ "Space \" \"", null, false, 0, null, "Underscore \"_\"", null, false, 1, null, "Kebab \"-\"", null, false, 2, null ]
-selected = 0
-
-[node name="Label3" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 109.0
-margin_right = 246.0
-margin_bottom = 123.0
-text = "Enum word case/separator"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 250.0
-margin_top = 104.0
-margin_right = 477.0
-margin_bottom = 128.0
-
-[node name="True" type="LineEdit" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer2"]
-margin_right = 111.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-text = "Yes"
-
-[node name="False" type="LineEdit" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/HBoxContainer2"]
-margin_left = 115.0
-margin_right = 227.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-text = "No"
-
 [node name="Control2" type="Control" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 132.0
+margin_top = 80.0
 margin_right = 246.0
+margin_bottom = 80.0
+
+[node name="StyleSettingsI" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 4 )]
+pause_mode = 2
+margin_top = 84.0
+margin_right = 477.0
 margin_bottom = 132.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Import"]
-margin_top = 310.0
+margin_top = 302.0
 margin_right = 485.0
-margin_bottom = 330.0
+margin_bottom = 322.0
+mouse_filter = 2
 alignment = 1
 
 [node name="Ok2" type="Button" parent="TabContainer/Import/HBoxContainer"]
@@ -180,6 +132,13 @@ margin_left = 380.0
 margin_right = 434.0
 margin_bottom = 20.0
 text = "Cancel"
+
+[node name="Control" type="Control" parent="TabContainer/Import"]
+margin_top = 326.0
+margin_right = 485.0
+margin_bottom = 330.0
+rect_min_size = Vector2( 0, 4 )
+mouse_filter = 2
 
 [node name="Export" type="VBoxContainer" parent="TabContainer"]
 visible = false
@@ -261,84 +220,21 @@ margin_bottom = 24.0
 pressed = true
 text = "First row contains property names (CSV)"
 
-[node name="GridContainer" type="GridContainer" parent="TabContainer/Export"]
+[node name="StyleSettingsE" parent="TabContainer/Export" instance=ExtResource( 4 )]
 margin_top = 167.0
 margin_right = 485.0
 margin_bottom = 215.0
-columns = 2
-
-[node name="Label4" type="Label" parent="TabContainer/Export/GridContainer"]
-margin_top = 3.0
-margin_right = 241.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Boolean True/False"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Export/GridContainer"]
-margin_left = 245.0
-margin_right = 485.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Case" type="OptionButton" parent="TabContainer/Export/GridContainer/HBoxContainer"]
-margin_right = 157.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-text = "Caps Every Word"
-clip_text = true
-items = [ "all lower", null, false, 0, null, "caps Except First", null, false, 1, null, "Caps Every Word", null, false, 2, null, "ALL CAPS", null, false, 3, null ]
-selected = 2
-
-[node name="Separator" type="OptionButton" parent="TabContainer/Export/GridContainer/HBoxContainer"]
-margin_left = 161.0
-margin_right = 240.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-text = "Space \" \""
-clip_text = true
-items = [ "Space \" \"", null, false, 0, null, "Underscore \"_\"", null, false, 1, null, "Kebab \"-\"", null, false, 2, null ]
-selected = 0
-
-[node name="Label3" type="Label" parent="TabContainer/Export/GridContainer"]
-margin_top = 29.0
-margin_right = 241.0
-margin_bottom = 43.0
-size_flags_horizontal = 3
-text = "Enum word case/separator"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Export/GridContainer"]
-margin_left = 245.0
-margin_top = 24.0
-margin_right = 485.0
-margin_bottom = 48.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="True" type="LineEdit" parent="TabContainer/Export/GridContainer/HBoxContainer2"]
-margin_right = 118.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-text = "Yes"
-
-[node name="False" type="LineEdit" parent="TabContainer/Export/GridContainer/HBoxContainer2"]
-margin_left = 122.0
-margin_right = 240.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-text = "No"
 
 [node name="Control" type="Control" parent="TabContainer/Export"]
 margin_top = 219.0
 margin_right = 485.0
-margin_bottom = 306.0
+margin_bottom = 298.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Export"]
-margin_top = 310.0
+margin_top = 302.0
 margin_right = 485.0
-margin_bottom = 330.0
+margin_bottom = 322.0
 alignment = 1
 
 [node name="Button" type="Button" parent="TabContainer/Export/HBoxContainer"]
@@ -353,9 +249,17 @@ margin_right = 319.0
 margin_bottom = 20.0
 text = "Cancel"
 
+[node name="Control2" type="Control" parent="TabContainer/Export"]
+margin_top = 326.0
+margin_right = 485.0
+margin_bottom = 330.0
+rect_min_size = Vector2( 0, 4 )
+
 [connection signal="item_selected" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/OptionButton" to="." method="_on_filename_options_item_selected"]
 [connection signal="text_changed" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/LineEdit" to="." method="_on_classname_field_text_changed"]
 [connection signal="toggled" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/CheckBox" to="." method="_on_remove_first_row_toggled"]
+[connection signal="format_changed" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/StyleSettingsI" to="." method="_on_enum_format_changed"]
+[connection signal="format_changed" from="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/StyleSettingsI" to="TabContainer/Export/StyleSettingsE" method="_on_format_changed"]
 [connection signal="pressed" from="TabContainer/Import/HBoxContainer/Ok2" to="." method="_on_import_edit_pressed"]
 [connection signal="pressed" from="TabContainer/Import/HBoxContainer/Ok" to="." method="_on_import_to_tres_pressed"]
 [connection signal="pressed" from="TabContainer/Import/HBoxContainer/Cancel" to="." method="hide"]
@@ -364,5 +268,7 @@ text = "Cancel"
 [connection signal="pressed" from="TabContainer/Export/HBoxContainer2/Button3" to="." method="_on_export_delimeter_pressed" binds= [ "	" ]]
 [connection signal="toggled" from="TabContainer/Export/HBoxContainer2/CheckBox" to="." method="_on_export_space_toggled"]
 [connection signal="toggled" from="TabContainer/Export/HBoxContainer3/CheckBox" to="." method="_on_remove_first_row_toggled"]
+[connection signal="format_changed" from="TabContainer/Export/StyleSettingsE" to="." method="_on_enum_format_changed"]
+[connection signal="format_changed" from="TabContainer/Export/StyleSettingsE" to="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/StyleSettingsI" method="_on_format_changed"]
 [connection signal="pressed" from="TabContainer/Export/HBoxContainer/Button" to="." method="_on_export_csv_pressed"]
 [connection signal="pressed" from="TabContainer/Export/HBoxContainer/Cancel" to="." method="hide"]

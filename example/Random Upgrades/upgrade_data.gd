@@ -9,10 +9,16 @@ enum Attributes {
   Luck,
 }
 
+enum Type {
+  Weapon,
+  Passive,
+  Mastery,
+}
+
 export var color1 := Color.white
 export var max_duplicates := 0
 export(Array, String) var tags : Array
-export(int, "Weapon", "Passive", "Mastery") var type := 0
+export(Type) var type := 0
 export(Array, Attributes) var attributes
 export var icon : Texture
 export var custom_scene : PackedScene

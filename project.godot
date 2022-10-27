@@ -73,6 +73,11 @@ _global_script_classes=[ {
 "class": "ThemeStylebox",
 "language": "GDScript",
 "path": "res://addons/resources_speadsheet_view/editor_stylebox_overrider.gd"
+}, {
+"base": "Resource",
+"class": "Upgrades",
+"language": "GDScript",
+"path": "res://example/Random Upgrades/upgrades_csv/upgrades.gd"
 } ]
 _global_script_class_icons={
 "CellEditor": "",
@@ -87,7 +92,8 @@ _global_script_class_icons={
 "SpreadsheetImportFormatCsv": "",
 "TextEditingUtils": "",
 "ThemeIconButton": "",
-"ThemeStylebox": ""
+"ThemeStylebox": "",
+"Upgrades": ""
 }
 color_rows=false
 color_arrays=true
@@ -100,6 +106,12 @@ resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/array_min_width=128.0
 resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/Color_Rows=true
+resources_spreadsheet_view/Color_Arrays=true
+resources_spreadsheet_view/Array_Min_Width=128.0
+resources_spreadsheet_view/Clip_Headers=false
+resources_spreadsheet_view/Dupe_Arrays=true
+resources_spreadsheet_view/Context_Menu_On_Leftclick=false
 
 [application]
 

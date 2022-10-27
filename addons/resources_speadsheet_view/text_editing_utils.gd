@@ -142,23 +142,10 @@ static func _step_cursor(text : String, start : int, step : int = 1, ctrl_presse
 	return 0
 
 
-static func string_snake_to_naming_case(string : String, add_spaces : bool = true) -> String:
-	if string == "": return ""
-
-	var split = string.split("_", false)
-	for i in split.size():
-		split[i] = split[i][0].to_upper() + split[i].substr(1).to_lower()
-	
-	return (" " if add_spaces else "").join(split)
+static func string_snake_to_naming_case(string : String, delimiter : String = " ") -> String:
+	if delimiter == " ": return string.capitalize()
+	return string.capitalize().replace(" ", delimiter)
 
 
-static func pascal_case_to_snake_case(string : String) -> String:
-  var i = 0
-  while i < string.length():
-    if string.ord_at(i) < 97:
-      string = string.left(i) + ("_" if i > 0 else "") + string[i].to_lower() + string.substr(i + 1)
-      i += 1
-    
-    i += 1
-
-  return string
+static func pascal_case_to_snake_case(string : String, delimiter : String = "_") -> String:
+	return string.capitalize().replace(" ", delimiter)

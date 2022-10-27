@@ -377,8 +377,7 @@ func _on_Path_text_entered(new_text : String = ""):
 func _on_RecentPaths_item_selected(index : int):
 	current_path = recent_paths[index]
 	get_node(path_folder_path).text = recent_paths[index]
-	display_folder(current_path)
-	refresh()
+	display_folder(current_path, sorting_by, sorting_reverse, true)
 
 
 func _on_FileDialog_dir_selected(path : String):

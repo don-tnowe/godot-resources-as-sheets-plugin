@@ -17,6 +17,13 @@ enum PropType {
 	MAX,
 }
 
+enum NameCasing {
+	ALL_LOWER,
+	CAPS_WORD_EXCEPT_FIRST,
+	CAPS_WORD,
+	ALL_CAPS,
+}
+
 const SUFFIX := "_spreadsheet_import.tres"
 const TYPE_MAP := {
 	TYPE_STRING : PropType.STRING,
@@ -38,12 +45,12 @@ export var remove_first_row := true
 export var new_script : GDScript
 export var view_script : Script = SpreadsheetEditFormatCsv
 export var delimeter := ";"
+export var enum_format := [NameCasing.CAPS_WORD, " ", "Yes", "No"]
 
 export var uniques : Dictionary
 
 
 func initialize(path):
-	resource_path = path.get_basename() + SUFFIX
 	edited_path = path
 	prop_types = []
 	prop_names = []
@@ -60,6 +67,8 @@ func string_to_property(string : String, col_index : int):
 
 		PropType.BOOL:
 			string = string.to_lower()
+			if string == enum_format[2].to_lower(): return true
+			if string == enum_format[3].to_lower(): return false
 			return !string in ["no", "disabled", "-", "false", "absent", "wrong", "off", ""]
 
 		PropType.REAL:
@@ -79,7 +88,7 @@ func string_to_property(string : String, col_index : int):
 				return int(uniques[col_index]["N_A"])
 
 			else:
-				return int(uniques[col_index][string.to_upper().replace(" ", "_")])
+				return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
 
 
 func property_to_string(value, col_index : int) -> String:
@@ -98,7 +107,7 @@ func property_to_string(value, col_index : int) -> String:
 			return str(value)
 
 		PropType.BOOL:
-			return str(value)  # TODO: make this actually persist
+			return enum_format[2] if value else enum_format[3]
 
 		PropType.REAL, PropType.INT:
 			return str(value)
@@ -113,7 +122,7 @@ func property_to_string(value, col_index : int) -> String:
 			var dict = uniques[col_index]
 			for k in dict:
 				if dict[k] == value:
-					return TextEditingUtils.string_snake_to_naming_case(k)
+					return change_name_to_format(k, enum_format[0], enum_format[1])
 		
 	return str(value)
 
@@ -239,7 +248,7 @@ func get_uniques(entries : Array) -> Dictionary:
 			for j in entries.size():
 				if j == 0 and remove_first_row: continue
 
-				cur_value = entries[j][i].replace(" ", "_").to_upper()
+				cur_value = entries[j][i].capitalize().to_upper().replace(" ", "_")
 				if cur_value == "":
 					cur_value = "N_A"
 				
@@ -247,6 +256,21 @@ func get_uniques(entries : Array) -> Dictionary:
 					result[i][cur_value] = result[i].size()
 
 	return result
+
+
+static func change_name_to_format(name : String, case : int, delim : String):
+	var string = name.capitalize().replace(" ", delim)
+	if case == NameCasing.ALL_LOWER:
+		return string.to_lower()
+
+	if case == NameCasing.CAPS_WORD_EXCEPT_FIRST:
+		return string[0].to_lower() + string.substr(1)
+
+	if case == NameCasing.CAPS_WORD:
+		return string
+
+	if case == NameCasing.ALL_CAPS:
+		return string.to_upper()
 
 
 static func get_resource_property_types(res : Resource, properties : Array) -> Array:

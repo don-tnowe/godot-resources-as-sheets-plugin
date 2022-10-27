@@ -555,7 +555,6 @@ mode = 0
 filters = PoolStringArray( "*.csv" )
 
 [node name="ImportExport" parent="Control" instance=ExtResource( 18 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

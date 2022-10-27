@@ -6,7 +6,7 @@ valid=false
 
 [deps]
 
-source_file="res://upgrades.csv"
+source_file="res://example/Random Upgrades/upgrades_csv/upgrades.csv"
 [params]
 
 compress=true

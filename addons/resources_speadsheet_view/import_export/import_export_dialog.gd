@@ -55,9 +55,8 @@ func _on_FileDialogText_file_selected(path : String):
 
 
 func _open_dialog(path : String):
-	node_classname_field.text = TextEditingUtils\
-		.string_snake_to_naming_case(import_data.edited_path.get_file().get_basename())\
-		.replace(" ", "")
+	node_classname_field.text = import_data.edited_path.get_file().get_basename()\
+		.capitalize().replace(" ", "")
 	import_data.script_classname = node_classname_field.text
 
 	for x in formats_import:
@@ -66,6 +65,7 @@ func _open_dialog(path : String):
 
 	_load_property_names()
 	_create_prop_editors()
+	$"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/StyleSettingsI"._send_signal()
 
 
 func _load_property_names():
@@ -74,6 +74,7 @@ func _load_property_names():
 	import_data.prop_types.fill(4)
 	for i in import_data.prop_names.size():
 		import_data.prop_names[i] = entries[0][i]\
+			.replace("\"", "")\
 			.replace(" ", "_")\
 			.replace("-", "_")\
 			.replace(".", "_")\
@@ -109,6 +110,7 @@ func _create_prop_editors():
 
 
 func _generate_class(save_script = true):
+	save_script = true  # Built-ins work no more. Why? No idea. But they worked for a bit.
 	import_data.new_script = import_data.generate_script(entries, save_script)
 	if save_script:
 		ResourceSaver.save(import_data.edited_path.get_basename() + ".gd", import_data.new_script)
@@ -206,3 +208,7 @@ func _on_export_space_toggled(button_pressed : bool):
 func _reset_controls():
 	$"TabContainer/Export/HBoxContainer2/CheckBox".pressed = false
 	_on_remove_first_row_toggled(true)
+
+
+func _on_enum_format_changed(case, delimiter, bool_yes, bool_no):
+	import_data.enum_format = [case, delimiter, bool_yes, bool_no]
