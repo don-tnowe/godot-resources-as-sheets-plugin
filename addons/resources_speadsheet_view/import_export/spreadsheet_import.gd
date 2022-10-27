@@ -118,36 +118,37 @@ func property_to_string(value, col_index : int) -> String:
 	return str(value)
 
 
-func create_property_line_for_prop(col_index : int):
+func create_property_line_for_prop(col_index : int) -> String:
 	var result = "export var " + prop_names[col_index] + " :"
 	match prop_types[col_index]:
 		PropType.STRING:
-			return result + "= \"\"\n"
+			return result + "= \"\"\r\n"
 
 		PropType.BOOL:
-			return result + "= false\n"
+			return result + "= false\r\n"
 
 		PropType.REAL:
-			return result + "= 0.0\n"
+			return result + "= 0.0\r\n"
 
 		PropType.INT:
-			return result + "= 0\n"
+			return result + "= 0\r\n"
 
 		PropType.COLOR:
-			return result + "= Color.white\n"
+			return result + "= Color.white\r\n"
 
 		PropType.OBJECT:
-			return result + " Resource\n"
+			return result + " Resource\r\n"
 
 		PropType.ENUM:
 			return result.replace(
 				"export var",
 				"export(" + _escape_forbidden_enum_names(
-						TextEditingUtils\
-							.string_snake_to_naming_case(prop_names[col_index])\
+						prop_names[col_index].capitalize()\
 							.replace(" ", "")
 					) + ") var"
-			) + "= 0\n"
+			) + "= 0\r\n"
+
+	return ""
 
 
 func _escape_forbidden_enum_names(string : String) -> String:
@@ -164,14 +165,13 @@ func _escape_forbidden_enum_names(string : String) -> String:
 	return string
 
 
-func create_enum_for_prop(col_index):
+func create_enum_for_prop(col_index) -> String:
 	var result := (
 		"enum "
 		+ _escape_forbidden_enum_names(
-			TextEditingUtils\
-				.string_snake_to_naming_case(prop_names[col_index])\
+			prop_names[col_index].capitalize()\
 				.replace(" ", "")
-		) + " {\n"
+		) + " {\r\n"
 	)
 	for k in uniques[col_index]:
 		result += (
@@ -179,10 +179,35 @@ func create_enum_for_prop(col_index):
 			+ k  # Enum Entry
 			+ " = "
 			+ str(uniques[col_index][k])  # Value
-			+ ",\n"
+			+ ",\r\n"
 		)
-	result += "\tMAX,\n}\n\n"
+	result += "\tMAX,\r\n}\r\n\r\n"
 	return result
+
+
+func generate_script(entries, has_classname = true) -> GDScript:
+	var source = ""
+	if has_classname and script_classname != "":
+		source = "class_name " + script_classname + " \r\nextends Resource\r\n\r\n"
+
+	else:
+		source = "extends Resource\r\n\r\n"
+	
+	# Enums
+	uniques = get_uniques(entries)
+	for i in prop_types.size():
+		if prop_types[i] == PropType.ENUM:
+			source += create_enum_for_prop(i)
+	
+	# Properties
+	for i in prop_names.size():
+		if (prop_names[i] != "resource_path") and (prop_names[i] != "resource_name"):
+			source += create_property_line_for_prop(i)
+	
+	var created_script = GDScript.new()
+	created_script.source_code = source
+	created_script.reload()
+	return created_script
 
 
 func strings_to_resource(strings : Array):

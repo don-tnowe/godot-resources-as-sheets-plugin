@@ -109,28 +109,9 @@ func _create_prop_editors():
 
 
 func _generate_class(save_script = true):
-	var new_script = GDScript.new()
-	if save_script and import_data.script_classname != "":
-		new_script.source_code = "class_name " + import_data.script_classname + " \nextends Resource\n\n"
-
-	else:
-		new_script.source_code = "extends Resource\n\n"
-	
-	# Enums
-	import_data.uniques = import_data.get_uniques(entries)
-	for i in import_data.prop_types.size():
-		if import_data.prop_types[i] == SpreadsheetImport.PropType.ENUM:
-			new_script.source_code += import_data.create_enum_for_prop(i)
-	
-	# Properties
-	for i in import_data.prop_names.size():
-		if import_data.prop_names[i] != "resource_path" && import_data.prop_names[i] != "resource_name":
-			new_script.source_code += import_data.create_property_line_for_prop(i)
-	
-	import_data.new_script = new_script
-	new_script.reload()
+	import_data.new_script = import_data.generate_script(entries, save_script)
 	if save_script:
-		ResourceSaver.save(import_data.edited_path.get_basename() + ".gd", new_script)
+		ResourceSaver.save(import_data.edited_path.get_basename() + ".gd", import_data.new_script)
 		# Because when instanced, objects have a copy of the script
 		import_data.new_script = load(import_data.edited_path.get_basename() + ".gd")
 
