@@ -124,7 +124,7 @@ func _generate_class(save_script = true):
 	
 	# Properties
 	for i in import_data.prop_names.size():
-		if import_data.prop_names[i] != "resource_name":
+		if import_data.prop_names[i] != "resource_path" && import_data.prop_names[i] != "resource_name":
 			new_script.source_code += import_data.create_property_line_for_prop(i)
 	
 	import_data.new_script = new_script
@@ -170,6 +170,7 @@ func _on_import_edit_pressed():
 		"resource_path" : true,
 		"resource_local_to_scene" : true,
 	}
+	editor_view.save_data()
 	yield(get_tree(), "idle_frame")
 	editor_view.refresh()
 

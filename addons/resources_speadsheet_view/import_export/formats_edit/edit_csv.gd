@@ -40,17 +40,34 @@ func create_resource(entry) -> Resource:
 
 
 func duplicate_rows(rows : Array, name_input : String):
-	# Not today (TODO)
-	pass
+	for x in rows:
+		var new_res = x.duplicate()
+		var index = resource_original_positions[x]
+		csv_rows.insert(index, import_data.resource_to_strings(new_res))
+		_bump_row_indices(index + 1, 1)
+		resource_original_positions[new_res] = index + 1
+
+	save_entries([], [])
 
 
 func delete_rows(rows):
-	pass
+	for x in rows:
+		var index = resource_original_positions[x]
+		csv_rows.remove(index)
+		_bump_row_indices(index, -1)
+		resource_original_positions.erase(x)
+
+	save_entries([], [])
 
 
 func has_row_names():
 	return false
 
+
+func _bump_row_indices(from : int, increment : int = 1):
+	for k in resource_original_positions:
+		if resource_original_positions[k] >= from:
+			resource_original_positions[k] += increment
 
 
 func import_from_path(path : String, insert_func : FuncRef, sort_by : String, sort_reverse : bool = false) -> Array:
@@ -67,6 +84,7 @@ func import_from_path(path : String, insert_func : FuncRef, sort_by : String, so
 			continue
 
 		res = import_data.strings_to_resource(csv_rows[i])
+		res.resource_path = ""
 		insert_func.call_func(res, rows, sort_by, sort_reverse)
 		resource_original_positions[res] = i
 	

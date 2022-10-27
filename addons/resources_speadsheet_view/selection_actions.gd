@@ -57,9 +57,6 @@ func open(cells : Array, pin_to_cell : bool = false):
 	show()
 	$"Control2/Label".text = str(cells.size()) + (" Cells" if cells.size() % 10 != 1 else " Cell")
 	$"GridContainer/Rename".visible = get_node(editor_view).has_row_names()
-	# TODO: remove this when dupes implemented for CSV.
-	$"GridContainer/Duplicate".visible = get_node(editor_view).has_row_names()
-	$"GridContainer/Delete".visible = get_node(editor_view).has_row_names()
 
 
 func _unhandled_input(event):

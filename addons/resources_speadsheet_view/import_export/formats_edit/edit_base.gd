@@ -27,7 +27,7 @@ func duplicate_rows(rows : Array, name_input : String):
 func delete_rows(rows : Array):
 	pass
 
-## Override with `return true` if `resource_name` is defined.
+## Override with `return true` if `resource_path` is defined and the Rename butoon should show.
 func has_row_names():
 	return false
 

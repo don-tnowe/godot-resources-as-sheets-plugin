@@ -1,0 +1,39 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/spreadsheet_import.gd" type="Script" id=1]
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/formats_edit/edit_csv.gd" type="Script" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Resource
+
+export var color1 := \"\"
+export var max_duplicates := 0.0
+export var tags := \"\"
+export var type := \"\"
+export var attributes := \"\"
+export var icon : Resource
+export var custom_scene := \"\"
+export var color2 := \"\"
+export var base_weight := 0.0
+export var is_notable := \"\"
+export var multiplier_per_tag := \"\"
+export var multiplier_if_tag_present := \"\"
+export var multiplier_if_tag_not_present := \"\"
+export var max_tags_present := \"\"
+export var list_item_delimeter := \"\"
+export var list_row_delimeter := \"\"
+"
+
+[resource]
+script = ExtResource( 1 )
+prop_types = [ 3, 3, 3, 2, 3, 3, 3, 9, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3 ]
+prop_names = [ "resource_path", "resource_name", "color1", "max_duplicates", "tags", "type", "attributes", "icon", "custom_scene", "color2", "base_weight", "is_notable", "multiplier_per_tag", "multiplier_if_tag_present", "multiplier_if_tag_not_present", "max_tags_present", "list_item_delimeter", "list_row_delimeter" ]
+edited_path = "res://upgrades.csv"
+prop_used_as_filename = ""
+script_classname = "Upgrades"
+remove_first_row = true
+new_script = SubResource( 1 )
+view_script = ExtResource( 2 )
+delimeter = "; "
+uniques = {
+}
