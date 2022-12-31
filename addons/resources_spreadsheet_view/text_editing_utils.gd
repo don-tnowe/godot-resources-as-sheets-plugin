@@ -97,11 +97,11 @@ static func multi_paste(values : Array, cursor_positions : Array):
 			cursor_positions[i] += pasted_lines[i].length()
 
 		else:
-			cursor_positions[i] += OS.clipboard.length()
-		
+			cursor_positions[i] += DisplayServer.clipboard_get().length()
+
 		values[i] = (
 			values[i].left(cursor_positions[i])
-			+ (pasted_lines[i] if paste_each_line else OS.clipboard)
+			+ (pasted_lines[i] if paste_each_line else DisplayServer.clipboard_get())
 			+ values[i].substr(cursor_positions[i])
 		)
 

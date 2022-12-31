@@ -52,6 +52,7 @@ func _ready():
 	editor_interface.get_resource_filesystem().filesystem_changed.connect(_on_filesystem_changed)
 	editor_interface.get_inspector().property_edited.connect(_on_inspector_property_edited)
 	node_hide_columns_button.get_popup().id_pressed.connect(_on_visible_cols_id_pressed)
+	node_table_root.get_node("../..").get_h_scroll_bar().value_changed.connect(func(x): node_columns.position.x = -x)
 
 	# Load saved recent paths
 	if FileAccess.file_exists(save_data_path):
@@ -78,6 +79,9 @@ func _on_filesystem_changed():
 
 	else:
 		for k in remembered_paths:
+			if remembered_paths[k] == null:
+				continue
+
 			if remembered_paths[k].resource_path != k:
 				var res = remembered_paths[k]
 				remembered_paths.erase(k)
@@ -134,6 +138,7 @@ func _load_resources_from_folder(folderpath : String, sort_by : String, sort_rev
 	var res : Resource
 
 	while filepath != "":
+		remembered_paths[folderpath + filepath] = null
 		if filepath.ends_with(".tres"):
 			filepath = folderpath + filepath
 			res = load(filepath)
@@ -264,22 +269,29 @@ func _update_column_sizes():
 
 	node_columns.get_parent().custom_minimum_size.y = column_headers[0].size.y
 	for i in column_headers.size():
+		var header = column_headers[i]
 		cell = node_table_root.get_child(i)
 
-		column_headers[i].get_child(0).clip_text = clip_text
-		column_headers[i].custom_minimum_size.x = 0
+		header.get_child(0).clip_text = clip_text
+		header.custom_minimum_size.x = 0
 		cell.custom_minimum_size.x = 0
-		column_headers[i].size.x = 0
+		header.size.x = 0
 		node_columns.queue_sort()
 
-		min_width = max(column_headers[i].size.x, cell.size.x)
-		column_headers[i].custom_minimum_size.x = min_width
-		cell.custom_minimum_size.x = column_headers[i].get_minimum_size().x
-		column_headers[i].size.x = min_width
+		min_width = max(header.size.x, cell.size.x)
+		header.custom_minimum_size.x = min_width
+		cell.custom_minimum_size.x = header.get_minimum_size().x
+		header.size.x = min_width
+
+	node_table_root.hide()
+	node_columns.hide()
+	node_table_root.show()
+	node_columns.show()
 
 	await get_tree().process_frame
 	for i in column_headers.size():
 		column_headers[i].position.x = node_table_root.get_child(i).position.x
+		column_headers[i].size.x = node_table_root.get_child(i).size.x
 
 
 func _update_row(row_index : int, color_rows : bool = true):
@@ -563,14 +575,9 @@ func _get_cell_row(cell) -> int:
 	return cell.get_index() / columns.size() + first_row
 
 
-func _update_scroll():
-	node_columns.position.x = -node_table_root.get_node("../..").scroll_horizontal
-	
-
 func _on_cell_gui_input(event : InputEvent, cell : Control):
 	if event is InputEventMouseButton:
 		grab_focus()
-		_update_scroll()
 		if event.button_index != MOUSE_BUTTON_LEFT:
 			return
 
@@ -592,7 +599,6 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 
 func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
-		_update_scroll()
 		if event.button_index != MOUSE_BUTTON_LEFT:
 			return
 
@@ -823,8 +829,6 @@ func _on_inspector_property_edited(property : String):
 			index = _get_cell_row(previously_edited[i]) * columns.size() + new_column
 			_add_cell_to_selection(node_table_root.get_child(index - first_row))
 			
-	await get_tree().process_frame
-
 	set_edited_cells_values(values)
 	_try_open_docks(edited_cells[0])
 

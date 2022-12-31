@@ -5,7 +5,8 @@ extends Button
 @export var icon_name := "Node" :
 	set(v):
 		icon_name = v
-		icon = get_theme_icon(v, "EditorIcons")
+		if has_theme_icon(v, "EditorIcons"):
+			icon = get_theme_icon(v, "EditorIcons")
 
 
 func _ready():

@@ -2,7 +2,11 @@ extends CellEditorArray
 
 
 func can_edit_value(value, type, property_hint, column_index) -> bool:
-	if (type != TYPE_PACKED_INT32_ARRAY and type != TYPE_PACKED_INT64_ARRAY and type != TYPE_ARRAY) or property_hint != 25:
+	if (
+		type != TYPE_PACKED_INT32_ARRAY
+		and type != TYPE_PACKED_INT64_ARRAY
+		and type != TYPE_ARRAY
+	) or property_hint != PROPERTY_HINT_TYPE_STRING:
 		return false
 	
 	return hint_strings_array[column_index][0].begins_with("2/2:")

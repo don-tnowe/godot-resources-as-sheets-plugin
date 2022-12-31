@@ -14,7 +14,8 @@ func create_cell(caller : Control) -> Control:
 	return node
 
 
-func _resize_color_rect(rect : ColorRect):
+func _resize_color_rect(rect):
+	if !is_instance_valid(rect): return  # Table refreshed twice, probably? Either way, this fix is easier
 	rect.size = Vector2(8, 0)
 	rect.anchors_preset = Control.PRESET_LEFT_WIDE
 	await rect.get_tree().process_frame
