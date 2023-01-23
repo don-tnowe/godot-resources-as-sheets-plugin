@@ -2,6 +2,8 @@
 extends Control
 
 signal grid_updated()
+signal cells_selected(cells)
+signal cells_context(cells)
 
 @export var table_header_scene : PackedScene
 @export var cell_editor_classes : Array[Script] = []
@@ -22,7 +24,6 @@ var recent_paths := []
 var save_data_path : String = get_script().resource_path.get_base_dir() + "/saved_state.json"
 var sorting_by := ""
 var sorting_reverse := false
-var undo_redo_version := 0
 
 var all_cell_editors := []
 
@@ -37,9 +38,10 @@ var remembered_paths := {}
 var edited_cells := []
 var edited_cells_text := []
 var edit_cursor_positions := []
+
 var inspector_resource : Resource
 var search_cond : RefCounted
-var my_undo_redo : UndoRedo
+var io : RefCounted
 
 var hidden_columns := {}
 var first_row := 0
@@ -48,7 +50,6 @@ var last_row := 0
 
 func _ready():
 	node_recent_paths.clear()
-	my_undo_redo = editor_plugin.get_undo_redo().get_history_undo_redo(editor_plugin.get_undo_redo().get_object_history_id(self))
 	editor_interface.get_resource_filesystem().filesystem_changed.connect(_on_filesystem_changed)
 	editor_interface.get_inspector().property_edited.connect(_on_inspector_property_edited)
 	node_hide_columns_button.get_popup().id_pressed.connect(_on_visible_cols_id_pressed)
@@ -69,6 +70,9 @@ func _ready():
 	for x in cell_editor_classes:
 		all_cell_editors.append(x.new())
 		all_cell_editors[all_cell_editors.size() - 1].hint_strings_array = column_hint_strings
+	
+	node_recent_paths.selected = 0
+	display_folder(recent_paths[0], "resource_name", false, true)
 
 
 func _on_filesystem_changed():
@@ -90,18 +94,23 @@ func _on_filesystem_changed():
 				break
 
 
-func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false):
+func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false, is_echo : bool = false):
 	if folderpath == "": return  # Root folder resources tend to have MANY properties.
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
-	if !folderpath.ends_with("/"):
-		folderpath += "/"
+	if folderpath.get_extension() == "":
+		folderpath = folderpath.trim_suffix("/") + "/"
 
+	if folderpath.ends_with(".tres") and !folderpath.ends_with(SpreadsheetImport.SUFFIX):
+		folderpath = folderpath.get_base_dir() + "/"
+	
 	if search_cond == null:
 		_on_search_cond_text_submitted("true")
 
+	add_path_to_recent(folderpath)
 	first_row = node_page_manager.first_row
 	last_row = min(node_page_manager.last_row, rows.size())
 	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
+
 	if columns.size() == 0: return
 
 	node_folder_path.text = folderpath
@@ -114,7 +123,7 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	_update_hidden_columns()
 	_update_column_sizes()
 
-	await get_tree().process_frame
+	await get_tree().create_timer(0.25).timeout
 	if node_table_root.get_child_count() == 0:
 		display_folder(folderpath, sort_by, sort_reverse, force_rebuild)
 
@@ -126,65 +135,50 @@ func refresh(force_rebuild : bool = true):
 	display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
 
 
-func _load_resources_from_folder(folderpath : String, sort_by : String, sort_reverse : bool):
-	var dir = DirAccess.open(folderpath)
-	dir.list_dir_begin()
+func _load_resources_from_folder(path : String, sort_by : String, sort_reverse : bool):
+	if path.ends_with("/"):
+		io = SpreadsheetEditFormatTres.new()
 
-	rows.clear()
-	remembered_paths.clear()
-	var cur_dir_script : Script = null
-
-	var filepath = dir.get_next()
-	var res : Resource
-
-	while filepath != "":
-		remembered_paths[folderpath + filepath] = null
-		if filepath.ends_with(".tres"):
-			filepath = folderpath + filepath
-			res = load(filepath)
-			if !is_instance_valid(cur_dir_script):
-				columns.clear()
-				column_types.clear()
-				column_hints.clear()
-				column_hint_strings.clear()
-				column_editors.clear()
-				var column_index = -1
-				for x in res.get_property_list():
-					if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
-						column_index += 1
-						columns.append(x["name"])
-						column_types.append(x["type"])
-						column_hints.append(x["hint"])
-						column_hint_strings.append(x["hint_string"].split(","))
-						for y in all_cell_editors:
-							if y.can_edit_value(res.get(x["name"]), x["type"], x["hint"], column_index):
-								column_editors.append(y)
-								break
-								
-				cur_dir_script = res.get_script()
-				if !(sort_by in res):
-					sort_by = "resource_path"
-
-			if res.get_script() == cur_dir_script:
-				_insert_row_sorted(res, rows, sort_by, sort_reverse)
-				remembered_paths[res.resource_path] = res
-		
-		filepath = dir.get_next()
+	else:
+		io = load(path).view_script.new()
+	
+	io.editor_view = self
+	rows = io.import_from_path(path, insert_row_sorted, sort_by, sort_reverse)
 
 
-func _insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
+func fill_property_data(res):
+	columns.clear()
+	column_types.clear()
+	column_hints.clear()
+	column_hint_strings.clear()
+	column_editors.clear()
+	var column_index = -1
+	for x in res.get_property_list():
+		if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
+			column_index += 1
+			columns.append(x["name"])
+			column_types.append(x["type"])
+			column_hints.append(x["hint"])
+			column_hint_strings.append(x["hint_string"].split(","))
+			for y in all_cell_editors:
+				if y.can_edit_value(io.get_value(res, x["name"]), x["type"], x["hint"], column_index):
+					column_editors.append(y)
+					break
+
+
+func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
 	if !search_cond.can_show(res, rows.size()):
 		return
 		
 	for i in rows.size():
-		if sort_reverse == _compare_values(res.get(sort_by), rows[i].get(sort_by)):
+		if sort_reverse == compare_values(io.get_value(res, sort_by), io.get_value(rows[i], sort_by)):
 			rows.insert(i, res)
 			return
 	
 	rows.append(res)
 
 
-func _compare_values(a, b) -> bool:
+func compare_values(a, b) -> bool:
 	if a == null or b == null: return b == null
 	if a is Color:
 		return a.h > b.h if a.h != b.h else a.v > b.v
@@ -267,7 +261,6 @@ func _update_column_sizes():
 	var min_width := 0
 	var cell : Control
 
-	node_columns.get_parent().custom_minimum_size.y = column_headers[0].size.y
 	for i in column_headers.size():
 		var header = column_headers[i]
 		cell = node_table_root.get_child(i)
@@ -289,6 +282,8 @@ func _update_column_sizes():
 	node_columns.show()
 
 	await get_tree().process_frame
+
+	node_columns.get_parent().custom_minimum_size.y = column_headers[0].size.y
 	for i in column_headers.size():
 		column_headers[i].position.x = node_table_root.get_child(i).position.x
 		column_headers[i].size.x = node_table_root.get_child(i).size.x
@@ -306,17 +301,17 @@ func _update_row(row_index : int, color_rows : bool = true):
 		else:
 			current_node = node_table_root.get_child((row_index - first_row) * columns.size() + i)
 			current_node.tooltip_text = (
-				TextEditingUtils.string_snake_to_naming_case(columns[i])
+				columns[i].capitalize()
 				+ "\n---\n"
 				+ "Of " + rows[row_index].resource_path.get_file().get_basename()
 			)
 		
-		column_editors[i].set_value(current_node, rows[row_index].get(columns[i]))
+		column_editors[i].set_value(current_node, io.get_value(rows[row_index], columns[i]))
 		if columns[i] == "resource_path":
 			column_editors[i].set_value(current_node, current_node.text.get_file().get_basename())
 
 		if color_rows and column_types[i] == TYPE_COLOR:
-			next_color = rows[row_index].get(columns[i])
+			next_color = io.get_value(rows[row_index], columns[i])
 
 		column_editors[i].set_color(current_node, next_color)
 
@@ -383,7 +378,6 @@ func save_data():
 func _on_path_text_submitted(new_text : String = ""):
 	if new_text != "":
 		current_path = new_text
-		add_path_to_recent(new_text)
 		display_folder(new_text, "", false, true)
 
 	else:
@@ -393,12 +387,11 @@ func _on_path_text_submitted(new_text : String = ""):
 func _on_RecentPaths_item_selected(index : int):
 	current_path = recent_paths[index]
 	node_folder_path.text = recent_paths[index]
-	display_folder(current_path)
+	display_folder(current_path, sorting_by, sorting_reverse, true)
 
 
 func _on_FileDialog_dir_selected(dir : String):
 	node_folder_path.text = dir
-	add_path_to_recent(dir)
 	display_folder(dir)
 
 
@@ -409,6 +402,7 @@ func deselect_all_cells():
 	edited_cells.clear()
 	edited_cells_text.clear()
 	edit_cursor_positions.clear()
+	cells_selected.emit([])
 
 
 func deselect_cell(cell : Control):
@@ -420,6 +414,8 @@ func deselect_cell(cell : Control):
 	if edited_cells_text.size() != 0:
 		edited_cells_text.remove_at(idx)
 		edit_cursor_positions.remove_at(idx)
+		
+	cells_selected.emit(edited_cells)
 
 
 func select_cell(cell : Control):
@@ -430,6 +426,8 @@ func select_cell(cell : Control):
 #		inspector_resource = rows[_get_cell_row(cell)].duplicate()  #
 		inspector_resource = rows[_get_cell_row(cell)]
 		editor_plugin.get_editor_interface().edit_resource(inspector_resource)
+
+	cells_selected.emit(edited_cells)
 
 
 func select_cells_to(cell : Control):
@@ -455,6 +453,8 @@ func select_cells_to(cell : Control):
 			if column_editors[column_index].is_text():
 				edited_cells_text.append(str(cur_cell.text))
 				edit_cursor_positions.append(cur_cell.text.length())
+
+	cells_selected.emit(edited_cells)
 
 
 func select_column(column_index : int):
@@ -486,7 +486,7 @@ func _try_open_docks(cell : Control):
 	var column_index = _get_cell_column(cell)
 	for x in node_property_editors.get_children():
 		x.visible = x.try_edit_value(
-			rows[_get_cell_row(cell)].get(columns[column_index]),
+			io.get_value(rows[_get_cell_row(cell)], columns[column_index]),
 			column_types[column_index],
 			column_hints[column_index]
 		)
@@ -524,8 +524,32 @@ func set_edited_cells_values(new_cell_values : Array):
 	)
 	editor_plugin.undo_redo.commit_action()
 	editor_interface.get_resource_filesystem().scan()
-	undo_redo_version = my_undo_redo.get_version()
 	_update_column_sizes()
+
+
+func rename_row(row, new_name):
+	if !has_row_names(): return
+		
+	io.rename_row(row, new_name)
+	refresh()
+
+
+func duplicate_selected_rows(new_name : String):
+	io.duplicate_rows(_get_edited_cells_resources(), new_name)
+	refresh()
+
+
+func delete_selected_rows():
+	io.delete_rows(_get_edited_cells_resources())
+	refresh()
+
+
+func has_row_names():
+	return io.has_row_names()
+
+
+func get_last_selected_row():
+	return rows[_get_cell_row(edited_cells[-1])]
 
 
 func _update_selected_cells_text():
@@ -542,13 +566,13 @@ func get_edited_cells_values() -> Array:
 	var column_index := _get_cell_column(edited_cells[0])
 	var cell_editor = column_editors[column_index]
 	for i in arr.size():
-		arr[i] = rows[_get_cell_row(arr[i])].get(columns[column_index])
+		arr[i] = io.get_value(rows[_get_cell_row(arr[i])], columns[column_index])
 	
 	return arr
 
 
 func get_cell_value(cell : Control):
-	return rows[_get_cell_row(cell)].get(columns[_get_cell_column(cell)])
+	return io.get_value(rows[_get_cell_row(cell)], columns[_get_cell_column(cell)])
 
 
 func _can_select_cell(cell : Control) -> bool:
@@ -579,6 +603,13 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 	if event is InputEventMouseButton:
 		grab_focus()
 		if event.button_index != MOUSE_BUTTON_LEFT:
+			if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
+				if !cell in edited_cells:
+					deselect_all_cells()
+					select_cell(cell)
+
+				cells_context.emit(edited_cells)
+
 			return
 
 		if event.pressed:
@@ -600,6 +631,9 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
 		if event.button_index != MOUSE_BUTTON_LEFT:
+			if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
+				cells_context.emit(edited_cells)
+
 			return
 
 		grab_focus()
@@ -619,24 +653,24 @@ func _input(event : InputEvent):
 		return
 	
 	# Ctrl + Z (before, and instead of, committing the action!)
-	if Input.is_key_pressed(KEY_CTRL) and event.keycode == KEY_Z:
-		if Input.is_key_pressed(KEY_SHIFT):
-			my_undo_redo.redo()
-		# Ctrl + z
-		else:
-			my_undo_redo.undo()
-		
-		return
+	if Input.is_key_pressed(KEY_CTRL):
+		if event.keycode == KEY_Z:
+			if Input.is_key_pressed(KEY_SHIFT):
+				editor_plugin.undo_redo.redo()
+			# Ctrl + z (smol)
+			else:
+				editor_plugin.undo_redo.undo()
+			
+			return
 
-	# This shortcut is used by Godot as well.	
-	if Input.is_key_pressed(KEY_CTRL) and event.keycode == KEY_Y:
-		my_undo_redo.redo()
-		return
-	
+		# This shortcut is used by Godot as well.
+		if event.keycode == KEY_Y:
+			editor_plugin.undo_redo.redo()
+			return
+
 	_key_specific_action(event)
 	grab_focus()
 	editor_interface.get_resource_filesystem().scan()
-	undo_redo_version = my_undo_redo.get_version()
 
 
 func _key_specific_action(event : InputEvent):
@@ -685,6 +719,7 @@ func _key_specific_action(event : InputEvent):
 	# Ctrl + C (so you can edit in a proper text editor instead of this wacky nonsense)
 	elif ctrl_pressed and event.keycode == KEY_C:
 		TextEditingUtils.multi_copy(edited_cells_text)
+		get_tree().set_input_as_handled()
 			
 	# The following actions do not work on non-editable cells.
 	if !column_editors[column].is_text() or columns[column] == "resource_path":
@@ -695,6 +730,7 @@ func _key_specific_action(event : InputEvent):
 		set_edited_cells_values(TextEditingUtils.multi_paste(
 			edited_cells_text, edit_cursor_positions
 		))
+		get_tree().set_input_as_handled()
 
 	# ERASING
 	elif event.keycode == KEY_BACKSPACE:
@@ -734,17 +770,24 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 
 
 func _update_resources(update_rows : Array, update_cells : Array, update_column : int, values : Array):
+	var saved_indices = []
+	saved_indices.resize(update_rows.size())
 	for i in update_rows.size():
+		var row = _get_cell_row(update_cells[i])
+		saved_indices[i] = row
 		column_editors[update_column].set_value(update_cells[i], values[i])
 		if values[i] is String:
 			values[i] = _try_convert(values[i], column_types[update_column])
 
 		if values[i] == null:
 			continue
-
-		update_rows[i].set(columns[update_column], values[i])
-		ResourceSaver.save(update_rows[i])
 		
+		io.set_value(
+			update_rows[i],
+			columns[update_column],
+			values[i],
+			row
+		)
 		if column_types[update_column] == TYPE_COLOR:
 			for j in columns.size() - update_column:
 				if j != 0 and column_types[j + update_column] == TYPE_COLOR:
@@ -757,6 +800,7 @@ func _update_resources(update_rows : Array, update_cells : Array, update_column 
 					values[i]
 				)
 
+	io.save_entries(rows, saved_indices)
 	_update_column_sizes()
 
 
@@ -771,7 +815,8 @@ func _try_convert(value, type):
 
 
 func _get_edited_cells_resources() -> Array:
-	var arr := edited_cells.duplicate()
+	var arr := []
+	arr.resize(edited_cells.size())
 	for i in arr.size():
 		arr[i] = rows[_get_cell_row(edited_cells[i])]
 
@@ -811,8 +856,6 @@ func _on_inspector_property_edited(property : String):
 	if !visible: return
 	if inspector_resource == null: return
 	
-	undo_redo_version = my_undo_redo.get_version()
-
 	var value = inspector_resource.get(property)
 	var values = []
 	values.resize(edited_cells.size())
@@ -847,7 +890,7 @@ func _on_visible_cols_about_to_popup():
 	popup.hide_on_checkable_item_selection = false
 	
 	for i in columns.size():
-		popup.add_check_item(TextEditingUtils.string_snake_to_naming_case(columns[i]), i)
+		popup.add_check_item(columns[i].capitalize(), i)
 		popup.set_item_checked(i, hidden_columns[current_path].has(columns[i]))
 
 

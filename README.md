@@ -32,6 +32,8 @@ Possible inputs:
 - `Home/End` - Move cursor to start/end of cell
 - `Ctrl + <move/erase> / Cmd + <move/erase>` - Move through / Erase whole word
 - `Ctrl/Cmd + C/V` - Copy cells / Paste text into cells 
+- `Ctrl/Cmd + R` - Rename resource
+- `Ctrl/Cmd + D` - Duplicate selected rows
 - `Ctrl/Cmd + (Shift) + Z` - The Savior
 
 If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
@@ -41,8 +43,10 @@ To add support of more datatypes, check out the `typed_cells` and `typed_editors
 #
 Made by Don Tnowe in 2022.
 
-[https://redbladegames.netlify.app]()
+[My Website](https://redbladegames.netlify.app)
 
-[https://twitter.com/don_tnowe]()
+[Itch](https://don-tnowe.itch.io)
 
-Copying and Modiication is allowed in accordance to the MIT license, full text is included.
+[Twitter](https://twitter.com/don_tnowe)
+
+Copying and Modification is allowed in accordance to the MIT license, full text is included.

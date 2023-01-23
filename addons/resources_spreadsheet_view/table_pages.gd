@@ -3,18 +3,10 @@ extends HBoxContainer
 
 @export @onready var node_editor_view_root : Control = $"../../../.."
 
-# These can not be set externally.
-var rows_per_page := 50:
-	set(v): pass
-	
-var current_page := 0:
-	set(v): pass
-	
-var first_row := 0:
-	set(v): pass
-	
-var last_row := 50:
-	set(v): pass
+var rows_per_page := 50
+var current_page := 0
+var first_row := 0
+var last_row := 50
 
 
 func _on_grid_updated():
@@ -85,7 +77,7 @@ func _fill_buttons_with_prefixes(btns, strings, page_count):
 			continue
 
 		for j in strings[i].length():
-			if strings[i].ord_at(j) != strings[i - 1].ord_at(j):
+			if strings[i].unicode_at(j) != strings[i - 1].unicode_at(j):
 				btns[i].text = strings[i].left(j + 1)
 				btns[i - 1].text = strings[i - 1].left(max(j + 1, btns[i - 1].text.length()))
 				break

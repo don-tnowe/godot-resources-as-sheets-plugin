@@ -8,57 +8,6 @@
 
 config_version=5
 
-_global_script_classes=[{
-"base": "RefCounted",
-"class": &"CellEditor",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/typed_cells/cell_editor.gd"
-}, {
-"base": "CellEditor",
-"class": &"CellEditorArray",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd"
-}, {
-"base": "GridContainer",
-"class": &"SettingsGrid",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/settings_grid.gd"
-}, {
-"base": "Control",
-"class": &"SheetsDockEditor",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/typed_editors/dock_base.gd"
-}, {
-"base": "RefCounted",
-"class": &"TextEditingUtils",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/text_editing_utils.gd"
-}, {
-"base": "Control",
-"class": &"ThemeColorSetter",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/editor_color_setter.gd"
-}, {
-"base": "Button",
-"class": &"ThemeIconButton",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/editor_icon_button.gd"
-}, {
-"base": "Control",
-"class": &"ThemeStylebox",
-"language": &"GDScript",
-"path": "res://addons/resources_spreadsheet_view/editor_stylebox_overrider.gd"
-}]
-_global_script_class_icons={
-"CellEditor": "",
-"CellEditorArray": "",
-"SettingsGrid": "",
-"SheetsDockEditor": "",
-"TextEditingUtils": "",
-"ThemeColorSetter": "",
-"ThemeIconButton": "",
-"ThemeStylebox": ""
-}
 color_rows=false
 color_arrays=true
 
@@ -75,6 +24,10 @@ resources_spreadsheet_view/resource_preview_size=32.0
 
 config/name="Addon: Resources as Sheets"
 config/features=PackedStringArray("4.0")
+
+[editor]
+
+export/convert_text_resources_to_binary=true
 
 [editor_plugins]
 

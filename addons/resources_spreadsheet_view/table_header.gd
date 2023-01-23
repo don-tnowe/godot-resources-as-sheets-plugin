@@ -5,7 +5,7 @@ var editor_view : Control
 
 
 func set_label(label : String):
-	$"Button".text = TextEditingUtils.string_snake_to_naming_case(label)
+	$"Button".text = label.capitalize()
 	$"Button".tooltip_text = label + "\nClick to sort."
 
 

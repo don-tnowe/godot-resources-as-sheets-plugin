@@ -1,0 +1,172 @@
+[gd_scene load_steps=5 format=3 uid="uid://b413igx28kkvb"]
+
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/import_export_dialog.gd" id="1"]
+[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/import_export/property_list_item.tscn" id="2"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/formats_import/import_csv.gd" id="3"]
+[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/import_export/import_export_enum_format.tscn" id="4"]
+
+[node name="Control" type="Window"]
+size = Vector2i(600, 373)
+wrap_controls = true
+min_size = Vector2i(600, 0)
+script = ExtResource("1")
+prop_list_item_scene = ExtResource("2")
+formats_import = [ExtResource("3")]
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -552.0
+offset_bottom = -275.0
+grow_horizontal = 2
+grow_vertical = 2
+use_hidden_tabs_for_min_size = true
+
+[node name="Import" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Import"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Import/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Use as filename:"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Class Name"
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="CheckBox" type="CheckBox" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "First row contains property names"
+
+[node name="Control" type="Control" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+visible = false
+layout_mode = 2
+
+[node name="StyleSettingsI" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Import"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Ok2" type="Button" parent="TabContainer/Import/HBoxContainer"]
+layout_mode = 2
+text = "Confirm and edit"
+
+[node name="Ok" type="Button" parent="TabContainer/Import/HBoxContainer"]
+layout_mode = 2
+text = "Convert to Resources and edit"
+
+[node name="Cancel" type="Button" parent="TabContainer/Import/HBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Control" type="Control" parent="TabContainer/Import"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Export" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Info" type="Label" parent="TabContainer/Export"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "The currently edited folder will be exported into the selected file.
+
+Rows hidden by the filter will NOT be exported, and order follows the current sorting key. Rows on non-selected pages will not be removed.
+
+Hidden columns will NOT be exported."
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Export"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Export"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="TabContainer/Export/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Delimeter:"
+
+[node name="Button" type="Button" parent="TabContainer/Export/HBoxContainer2"]
+layout_mode = 2
+toggle_mode = true
+text = "Comma (,)"
+
+[node name="Button2" type="Button" parent="TabContainer/Export/HBoxContainer2"]
+layout_mode = 2
+toggle_mode = true
+text = "Semicolon (;)"
+
+[node name="Button3" type="Button" parent="TabContainer/Export/HBoxContainer2"]
+layout_mode = 2
+toggle_mode = true
+text = "Tab"
+
+[node name="CheckBox" type="CheckBox" parent="TabContainer/Export/HBoxContainer2"]
+layout_mode = 2
+text = "With space after"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Export"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="TabContainer/Export/HBoxContainer3"]
+layout_mode = 2
+text = "First row contains property names (CSV)"
+
+[node name="StyleSettingsE" parent="TabContainer/Export" instance=ExtResource("4")]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="TabContainer/Export"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Export"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="TabContainer/Export/HBoxContainer"]
+layout_mode = 2
+text = "Export to CSV"
+
+[node name="Cancel" type="Button" parent="TabContainer/Export/HBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Control2" type="Control" parent="TabContainer/Export"]
+layout_mode = 2
+
+[connection signal="pressed" from="TabContainer/Import/HBoxContainer/Cancel" to="." method="hide"]
+[connection signal="pressed" from="TabContainer/Export/HBoxContainer/Cancel" to="." method="hide"]

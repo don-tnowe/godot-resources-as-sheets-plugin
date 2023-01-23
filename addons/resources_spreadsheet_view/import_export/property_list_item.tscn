@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/resources_speadsheet_view/import_export/property_list_item.gd" type="Script" id=1]
+
+[node name="Entry" type="HBoxContainer"]
+margin_right = 468.0
+margin_bottom = 24.0
+script = ExtResource( 1 )
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_right = 309.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "1"
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 313.0
+margin_right = 468.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+size_flags_stretch_ratio = 0.25
+text = "Bool"
+items = [ "Bool", null, false, 1, null, "Integer Number", null, false, 2, null, "Floating Point Number", null, false, 3, null, "String/Other", null, false, 4, null, "Vector2", null, true, 5, null, "Rect2", null, true, 6, null, "Vector3", null, true, 7, null, "Color", null, false, 14, null, "Array", null, true, 19, null, "Resource Path", null, false, 17, null, "Enumeration", null, false, 101, null ]
+selected = 0

@@ -7,7 +7,7 @@ const SETTING_PREFIX = "addons/resources_spreadsheet_view/"
 
 func _ready():
 	for x in get_children():
-		var setting = SETTING_PREFIX + TextEditingUtils.pascal_case_to_snake_case(x.name)
+		var setting = SETTING_PREFIX + x.name.to_snake_case()
 		if x is BaseButton:
 			x.toggled.connect(_set_setting.bind(setting))
 			if !ProjectSettings.has_setting(setting):
