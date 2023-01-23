@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://addons/resources_speadsheet_view/editor_icon_button.gd" type="Script" id=1]
-[ext_resource path="res://addons/resources_speadsheet_view/selection_actions.gd" type="Script" id=2]
+[ext_resource path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" type="Script" id=1]
+[ext_resource path="res://addons/resources_spreadsheet_view/selection_actions.gd" type="Script" id=2]
 
 [sub_resource type="Image" id=6]
 data = {

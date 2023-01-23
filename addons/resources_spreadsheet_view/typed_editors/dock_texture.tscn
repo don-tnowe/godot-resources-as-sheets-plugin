@@ -15,84 +15,53 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Header" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 26.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Header"]
 layout_mode = 2
-offset_right = 506.0
-offset_bottom = 26.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Header/HBoxContainer"]
 layout_mode = 2
-offset_right = 103.0
-offset_bottom = 26.0
 text = "EDIT: Texture"
 
 [node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
 layout_mode = 2
-offset_left = 107.0
-offset_right = 506.0
-offset_bottom = 26.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Header"]
 layout_mode = 2
-offset_left = 510.0
-offset_right = 642.0
-offset_bottom = 26.0
 text = "PROPERTY NAME"
 
 [node name="HSeparator2" type="HSeparator" parent="Header"]
 layout_mode = 2
-offset_left = 646.0
-offset_right = 1152.0
-offset_bottom = 26.0
 size_flags_horizontal = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 2
-offset_top = 30.0
-offset_right = 1152.0
-offset_bottom = 126.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-offset_left = 394.0
-offset_right = 758.0
-offset_bottom = 96.0
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer"]
-custom_minimum_size = Vector2i(96, 96)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
-offset_right = 96.0
-offset_bottom = 96.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("2")
-ignore_texture_size = true
+expand_mode = 1
 stretch_mode = 5
 
 [node name="VSeparator" type="VSeparator" parent="CenterContainer/HBoxContainer"]
 layout_mode = 2
-offset_left = 100.0
-offset_right = 104.0
-offset_bottom = 96.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer"]
 layout_mode = 2
-offset_left = 108.0
-offset_right = 364.0
-offset_bottom = 96.0
 size_flags_horizontal = 3
 auto_translate = false
 
 [node name="Label" type="Label" parent="CenterContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-offset_right = 256.0
-offset_bottom = 26.0
 size_flags_vertical = 3
 text = "Atlas Chopper"
 horizontal_alignment = 1
@@ -100,32 +69,21 @@ vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-offset_top = 30.0
-offset_right = 256.0
-offset_bottom = 61.0
 size_flags_vertical = 4
 
 [node name="LineEdit" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-offset_right = 126.0
-offset_bottom = 31.0
 size_flags_horizontal = 3
 placeholder_text = "H Count"
 
 [node name="LineEdit2" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-offset_left = 130.0
-offset_right = 256.0
-offset_bottom = 31.0
 size_flags_horizontal = 3
 placeholder_text = "V Count"
 
 [node name="Button" type="Button" parent="CenterContainer/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2i(256, 0)
+custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
-offset_top = 65.0
-offset_right = 256.0
-offset_bottom = 96.0
 size_flags_vertical = 4
 text = "Chop chop chop!!!"
 
