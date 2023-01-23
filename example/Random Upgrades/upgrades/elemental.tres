@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://df0gymb6kab1q"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://8m6y2o6tbmpn"]
 
 [ext_resource type="Texture2D" uid="uid://butx3l1jdcgcc" path="res://example/Random Upgrades/icons/all_icons/all_icons_6.tres" id="1_utkae"]
 [ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
@@ -10,11 +10,11 @@ color1 = Color(1, 1, 1, 1)
 max_duplicates = 9
 tags = ["elemental"]
 type = 1
-attributes = [ 1 ]
+attributes = [1]
 icon = ExtResource("1_utkae")
 color2 = Color(0.964706, 0.298039, 0.298039, 1)
 base_weight = 10.0
-is_notable = false
+is_notable = true
 multiplier_per_tag = ""
 multiplier_if_tag_present = ""
 multiplier_if_tag_not_present = "elemental 0"

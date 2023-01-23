@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dmrklxbnskel8"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://2totlbwc40e8"]
 
 [ext_resource type="Texture2D" uid="uid://djjpa8lluue1g" path="res://example/Random Upgrades/icons/all_icons/all_icons_5.tres" id="1_ardng"]
 [ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
