@@ -1,7 +1,7 @@
 @tool
 extends HBoxContainer
 
-var editor_view : Control
+var manager : Control
 
 
 func set_label(label : String):
@@ -27,7 +27,7 @@ func _on_main_gui_input(event):
 
 func _on_list_id_pressed(id : int):
 	if id == 0:
-		editor_view.select_column(get_index())
+		manager.select_column(get_index())
 
 	else:
-		editor_view.hide_column(get_index())
+		manager.hide_column(get_index())

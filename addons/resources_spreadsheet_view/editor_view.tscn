@@ -1,23 +1,27 @@
-[gd_scene load_steps=21 format=3 uid="uid://blf43y5mcinf7"]
+[gd_scene load_steps=25 format=3 uid="uid://tmleonv20aqk"]
 
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="2"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_color.gd" id="3"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="4"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_bool.gd" id="5"]
-[ext_resource type="PackedScene" uid="uid://d1s6oihqedvo5" path="res://addons/resources_spreadsheet_view/table_header.tscn" id="6"]
-[ext_resource type="PackedScene" uid="uid://b3a3bo6cfyh5t" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.tscn" id="7"]
-[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="8"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum_array.gd" id="8_2kaah"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="9"]
-[ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="10"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="10_b87c7"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd" id="11"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/table_pages.gd" id="11_5gh4r"]
-[ext_resource type="PackedScene" uid="uid://c3a2cip8ffccv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_array.tscn" id="12"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum.gd" id="13"]
-[ext_resource type="PackedScene" uid="uid://ddqak780cwwfj" path="res://addons/resources_spreadsheet_view/typed_editors/dock_enum_array.tscn" id="13_7nia1"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="14"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="3_7ja2l"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/recent_paths.gd" id="4_umoob"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/table_pages.gd" id="5_ka2yn"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/column_header_manager.gd" id="6_emnmd"]
+[ext_resource type="PackedScene" uid="uid://d1s6oihqedvo5" path="res://addons/resources_spreadsheet_view/main_screen/table_header.tscn" id="7_3dx0v"]
+[ext_resource type="PackedScene" uid="uid://ddqak780cwwfj" path="res://addons/resources_spreadsheet_view/typed_editors/dock_enum_array.tscn" id="8_234wn"]
+[ext_resource type="PackedScene" uid="uid://c3a2cip8ffccv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_array.tscn" id="9_nts08"]
+[ext_resource type="PackedScene" uid="uid://b3a3bo6cfyh5t" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.tscn" id="10_nsma2"]
+[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="11_q1ao4"]
+[ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="12_4kr6q"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="13_v0vm4"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/input_handler.gd" id="14_2t57a"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd" id="15_mx6qn"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum_array.gd" id="16_p7n52"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd" id="17_sofdw"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_color.gd" id="18_oeewr"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_bool.gd" id="19_7x44x"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum.gd" id="20_swsbn"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="21_58wf8"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="22_bni8r"]
 
 [sub_resource type="Gradient" id="Gradient_8kp6w"]
 offsets = PackedFloat32Array(0, 0.995413, 1)
@@ -26,7 +30,7 @@ colors = PackedColorArray(1, 1, 1, 0.490196, 1, 1, 1, 0.0458716, 1, 1, 1, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_18il8"]
 gradient = SubResource("Gradient_8kp6w")
 
-[node name="Control" type="MarginContainer" node_paths=PackedStringArray("node_folder_path", "node_recent_paths", "node_table_root", "node_property_editors", "node_columns", "node_hide_columns_button", "node_page_manager")]
+[node name="Control" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,16 +48,7 @@ focus_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 5
-script = ExtResource("1")
-table_header_scene = ExtResource("6")
-cell_editor_classes = [ExtResource("8_2kaah"), ExtResource("11"), ExtResource("5"), ExtResource("3"), ExtResource("13"), ExtResource("9"), ExtResource("2")]
-node_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
-node_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths")
-node_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
-node_property_editors = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
-node_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
-node_hide_columns_button = NodePath("HeaderContentSplit/VBoxContainer/MenuStrip/VisibleCols")
-node_page_manager = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages")
+script = ExtResource("1_wfx75")
 metadata/_edit_lock_ = true
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
@@ -119,7 +114,7 @@ theme_override_constants/separation = 0
 modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(6, 18)
 layout_mode = 2
-script = ExtResource("10_b87c7")
+script = ExtResource("2_t2s7k")
 
 [node name="TextureRect" type="TextureRect" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/ColorRect4"]
 layout_mode = 1
@@ -150,13 +145,13 @@ caret_blink = true
 [node name="SelectDir" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "Open Folder"
-script = ExtResource("4")
+script = ExtResource("3_7ja2l")
 icon_name = "Folder"
 
 [node name="DeletePath" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "Remove Path from Recent"
-script = ExtResource("4")
+script = ExtResource("3_7ja2l")
 icon_name = "Remove"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer"]
@@ -172,6 +167,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 clip_text = true
 fit_to_longest_item = false
+script = ExtResource("4_umoob")
 
 [node name="Search" type="VBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
 visible = false
@@ -186,7 +182,7 @@ modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(6, 18)
 layout_mode = 2
 size_flags_vertical = 5
-script = ExtResource("10_b87c7")
+script = ExtResource("2_t2s7k")
 
 [node name="TextureRect" type="TextureRect" parent="HeaderContentSplit/VBoxContainer/Search/HBoxContainer/ColorRect4"]
 layout_mode = 1
@@ -216,7 +212,7 @@ modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(6, 18)
 layout_mode = 2
 size_flags_vertical = 5
-script = ExtResource("10_b87c7")
+script = ExtResource("2_t2s7k")
 
 [node name="TextureRect" type="TextureRect" parent="HeaderContentSplit/VBoxContainer/Search/Search/ColorRect2"]
 layout_mode = 1
@@ -292,12 +288,12 @@ text = "Grid"
 [node name="Refresh" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 tooltip_text = "Refresh"
-script = ExtResource("4")
+script = ExtResource("3_7ja2l")
 icon_name = "Loop"
 
 [node name="Pages" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3" node_paths=PackedStringArray("node_editor_view_root")]
 layout_mode = 2
-script = ExtResource("11_5gh4r")
+script = ExtResource("5_ka2yn")
 node_editor_view_root = NodePath("../../../..")
 
 [node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
@@ -331,6 +327,8 @@ layout_mode = 2
 [node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns"]
 layout_mode = 0
 theme_override_constants/separation = 0
+script = ExtResource("6_emnmd")
+table_header_scene = ExtResource("7_3dx0v")
 
 [node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 visible = false
@@ -390,23 +388,23 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="EditEnumArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("13_7nia1")]
+[node name="EditEnumArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("8_234wn")]
 visible = false
 layout_mode = 2
 
-[node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("12")]
+[node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("9_nts08")]
 visible = false
 layout_mode = 2
 
-[node name="EditColor" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("7")]
+[node name="EditColor" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("10_nsma2")]
 visible = false
 layout_mode = 2
 
-[node name="EditNumber" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("8")]
+[node name="EditNumber" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("11_q1ao4")]
 visible = false
 layout_mode = 2
 
-[node name="EditTexture" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("10")]
+[node name="EditTexture" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("12_4kr6q")]
 visible = false
 layout_mode = 2
 
@@ -504,7 +502,7 @@ size_flags_vertical = 3
 [node name="GridContainer" type="GridContainer" parent="Control/Settings/MarginContainer/RichTextLabel"]
 layout_mode = 2
 columns = 2
-script = ExtResource("14")
+script = ExtResource("13_v0vm4")
 
 [node name="Label" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
 layout_mode = 2
@@ -573,16 +571,24 @@ layout_mode = 2
 button_pressed = true
 text = "Enable"
 
+[node name="InputHandler" type="Node" parent="."]
+script = ExtResource("14_2t57a")
+
+[node name="SelectionManager" type="Node" parent="." node_paths=PackedStringArray("node_property_editors")]
+script = ExtResource("15_mx6qn")
+cell_editor_classes = [ExtResource("16_p7n52"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")]
+node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
+
 [connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_grid_updated"]
+[connection signal="gui_input" from="." to="InputHandler" method="_gui_input"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/File" to="." method="_on_File_pressed"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/SearchProcess" to="." method="_on_SearchProcess_pressed"]
-[connection signal="about_to_popup" from="HeaderContentSplit/VBoxContainer/MenuStrip/VisibleCols" to="." method="_on_visible_cols_about_to_popup"]
+[connection signal="about_to_popup" from="HeaderContentSplit/VBoxContainer/MenuStrip/VisibleCols" to="HeaderContentSplit/VBoxContainer/Columns/Columns" method="_on_visible_cols_about_to_popup"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/Settings" to="Control/Settings" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/Info" to="Control/Info" method="popup_centered"]
 [connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_path_text_submitted"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
-[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="." method="remove_selected_path_from_recent"]
-[connection signal="item_selected" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" to="." method="_on_RecentPaths_item_selected"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" method="remove_selected_path_from_recent"]
 [connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/SearchCond" to="." method="_on_search_cond_text_submitted"]
 [connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/ProcessExpr" to="." method="_on_process_expr_text_submitted"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Refresh" to="." method="_on_path_text_submitted"]
