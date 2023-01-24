@@ -7,11 +7,7 @@ enum PropType {
 	INT,
 	FLOAT,
 	STRING,
-	VECTOR2,
-	RECT2,
-	VECTOR3,
 	COLOR,
-	ARRAY,
 	OBJECT,
 	ENUM,
 	MAX,
@@ -57,7 +53,8 @@ func initialize(path):
 
 
 func save():
-	ResourceSaver.call_deferred("save", edited_path.get_basename() + SUFFIX, self)
+	resource_path = edited_path.get_basename() + SUFFIX
+	ResourceSaver.call_deferred("save", self)
 
 
 func string_to_property(string : String, col_index : int):
@@ -69,7 +66,7 @@ func string_to_property(string : String, col_index : int):
 			string = string.to_lower()
 			if string == enum_format[2].to_lower(): return true
 			if string == enum_format[3].to_lower(): return false
-			return !string in ["no", "disabled", "-", "false", "absent", "wrong", "off", ""]
+			return !string in ["no", "disabled", "-", "false", "absent", "wrong", "off", "0", ""]
 
 		PropType.FLOAT:
 			return string.to_float()
@@ -118,6 +115,7 @@ func property_to_string(value, col_index : int) -> String:
 
 		PropType.ENUM:
 			var dict = uniques[col_index]
+			print(dict)
 			for k in dict:
 				if dict[k] == value:
 					return change_name_to_format(k, enum_format[0], enum_format[1])
@@ -141,13 +139,13 @@ func create_property_line_for_prop(col_index : int) -> String:
 			return result + "= 0\r\n"
 
 		PropType.COLOR:
-			return result + "= Color.white\r\n"
+			return result + "= Color.WHITE\r\n"
 
 		PropType.OBJECT:
 			return result + " Resource\r\n"
 
 		PropType.ENUM:
-			return result + ": %s\r\n" % _escape_forbidden_enum_names(prop_names[col_index].capitalize().replace(" ", ""))
+			return result + " %s\r\n" % _escape_forbidden_enum_names(prop_names[col_index].capitalize().replace(" ", ""))
 			# return result.replace(
 			# 	"@export var",
 			# 	"@export_enum(" + _escape_forbidden_enum_names(
@@ -165,7 +163,7 @@ func _escape_forbidden_enum_names(string : String) -> String:
 	
 	# Not in ClassDB, but are engine types and can be property names
 	if string in [
-		"Color", "String", "Plane",
+		"Color", "String", "Plane", "Projection",
 		"Basis", "Transform", "Variant",
 	]:
 		return string + "_"
@@ -194,11 +192,11 @@ func create_enum_for_prop(col_index) -> String:
 
 func generate_script(entries, has_classname = true) -> GDScript:
 	var source = ""
-	if has_classname and script_classname != "":
-		source = "class_name " + script_classname + " \r\nextends Resource\r\n\r\n"
-
-	else:
-		source = "extends Resource\r\n\r\n"
+#	if has_classname and script_classname != "":
+#		source = "class_name " + script_classname + " \r\nextends Resource\r\n\r\n"
+#
+#	else:
+	source = "extends Resource\r\n\r\n"
 	
 	# Enums
 	uniques = get_uniques(entries)

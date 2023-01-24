@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=27 format=3 uid="uid://tmleonv20aqk"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="12_4kr6q"]
 [ext_resource type="PackedScene" uid="uid://dhunxgcae6h1" path="res://addons/resources_spreadsheet_view/settings_grid.tscn" id="13_as1sh"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/input_handler.gd" id="14_2t57a"]
+[ext_resource type="PackedScene" uid="uid://b413igx28kkvb" path="res://addons/resources_spreadsheet_view/import_export/import_export_dialog.tscn" id="14_3p12b"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd" id="15_mx6qn"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum_array.gd" id="16_p7n52"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd" id="17_sofdw"]
@@ -169,6 +170,12 @@ size_flags_horizontal = 3
 clip_text = true
 fit_to_longest_item = false
 script = ExtResource("4_umoob")
+
+[node name="ImportExport" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Import/Export CSV..."
+script = ExtResource("3_7ja2l")
+icon_name = "TextFile"
 
 [node name="Search" type="VBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
 visible = false
@@ -415,26 +422,23 @@ mouse_filter = 2
 
 [node name="FileDialog" type="FileDialog" parent="Control"]
 title = "Open"
-size = Vector2i(1168, 630)
+size = Vector2i(1000, 800)
 popup_window = true
-ok_button_text = "Select Current Folder"
+min_size = Vector2i(800, 400)
+ok_button_text = "Open"
 mode_overrides_title = false
-file_mode = 2
+file_mode = 3
+filters = PackedStringArray("*.tres")
 
-[node name="Control" type="Control" parent="Control/FileDialog"]
-custom_minimum_size = Vector2(1152, 573)
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 8.0
-offset_bottom = -67.0
-grow_horizontal = 2
-grow_vertical = 2
-auto_translate = false
-mouse_filter = 2
+[node name="FileDialogText" type="FileDialog" parent="Control"]
+title = "Open"
+size = Vector2i(1000, 800)
+popup_window = true
+min_size = Vector2i(800, 400)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 0
+filters = PackedStringArray("*.csv")
 
 [node name="Info" type="AcceptDialog" parent="Control"]
 title = "About"
@@ -486,6 +490,16 @@ min_size = Vector2i(500, 300)
 
 [node name="Settings" parent="Control/Settings" instance=ExtResource("13_as1sh")]
 
+[node name="ImportExport" type="Window" parent="Control"]
+process_mode = 3
+size = Vector2i(600, 400)
+visible = false
+transient = true
+exclusive = true
+min_size = Vector2i(600, 400)
+
+[node name="ImportExport" parent="Control/ImportExport" instance=ExtResource("14_3p12b")]
+
 [node name="SelectionActions" parent="Control" instance=ExtResource("23_m53sx")]
 visible = false
 layout_mode = 2
@@ -512,10 +526,14 @@ node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterCo
 [connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path" to="." method="_on_path_text_submitted"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" method="remove_selected_path_from_recent"]
+[connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/ImportExport" to="Control/FileDialogText" method="popup_centered"]
 [connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/SearchCond" to="." method="_on_search_cond_text_submitted"]
 [connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/ProcessExpr" to="." method="_on_process_expr_text_submitted"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Refresh" to="." method="_on_path_text_submitted"]
 [connection signal="value_changed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages/LineEdit" to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_LineEdit_value_changed"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
+[connection signal="file_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
+[connection signal="dir_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_selected"]
+[connection signal="file_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_selected"]
 [connection signal="cells_rightclicked" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_rightclicked"]
 [connection signal="cells_selected" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_selected"]

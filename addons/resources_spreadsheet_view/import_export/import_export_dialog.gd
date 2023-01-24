@@ -1,16 +1,17 @@
 @tool
-extends Window
+extends Control
 
 @export var prop_list_item_scene : PackedScene
 @export var formats_export : Array[Script]
 @export var formats_import : Array[Script]
 
-@onready var editor_view := $"../.."
-@onready var node_filename_options := $"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/OptionButton"
-@onready var node_classname_field := $"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/LineEdit"
-@onready var node_filename_props := $"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/OptionButton"
-@onready var prop_list := $"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer"
+@onready var editor_view := $"../../.."
+@onready var filename_options := $"Import/Margins/Scroll/Box/Grid/UseAsFilename"
+@onready var classname_field := $"Import/Margins/Scroll/Box/Grid/Classname"
+@onready var prop_list := $"Import/Margins/Scroll/Box"
+@onready var file_dialog = $"../../FileDialogText"
 
+var format_extension := ".csv"
 var entries := []
 
 var property_used_as_filename := 0
@@ -19,56 +20,60 @@ var import_data : SpreadsheetImport
 
 func _ready():
 	var create_file_button = Button.new()
-	$"../FileDialogText".get_child(3).get_child(3).add_child(create_file_button)
+	file_dialog.get_child(3, true).get_child(3, true).add_child(create_file_button)
 	create_file_button.get_parent().move_child(create_file_button, 2)
 	create_file_button.text = "Create File"
 	create_file_button.visible = true
-	create_file_button.icon = get_theme_icon("New", "EditorIcons")
+	create_file_button.icon = get_theme_icon(&"New", &"EditorIcons")
 	create_file_button.pressed.connect(_on_create_file_pressed)
+	hide()
+	show()
+	get_parent().min_size = Vector2(600, 400)
+	get_parent().size = Vector2(600, 400)
 
 
 func _on_create_file_pressed():
 	var new_name = (
-		$"../FileDialogText".get_child(3).get_child(3).get_child(1).text
+		file_dialog.get_child(3, true).get_child(3, true).get_child(1, true).text
 	)
 	if new_name == "":
 		new_name += editor_view.current_path.get_base_dir().get_file()
 
-	var file = FileAccess.open(
-		$"../FileDialogText".get_child(3).get_child(0).get_child(4).text
-		+ "/"
-		+ new_name.get_basename() + ".csv", FileAccess.WRITE
-	)
-	file.close()
-	$"../FileDialogText".invalidate()
+	var file = FileAccess.open((
+			file_dialog.get_child(3, true).get_child(0, true).get_child(6, true).text
+			+ "/"
+			+ new_name.get_basename() + format_extension
+	), FileAccess.WRITE)
+	file_dialog.invalidate()
 
 
-func _on_FileDialogText_file_selected(path : String):
+func _on_file_selected(path : String):
 	import_data = SpreadsheetImport.new()
 	import_data.initialize(path)
 	_reset_controls()
 	_open_dialog(path)
-	popup_centered()
+	get_parent().popup_centered()
+	position = Vector2.ZERO
 
 
 func _open_dialog(path : String):
-	node_classname_field.text = import_data.edited_path.get_file().get_basename()\
+	classname_field.text = import_data.edited_path.get_file().get_basename()\
 		.capitalize().replace(" ", "")
-	import_data.script_classname = node_classname_field.text
+	import_data.script_classname = classname_field.text
 
 	for x in formats_import:
 		if x.new().can_edit_path(path):
 			entries = x.new().import_as_arrays(import_data)
 
-	_load_property_names()
+	_load_property_names(path)
 	_create_prop_editors()
-	$"TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/StyleSettingsI"._send_signal()
+	$"Import/Margins/Scroll/Box/StyleSettingsI"._send_signal()
 
 
-func _load_property_names():
-	import_data.prop_names = Array(entries[0])
-	import_data.prop_types.resize(import_data.prop_names.size())
-	import_data.prop_types.fill(4)
+func _load_property_names(path):
+	var prop_types = import_data.prop_types
+	prop_types.resize(import_data.prop_names.size())
+	prop_types.fill(4)
 	for i in import_data.prop_names.size():
 		import_data.prop_names[i] = entries[0][i]\
 			.replace("\"", "")\
@@ -83,17 +88,17 @@ func _load_property_names():
 
 		# Don't guess Ints automatically - further rows might have floats
 		if entries[1][i].is_valid_float():
-			import_data.prop_types[i] = SpreadsheetImport.PropType.FLOAT
+			prop_types[i] = SpreadsheetImport.PropType.FLOAT
 
 		elif entries[1][i].begins_with("res://"):
-			import_data.prop_types[i] = SpreadsheetImport.PropType.OBJECT
+			prop_types[i] = SpreadsheetImport.PropType.OBJECT
 
 		else:
-			import_data.prop_types[i] = SpreadsheetImport.PropType.STRING
+			prop_types[i] = SpreadsheetImport.PropType.STRING
 
-	node_filename_options.clear()
+	filename_options.clear()
 	for i in import_data.prop_names.size():
-		node_filename_options.add_item(import_data.prop_names[i], i)
+		filename_options.add_item(import_data.prop_names[i], i)
 
 
 func _create_prop_editors():
@@ -101,7 +106,7 @@ func _create_prop_editors():
 		if !x is GridContainer: x.free()
 
 	for i in import_data.prop_names.size():
-		var new_node = prop_list_item_scene.instance()
+		var new_node = prop_list_item_scene.instantiate()
 		prop_list.add_child(new_node)
 		new_node.display(import_data.prop_names[i], import_data.prop_types[i])
 		new_node.connect_all_signals(self, i)
@@ -131,41 +136,41 @@ func _export_tres_folder():
 
 
 func _on_import_to_tres_pressed():
-	hide()
 	_generate_class()
 	_export_tres_folder()
 	await get_tree().process_frame
 	editor_view.display_folder(import_data.edited_path.get_basename() + "/")
 	await get_tree().process_frame
 	editor_view.refresh()
+	close()
 
 
 func _on_import_edit_pressed():
-	hide()
 	_generate_class(false)
 	import_data.prop_used_as_filename = ""
 	import_data.save()
 	await get_tree().process_frame
 	editor_view.display_folder(import_data.resource_path)
-	editor_view.hidden_columns[editor_view.current_path] = {
+	editor_view.node_columns.hidden_columns[editor_view.current_path] = {
 		"resource_path" : true,
 		"resource_local_to_scene" : true,
 	}
 	editor_view.save_data()
 	await get_tree().process_frame
 	editor_view.refresh()
+	close()
 
 
 func _on_export_csv_pressed():
-	hide()
 	var exported_cols = editor_view.columns.duplicate()
 	exported_cols.erase("resource_local_to_scene")
-	for x in editor_view.hidden_columns[editor_view.current_path].keys():
+	for x in editor_view.node_columns.hidden_columns[editor_view.current_path].keys():
 		exported_cols.erase(x)
 
 	SpreadsheetExportFormatCsv.export_to_file(editor_view.rows, exported_cols, import_data.edited_path, import_data)
 	await get_tree().process_frame
 	editor_view.refresh()
+	close()
 
 
 # Input controls
@@ -175,8 +180,8 @@ func _on_classname_field_text_changed(new_text : String):
 
 func _on_remove_first_row_toggled(button_pressed : bool):
 	import_data.remove_first_row = button_pressed
-	$"TabContainer/Export/HBoxContainer2/Button".pressed = true
-	$"TabContainer/Export/HBoxContainer3/CheckBox".pressed = true
+#	$"Export/Box2/Button".button_pressed = true
+	$"Export/Box3/CheckBox".button_pressed = button_pressed
 
 
 func _on_filename_options_item_selected(index):
@@ -204,9 +209,13 @@ func _on_export_space_toggled(button_pressed : bool):
 
 
 func _reset_controls():
-	$"TabContainer/Export/HBoxContainer2/CheckBox".pressed = false
+	$"Export/Box/CheckBox".button_pressed = false
 	_on_remove_first_row_toggled(true)
 
 
 func _on_enum_format_changed(case, delimiter, bool_yes, bool_no):
 	import_data.enum_format = [case, delimiter, bool_yes, bool_no]
+
+
+func close():
+	get_parent().hide()

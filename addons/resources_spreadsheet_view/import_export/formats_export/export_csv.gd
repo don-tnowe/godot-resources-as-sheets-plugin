@@ -2,6 +2,10 @@ class_name SpreadsheetExportFormatCsv
 extends RefCounted
 
 
+static func can_edit_path(path : String):
+	return path.ends_with(".csv")
+
+
 static func export_to_file(entries_array : Array, column_names : Array, into_path : String, import_data):
 	var file = FileAccess.open(into_path, FileAccess.WRITE)
 
@@ -26,5 +30,3 @@ static func export_to_file(entries_array : Array, column_names : Array, into_pat
 				line[j] = " " + line[j]
 
 		file.store_csv_line(line, import_data.delimeter[0])
-
-	file.close()

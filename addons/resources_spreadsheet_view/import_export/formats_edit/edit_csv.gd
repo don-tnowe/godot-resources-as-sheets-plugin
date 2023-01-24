@@ -26,8 +26,7 @@ func save_entries(all_entries : Array, indices : Array, repeat : bool = true):
 					x[i] = " " + x[i]
 
 			file.store_csv_line(x, import_data.delimeter[0])
-		
-		file.close()
+
 		if repeat:
 			timer = editor_view.get_tree().create_timer(3.0)
 			timer.timeout.connect(save_entries.bind(all_entries, indices, false))
@@ -86,5 +85,4 @@ func import_from_path(path : String, insert_func : Callable, sort_by : String, s
 		resource_original_positions[res] = i
 
 	editor_view.fill_property_data(rows[0])
-	file.close()
 	return rows

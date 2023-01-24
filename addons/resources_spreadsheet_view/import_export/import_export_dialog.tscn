@@ -1,104 +1,103 @@
-[gd_scene load_steps=5 format=3 uid="uid://b413igx28kkvb"]
+[gd_scene load_steps=7 format=3 uid="uid://b413igx28kkvb"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/import_export_dialog.gd" id="1"]
-[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/import_export/property_list_item.tscn" id="2"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/formats_import/import_csv.gd" id="3"]
-[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/import_export/import_export_enum_format.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/formats_export/export_csv.gd" id="2_33c6s"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/formats_import/import_csv.gd" id="2_fxayt"]
+[ext_resource type="PackedScene" uid="uid://b8llymigbprh6" path="res://addons/resources_spreadsheet_view/import_export/property_list_item.tscn" id="2_xfhmf"]
+[ext_resource type="PackedScene" uid="uid://ckhf3bqy2rqjr" path="res://addons/resources_spreadsheet_view/import_export/import_export_enum_format.tscn" id="4"]
 
-[node name="Control" type="Window"]
-size = Vector2i(600, 373)
-wrap_controls = true
-min_size = Vector2i(600, 0)
-script = ExtResource("1")
-prop_list_item_scene = ExtResource("2")
-formats_import = [ExtResource("3")]
+[sub_resource type="ButtonGroup" id="ButtonGroup_080hd"]
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -552.0
-offset_bottom = -275.0
 grow_horizontal = 2
 grow_vertical = 2
 use_hidden_tabs_for_min_size = true
+script = ExtResource("1")
+prop_list_item_scene = ExtResource("2_xfhmf")
+formats_export = [ExtResource("2_33c6s")]
+formats_import = [ExtResource("2_fxayt")]
 
-[node name="Import" type="VBoxContainer" parent="TabContainer"]
+[node name="Import" type="VBoxContainer" parent="."]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Import"]
+[node name="Margins" type="MarginContainer" parent="Import"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Import/MarginContainer"]
+[node name="Scroll" type="ScrollContainer" parent="Import/Margins"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer"]
+[node name="Box" type="VBoxContainer" parent="Import/Margins/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GridContainer" type="GridContainer" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Grid" type="GridContainer" parent="Import/Margins/Scroll/Box"]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Label" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
 layout_mode = 2
 text = "Use as filename:"
 
-[node name="OptionButton" type="OptionButton" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="UseAsFilename" type="OptionButton" parent="Import/Margins/Scroll/Box/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Label2" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+visible = false
 layout_mode = 2
 text = "Class Name"
 
-[node name="LineEdit" type="LineEdit" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Classname" type="LineEdit" parent="Import/Margins/Scroll/Box/Grid"]
+visible = false
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="CheckBox" type="CheckBox" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="RemoveFirstRow" type="CheckBox" parent="Import/Margins/Scroll/Box/Grid"]
 layout_mode = 2
 text = "First row contains property names"
 
-[node name="Control" type="Control" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Control" type="Control" parent="Import/Margins/Scroll/Box/Grid"]
 layout_mode = 2
 
-[node name="Control2" type="Control" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Control2" type="Control" parent="Import/Margins/Scroll/Box/Grid"]
 visible = false
 layout_mode = 2
 
-[node name="StyleSettingsI" parent="TabContainer/Import/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4")]
+[node name="StyleSettingsI" parent="Import/Margins/Scroll/Box" instance=ExtResource("4")]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Import"]
+[node name="Box" type="HBoxContainer" parent="Import"]
 layout_mode = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="Ok2" type="Button" parent="TabContainer/Import/HBoxContainer"]
+[node name="Ok2" type="Button" parent="Import/Box"]
 layout_mode = 2
 text = "Confirm and edit"
 
-[node name="Ok" type="Button" parent="TabContainer/Import/HBoxContainer"]
+[node name="Ok" type="Button" parent="Import/Box"]
 layout_mode = 2
 text = "Convert to Resources and edit"
 
-[node name="Cancel" type="Button" parent="TabContainer/Import/HBoxContainer"]
+[node name="Cancel" type="Button" parent="Import/Box"]
 layout_mode = 2
 text = "Cancel"
 
-[node name="Control" type="Control" parent="TabContainer/Import"]
+[node name="Control" type="Control" parent="Import"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Export" type="VBoxContainer" parent="TabContainer"]
+[node name="Export" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 2
 
-[node name="Info" type="Label" parent="TabContainer/Export"]
+[node name="Info" type="Label" parent="Export"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "The currently edited folder will be exported into the selected file.
@@ -108,65 +107,83 @@ Rows hidden by the filter will NOT be exported, and order follows the current so
 Hidden columns will NOT be exported."
 autowrap_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="TabContainer/Export"]
+[node name="HSeparator" type="HSeparator" parent="Export"]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Export"]
+[node name="Box" type="HBoxContainer" parent="Export"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label2" type="Label" parent="TabContainer/Export/HBoxContainer2"]
+[node name="Label2" type="Label" parent="Export/Box"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Delimeter:"
 
-[node name="Button" type="Button" parent="TabContainer/Export/HBoxContainer2"]
+[node name="Button" type="Button" parent="Export/Box"]
 layout_mode = 2
 toggle_mode = true
+button_group = SubResource("ButtonGroup_080hd")
 text = "Comma (,)"
 
-[node name="Button2" type="Button" parent="TabContainer/Export/HBoxContainer2"]
+[node name="Button2" type="Button" parent="Export/Box"]
 layout_mode = 2
 toggle_mode = true
+button_group = SubResource("ButtonGroup_080hd")
 text = "Semicolon (;)"
 
-[node name="Button3" type="Button" parent="TabContainer/Export/HBoxContainer2"]
+[node name="Button3" type="Button" parent="Export/Box"]
 layout_mode = 2
 toggle_mode = true
+button_group = SubResource("ButtonGroup_080hd")
 text = "Tab"
 
-[node name="CheckBox" type="CheckBox" parent="TabContainer/Export/HBoxContainer2"]
+[node name="CheckBox" type="CheckBox" parent="Export/Box"]
 layout_mode = 2
 text = "With space after"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Export"]
+[node name="Box3" type="HBoxContainer" parent="Export"]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="TabContainer/Export/HBoxContainer3"]
+[node name="CheckBox" type="CheckBox" parent="Export/Box3"]
 layout_mode = 2
 text = "First row contains property names (CSV)"
 
-[node name="StyleSettingsE" parent="TabContainer/Export" instance=ExtResource("4")]
+[node name="StyleSettingsE" parent="Export" instance=ExtResource("4")]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="TabContainer/Export"]
+[node name="Control" type="Control" parent="Export"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Export"]
+[node name="Box2" type="HBoxContainer" parent="Export"]
 layout_mode = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="TabContainer/Export/HBoxContainer"]
+[node name="Button" type="Button" parent="Export/Box2"]
 layout_mode = 2
 text = "Export to CSV"
 
-[node name="Cancel" type="Button" parent="TabContainer/Export/HBoxContainer"]
+[node name="Cancel" type="Button" parent="Export/Box2"]
 layout_mode = 2
 text = "Cancel"
 
-[node name="Control2" type="Control" parent="TabContainer/Export"]
+[node name="Control2" type="Control" parent="Export"]
 layout_mode = 2
 
-[connection signal="pressed" from="TabContainer/Import/HBoxContainer/Cancel" to="." method="hide"]
-[connection signal="pressed" from="TabContainer/Export/HBoxContainer/Cancel" to="." method="hide"]
+[connection signal="item_selected" from="Import/Margins/Scroll/Box/Grid/UseAsFilename" to="." method="_on_filename_options_item_selected"]
+[connection signal="text_changed" from="Import/Margins/Scroll/Box/Grid/Classname" to="." method="_on_classname_field_text_changed"]
+[connection signal="toggled" from="Import/Margins/Scroll/Box/Grid/RemoveFirstRow" to="." method="_on_remove_first_row_toggled"]
+[connection signal="format_changed" from="Import/Margins/Scroll/Box/StyleSettingsI" to="." method="_on_enum_format_changed"]
+[connection signal="format_changed" from="Import/Margins/Scroll/Box/StyleSettingsI" to="Export/StyleSettingsE" method="_on_format_changed"]
+[connection signal="pressed" from="Import/Box/Ok2" to="." method="_on_import_edit_pressed"]
+[connection signal="pressed" from="Import/Box/Ok" to="." method="_on_import_to_tres_pressed"]
+[connection signal="pressed" from="Import/Box/Cancel" to="." method="close"]
+[connection signal="pressed" from="Export/Box/Button" to="." method="_on_export_delimeter_pressed" binds= [","]]
+[connection signal="pressed" from="Export/Box/Button2" to="." method="_on_export_delimeter_pressed" binds= [";"]]
+[connection signal="pressed" from="Export/Box/Button3" to="." method="_on_export_delimeter_pressed" binds= [" "]]
+[connection signal="toggled" from="Export/Box/CheckBox" to="." method="_on_export_space_toggled"]
+[connection signal="toggled" from="Export/Box3/CheckBox" to="." method="_on_remove_first_row_toggled"]
+[connection signal="format_changed" from="Export/StyleSettingsE" to="." method="_on_enum_format_changed"]
+[connection signal="format_changed" from="Export/StyleSettingsE" to="Import/Margins/Scroll/Box/StyleSettingsI" method="_on_format_changed"]
+[connection signal="pressed" from="Export/Box2/Button" to="." method="_on_export_csv_pressed"]
+[connection signal="pressed" from="Export/Box2/Cancel" to="." method="close"]

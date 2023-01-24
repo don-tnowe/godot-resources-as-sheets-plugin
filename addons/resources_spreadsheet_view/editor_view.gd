@@ -82,7 +82,7 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	node_recent_paths.add_path_to_recent(folderpath)
 	first_row = node_page_manager.first_row
 	last_row = min(node_page_manager.last_row, rows.size())
-	_load_resources_from_folder(folderpath, sort_by, sort_reverse)
+	_load_resources_from_path(folderpath, sort_by, sort_reverse)
 
 	if columns.size() == 0: return
 
@@ -107,12 +107,17 @@ func refresh(force_rebuild : bool = true):
 	display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
 
 
-func _load_resources_from_folder(path : String, sort_by : String, sort_reverse : bool):
+func _load_resources_from_path(path : String, sort_by : String, sort_reverse : bool):
 	if path.ends_with("/"):
 		io = SpreadsheetEditFormatTres.new()
 
 	else:
-		io = load(path).view_script.new()
+		var loaded = load(path)
+		if loaded is SpreadsheetImport:
+			io = loaded.view_script.new()
+
+		else:
+			io = SpreadsheetEditFormatTres.new()
 	
 	io.editor_view = self
 	rows = io.import_from_path(path, insert_row_sorted, sort_by, sort_reverse)

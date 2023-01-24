@@ -6,6 +6,10 @@ static func can_edit_path(path : String):
 	return path.ends_with(".csv")
 
 
+static func get_properties(entries, import_data):
+	return Array(entries[0])
+
+
 static func import_as_arrays(import_data) -> Array:
 	var file = FileAccess.open(import_data.edited_path, FileAccess.READ)
 
@@ -38,12 +42,12 @@ static func import_as_arrays(import_data) -> Array:
 		elif line.size() != 1:
 			line.resize(text_lines[0].size())
 			text_lines.append(line)
-	
-	file.close()
+
 	var entries = []
 	entries.resize(text_lines.size())
 
 	for i in entries.size():
 		entries[i] = text_lines[i]
 
+	import_data.prop_names = entries[0]
 	return entries
