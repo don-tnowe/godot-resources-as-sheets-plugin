@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b3a3bo6cfyh5t" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.tscn" id="10_nsma2"]
 [ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="11_q1ao4"]
 [ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="12_4kr6q"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="13_v0vm4"]
+[ext_resource type="PackedScene" uid="uid://dhunxgcae6h1" path="res://addons/resources_spreadsheet_view/settings_grid.tscn" id="13_as1sh"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/input_handler.gd" id="14_2t57a"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd" id="15_mx6qn"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum_array.gd" id="16_p7n52"]
@@ -484,93 +484,7 @@ title = "Settings"
 size = Vector2i(500, 300)
 min_size = Vector2i(500, 300)
 
-[node name="MarginContainer" type="ScrollContainer" parent="Control/Settings"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -622.0
-offset_bottom = -322.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="RichTextLabel" type="VBoxContainer" parent="Control/Settings/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="GridContainer" type="GridContainer" parent="Control/Settings/MarginContainer/RichTextLabel"]
-layout_mode = 2
-columns = 2
-script = ExtResource("13_v0vm4")
-
-[node name="Label" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Color-type cells style rows"
-autowrap_mode = 2
-
-[node name="ColorRows" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-button_pressed = true
-text = "Enable"
-
-[node name="Label2" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Colored array elements"
-autowrap_mode = 2
-
-[node name="ColorArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-button_pressed = true
-text = "Enable"
-
-[node name="Label3" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Array cell min width"
-autowrap_mode = 2
-
-[node name="ArrayMinWidth" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-min_value = 32.0
-max_value = 512.0
-value = 128.0
-
-[node name="Label8" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Resource preview size (Including Textures)"
-autowrap_mode = 2
-
-[node name="ResourcePreviewSize" type="SpinBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-min_value = 8.0
-max_value = 1024.0
-value = 32.0
-
-[node name="Label7" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Clip header text (makes columns smaller)"
-autowrap_mode = 2
-
-[node name="ClipHeaders" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-text = "Enable"
-
-[node name="Label5" type="Label" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Duplicate arrays on edit (slower, but can be undone)"
-autowrap_mode = 2
-
-[node name="DupeArrays" type="CheckBox" parent="Control/Settings/MarginContainer/RichTextLabel/GridContainer"]
-layout_mode = 2
-button_pressed = true
-text = "Enable"
+[node name="Settings" parent="Control/Settings" instance=ExtResource("13_as1sh")]
 
 [node name="SelectionActions" parent="Control" instance=ExtResource("23_m53sx")]
 visible = false
