@@ -10,16 +10,14 @@ func create_cell(caller : Control) -> Control:
 	node.custom_minimum_size.x = 56
 	node.add_child(color)
 	color.name = "Color"
-	call_deferred("_resize_color_rect", color)
+	call_deferred(&"_resize_color_rect", color)
 	return node
 
 
 func _resize_color_rect(rect):
 	if !is_instance_valid(rect): return  # Table refreshed twice, probably? Either way, this fix is easier
 	rect.size = Vector2(8, 0)
-	rect.anchors_preset = Control.PRESET_LEFT_WIDE
-	await rect.get_tree().process_frame
-	rect.size.x = 8
+	rect.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE, Control.PRESET_MODE_KEEP_WIDTH)
 
 
 func can_edit_value(value, type, property_hint, property_hint_string) -> bool:
