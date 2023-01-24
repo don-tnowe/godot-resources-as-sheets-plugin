@@ -4,7 +4,6 @@ extends SpreadsheetEditFormatTres
 var import_data
 var csv_rows = []
 var resource_original_positions = {}
-var timer : SceneTreeTimer
 
 
 func get_value(entry, key : String):

@@ -2,7 +2,6 @@
 extends Control
 
 signal grid_updated()
-signal cells_selected(cells)
 signal cells_context(cells)
 
 @export @onready var node_folder_path : LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
@@ -294,8 +293,8 @@ func set_edited_cells_values(new_cell_values : Array):
 		column,
 		new_cell_values.duplicate()
 	)
-	editor_plugin.undo_redo.commit_action()
-	editor_interface.get_resource_filesystem().scan()
+	editor_plugin.undo_redo.commit_action(true)
+	# editor_interface.get_resource_filesystem().scan()
 
 
 func rename_row(row, new_name):
@@ -352,6 +351,7 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 			values[i],
 			row
 		)
+		continue
 		if column_types[update_column] == TYPE_COLOR:
 			for j in columns.size() - update_column:
 				if j != 0 and column_types[j + update_column] == TYPE_COLOR:
@@ -364,8 +364,8 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 					values[i]
 				)
 
-	io.save_entries(rows, update_row_indices)
 	node_columns._update_column_sizes()
+	io.save_entries(rows, update_row_indices)
 
 
 func _try_convert(value, type):

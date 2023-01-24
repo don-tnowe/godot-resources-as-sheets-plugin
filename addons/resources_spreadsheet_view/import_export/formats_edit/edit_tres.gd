@@ -1,18 +1,21 @@
 class_name SpreadsheetEditFormatTres
 extends SpreadsheetEditFormat
 
+var timer : SceneTreeTimer
+
 
 func get_value(entry, key : String):
-	return entry.get(key)
+	return entry[key]
 
 
 func set_value(entry, key : String, value, index : int):
-	entry.set(key, value)
-	
+	entry[key] = value
 
-func save_entries(all_entries : Array, indices : Array):
-	for x in indices:
-		ResourceSaver.save(all_entries[x])
+
+func save_entries(all_entries : Array, indices : Array, repeat : bool = true):
+	# No need to save. Resources are saved with Ctrl+S
+	# (likely because plugin.edit_resource is called to show inspector)
+	return
 
 
 func create_resource(entry) -> Resource:

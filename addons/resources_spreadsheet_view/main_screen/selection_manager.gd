@@ -75,8 +75,9 @@ func select_cell(cell : Control):
 	if can_select_cell(cell):
 		_add_cell_to_selection(cell)
 		_try_open_docks(cell)
-#		inspector_resource = rows[get_cell_row(cell)].duplicate()  #
 		inspector_resource = editor_view.rows[get_cell_row(cell)]
+		# inspector_resource = editor_view.rows[get_cell_row(cell)].duplicate()
+		# inspector_resource.resource_path = ""
 		editor_view.editor_plugin.get_editor_interface().edit_resource(inspector_resource)
 
 	cells_selected.emit(edited_cells)
@@ -176,16 +177,9 @@ func _on_inspector_property_edited(property : String):
 	if !editor_view.is_visible_in_tree(): return
 	if inspector_resource == null: return
 	
-	var value = inspector_resource[property]
-	var values = []
-	values.resize(edited_cells.size())
-	for i in edited_cells.size():
-		values[i] = value
-	
-	var columns = editor_view.columns
-	var previously_edited = edited_cells
-	if columns[get_cell_column(edited_cells[0])] != property:
-		previously_edited = previously_edited.duplicate()
+	if editor_view.columns[get_cell_column(edited_cells[0])] != property:
+		var columns = editor_view.columns
+		var previously_edited = edited_cells.duplicate()
 		var new_column := columns.find(property)
 		deselect_all_cells()
 		var index := 0
@@ -193,5 +187,9 @@ func _on_inspector_property_edited(property : String):
 			index = get_cell_row(previously_edited[i]) * columns.size() + new_column
 			_add_cell_to_selection(editor_view.node_table_root.get_child(index - editor_view.first_row))
 
-	editor_view.set_edited_cells_values(values)
+	var values = []
+	values.resize(edited_cells.size())
+	values.fill(inspector_resource[property])
+
+	editor_view.call_deferred(&"set_edited_cells_values", values)
 	_try_open_docks(edited_cells[0])
