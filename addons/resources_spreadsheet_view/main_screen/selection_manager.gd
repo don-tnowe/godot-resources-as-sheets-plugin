@@ -2,6 +2,7 @@
 extends Node
 
 signal cells_selected(cells)
+signal cells_rightclicked(cells)
 
 const EditorView = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
 
@@ -108,6 +109,10 @@ func select_cells_to(cell : Control):
 				edit_cursor_positions.append(cur_cell.text.length())
 
 	cells_selected.emit(edited_cells)
+
+
+func rightclick_cells():
+	cells_rightclicked.emit(edited_cells)
 
 
 func can_select_cell(cell : Control) -> bool:

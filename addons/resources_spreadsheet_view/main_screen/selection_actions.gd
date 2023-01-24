@@ -7,7 +7,8 @@ enum {
 	EDITBOX_DELETE,
 }
 
-@export var editor_view := NodePath("../..")
+@export @onready var editor_view := $"../.."
+@export @onready var selection := $"../../SelectionManager"
 
 @onready var editbox_node := $"Control/ColorRect/Popup"
 @onready var editbox_label := editbox_node.get_node("Panel/VBoxContainer/Label")
@@ -20,11 +21,12 @@ var editbox_action : int
 func _ready():
 	editbox_input.get_node("../..").add_theme_stylebox_override(
 		"panel",
-		get_theme_stylebox("Content", "EditorStyles")
+		get_theme_stylebox(&"Content", &"EditorStyles")
 	)
+	close()
 
 
-func _on_grid_cells_context(cells):
+func _on_grid_cells_rightclicked(cells):
 	open(cells)
 
 
@@ -36,6 +38,8 @@ func _on_grid_cells_selected(cells):
 
 
 func open(cells : Array, pin_to_cell : bool = false):
+	set_process_input(true)
+	set_process_unhandled_input(true)
 	if cells.size() == 0:
 		hide()
 		cell = null
@@ -56,12 +60,17 @@ func open(cells : Array, pin_to_cell : bool = false):
 	top_level = true
 	show()
 	$"Control2/Label".text = str(cells.size()) + (" Cells" if cells.size() % 10 != 1 else " Cell")
-	$"GridContainer/Rename".visible = get_node(editor_view).has_row_names()
+	$"GridContainer/Rename".visible = editor_view.has_row_names()
+
+
+func close():
+	set_process_input(false)
+	set_process_unhandled_input(false)
 
 
 func _unhandled_input(event):
-	if !get_node(editor_view).is_visible_in_tree():
-		hide()
+	if !editor_view.is_visible_in_tree():
+		close()
 		return
 	
 	if event is InputEventKey:
@@ -77,13 +86,13 @@ func _unhandled_input(event):
 				return
 				
 	if event is InputEventMouseButton && event.is_pressed():
-		hide()
+		close()
 
 
 func _input(event):
 	if cell == null: return
-	if !get_node(editor_view).is_visible_in_tree():
-		hide()
+	if !editor_view.is_visible_in_tree():
+		close()
 		return
 
 	global_position = Vector2(
@@ -97,14 +106,14 @@ func _on_Duplicate_pressed():
 
 
 func _on_CbCopy_pressed():
-	TextEditingUtils.multi_copy(get_node(editor_view).edited_cells_text)
+	TextEditingUtils.multi_copy(selection.edited_cells_text)
 
 
 func _on_CbPaste_pressed():
-	get_node(editor_view).set_edited_cells_values(
+	editor_view.set_edited_cells_values(
 		TextEditingUtils.multi_paste(
-			get_node(editor_view).edited_cells_text,
-			get_node(editor_view).edit_cursor_positions
+			selection.edited_cells_text,
+			selection.edit_cursor_positions
 		)
 	)
 
@@ -118,17 +127,16 @@ func _on_Delete_pressed():
 
 
 func _show_editbox(action):
-	var node_editor_view = get_node(editor_view)
 	editbox_action = action
 	match action:
 		EDITBOX_DUPLICATE:
-			if !node_editor_view.has_row_names():
+			if !editor_view.has_row_names():
 				_on_editbox_accepted()
 				return
 
-			if node_editor_view.edited_cells.size() == 1:
+			if selection.edited_cells.size() == 1:
 				editbox_label.text = "Input new row's name..."
-				editbox_input.text = node_editor_view.get_last_selected_row()\
+				editbox_input.text = editor_view.get_last_selected_row()\
 					.resource_path.get_file().get_basename()
 
 			else:
@@ -137,16 +145,17 @@ func _show_editbox(action):
 
 		EDITBOX_RENAME:
 			editbox_label.text = "Input new name for row..."
-			editbox_input.text = node_editor_view.get_last_selected_row()\
+			editbox_input.text = editor_view.get_last_selected_row()\
 				.resource_path.get_file().get_basename()
 
 		EDITBOX_DELETE:
 			editbox_label.text = "Really delete selected rows? (Irreversible!!!)"
-			editbox_input.text = node_editor_view.get_last_selected_row()\
+			editbox_input.text = editor_view.get_last_selected_row()\
 				.resource_path.get_file().get_basename()
 	
 	editbox_input.grab_focus()
-	editbox_input.caret_position = 999999999
+	editbox_input.caret_column = 999999999
+	editbox_node.size = Vector2.ZERO
 	editbox_node.show()
 	$"Control/ColorRect".show()
 	$"Control/ColorRect".top_level = true
@@ -166,12 +175,12 @@ func _on_editbox_closed():
 func _on_editbox_accepted():
 	match(editbox_action):
 		EDITBOX_DUPLICATE:
-			get_node(editor_view).duplicate_selected_rows(editbox_input.text)
+			editor_view.duplicate_selected_rows(editbox_input.text)
 
 		EDITBOX_RENAME:
-			get_node(editor_view).rename_row(get_node(editor_view).get_last_selected_row(), editbox_input.text)
+			editor_view.rename_row(editor_view.get_last_selected_row(), editbox_input.text)
 
 		EDITBOX_DELETE:
-			get_node(editor_view).delete_selected_rows()
+			editor_view.delete_selected_rows()
 
 	_on_editbox_closed()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=26 format=3 uid="uid://tmleonv20aqk"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum.gd" id="20_swsbn"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="21_58wf8"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="22_bni8r"]
+[ext_resource type="PackedScene" uid="uid://b51hnttsie7k5" path="res://addons/resources_spreadsheet_view/main_screen/selection_actions.tscn" id="23_m53sx"]
 
 [sub_resource type="Gradient" id="Gradient_8kp6w"]
 offsets = PackedFloat32Array(0, 0.995413, 1)
@@ -571,6 +572,14 @@ layout_mode = 2
 button_pressed = true
 text = "Enable"
 
+[node name="SelectionActions" parent="Control" instance=ExtResource("23_m53sx")]
+visible = false
+layout_mode = 2
+offset_left = -506.0
+offset_top = 65.0
+offset_right = -426.0
+offset_bottom = 117.0
+
 [node name="InputHandler" type="Node" parent="."]
 script = ExtResource("14_2t57a")
 
@@ -594,3 +603,5 @@ node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterCo
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Refresh" to="." method="_on_path_text_submitted"]
 [connection signal="value_changed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages/LineEdit" to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_LineEdit_value_changed"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
+[connection signal="cells_rightclicked" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_rightclicked"]
+[connection signal="cells_selected" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_selected"]

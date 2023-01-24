@@ -2,7 +2,6 @@
 extends Control
 
 signal grid_updated()
-signal cells_context(cells)
 
 @export @onready var node_folder_path : LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
 @export @onready var node_recent_paths : OptionButton = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths"
@@ -312,6 +311,7 @@ func duplicate_selected_rows(new_name : String):
 func delete_selected_rows():
 	io.delete_rows(_get_row_resources(_selection.get_edited_rows()))
 	refresh()
+	call_deferred(&"refresh")
 
 
 func has_row_names():
@@ -421,3 +421,7 @@ func _on_File_pressed():
 
 func _on_SearchProcess_pressed():
 	$"HeaderContentSplit/VBoxContainer/Search".visible = !$"HeaderContentSplit/VBoxContainer/Search".visible
+
+
+func _on_cells_context(cells):
+	pass # Replace with function body.

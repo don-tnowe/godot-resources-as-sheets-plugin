@@ -17,7 +17,7 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 					selection.deselect_all_cells()
 					selection.select_cell(cell)
 
-				editor_view.cells_context.emit(selection.edited_cells)
+				selection.rightclick_cells()
 
 			return
 
