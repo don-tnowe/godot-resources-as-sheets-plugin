@@ -148,4 +148,4 @@ static func string_snake_to_naming_case(string : String, delimiter : String = " 
 
 
 static func pascal_case_to_snake_case(string : String, delimiter : String = "_") -> String:
-	return string.capitalize().replace(" ", delimiter)
+	return string.capitalize().replace(" ", delimiter).to_lower()
