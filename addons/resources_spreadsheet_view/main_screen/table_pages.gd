@@ -98,6 +98,7 @@ func _on_button_pressed(button):
 
 func _on_LineEdit_value_changed(value):
 	rows_per_page = value
+	current_page = 0
 	_update_view()
 
 
