@@ -39,6 +39,8 @@ func _on_grid_updated():
 	var sort_type = node_editor_view_root.column_types[node_editor_view_root.columns.find(sort_property)]
 	var property_values = []
 	property_values.resize(page_count)
+	if(node_editor_view_root.rows.size() == 0):
+		return
 	for i in page_count:
 		property_values[i] = node_editor_view_root.rows[i * rows_per_page].get(sort_property)
 
