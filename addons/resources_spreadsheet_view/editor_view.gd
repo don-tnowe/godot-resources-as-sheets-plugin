@@ -81,8 +81,8 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 
 	node_recent_paths.add_path_to_recent(folderpath)
 	first_row = node_page_manager.first_row
-	last_row = min(node_page_manager.last_row, rows.size())
 	_load_resources_from_path(folderpath, sort_by, sort_reverse)
+	last_row = min(first_row + node_page_manager.rows_per_page, rows.size())
 
 	if columns.size() == 0: return
 
