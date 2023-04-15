@@ -95,12 +95,7 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	current_path = folderpath
 	node_columns.update()
 
-	await get_tree().create_timer(0.25).timeout
-	if node_table_root.get_child_count() == 0:
-		display_folder(folderpath, sort_by, sort_reverse, force_rebuild)
-
-	else:
-		emit_signal("grid_updated")
+	emit_signal("grid_updated")
 
 
 func refresh(force_rebuild : bool = true):
