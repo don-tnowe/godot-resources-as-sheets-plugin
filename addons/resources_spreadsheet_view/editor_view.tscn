@@ -422,8 +422,7 @@ mouse_filter = 2
 
 [node name="FileDialog" type="FileDialog" parent="Control"]
 title = "Open"
-size = Vector2i(1000, 800)
-popup_window = true
+size = Vector2i(800, 500)
 min_size = Vector2i(800, 400)
 ok_button_text = "Open"
 mode_overrides_title = false
@@ -432,8 +431,7 @@ filters = PackedStringArray("*.tres")
 
 [node name="FileDialogText" type="FileDialog" parent="Control"]
 title = "Open"
-size = Vector2i(1000, 800)
-popup_window = true
+size = Vector2i(800, 500)
 min_size = Vector2i(800, 400)
 ok_button_text = "Open"
 mode_overrides_title = false
@@ -442,18 +440,16 @@ filters = PackedStringArray("*.csv")
 
 [node name="Info" type="AcceptDialog" parent="Control"]
 title = "About"
-size = Vector2i(1000, 500)
-popup_window = true
+size = Vector2i(800, 500)
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/Info"]
-custom_minimum_size = Vector2(1000, 500)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = -144.0
-offset_bottom = -140.0
+offset_right = -8.0
+offset_bottom = -49.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -513,7 +509,7 @@ script = ExtResource("14_2t57a")
 
 [node name="SelectionManager" type="Node" parent="." node_paths=PackedStringArray("node_property_editors")]
 script = ExtResource("15_mx6qn")
-cell_editor_classes = [ExtResource("16_p7n52"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")]
+cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")])
 node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
 
 [connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_grid_updated"]
