@@ -26,10 +26,6 @@ resources_spreadsheet_view/context_menu_on_leftclick=false
 config/name="Addon: Resources as Sheets"
 config/features=PackedStringArray("4.0")
 
-[editor]
-
-export/convert_text_resources_to_binary=true
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/resources_spreadsheet_view/plugin.cfg")
