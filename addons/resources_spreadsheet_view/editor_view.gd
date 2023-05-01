@@ -56,7 +56,7 @@ func _on_filesystem_changed():
 
 	else:
 		for k in remembered_paths:
-			if remembered_paths[k] == null:
+			if !is_instance_valid(remembered_paths[k]):
 				continue
 
 			if remembered_paths[k].resource_path != k:

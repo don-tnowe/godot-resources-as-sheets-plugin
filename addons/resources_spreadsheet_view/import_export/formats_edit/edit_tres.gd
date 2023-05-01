@@ -64,8 +64,9 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 	var res : Resource
 
 	while filepath != "":
+		res = null
+		filepath = folderpath + filepath
 		if filepath.ends_with(".tres"):
-			filepath = folderpath + filepath
 			res = load(filepath)
 			if !is_instance_valid(cur_dir_script):
 				editor_view.fill_property_data(res)
@@ -75,8 +76,8 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 
 			if res.get_script() == cur_dir_script:
 				insert_func.call(res, rows, sort_by, sort_reverse)
-				editor_view.remembered_paths[res.resource_path] = res
 		
+		editor_view.remembered_paths[filepath] = res
 		filepath = dir.get_next()
 
 	return rows
