@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://clcndgxaty503"]
-
-[ext_resource type="Texture2D" uid="uid://c08qavfwqr3k7" path="res://icon.png" id="1"]
+[gd_scene format=3 uid="uid://clcndgxaty503"]
 
 [node name="Label" type="MarginContainer"]
 size_flags_vertical = 9
@@ -38,7 +36,6 @@ mouse_filter = 2
 [node name="Tex" type="TextureRect" parent="Box"]
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("1")
 expand_mode = 1
 stretch_mode = 5
 
