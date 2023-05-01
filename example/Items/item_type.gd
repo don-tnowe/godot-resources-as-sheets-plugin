@@ -1,5 +1,3 @@
-@tool
-class_name ItemType
 extends Resource
 
 enum SlotType {

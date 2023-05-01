@@ -115,7 +115,6 @@ func property_to_string(value, col_index : int) -> String:
 
 		PropType.ENUM:
 			var dict = uniques[col_index]
-			print(dict)
 			for k in dict:
 				if dict[k] == value:
 					return change_name_to_format(k, enum_format[0], enum_format[1])
