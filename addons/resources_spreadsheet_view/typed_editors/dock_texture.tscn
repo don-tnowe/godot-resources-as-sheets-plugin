@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://rww3gpl052bn"]
+[gd_scene load_steps=2 format=3 uid="uid://rww3gpl052bn"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://c08qavfwqr3k7" path="res://icon.png" id="2"]
 
 [node name="EditTexture" type="VBoxContainer"]
 anchors_preset = -1
@@ -44,11 +43,10 @@ layout_mode = 2
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer/HBoxContainer"]
-custom_minimum_size = Vector2(96, 96)
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 5
 
