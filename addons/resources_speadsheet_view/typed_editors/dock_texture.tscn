@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/resources_speadsheet_view/typed_editors/dock_texture.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://icon.svg" type="Texture" id=2]
 
 [node name="EditTexture" type="VBoxContainer"]
 anchor_right = 1.0
