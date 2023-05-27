@@ -86,6 +86,10 @@ func _update_column_sizes():
 	show()
 	await get_tree().process_frame
 
+	# Abort if the node has been deleted since.
+	if !is_instance_valid(column_headers[0]):
+		return
+
 	get_parent().custom_minimum_size.y = column_headers[0].size.y
 	for i in column_headers.size():
 		column_headers[i].position.x = grid.get_child(i).position.x
