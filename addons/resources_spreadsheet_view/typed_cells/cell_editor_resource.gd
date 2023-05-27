@@ -47,5 +47,7 @@ func is_text():
 
 
 func _on_preview_loaded(path : String, preview : Texture, thumbnail_preview : Texture, node):
-	node.get_node("Box/Tex").visible = true
-	node.get_node("Box/Tex").texture = preview
+	# Abort if the node has been deleted since.
+	if is_instance_valid(node):
+		node.get_node("Box/Tex").visible = true
+		node.get_node("Box/Tex").texture = preview
