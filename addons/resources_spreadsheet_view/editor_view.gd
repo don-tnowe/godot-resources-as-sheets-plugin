@@ -391,8 +391,7 @@ func _on_search_cond_text_submitted(new_text : String):
 	new_script.source_code = "static func can_show(res, index):\n\treturn " + new_text
 	new_script.reload()
 
-	var new_script_instance = new_script.new()
-	search_cond = new_script_instance
+	search_cond = new_script
 	refresh()
 
 
