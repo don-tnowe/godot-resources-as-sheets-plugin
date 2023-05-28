@@ -11,8 +11,8 @@ enum {
 @export @onready var selection := $"../../SelectionManager"
 
 @onready var editbox_node := $"Control/ColorRect/Popup"
-@onready var editbox_label := editbox_node.get_node("Panel/VBoxContainer/Label")
-@onready var editbox_input := editbox_node.get_node("Panel/VBoxContainer/LineEdit")
+@onready var editbox_label : Label = editbox_node.get_node("Panel/VBoxContainer/Label")
+@onready var editbox_input : LineEdit = editbox_node.get_node("Panel/VBoxContainer/LineEdit")
 
 var cell : Control
 var editbox_action : int
@@ -23,6 +23,7 @@ func _ready():
 		"panel",
 		get_theme_stylebox(&"Content", &"EditorStyles")
 	)
+	editbox_input.text_submitted.connect(func(_new_text): _on_editbox_accepted())
 	close()
 
 
@@ -47,18 +48,18 @@ func open(cells : Array, pin_to_cell : bool = false):
 	
 	if pin_to_cell:
 		cell = cells[-1]
-		global_position = Vector2(
+		set_deferred(&"global_position", Vector2(
 			cell.global_position.x + cell.size.x,
 			cell.global_position.y
-		)
+		))
 
 	else:
 		cell = null
-		global_position = get_global_mouse_position() + Vector2.ONE
+		set_deferred(&"global_position", get_global_mouse_position() + Vector2.ONE)
 
+	show()
 	size = Vector2.ZERO
 	top_level = true
-	show()
 	$"Control2/Label".text = str(cells.size()) + (" Cells" if cells.size() % 10 != 1 else " Cell")
 	$"GridContainer/Rename".visible = editor_view.has_row_names()
 

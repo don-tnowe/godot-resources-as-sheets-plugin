@@ -41,7 +41,7 @@ func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
 		if event.button_index != MOUSE_BUTTON_LEFT:
 			if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
-				editor_view.cells_context.emit(selection.edited_cells)
+				selection.rightclick_cells()
 
 			return
 
