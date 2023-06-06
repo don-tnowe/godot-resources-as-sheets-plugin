@@ -58,18 +58,7 @@ func _input(event : InputEvent):
 	
 	# Ctrl + Z (before, and instead of, committing the action!)
 	if Input.is_key_pressed(KEY_CTRL):
-		if event.keycode == KEY_Z:
-			if Input.is_key_pressed(KEY_SHIFT):
-				editor_view.editor_plugin.undo_redo.redo()
-			# Ctrl + z (smol)
-			else:
-				editor_view.editor_plugin.undo_redo.undo()
-			
-			return
-
-		# This shortcut is used by Godot as well.
-		if event.keycode == KEY_Y:
-			editor_view.editor_plugin.undo_redo.redo()
+		if event.keycode == KEY_Z || event.keycode == KEY_Y:
 			return
 
 	_key_specific_action(event)

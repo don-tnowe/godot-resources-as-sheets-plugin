@@ -13,8 +13,8 @@ const EditorView = preload("res://addons/resources_spreadsheet_view/editor_view.
 
 @onready var editor_view : EditorView = get_parent()
 
-var edited_cells = []
-var edited_cells_text : Array[String] = []
+var edited_cells := []
+var edited_cells_text := []
 var edit_cursor_positions : Array[int] = []
 
 var all_cell_editors : Array[Object]
@@ -52,7 +52,7 @@ func _draw():
 
 		var char_size := Vector2(0, font.get_ascent(font_size))
 		var cursor_pos := Vector2(label_padding_left, 0)
-		var cell_text := edited_cells_text[i]
+		var cell_text : String = edited_cells_text[i]
 		var cell : Control = edited_cells[i]
 		if cell is Label and cell.horizontal_alignment == HORIZONTAL_ALIGNMENT_RIGHT:
 			cursor_pos.x += cell.size.x - font.get_multiline_string_size(edited_cells[i].text, HORIZONTAL_ALIGNMENT_RIGHT, -1, font_size).x

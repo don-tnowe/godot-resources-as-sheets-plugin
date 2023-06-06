@@ -55,6 +55,7 @@ func has_row_names():
 func import_from_path(folderpath : String, insert_func : Callable, sort_by : String, sort_reverse : bool = false) -> Array:
 	var rows := []
 	var dir := DirAccess.open(folderpath)
+	if dir == null: return []
 	dir.list_dir_begin()
 
 	editor_view.remembered_paths.clear()
