@@ -466,10 +466,13 @@ text = "Edit Resources as Spreadsheet
 Possible inputs:
 - Ctrl + Click / Cmd + Click - Select multiple cells in one column
 - Shift + Click - Select all cells between A and B in one column
+- Up / Down / Shift+Tab / Tab - move cell selection up/down/left/right
+
 - Left/Right - Move cursor along cell text
 - Backspace/Delete - Erase text Left / Right from cursor
 - Home/End - Move cursor to start/end of cell
 - Ctrl + <move/erase> / Cmd + <move/erase> - Move through / Erase whole word
+
 - Ctrl/Cmd + C/V - Copy cells / Paste text into cells 
 - Ctrl/Cmd + (Shift) + Z - The Savior 
 If clipboard contains as many lines as there are cells selected, each line is pasted into a separate cell.
@@ -507,7 +510,9 @@ offset_bottom = 117.0
 [node name="InputHandler" type="Node" parent="."]
 script = ExtResource("14_2t57a")
 
-[node name="SelectionManager" type="Node" parent="." node_paths=PackedStringArray("node_property_editors")]
+[node name="SelectionManager" type="Control" parent="." node_paths=PackedStringArray("node_property_editors")]
+layout_mode = 2
+mouse_filter = 2
 script = ExtResource("15_mx6qn")
 cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")])
 node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")

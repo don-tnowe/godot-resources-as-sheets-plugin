@@ -13,6 +13,7 @@ const whitespace_chars := [
 	41, # ")"
 	46, # "."
 	182, # "¶" Linefeed
+	10, # "\n" Actual Linefeed
 	967, # "●" Whitespace
 ]
 
@@ -128,15 +129,22 @@ static func multi_input(input_char : String, values : Array, cursor_positions : 
 
 
 static func _step_cursor(text : String, start : int, step : int = 1, ctrl_pressed : bool = false) -> int:
+	var cur := start
+	if ctrl_pressed and is_character_whitespace(text, cur + step):
+		cur += step
+
 	while true:
-		start += step
-		if !ctrl_pressed or is_character_whitespace(text, start):
-			if start > text.length():
+		cur += step
+		if !ctrl_pressed or is_character_whitespace(text, cur):
+			if cur > text.length():
 				return text.length()
 
-			if start < 0:
+			if cur <= 0:
 				return 0
 
-			return start
+			if ctrl_pressed and step < 0:
+				return cur + 1
+
+			return cur
 
 	return 0

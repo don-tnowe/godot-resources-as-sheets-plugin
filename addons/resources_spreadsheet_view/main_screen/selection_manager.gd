@@ -1,5 +1,5 @@
 @tool
-extends Node
+extends Control
 
 signal cells_selected(cells)
 signal cells_rightclicked(cells)
@@ -9,12 +9,13 @@ const EditorView = preload("res://addons/resources_spreadsheet_view/editor_view.
 @export var cell_editor_classes : Array[Script] = []
 
 @export @onready var node_property_editors : VBoxContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors"
+@export @onready var scrollbar : ScrollContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"
 
 @onready var editor_view : EditorView = get_parent()
 
-var edited_cells := []
-var edited_cells_text := []
-var edit_cursor_positions := []
+var edited_cells = []
+var edited_cells_text : Array[String] = []
+var edit_cursor_positions : Array[int] = []
 
 var all_cell_editors : Array[Object]
 var column_editors := []
@@ -32,6 +33,38 @@ func _ready():
 		.get_inspector()\
 		.property_edited\
 		.connect(_on_inspector_property_edited)
+
+	scrollbar.get_h_scroll_bar().value_changed.connect(queue_redraw.unbind(1), CONNECT_DEFERRED)
+	scrollbar.get_v_scroll_bar().value_changed.connect(queue_redraw.unbind(1), CONNECT_DEFERRED)
+
+
+func _draw():
+	var font := get_theme_font("font", "Label")
+	var font_size := get_theme_font_size("font", "Label")
+	var label_padding_left := 2.0
+	var newline_char := 10
+	for i in edited_cells.size():
+		if edit_cursor_positions[i] >= edited_cells_text[i].length():
+			continue
+
+		var char_size := Vector2(0, font.get_ascent(font_size))
+		var cursor_pos := Vector2(label_padding_left, 0)
+		var cell_text := edited_cells_text[i]
+		var cell : Control = edited_cells[i]
+		if cell is Label and cell.horizontal_alignment == HORIZONTAL_ALIGNMENT_RIGHT:
+			cursor_pos.x += cell.size.x - font.get_multiline_string_size(edited_cells[i].text, HORIZONTAL_ALIGNMENT_RIGHT, -1, font_size).x
+
+		for j in max(edit_cursor_positions[i], 0) + 1:
+			if j == 0: continue
+			if cell_text.unicode_at(j - 1) == newline_char:
+				cursor_pos.x = label_padding_left
+				cursor_pos.y += font.get_ascent(font_size)
+				continue
+
+			char_size = font.get_char_size(cell_text.unicode_at(j - 1), font_size)
+			cursor_pos.x += char_size.x
+
+		draw_rect(Rect2(cursor_pos + cell.global_position - global_position, Vector2(2, char_size.y)), Color(1, 1, 1, 0.5))
 
 
 func initialize_editors(column_values, column_types, column_hints):
@@ -55,7 +88,7 @@ func deselect_all_cells():
 	edited_cells.clear()
 	edited_cells_text.clear()
 	edit_cursor_positions.clear()
-	cells_selected.emit([])
+	_selection_changed()
 
 
 func deselect_cell(cell : Control):
@@ -68,7 +101,7 @@ func deselect_cell(cell : Control):
 		edited_cells_text.remove_at(idx)
 		edit_cursor_positions.remove_at(idx)
 		
-	cells_selected.emit(edited_cells)
+	_selection_changed()
 
 
 func select_cell(cell : Control):
@@ -81,7 +114,18 @@ func select_cell(cell : Control):
 		# inspector_resource.resource_path = ""
 		editor_view.editor_plugin.get_editor_interface().edit_resource(inspector_resource)
 
-	cells_selected.emit(edited_cells)
+	_selection_changed()
+
+
+func select_cells(cells : Array):
+	var last_selectible = null
+	for x in cells:
+		if can_select_cell(x):
+			_add_cell_to_selection(x)
+			last_selectible = x
+
+	if last_selectible != null:
+		select_cell(last_selectible)
 
 
 func select_cells_to(cell : Control):
@@ -108,7 +152,7 @@ func select_cells_to(cell : Control):
 				edited_cells_text.append(str(cur_cell.text))
 				edit_cursor_positions.append(cur_cell.text.length())
 
-	cells_selected.emit(edited_cells)
+	_selection_changed()
 
 
 func rightclick_cells():
@@ -118,16 +162,13 @@ func rightclick_cells():
 func can_select_cell(cell : Control) -> bool:
 	if edited_cells.size() == 0:
 		return true
-	
-	if !Input.is_key_pressed(KEY_CTRL):
-		return false
-	
+
 	if (
 		get_cell_column(cell)
 		!= get_cell_column(edited_cells[0])
 	):
 		return false
-	
+
 	return !cell in edited_cells
 
 
@@ -146,6 +187,11 @@ func get_edited_rows() -> Array[int]:
 		rows[i] = get_cell_row(edited_cells[i])
 
 	return rows
+
+
+func _selection_changed():
+	queue_redraw()
+	cells_selected.emit(edited_cells)
 
 
 func _add_cell_to_selection(cell : Control):

@@ -11,17 +11,14 @@ const SelectionManager = preload("res://addons/resources_spreadsheet_view/main_s
 func _on_cell_gui_input(event : InputEvent, cell : Control):
 	if event is InputEventMouseButton:
 		editor_view.grab_focus()
-		if event.button_index != MOUSE_BUTTON_LEFT:
-			if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
-				if !cell in selection.edited_cells:
-					selection.deselect_all_cells()
-					selection.select_cell(cell)
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			if !cell in selection.edited_cells:
+				selection.deselect_all_cells()
+				selection.select_cell(cell)
 
-				selection.rightclick_cells()
+			selection.rightclick_cells()
 
-			return
-
-		if event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if Input.is_key_pressed(KEY_CTRL):
 				if cell in selection.edited_cells:
 					selection.deselect_cell(cell)
@@ -39,15 +36,13 @@ func _on_cell_gui_input(event : InputEvent, cell : Control):
 
 func _gui_input(event : InputEvent):
 	if event is InputEventMouseButton:
-		if event.button_index != MOUSE_BUTTON_LEFT:
-			if event.button_index == MOUSE_BUTTON_RIGHT && event.is_pressed():
-				selection.rightclick_cells()
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
+			selection.rightclick_cells()
 
-			return
-
-		editor_view.grab_focus()
-		if !event.pressed:
-			selection.deselect_all_cells()
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			editor_view.grab_focus()
+			if !event.pressed:
+				selection.deselect_all_cells()
 
 
 func _input(event : InputEvent):
@@ -128,7 +123,7 @@ func _key_specific_action(event : InputEvent):
 	# Ctrl + C (so you can edit in a proper text editor instead of this wacky nonsense)
 	elif ctrl_pressed and event.keycode == KEY_C:
 		TextEditingUtils.multi_copy(selection.edited_cells_text)
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 			
 	# The following actions do not work on non-editable cells.
 	if !selection.column_editors[column].is_text() or editor_view.columns[column] == "resource_path":
@@ -139,7 +134,7 @@ func _key_specific_action(event : InputEvent):
 		editor_view.set_edited_cells_values(TextEditingUtils.multi_paste(
 			selection.edited_cells_text, selection.edit_cursor_positions
 		))
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 
 	# ERASING
 	elif event.keycode == KEY_BACKSPACE:
@@ -164,14 +159,18 @@ func _key_specific_action(event : InputEvent):
 			char(event.unicode), selection.edited_cells_text, selection.edit_cursor_positions
 		))
 
+	selection.queue_redraw()
+
 
 func _move_selection_on_grid(move_h : int, move_v : int):
-	var cell = selection.edited_cells[0]
+	var selected_cells := selection.edited_cells.duplicate()
+	for i in selected_cells.size():
+		selected_cells[i] = editor_view.node_table_root.get_child(
+			selected_cells[i].get_index()
+			+ move_h
+			+ move_v * editor_view.columns.size()
+		)
+
 	editor_view.grab_focus()
 	selection.deselect_all_cells()
-	selection.select_cell(
-		editor_view.node_table_root.get_child(
-			cell.get_index()
-			+ move_h + move_v * editor_view.columns.size()
-		)
-	)
+	selection.select_cells(selected_cells)
