@@ -419,6 +419,7 @@ layout_mode = 2
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="FileDialog" type="FileDialog" parent="Control"]
 title = "Open"
@@ -516,6 +517,7 @@ mouse_filter = 2
 script = ExtResource("15_mx6qn")
 cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")])
 node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
+metadata/_edit_lock_ = true
 
 [connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_grid_updated"]
 [connection signal="gui_input" from="." to="InputHandler" method="_gui_input"]

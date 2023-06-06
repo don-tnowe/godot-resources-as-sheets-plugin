@@ -43,6 +43,9 @@ func _draw():
 	var font_size := get_theme_font_size("font", "Label")
 	var label_padding_left := 2.0
 	var newline_char := 10
+	if edit_cursor_positions.size() != edited_cells.size():
+		return
+
 	for i in edited_cells.size():
 		if edit_cursor_positions[i] >= edited_cells_text[i].length():
 			continue

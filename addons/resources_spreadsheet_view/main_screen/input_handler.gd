@@ -164,12 +164,16 @@ func _key_specific_action(event : InputEvent):
 
 func _move_selection_on_grid(move_h : int, move_v : int):
 	var selected_cells := selection.edited_cells.duplicate()
+	var child_count := editor_view.node_table_root.get_child_count()
+	var new_child_index := 0
 	for i in selected_cells.size():
-		selected_cells[i] = editor_view.node_table_root.get_child(
+		new_child_index = (
 			selected_cells[i].get_index()
 			+ move_h
 			+ move_v * editor_view.columns.size()
 		)
+		if child_count < new_child_index: continue
+		selected_cells[i] = editor_view.node_table_root.get_child(new_child_index)
 
 	editor_view.grab_focus()
 	selection.deselect_all_cells()
