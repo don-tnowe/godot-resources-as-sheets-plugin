@@ -1,4 +1,4 @@
-class_name CellEditor
+class_name SheetsCellEditor
 extends RefCounted
 
 const CELL_SCENE_DIR = "res://addons/resources_spreadsheet_view/typed_cells/"

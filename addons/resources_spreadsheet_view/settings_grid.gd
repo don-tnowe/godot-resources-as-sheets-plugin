@@ -1,5 +1,4 @@
 @tool
-class_name SettingsGrid
 extends GridContainer
 
 const SETTING_PREFIX = "addons/resources_spreadsheet_view/"

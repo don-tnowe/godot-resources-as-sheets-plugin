@@ -1,6 +1,6 @@
-class_name CellEditorArray
-extends CellEditor
+extends SheetsCellEditor
 
+const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
 func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return type == TYPE_PACKED_STRING_ARRAY or type == TYPE_ARRAY

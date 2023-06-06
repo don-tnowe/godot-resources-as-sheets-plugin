@@ -1,4 +1,6 @@
-extends CellEditor
+extends SheetsCellEditor
+
+const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
 var previewer : EditorResourcePreview
 

@@ -3,6 +3,8 @@ extends Control
 
 signal grid_updated()
 
+const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+
 @export @onready var node_folder_path : LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
 @export @onready var node_recent_paths : OptionButton = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths"
 @export @onready var node_table_root : GridContainer = $"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"

@@ -1,4 +1,4 @@
-extends CellEditorArray
+extends "res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd"
 
 
 func can_edit_value(value, type, property_hint, column_index) -> bool:

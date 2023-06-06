@@ -1,4 +1,4 @@
-extends CellEditor
+extends SheetsCellEditor
 
 
 func set_color(node : Control, color : Color):

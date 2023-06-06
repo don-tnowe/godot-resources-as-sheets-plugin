@@ -1,5 +1,4 @@
 @tool
-class_name ThemeIconButton
 extends Button
 
 @export var icon_name := "Node" :

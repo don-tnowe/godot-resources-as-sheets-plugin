@@ -7,6 +7,8 @@ enum {
 	EDITBOX_DELETE,
 }
 
+const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+
 @export @onready var editor_view := $"../.."
 @export @onready var selection := $"../../SelectionManager"
 

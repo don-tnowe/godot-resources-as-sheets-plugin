@@ -2,6 +2,8 @@
 class_name SheetsDockEditor
 extends Control
 
+const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+
 @export var path_property_name := NodePath("Header/Label")
 
 var sheet : Control

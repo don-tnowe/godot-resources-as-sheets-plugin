@@ -1,6 +1,8 @@
 @tool
 extends Control
 
+const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+
 @export var table_header_scene : PackedScene
 
 @export @onready var editor_view : Control = $"../../../.."
