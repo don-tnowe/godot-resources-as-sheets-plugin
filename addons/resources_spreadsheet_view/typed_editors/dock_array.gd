@@ -26,10 +26,41 @@ func try_edit_value(value, type, property_hint) -> bool:
 	_stored_value = value.duplicate()  # Generic arrays are passed by reference
 	contents_label.text = str(value)
 	
-	var is_generic_array = _stored_type == TYPE_ARRAY
-	button_box.get_child(1).visible = is_generic_array or _stored_type == TYPE_PACKED_STRING_ARRAY
-	button_box.get_child(2).visible = is_generic_array or _stored_type == TYPE_PACKED_INT32_ARRAY or _stored_type == TYPE_PACKED_INT64_ARRAY
-	button_box.get_child(3).visible = is_generic_array or _stored_type == TYPE_PACKED_FLOAT32_ARRAY or _stored_type == TYPE_PACKED_FLOAT64_ARRAY
+	var is_generic_array = _stored_type == TYPE_ARRAY and !value.is_typed()
+	button_box.get_child(1).visible = (
+		is_generic_array or value.get_typed_builtin() == TYPE_STRING
+		or _stored_type == TYPE_PACKED_STRING_ARRAY
+	)
+	button_box.get_child(2).visible = (
+		is_generic_array or value.get_typed_builtin() == TYPE_INT
+		or _stored_type == TYPE_PACKED_INT32_ARRAY or _stored_type == TYPE_PACKED_INT64_ARRAY
+	)
+	button_box.get_child(3).visible = (
+		is_generic_array or value.get_typed_builtin() == TYPE_FLOAT
+		or _stored_type == TYPE_PACKED_FLOAT32_ARRAY or _stored_type == TYPE_PACKED_FLOAT64_ARRAY
+	)
+	button_box.get_child(5).visible = (
+		is_generic_array or value.get_typed_builtin() == TYPE_OBJECT
+	)
+
+	if value.get_typed_builtin() == TYPE_OBJECT:
+		if !value_input is EditorResourcePicker:
+			var new_input := EditorResourcePicker.new()
+			new_input.size_flags_horizontal = SIZE_EXPAND_FILL
+			new_input.base_type = value.get_typed_class_name()
+
+			value_input.replace_by(new_input)
+			value_input.free()
+			value_input = new_input
+
+	else:
+		if !value_input is LineEdit:
+			var new_input := LineEdit.new()
+			new_input.size_flags_horizontal = SIZE_EXPAND_FILL
+
+			value_input.replace_by(new_input)
+			value_input.free()
+			value_input = new_input
 
 	return true
 
@@ -94,7 +125,10 @@ func _on_recent_clicked(button, value):
 
 
 func _on_Remove_pressed():
-	if str_to_var(value_input.text) != null:
+	if value_input is EditorResourcePicker:
+		_remove_value(value_input.edited_resource)
+
+	elif str_to_var(value_input.text) != null:
 		_remove_value(str_to_var(value_input.text))
 		
 	else:
@@ -138,7 +172,19 @@ func _on_String_pressed():
 
 
 func _on_Variant_pressed():
-	_add_value(str_to_var(value_input.text))
+	if value_input is EditorResourcePicker:
+		_add_value(value_input.edited_resource)
+	
+	else:
+		_add_value(str_to_var(value_input.text))
+
+
+func _on_Resource_pressed():
+	if value_input is LineEdit:
+		_add_value(load(value_input.text))
+
+	elif value_input is EditorResourcePicker:
+		_add_value(value_input.edited_resource)
 
 
 func _on_AddRecentFromSel_pressed():
