@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=28 format=3 uid="uid://tmleonv20aqk"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_array.gd" id="17_sofdw"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_color.gd" id="18_oeewr"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_bool.gd" id="19_7x44x"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_dict.gd" id="19_oeuko"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum.gd" id="20_swsbn"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="21_58wf8"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="22_bni8r"]
@@ -32,7 +33,7 @@ colors = PackedColorArray(1, 1, 1, 0.490196, 1, 1, 1, 0.0458716, 1, 1, 1, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_18il8"]
 gradient = SubResource("Gradient_8kp6w")
 
-[node name="Control" type="MarginContainer"]
+[node name="Control" type="MarginContainer" node_paths=PackedStringArray("node_folder_path", "node_recent_paths", "node_table_root", "node_columns", "node_page_manager")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,6 +52,11 @@ theme_override_constants/margin_left = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_wfx75")
+node_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
+node_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths")
+node_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
+node_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
+node_page_manager = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages")
 metadata/_edit_lock_ = true
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
@@ -163,13 +169,14 @@ layout_mode = 2
 layout_mode = 2
 text = "Open Recent:"
 
-[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
+[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2" node_paths=PackedStringArray("editor_view")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 clip_text = true
 fit_to_longest_item = false
 script = ExtResource("4_umoob")
+editor_view = NodePath("../../../../..")
 
 [node name="ImportExport" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -332,11 +339,14 @@ layout_mode = 2
 clip_contents = true
 layout_mode = 2
 
-[node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns"]
+[node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns" node_paths=PackedStringArray("editor_view", "hide_columns_button", "grid")]
 layout_mode = 0
 theme_override_constants/separation = 0
 script = ExtResource("6_emnmd")
 table_header_scene = ExtResource("7_3dx0v")
+editor_view = NodePath("../../../..")
+hide_columns_button = NodePath("../../MenuStrip/VisibleCols")
+grid = NodePath("../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
 
 [node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 visible = false
@@ -500,23 +510,26 @@ min_size = Vector2i(600, 400)
 
 [node name="ImportExport" parent="Control/ImportExport" instance=ExtResource("14_3p12b")]
 
-[node name="SelectionActions" parent="Control" instance=ExtResource("23_m53sx")]
+[node name="SelectionActions" parent="Control" node_paths=PackedStringArray("editor_view", "selection") instance=ExtResource("23_m53sx")]
 visible = false
 layout_mode = 2
 offset_left = -506.0
 offset_top = 65.0
 offset_right = -426.0
 offset_bottom = 117.0
+editor_view = NodePath("../..")
+selection = NodePath("../../SelectionManager")
 
 [node name="InputHandler" type="Node" parent="."]
 script = ExtResource("14_2t57a")
 
-[node name="SelectionManager" type="Control" parent="." node_paths=PackedStringArray("node_property_editors")]
+[node name="SelectionManager" type="Control" parent="." node_paths=PackedStringArray("node_property_editors", "scrollbar")]
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("15_mx6qn")
-cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")])
+cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("19_oeuko"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")])
 node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
+scrollbar = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll")
 metadata/_edit_lock_ = true
 
 [connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_grid_updated"]
