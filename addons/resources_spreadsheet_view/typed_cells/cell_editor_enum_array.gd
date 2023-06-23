@@ -12,11 +12,14 @@ func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return hint_strings_array[column_index][0].begins_with("2/2:")
 
 
-func _write_value_to_child(value, hint_arr : PackedStringArray, child : Label, colored : bool):
+func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, colored : bool):
+	var value_str : String
 	if value == 0:
 		# Enum array hints have "2/3:" before list.
 		var found := hint_arr[0].find(":") + 1
-		super._write_value_to_child(hint_arr[0].substr(hint_arr[0].find(":") + 1), hint_arr, child, colored)
+		value_str = hint_arr[0].substr(hint_arr[0].find(":") + 1)
 
 	else:
-		super._write_value_to_child(hint_arr[value], hint_arr, child, colored)
+		value_str = hint_arr[value]
+
+	super(value_str, value_str, hint_arr, child, colored)

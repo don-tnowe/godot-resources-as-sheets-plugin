@@ -1,7 +1,10 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://2totlbwc40e8"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=6 format=3 uid="uid://2totlbwc40e8"]
 
 [ext_resource type="Texture2D" uid="uid://djjpa8lluue1g" path="res://example/Random Upgrades/icons/all_icons/all_icons_5.tres" id="1_ardng"]
 [ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
+[ext_resource type="Resource" uid="uid://rjxr4qtfc6qd" path="res://example/Random Upgrades/upgrades/weapon_fireball.tres" id="2_485ad"]
+[ext_resource type="Resource" uid="uid://djqq1lqaevth5" path="res://example/Random Upgrades/upgrades/weapon_blizzard.tres" id="3_xnxxn"]
+[ext_resource type="Resource" uid="uid://b0kdw067vtgvn" path="res://example/Random Upgrades/upgrades/weapon_lightning.tres" id="4_kn0kg"]
 
 [resource]
 resource_name = "Mastery: Magic"
@@ -12,6 +15,7 @@ tags = Array[String](["magic", "mastery"])
 type = 2
 attributes = Array[int]([1, 1, 4])
 icon = ExtResource("1_ardng")
+prerequisites = Array[ExtResource("2")]([ExtResource("2_485ad"), ExtResource("3_xnxxn"), ExtResource("4_kn0kg")])
 color2 = Color(0.407843, 0.192157, 0.827451, 1)
 base_weight = 1.0
 is_notable = true

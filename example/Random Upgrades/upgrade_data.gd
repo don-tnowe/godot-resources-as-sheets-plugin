@@ -1,4 +1,5 @@
 @tool
+class_name UpgradeData
 extends Resource
 
 enum Attributes {
@@ -16,6 +17,7 @@ enum Attributes {
 @export var attributes : Array[Attributes]
 @export var icon : Texture
 @export var custom_scene : PackedScene
+@export var prerequisites : Array[UpgradeData]
 @export var color2 := Color.WHITE
 @export var base_weight := 10.0
 @export var is_notable := false
