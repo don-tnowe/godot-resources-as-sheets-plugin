@@ -75,26 +75,44 @@ func _get_key_from_box():
 	if _stored_type == TYPE_OBJECT:
 		return StringName(key_input.text)
 
-	match _key_type_selected:
+	return _to_key(key_input.text, _key_type_selected)
+
+
+func _to_key(from : String, key_type : int):
+	match key_type:
 		KEY_TYPE_STRINGNAME:
-			return StringName(key_input.text)
+			return StringName(from)
 
 		KEY_TYPE_INT:
-			return key_input.text.to_int()
+			return from.to_int()
 
 		KEY_TYPE_FLOAT:
-			return key_input.text.to_float()
+			return from.to_float()
 
 		KEY_TYPE_OBJECT:
-			return load(key_input.text)
+			return load(from)
 
 		KEY_TYPE_VARIANT:
-			return str_to_var(key_input.text)
+			return str_to_var(from)
 
 
 func _on_Replace_pressed():
-	# TODO
-	pass
+	var old_key = _to_key(key_input.text, _key_type_selected)
+	var new_key = _to_key(value_input.text, _key_type_selected)
+	_stored_value[new_key] = _stored_value[old_key]
+
+	var values = sheet.get_edited_cells_values()
+	var cur_value
+	var dupe_value : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
+	for i in values.size():
+		cur_value = values[i]
+		if dupe_value and (_stored_type == TYPE_DICTIONARY or cur_value.resource_path.rfind("::") != -1):
+			cur_value = cur_value.duplicate()
+
+		cur_value[new_key] = cur_value[old_key]
+		values[i] = cur_value
+
+	sheet.set_edited_cells_values(values)
 
 
 func _add_recent(_value):

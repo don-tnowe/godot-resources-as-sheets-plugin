@@ -156,9 +156,13 @@ script = ExtResource("2_yck0k")
 icon_name = "Remove"
 
 [node name="Replace" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
-tooltip_text = "Replace Keys with key in Value box"
+tooltip_text = "Copy Key's value to new key
+Example:
+- key box = \"thing\"
+- value box = \"thing two\"
+- old dict = {\"thing\" : 12}
+- resulting dict = {\"thing\" : 12, \"thing two\" : 12}"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "Override"
