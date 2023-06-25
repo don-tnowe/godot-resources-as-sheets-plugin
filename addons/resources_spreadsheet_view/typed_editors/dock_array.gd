@@ -104,9 +104,18 @@ func _add_recent(value):
 		if x.text == str(value):
 			return
 
+		if value is Resource and x.tooltip_text == value.resource_path:
+			return
+
 	var node := Button.new()
-	node.text = str(value)
-	node.self_modulate = Color(value.hash()) + Color(0.25, 0.25, 0.25, 1.0)
+	var value_str : String = str(value)
+	if value is Resource:
+		value_str = value.resource_path.get_file()
+		node.tooltip_text = value.resource_path
+		value = value.resource_path
+
+	node.text = value_str
+	node.self_modulate = Color(value_str.hash()) + Color(0.25, 0.25, 0.25, 1.0)
 	node.pressed.connect(_on_recent_clicked.bind(node, value))
 	recent_container.add_child(node)
 
@@ -166,7 +175,6 @@ func _on_Int_pressed():
 
 
 func _on_String_pressed():
-	if value_input.text == "": return
 	_add_value(value_input.text)
 	_add_recent(value_input.text)
 

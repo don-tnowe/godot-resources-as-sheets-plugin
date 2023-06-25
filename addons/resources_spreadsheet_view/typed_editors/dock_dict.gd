@@ -1,0 +1,131 @@
+@tool
+extends "res://addons/resources_spreadsheet_view/typed_editors/dock_array.gd"
+
+enum {
+	KEY_TYPE_STRINGNAME = 0,
+	KEY_TYPE_INT,
+	KEY_TYPE_FLOAT,
+	KEY_TYPE_OBJECT,
+	KEY_TYPE_VARIANT,
+}
+
+@onready var key_input := $"HBoxContainer/HBoxContainer/Control/VBoxContainer/KeyEdit/KeyEdit"
+@onready var key_type := $"HBoxContainer/HBoxContainer/Control/VBoxContainer/KeyEdit/KeyType"
+
+var _key_type_selected := 0
+
+
+func try_edit_value(value, type, property_hint) -> bool:
+	if type != TYPE_DICTIONARY and type != TYPE_OBJECT:
+		return false
+
+	if value is Texture2D:
+		# For textures, prefer the specialized dock.
+		return false
+
+	key_type.visible = type != TYPE_OBJECT
+
+	_stored_type = type
+	if type == TYPE_DICTIONARY:
+		_stored_value = value.duplicate()
+
+	contents_label.text = str(value)
+
+	return true
+
+
+func _add_value(value):
+	var key = _get_key_from_box()
+	_stored_value[key] = value
+
+	var values = sheet.get_edited_cells_values()
+	var cur_value
+	var dupe_value : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays")
+	for i in values.size():
+		cur_value = values[i]
+		if dupe_value and (_stored_type == TYPE_DICTIONARY or cur_value.resource_path.rfind("::") != -1):
+			cur_value = cur_value.duplicate()
+
+		cur_value[key] = value
+		values[i] = cur_value
+
+	sheet.set_edited_cells_values(values)
+	super._add_recent(key)
+
+
+func _remove_value(_value):
+	var key = _get_key_from_box()
+	_stored_value.erase(key)
+
+	var values = sheet.get_edited_cells_values()
+	var cur_value
+	var dupe_value : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
+	for i in values.size():
+		cur_value = values[i]
+		if dupe_value and (_stored_type == TYPE_DICTIONARY or cur_value.resource_path.rfind("::") != -1):
+			cur_value = cur_value.duplicate()
+
+		cur_value.erase(key)
+		values[i] = cur_value
+
+	sheet.set_edited_cells_values(values)
+
+
+func _get_key_from_box():
+	if _stored_type == TYPE_OBJECT:
+		return StringName(key_input.text)
+
+	match _key_type_selected:
+		KEY_TYPE_STRINGNAME:
+			return StringName(key_input.text)
+
+		KEY_TYPE_INT:
+			return key_input.text.to_int()
+
+		KEY_TYPE_FLOAT:
+			return key_input.text.to_float()
+
+		KEY_TYPE_OBJECT:
+			return load(key_input.text)
+
+		KEY_TYPE_VARIANT:
+			return str_to_var(key_input.text)
+
+
+func _on_Replace_pressed():
+	# TODO
+	pass
+
+
+func _add_recent(_value):
+	pass
+
+
+func _on_recent_clicked(button, value):
+	var val = recent_container.get_child(1).selected
+	key_input.text = str(value)
+	if val == 0:
+		# Do nothing! What if the value for the key doesn't match?
+		pass
+
+	if val == 1:
+		_remove_value(value)
+
+	if val == 2:
+		button.queue_free()
+
+
+func _on_key_type_selected(index : int):
+	_key_type_selected = index
+
+
+func _on_AddRecentFromSel_pressed():
+	for x in sheet.get_edited_cells_values():
+		if _stored_type == TYPE_OBJECT:
+			for y in x.get_property_list():
+				if y[&"usage"] & PROPERTY_USAGE_EDITOR != 0:
+					super._add_recent(y[&"name"])
+
+		else:
+			for y in x:
+				super._add_recent(y)

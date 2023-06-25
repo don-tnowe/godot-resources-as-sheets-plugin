@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=29 format=3 uid="uid://tmleonv20aqk"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -10,9 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://ddqak780cwwfj" path="res://addons/resources_spreadsheet_view/typed_editors/dock_enum_array.tscn" id="8_234wn"]
 [ext_resource type="PackedScene" uid="uid://c3a2cip8ffccv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_array.tscn" id="9_nts08"]
 [ext_resource type="PackedScene" uid="uid://b3a3bo6cfyh5t" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.tscn" id="10_nsma2"]
-[ext_resource type="PackedScene" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="11_q1ao4"]
+[ext_resource type="PackedScene" uid="uid://gtbf7b0wptv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="11_q1ao4"]
 [ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="12_4kr6q"]
 [ext_resource type="PackedScene" uid="uid://dhunxgcae6h1" path="res://addons/resources_spreadsheet_view/settings_grid.tscn" id="13_as1sh"]
+[ext_resource type="PackedScene" uid="uid://p6x03dbvhnqw" path="res://addons/resources_spreadsheet_view/typed_editors/dock_dict.tscn" id="13_il556"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/input_handler.gd" id="14_2t57a"]
 [ext_resource type="PackedScene" uid="uid://b413igx28kkvb" path="res://addons/resources_spreadsheet_view/import_export/import_export_dialog.tscn" id="14_3p12b"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd" id="15_mx6qn"]
@@ -411,6 +412,10 @@ visible = false
 layout_mode = 2
 
 [node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("9_nts08")]
+visible = false
+layout_mode = 2
+
+[node name="EditDict" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("13_il556")]
 visible = false
 layout_mode = 2
 
