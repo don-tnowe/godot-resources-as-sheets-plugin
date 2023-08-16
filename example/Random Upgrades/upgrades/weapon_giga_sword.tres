@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=4 format=3 uid="uid://c1mrcevxrm5kv"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=4 format=3 uid="uid://c1mrcevxrm5kv"]
 
 [ext_resource type="PackedScene" uid="uid://b4cix5ebtpdbf" path="res://example/Random Upgrades/new scene.tscn" id="2"]
 [ext_resource type="Texture2D" uid="uid://d38giyxvkhl6g" path="res://example/Random Upgrades/icons/all_icons/all_icons_3.tres" id="2_kfnh0"]
@@ -14,6 +14,7 @@ type = 0
 attributes = Array[int]([0, 0, 0, 2])
 icon = ExtResource("2_kfnh0")
 custom_scene = ExtResource("2")
+prerequisites = Array[ExtResource("3")]([])
 color2 = Color(0.992157, 0.941176, 0.2, 1)
 base_weight = 1.0
 is_notable = true

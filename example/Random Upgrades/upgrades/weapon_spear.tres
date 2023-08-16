@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://xl0yx8uq6bfp"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://xl0yx8uq6bfp"]
 
 [ext_resource type="Texture2D" uid="uid://d38giyxvkhl6g" path="res://example/Random Upgrades/icons/all_icons/all_icons_3.tres" id="1"]
 [ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
@@ -12,6 +12,7 @@ tags = Array[String](["weapon", "strength", "melee"])
 type = 0
 attributes = Array[int]([0, 3])
 icon = ExtResource("1")
+prerequisites = Array[ExtResource("2")]([])
 color2 = Color(0.980392, 0.584314, 0.203922, 1)
 base_weight = 10.0
 is_notable = false
