@@ -1,5 +1,5 @@
-class_name SpreadsheetEditFormatTres
-extends SpreadsheetEditFormat
+class_name ResourceTablesEditFormatTres
+extends ResourceTablesEditFormat
 
 var timer : SceneTreeTimer
 

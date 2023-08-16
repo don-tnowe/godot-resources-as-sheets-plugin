@@ -1,5 +1,5 @@
-class_name SpreadsheetEditFormatCsv
-extends SpreadsheetEditFormatTres
+class_name ResourceTablesEditFormatCsv
+extends ResourceTablesEditFormatTres
 
 var import_data
 var csv_rows = []
@@ -70,7 +70,7 @@ func _bump_row_indices(from : int, increment : int = 1):
 func import_from_path(path : String, insert_func : Callable, sort_by : String, sort_reverse : bool = false) -> Array:
 	import_data = load(path)
 	var file = FileAccess.open(import_data.edited_path, FileAccess.READ)
-	csv_rows = SpreadsheetImportFormatCsv.import_as_arrays(import_data)
+	csv_rows = ResourceTablesImportFormatCsv.import_as_arrays(import_data)
 
 	var rows := []
 	var res : Resource

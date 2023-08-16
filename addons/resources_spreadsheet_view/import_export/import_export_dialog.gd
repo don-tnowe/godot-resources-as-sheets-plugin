@@ -15,7 +15,7 @@ var format_extension := ".csv"
 var entries := []
 
 var property_used_as_filename := 0
-var import_data : SpreadsheetImport
+var import_data : ResourceTablesImport
 
 
 func _ready():
@@ -48,7 +48,7 @@ func _on_create_file_pressed():
 
 
 func _on_file_selected(path : String):
-	import_data = SpreadsheetImport.new()
+	import_data = ResourceTablesImport.new()
 	import_data.initialize(path)
 	_reset_controls()
 	_open_dialog(path)
@@ -88,13 +88,13 @@ func _load_property_names(path):
 
 		# Don't guess Ints automatically - further rows might have floats
 		if entries[1][i].is_valid_float():
-			prop_types[i] = SpreadsheetImport.PropType.FLOAT
+			prop_types[i] = ResourceTablesImport.PropType.FLOAT
 
 		elif entries[1][i].begins_with("res://"):
-			prop_types[i] = SpreadsheetImport.PropType.OBJECT
+			prop_types[i] = ResourceTablesImport.PropType.OBJECT
 
 		else:
-			prop_types[i] = SpreadsheetImport.PropType.STRING
+			prop_types[i] = ResourceTablesImport.PropType.STRING
 
 	filename_options.clear()
 	for i in import_data.prop_names.size():
@@ -167,7 +167,7 @@ func _on_export_csv_pressed():
 	for x in editor_view.node_columns.hidden_columns[editor_view.current_path].keys():
 		exported_cols.erase(x)
 
-	SpreadsheetExportFormatCsv.export_to_file(editor_view.rows, exported_cols, import_data.edited_path, import_data)
+	ResourceTablesExportFormatCsv.export_to_file(editor_view.rows, exported_cols, import_data.edited_path, import_data)
 	await get_tree().process_frame
 	editor_view.refresh()
 	close()

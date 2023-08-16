@@ -1,4 +1,4 @@
-extends SheetsCellEditor
+extends ResourceTablesCellEditor
 
 
 func can_edit_value(value, type, property_hint, column_index) -> bool:

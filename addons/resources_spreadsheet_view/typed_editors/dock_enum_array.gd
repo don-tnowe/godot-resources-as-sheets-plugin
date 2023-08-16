@@ -1,5 +1,5 @@
 @tool
-extends SheetsDockEditor
+extends ResourceTablesDockEditor
 
 @onready var options_container := $"HBoxContainer/Control2/HBoxContainer/HFlowContainer"
 @onready var contents_label := $"HBoxContainer/HBoxContainer/Panel/Label"

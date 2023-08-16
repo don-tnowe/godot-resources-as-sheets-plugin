@@ -1,4 +1,4 @@
-class_name SheetsCellEditor
+class_name ResourceTablesCellEditor
 extends RefCounted
 
 const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")

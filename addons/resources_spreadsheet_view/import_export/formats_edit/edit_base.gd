@@ -1,4 +1,4 @@
-class_name SpreadsheetEditFormat
+class_name ResourceTablesEditFormat
 extends RefCounted
 
 var editor_view : Control

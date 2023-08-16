@@ -1,4 +1,4 @@
-extends SheetsCellEditor
+extends ResourceTablesCellEditor
 
 var _cached_color := Color.WHITE
 

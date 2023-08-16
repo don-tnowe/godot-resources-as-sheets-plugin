@@ -1,5 +1,5 @@
 @tool
-extends SheetsDockEditor
+extends ResourceTablesDockEditor
 
 var _stored_value : Texture2D
 

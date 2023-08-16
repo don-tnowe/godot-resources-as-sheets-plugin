@@ -1,4 +1,4 @@
-extends SheetsCellEditor
+extends ResourceTablesCellEditor
 
 const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 

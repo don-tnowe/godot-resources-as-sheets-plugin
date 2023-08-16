@@ -1,5 +1,5 @@
 @tool
-extends SheetsDockEditor
+extends ResourceTablesDockEditor
 
 @onready var _value_label := $"HBoxContainer/HBoxContainer/NumberPanel/Label"
 @onready var _button_grid := $"HBoxContainer/HBoxContainer/GridContainer"

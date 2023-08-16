@@ -475,7 +475,7 @@ layout_mode = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="Control/Info/MarginContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "Edit Resources as Spreadsheet
+text = "Edit Resources as Table 2
 
 \"Welp, it is what it sounds like!\"
 

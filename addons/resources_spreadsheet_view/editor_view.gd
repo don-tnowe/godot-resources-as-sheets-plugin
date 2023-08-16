@@ -75,7 +75,7 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if folderpath.get_extension() == "":
 		folderpath = folderpath.trim_suffix("/") + "/"
 
-	if folderpath.ends_with(".tres") and !folderpath.ends_with(SpreadsheetImport.SUFFIX):
+	if folderpath.ends_with(".tres") and !folderpath.ends_with(ResourceTablesImport.SUFFIX):
 		folderpath = folderpath.get_base_dir() + "/"
 	
 	if search_cond == null:
@@ -106,15 +106,15 @@ func refresh(force_rebuild : bool = true):
 
 func _load_resources_from_path(path : String, sort_by : String, sort_reverse : bool):
 	if path.ends_with("/"):
-		io = SpreadsheetEditFormatTres.new()
+		io = ResourceTablesEditFormatTres.new()
 
 	else:
 		var loaded = load(path)
-		if loaded is SpreadsheetImport:
+		if loaded is ResourceTablesImport:
 			io = loaded.view_script.new()
 
 		else:
-			io = SpreadsheetEditFormatTres.new()
+			io = ResourceTablesEditFormatTres.new()
 	
 	io.editor_view = self
 	rows = io.import_from_path(path, insert_row_sorted, sort_by, sort_reverse)

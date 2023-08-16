@@ -1,5 +1,5 @@
 @tool
-class_name SpreadsheetImport
+class_name ResourceTablesImport
 extends Resource
 
 enum PropType {
@@ -39,7 +39,7 @@ const TYPE_MAP := {
 @export var remove_first_row := true
 
 @export var new_script : GDScript
-@export var view_script : Script = SpreadsheetEditFormatCsv
+@export var view_script : Script = ResourceTablesEditFormatCsv
 @export var delimeter := ";"
 @export var enum_format : Array = [NameCasing.CAPS_WORD, " ", "Yes", "No"]
 

@@ -1,4 +1,4 @@
-# Edit Resources as Spreadsheet
+# Edit Resources as Table
 
     "Welp, it is what it sounds like!"
 

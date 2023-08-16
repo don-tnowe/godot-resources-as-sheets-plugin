@@ -1,5 +1,5 @@
 @tool
-class_name SheetsDockEditor
+class_name ResourceTablesDockEditor
 extends Control
 
 const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")

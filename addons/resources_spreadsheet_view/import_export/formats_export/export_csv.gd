@@ -1,4 +1,4 @@
-class_name SpreadsheetExportFormatCsv
+class_name ResourceTablesExportFormatCsv
 extends RefCounted
 
 

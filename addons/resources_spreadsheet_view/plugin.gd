@@ -20,7 +20,7 @@ func _exit_tree() -> void:
 
 
 func _get_plugin_name():
-	return "Sheets"
+	return "ResourceTables"
 
 
 func _make_visible(visible):
