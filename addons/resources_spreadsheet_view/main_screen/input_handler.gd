@@ -58,7 +58,7 @@ func _input(event : InputEvent):
 	
 	# Ctrl + Z (before, and instead of, committing the action!)
 	if Input.is_key_pressed(KEY_CTRL):
-		if event.keycode == KEY_Z || event.keycode == KEY_Y:
+		if event.keycode == KEY_Z or event.keycode == KEY_Y:
 			return
 
 	_key_specific_action(event)

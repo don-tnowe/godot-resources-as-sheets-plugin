@@ -128,7 +128,7 @@ func _export_tres_folder():
 	import_data.prop_used_as_filename = import_data.prop_names[property_used_as_filename]
 	var new_res : Resource
 	for i in entries.size():
-		if import_data.remove_first_row && i == 0:
+		if import_data.remove_first_row and i == 0:
 			continue
 
 		new_res = import_data.strings_to_resource(entries[i])

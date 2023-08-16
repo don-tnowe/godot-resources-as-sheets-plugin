@@ -16,7 +16,7 @@ func set_value(entry, key : String, value, index : int):
 
 
 func save_entries(all_entries : Array, indices : Array, repeat : bool = true):
-	if timer == null || timer.time_left <= 0.0:
+	if timer == null or timer.time_left <= 0.0:
 		var space_after_delimeter = import_data.delimeter.ends_with(" ")
 		var file = FileAccess.open(import_data.edited_path, FileAccess.WRITE)
 		for x in csv_rows:

@@ -88,7 +88,7 @@ func _unhandled_input(event):
 				_on_Rename_pressed()
 				return
 				
-	if event is InputEventMouseButton && event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed():
 		close()
 
 
