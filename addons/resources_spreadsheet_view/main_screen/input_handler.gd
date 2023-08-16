@@ -1,11 +1,12 @@
 @tool
 extends Node
 
-const EditorView = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
-const SelectionManager = preload("res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd")
+const TablesPluginEditorViewClass = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
+const TablesPluginSelectionManagerClass = preload("res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd")
+const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
 
-@onready var editor_view : EditorView = get_parent()
-@onready var selection : SelectionManager = get_node("../SelectionManager")
+@onready var editor_view : TablesPluginEditorViewClass = get_parent()
+@onready var selection : TablesPluginSelectionManagerClass = get_node("../SelectionManager")
 
 
 func _on_cell_gui_input(event : InputEvent, cell : Control):
@@ -92,12 +93,12 @@ func _key_specific_action(event : InputEvent):
 	
 	# CURSOR MOVEMENT
 	if event.keycode == KEY_LEFT:
-		TextEditingUtils.multi_move_left(
+		TextEditingUtilsClass.multi_move_left(
 			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
 		)
 	
 	elif event.keycode == KEY_RIGHT:
-		TextEditingUtils.multi_move_right(
+		TextEditingUtilsClass.multi_move_right(
 			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
 		)
 	
@@ -111,7 +112,7 @@ func _key_specific_action(event : InputEvent):
 	
 	# Ctrl + C (so you can edit in a proper text editor instead of this wacky nonsense)
 	elif ctrl_pressed and event.keycode == KEY_C:
-		TextEditingUtils.multi_copy(selection.edited_cells_text)
+		TextEditingUtilsClass.multi_copy(selection.edited_cells_text)
 		get_viewport().set_input_as_handled()
 			
 	# The following actions do not work on non-editable cells.
@@ -120,31 +121,31 @@ func _key_specific_action(event : InputEvent):
 	
 	# Ctrl + V
 	elif ctrl_pressed and event.keycode == KEY_V:
-		editor_view.set_edited_cells_values(TextEditingUtils.multi_paste(
+		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_paste(
 			selection.edited_cells_text, selection.edit_cursor_positions
 		))
 		get_viewport().set_input_as_handled()
 
 	# ERASING
 	elif event.keycode == KEY_BACKSPACE:
-		editor_view.set_edited_cells_values(TextEditingUtils.multi_erase_left(
+		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_erase_left(
 			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
 		))
 
 	elif event.keycode == KEY_DELETE:
-		editor_view.set_edited_cells_values(TextEditingUtils.multi_erase_right(
+		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_erase_right(
 			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
 		))
 		get_viewport().set_input_as_handled()
 
 	# And finally, text typing.
 	elif event.keycode == KEY_ENTER:
-		editor_view.set_edited_cells_values(TextEditingUtils.multi_input(
+		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_input(
 			"\n", selection.edited_cells_text, selection.edit_cursor_positions
 		))
 
 	elif event.unicode != 0 and event.unicode != 127:
-		editor_view.set_edited_cells_values(TextEditingUtils.multi_input(
+		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_input(
 			char(event.unicode), selection.edited_cells_text, selection.edit_cursor_positions
 		))
 

@@ -26,7 +26,7 @@ func can_edit_value(value, type, property_hint, property_hint_string) -> bool:
 
 func set_value(node : Control, value):
 	if value is String:
-		node.text = TextEditingUtils.show_non_typing(str(value))
+		node.text = TextEditingUtilsClass.show_non_typing(str(value))
 
 	else:
 		node.text = value.to_html(true)

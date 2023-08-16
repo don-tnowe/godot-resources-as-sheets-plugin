@@ -4,21 +4,21 @@ extends Control
 signal cells_selected(cells)
 signal cells_rightclicked(cells)
 
-const EditorView = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
+const EditorViewClass = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
 
 @export var cell_editor_classes : Array[Script] = []
 
 @export @onready var node_property_editors : VBoxContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors"
 @export @onready var scrollbar : ScrollContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"
 
-@onready var editor_view : EditorView = get_parent()
+@onready var editor_view : EditorViewClass = get_parent()
 
-var edited_cells := []
-var edited_cells_text := []
+var edited_cells : Array = []
+var edited_cells_text : Array[String] = []
 var edit_cursor_positions : Array[int] = []
 
-var all_cell_editors : Array[Object]
-var column_editors := []
+var all_cell_editors : Array = []
+var column_editors : Array[Object] = []
 var inspector_resource : Resource
 
 
@@ -136,14 +136,14 @@ func select_cells_to(cell : Control):
 	if column_index != get_cell_column(edited_cells[edited_cells.size() - 1]):
 		return
 	
-	var row_start = get_cell_row(edited_cells[edited_cells.size() - 1]) - editor_view.first_row
+	var row_start := get_cell_row(edited_cells[edited_cells.size() - 1]) - editor_view.first_row
 	var row_end := get_cell_row(cell) - editor_view.first_row
-	var edge_shift = -1 if row_start > row_end else 1
+	var edge_shift := -1 if row_start > row_end else 1
 	row_start += edge_shift
 	row_end += edge_shift
 
 	for i in range(row_start, row_end, edge_shift):
-		var cur_cell := editor_view.node_table_root.get_child(i * editor_view.columns.size() + column_index)
+		var cur_cell : Control = editor_view.node_table_root.get_child(i * editor_view.columns.size() + column_index)
 		if !cur_cell.visible:
 			# When search is active, some cells will be hidden.
 			continue
@@ -232,7 +232,7 @@ func _on_inspector_property_edited(property : String):
 	if inspector_resource == null: return
 	
 	if editor_view.columns[get_cell_column(edited_cells[0])] != property:
-		var columns = editor_view.columns
+		var columns := editor_view.columns
 		var previously_edited = edited_cells.duplicate()
 		var new_column := columns.find(property)
 		deselect_all_cells()

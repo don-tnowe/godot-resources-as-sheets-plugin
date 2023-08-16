@@ -1,7 +1,7 @@
 @tool
 extends Control
 
-const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
 @export var table_header_scene : PackedScene
 
@@ -64,7 +64,7 @@ func _update_column_sizes():
 		editor_view.refresh()
 		return
 	
-	var clip_text : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "clip_headers")
+	var clip_text : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "clip_headers")
 	var min_width := 0
 	var cell : Control
 

@@ -1,6 +1,6 @@
 extends SheetsCellEditor
 
-const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
 
 func can_edit_value(value, type, property_hint, column_index) -> bool:
@@ -12,9 +12,9 @@ func create_cell(caller : Control) -> Control:
 
 
 func set_value(node : Control, value):
-	var children = node.get_node("Box").get_children()
-	node.custom_minimum_size.x = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "array_min_width")
-	var colored = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "color_arrays")
+	var children := node.get_node("Box").get_children()
+	node.custom_minimum_size.x = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_min_width")
+	var colored = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_arrays")
 	while children.size() < value.size():
 		children.append(Label.new())
 		node.get_node("Box").add_child(children[children.size() - 1])

@@ -7,7 +7,8 @@ enum {
 	EDITBOX_DELETE,
 }
 
-const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
+const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
 @export @onready var editor_view := $"../.."
 @export @onready var selection := $"../../SelectionManager"
@@ -34,7 +35,7 @@ func _on_grid_cells_rightclicked(cells):
 
 
 func _on_grid_cells_selected(cells):
-	if ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "context_menu_on_leftclick"):
+	if ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "context_menu_on_leftclick"):
 		open(cells, true)
 
 	else: hide()
@@ -109,12 +110,12 @@ func _on_Duplicate_pressed():
 
 
 func _on_CbCopy_pressed():
-	TextEditingUtils.multi_copy(selection.edited_cells_text)
+	TextEditingUtilsClass.multi_copy(selection.edited_cells_text)
 
 
 func _on_CbPaste_pressed():
 	editor_view.set_edited_cells_values(
-		TextEditingUtils.multi_paste(
+		TextEditingUtilsClass.multi_paste(
 			selection.edited_cells_text,
 			selection.edit_cursor_positions
 		)

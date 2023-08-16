@@ -69,7 +69,7 @@ func _add_value(value):
 	_stored_value.append(value)
 	var values = sheet.get_edited_cells_values()
 	var cur_value
-	var dupe_array : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
+	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
 		cur_value = values[i]
 		if dupe_array:
@@ -85,7 +85,7 @@ func _remove_value(value):
 	_stored_value.remove_at(_stored_value.find(value))
 	var values = sheet.get_edited_cells_values()
 	var cur_value : Array
-	var dupe_array : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
+	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
 		cur_value = values[i]
 		if dupe_array:
@@ -148,7 +148,7 @@ func _on_RemoveLast_pressed():
 	_stored_value.pop_back()
 	var values = sheet.get_edited_cells_values()
 	var cur_value : Array
-	var dupe_array : bool = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "dupe_arrays") 
+	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
 		cur_value = values[i]
 		if dupe_array:

@@ -3,7 +3,7 @@ extends Control
 
 signal grid_updated()
 
-const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
+const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
 @export @onready var node_folder_path : LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
 @export @onready var node_recent_paths : OptionButton = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths"
@@ -11,8 +11,8 @@ const SettingsGrid := preload("res://addons/resources_spreadsheet_view/settings_
 @export @onready var node_columns : HBoxContainer = $"HeaderContentSplit/VBoxContainer/Columns/Columns"
 @export @onready var node_page_manager : Control = $"HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"
 
-@onready var _on_cell_gui_input = $"InputHandler"._on_cell_gui_input
-@onready var _selection = $"SelectionManager"
+@onready var _on_cell_gui_input : Callable = $"InputHandler"._on_cell_gui_input
+@onready var _selection := $"SelectionManager"
 
 var editor_interface : EditorInterface
 var editor_plugin : EditorPlugin
@@ -185,7 +185,7 @@ func _update_table(columns_changed : bool):
 		node_table_root.get_child(0).free()
 		to_free -= 1
 	
-	var color_rows = ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "color_rows")
+	var color_rows = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
 	
 	_update_row_range(
 		first_row,
@@ -325,13 +325,16 @@ func get_last_selected_row():
 
 
 func get_edited_cells_values() -> Array:
-	var arr = _selection.edited_cells.duplicate()
-	var column_index = _selection.get_cell_column(_selection.edited_cells[0])
-	var cell_editor = _selection.column_editors[column_index]
-	for i in arr.size():
-		arr[i] = io.get_value(rows[_selection.get_cell_row(arr[i])], columns[column_index])
+	var cells : Array = _selection.edited_cells.duplicate()
+	var column_index : int = _selection.get_cell_column(_selection.edited_cells[0])
+	var cell_editor : Object = _selection.column_editors[column_index]
 
-	return arr
+	var result := []
+	result.resize(cells.size())
+	for i in cells.size():
+		result[i] = io.get_value(rows[_selection.get_cell_row(cells[i])], columns[column_index])
+	
+	return result
 
 
 func _update_resources(update_rows : Array, update_row_indices : Array[int], update_column : int, values : Array):
@@ -422,7 +425,3 @@ func _on_File_pressed():
 
 func _on_SearchProcess_pressed():
 	$"HeaderContentSplit/VBoxContainer/Search".visible = !$"HeaderContentSplit/VBoxContainer/Search".visible
-
-
-func _on_cells_context(cells):
-	pass # Replace with function body.

@@ -1,4 +1,3 @@
-class_name TextEditingUtils
 extends RefCounted
 
 const non_typing_paragraph := "¶"
