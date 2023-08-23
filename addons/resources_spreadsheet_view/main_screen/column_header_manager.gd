@@ -103,8 +103,11 @@ func _update_hidden_columns():
 	var rows_shown = editor_view.last_row - editor_view.first_row
 
 	if !hidden_columns.has(current_path):
-		hidden_columns[current_path] = {}
-		return
+		hidden_columns[current_path] = {
+      "resource_local_to_scene" : true,
+      "resource_name" : true,
+    }
+		editor_view.save_data()
 
 	var visible_column_count = 0
 	for i in columns.size():
