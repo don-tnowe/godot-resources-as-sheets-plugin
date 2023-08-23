@@ -29,7 +29,7 @@ func try_edit_value(value, type, property_hint) -> bool:
 	if type == TYPE_DICTIONARY:
 		_stored_value = value.duplicate()
 
-	contents_label.text = str(value)
+	contents_label.text = var_to_str_no_sort(value)
 
 	return true
 
@@ -147,3 +147,50 @@ func _on_AddRecentFromSel_pressed():
 		else:
 			for y in x:
 				super._add_recent(y)
+
+
+func _on_contents_edit_text_changed():
+	var value := str_to_var(contents_label.text)
+	if !value is Dictionary:
+		return
+
+	var values = sheet.get_edited_cells_values()
+	for i in values.size():
+		values[i] = value.duplicate()
+
+	_stored_value = value
+	sheet.set_edited_cells_values(values)
+
+
+func var_to_str_no_sort(value, indent = "  ", cur_indent = ""):
+	var lines : Array[String] = []
+
+	if value is Array:
+		cur_indent += indent
+		lines.resize(value.size())
+		for i in lines.size():
+			if value[i] is Array || value[i] is Dictionary:
+				lines[i] = "%s%s" % [cur_indent, var_to_str_no_sort(value[i])]
+
+			else:
+				lines[i] = "%s%s" % [cur_indent, var_to_str(value[i])]
+
+		cur_indent = cur_indent.substr(0, cur_indent.length() - indent.length())
+		return "[\n" + ",\n".join(lines) + "\n]"
+
+	if value is Dictionary:
+		var keys : Array = value.keys()
+		var values : Array = value.values()
+		cur_indent += indent
+		lines.resize(keys.size())
+		for i in lines.size():
+			if values[i] is Array || values[i] is Dictionary:
+				lines[i] = "%s%s : %s" % [cur_indent, var_to_str(keys[i]), var_to_str_no_sort(values[i])]
+
+			else:
+				lines[i] = "%s%s : %s" % [cur_indent, var_to_str(keys[i]), var_to_str(values[i])]
+
+		cur_indent = cur_indent.substr(0, cur_indent.length() - indent.length())
+		return "{\n" + ",\n".join(lines) + "\n}"
+
+	return ",\n".join(lines)

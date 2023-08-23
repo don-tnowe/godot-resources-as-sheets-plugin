@@ -10,6 +10,11 @@ var _stored_value
 var _stored_type := 0
 
 
+func _ready():
+	super()
+	contents_label.text_changed.connect(_on_contents_edit_text_changed)
+
+
 func try_edit_value(value, type, property_hint) -> bool:
 	if (
 		type != TYPE_ARRAY and type != TYPE_PACKED_STRING_ARRAY
@@ -199,3 +204,19 @@ func _on_AddRecentFromSel_pressed():
 	for x in sheet.get_edited_cells_values():
 		for y in x:
 			_add_recent(y)
+
+
+func _on_contents_edit_text_changed():
+	var value := str_to_var(contents_label.text)
+	if !value is Array:
+		return
+
+	var values = sheet.get_edited_cells_values()
+	for i in values.size():
+		values[i] = values[i].duplicate()
+		values[i].resize(value.size())
+		for j in value.size():
+			values[i][j] = value[j]
+
+	_stored_value = value
+	sheet.set_edited_cells_values(values)

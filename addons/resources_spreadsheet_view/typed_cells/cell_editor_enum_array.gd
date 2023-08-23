@@ -19,7 +19,10 @@ func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Lab
 		var found := hint_arr[0].find(":") + 1
 		value_str = hint_arr[0].substr(hint_arr[0].find(":") + 1)
 
-	else:
+	elif value < hint_arr.size():
 		value_str = hint_arr[value]
+
+	else:
+		value_str = "?:%s" % value
 
 	super(value_str, value_str, hint_arr, child, colored)
