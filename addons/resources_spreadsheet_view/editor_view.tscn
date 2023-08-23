@@ -88,7 +88,7 @@ flat = true
 
 [node name="VisibleCols" type="MenuButton" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
 layout_mode = 2
-text = "Hide/Show"
+text = "Shown Columns"
 
 [node name="VSeparator" type="Control" parent="HeaderContentSplit/VBoxContainer/MenuStrip"]
 layout_mode = 2
