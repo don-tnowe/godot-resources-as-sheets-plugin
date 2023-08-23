@@ -132,7 +132,7 @@ func _on_visible_cols_about_to_popup():
 	
 	for i in columns.size():
 		popup.add_check_item(columns[i].capitalize(), i)
-		popup.set_item_checked(i, hidden_columns[current_path].has(columns[i]))
+		popup.set_item_checked(i, not hidden_columns[current_path].has(columns[i]))
 
 
 func _on_visible_cols_id_pressed(id : int):
@@ -140,11 +140,11 @@ func _on_visible_cols_id_pressed(id : int):
 	var popup = hide_columns_button.get_popup()
 	if popup.is_item_checked(id):
 		popup.set_item_checked(id, false)
-		hidden_columns[current_path].erase(columns[id])
+		hidden_columns[current_path][columns[id]] = true
 
 	else:
 		popup.set_item_checked(id, true)
-		hidden_columns[current_path][columns[id]] = true
+		hidden_columns[current_path].erase(columns[id])
 
 	editor_view.save_data()
 	update()
