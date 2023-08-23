@@ -229,12 +229,12 @@ func _update_row(row_index : int, color_rows : bool = true):
 
 func save_data():
 	var file = FileAccess.open(save_data_path, FileAccess.WRITE)
-	file.store_string(str(
+	file.store_string(JSON.stringify(
 		{
 			"recent_paths" : node_recent_paths.recent_paths,
 			"hidden_columns" : node_columns.hidden_columns,
 		}
-	))
+	, "  "))
 
 
 func _on_path_text_submitted(new_text : String = ""):
