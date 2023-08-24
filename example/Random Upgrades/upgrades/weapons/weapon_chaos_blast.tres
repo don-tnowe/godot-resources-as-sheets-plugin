@@ -1,20 +1,20 @@
 [gd_resource type="Resource" script_class="UpgradeData" load_steps=4 format=3 uid="uid://60buw33oe30f"]
 
-[ext_resource type="PackedScene" uid="uid://b4cix5ebtpdbf" path="res://example/Random Upgrades/new scene.tscn" id="2"]
-[ext_resource type="Texture2D" uid="uid://cluvoehgeqmcu" path="res://example/Random Upgrades/icons/all_icons/all_icons_4.tres" id="2_eyyv1"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://b4cix5ebtpdbf" path="res://example/Random Upgrades/new scene.tscn" id="1_wk78o"]
+[ext_resource type="Texture2D" uid="uid://cluvoehgeqmcu" path="res://example/Random Upgrades/icons/all_icons/all_icons_4.tres" id="2_yni6v"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="3_lwnh6"]
 
 [resource]
 resource_name = "Weapon: Chaos Blast"
-script = ExtResource("3")
+script = ExtResource("3_lwnh6")
 color1 = Color(0.635294, 0.760784, 1, 1)
 max_duplicates = 1
 tags = Array[String](["weapon", "magic", "projectile", "legendary"])
 type = 0
 attributes = Array[int]([1, 1, 1, 3])
-icon = ExtResource("2_eyyv1")
-custom_scene = ExtResource("2")
-prerequisites = Array[ExtResource("3")]([])
+icon = ExtResource("2_yni6v")
+custom_scene = ExtResource("1_wk78o")
+prerequisites = Array[ExtResource("3_lwnh6")]([])
 color2 = Color(0.407843, 0.192157, 0.827451, 1)
 base_weight = 1.0
 is_notable = true
