@@ -56,19 +56,30 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 	var rows := []
 	var dir := DirAccess.open(folderpath)
 	if dir == null: return []
-	dir.list_dir_begin()
 
 	editor_view.remembered_paths.clear()
 	var cur_dir_script : Script = null
 
-	var filepath = dir.get_next()
+	var file_stack : Array[String] = []
+	var folder_stack : Array[String] = [folderpath]
 	var res : Resource
 
-	while filepath != "":
+	while folder_stack.size() > 0:
+		folderpath = folder_stack.pop_back()
+
+		for x in DirAccess.get_files_at(folderpath):
+			file_stack.append(folderpath.path_join(x))
+
+		for x in DirAccess.get_directories_at(folderpath):
+			folder_stack.append(folderpath.path_join(x))
+
+	for x in file_stack:
 		res = null
-		filepath = folderpath + filepath
-		if filepath.ends_with(".tres"):
-			res = load(filepath)
+		if x.ends_with(".tres"):
+			res = load(x)
+			if res.get_script() == null:
+				continue
+
 			if !is_instance_valid(cur_dir_script):
 				editor_view.fill_property_data(res)
 				cur_dir_script = res.get_script()
@@ -78,7 +89,6 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 			if res.get_script() == cur_dir_script:
 				insert_func.call(res, rows, sort_by, sort_reverse)
 		
-		editor_view.remembered_paths[filepath] = res
-		filepath = dir.get_next()
+		editor_view.remembered_paths[x] = res
 
 	return rows

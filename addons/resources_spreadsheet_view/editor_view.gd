@@ -51,9 +51,19 @@ func _ready():
 
 
 func _on_filesystem_changed():
-	var path = editor_interface.get_resource_filesystem().get_filesystem_path(current_path)
+	var editor_fs := editor_interface.get_resource_filesystem()
+	var path := editor_fs.get_filesystem_path(current_path)
 	if !path: return
-	if path.get_file_count() != remembered_paths.size():
+
+	var file_total_count := 0
+	var folder_stack : Array[EditorFileSystemDirectory] = [path]
+	while folder_stack.size() > 0:
+		path = folder_stack.pop_back()
+		file_total_count += path.get_file_count()
+		for i in path.get_subdir_count():
+			folder_stack.append(path.get_subdir(i))
+
+	if file_total_count != remembered_paths.size():
 		refresh()
 
 	else:
@@ -202,7 +212,8 @@ func _update_row_range(first : int, last : int, color_rows : bool):
 func _update_row(row_index : int, color_rows : bool = true):
 	var current_node : Control
 	var next_color := Color.WHITE
-	var column_editors = _selection.column_editors
+	var column_editors : Array = _selection.column_editors
+	var res_path : String = rows[row_index].resource_path.get_basename().substr(current_path.length())
 	for i in columns.size():
 		if node_table_root.get_child_count() <= (row_index - first_row) * columns.size() + i:
 			current_node = column_editors[i].create_cell(self)
@@ -214,12 +225,12 @@ func _update_row(row_index : int, color_rows : bool = true):
 			current_node.tooltip_text = (
 				columns[i].capitalize()
 				+ "\n---\n"
-				+ "Of " + rows[row_index].resource_path.get_file().get_basename()
+				+ "Of " + res_path
 			)
 		
 		column_editors[i].set_value(current_node, io.get_value(rows[row_index], columns[i]))
 		if columns[i] == "resource_path":
-			column_editors[i].set_value(current_node, current_node.text.get_file().get_basename())
+			column_editors[i].set_value(current_node, res_path)
 
 		if color_rows and column_types[i] == TYPE_COLOR:
 			next_color = io.get_value(rows[row_index], columns[i])
