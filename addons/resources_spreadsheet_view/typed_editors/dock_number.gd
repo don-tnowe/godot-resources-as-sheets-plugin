@@ -33,12 +33,12 @@ func _ready():
 	_button_grid.get_child(10).pressed.connect(_increment_values_custom.bind(false, false))
 	_button_grid.get_child(11).pressed.connect(_increment_values_custom.bind(false, true))
 
-	_button_grid_small.get_child(1).pressed.connect(_increment_values_custom.bind(true, true))
-	_button_grid_small.get_child(2).pressed.connect(_increment_values_custom.bind(true, false))
+	_button_grid_small.get_child(1).pressed.connect(_increment_values_custom.bind(false, true))
+	_button_grid_small.get_child(2).pressed.connect(_increment_values_custom.bind(false, false))
 	_button_grid_small.get_child(3).pressed.connect(_increment_values.bind(-1))
 	_button_grid_small.get_child(4).pressed.connect(_increment_values.bind(+1))
-	_button_grid_small.get_child(5).pressed.connect(_increment_values_custom.bind(false, false))
-	_button_grid_small.get_child(6).pressed.connect(_increment_values_custom.bind(false, true))
+	_button_grid_small.get_child(5).pressed.connect(_increment_values_custom.bind(true, false))
+	_button_grid_small.get_child(6).pressed.connect(_increment_values_custom.bind(true, true))
 
 	_resize_height_small = get_child(1).get_minimum_size().y
 
