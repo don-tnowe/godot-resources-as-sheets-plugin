@@ -42,7 +42,12 @@ func _create_option_button(index : int):
 	if index >= options_container.get_child_count() - _init_nodes_in_options_container:
 		node = Button.new()
 		options_container.add_child(node)
-		node.pressed.connect(_on_option_clicked.bind(index))
+		var colon_found : int = value.rfind(":")
+		if colon_found == -1:
+			node.pressed.connect(_on_option_clicked.bind(index))
+
+		else:
+			node.pressed.connect(_on_option_clicked.bind(value.substr(colon_found + 1).to_int()))
 
 	else:
 		node = options_container.get_child(index + _init_nodes_in_options_container)
@@ -53,7 +58,7 @@ func _create_option_button(index : int):
 	return node
 
 
-func _add_value(option_value):
+func _add_value(option_value : int):
 	_stored_value.append(option_value)
 	var values = sheet.get_edited_cells_values()
 	var cur_value
@@ -69,7 +74,7 @@ func _add_value(option_value):
 	sheet.set_edited_cells_values(values)
 
 
-func _remove_value(option_value):
+func _remove_value(option_value : int):
 	_stored_value.append(option_value)
 	var values = sheet.get_edited_cells_values()
 	var cur_value

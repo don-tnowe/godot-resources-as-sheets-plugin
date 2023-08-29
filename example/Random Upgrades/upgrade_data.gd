@@ -3,11 +3,12 @@ class_name UpgradeData
 extends Resource
 
 enum Attributes {
-  Strength,
+  Strength = 0,
   Magic,
   Endurance,
   Agility,
   Luck,
+  Mastery = 128,
 }
 
 @export var color1 := Color.WHITE

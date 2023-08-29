@@ -14,13 +14,24 @@ func can_edit_value(value, type, property_hint, column_index) -> bool:
 
 func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, colored : bool):
 	var value_str : String
-	if value == 0:
+	var key_found := -1
+	for i in hint_arr.size():
+		var colon_found := hint_arr[i].rfind(":")
+		if colon_found == -1:
+			key_found = value
+			break
+
+		if hint_arr[i].substr(colon_found + 1).to_int() == value:
+			key_found = i
+			break
+
+	if key_found == 0:
 		# Enum array hints have "2/3:" before list.
 		var found := hint_arr[0].find(":") + 1
 		value_str = hint_arr[0].substr(hint_arr[0].find(":") + 1)
 
-	elif value < hint_arr.size():
-		value_str = hint_arr[value]
+	elif key_found != -1:
+		value_str = hint_arr[key_found]
 
 	else:
 		value_str = "?:%s" % value
