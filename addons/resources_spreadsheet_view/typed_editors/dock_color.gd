@@ -4,9 +4,11 @@ extends ResourceTablesDockEditor
 @onready var _value_rect := $"EditColor/ColorProper/ColorRect"
 @onready var _color_picker_panel := $"EditColor/VSeparator6/Panel"
 @onready var _color_picker := $"EditColor/VSeparator6/Panel/MarginContainer/ColorPicker"
-@onready var _custom_value_edit := $"EditColor/CustomX/LineEdit"
+@onready var _custom_value_edit := $"EditColor/CustomX/Box/LineEdit"
 
 var _stored_value := Color.WHITE
+var _resize_height_small := 0.0
+var _resize_expanded := true
 
 
 func _ready():
@@ -17,6 +19,8 @@ func _ready():
 	_connect_buttons($"EditColor/HSVGrid", 0, 3)
 	_connect_buttons($"EditColor/HSVGrid", 5, 4)
 	_connect_buttons($"EditColor/HSVGrid", 10, 5)
+
+	_resize_height_small = get_child(1).get_minimum_size().y
 
 
 func _connect_buttons(grid, start_index, property_bind):
@@ -34,6 +38,18 @@ func try_edit_value(value, type, property_hint) -> bool:
 	_set_stored_value(value)
 	_color_picker_panel.visible = false
 	return true
+
+
+func resize_drag(to_height : float):
+	var expanded := to_height > _resize_height_small
+	if _resize_expanded == expanded:
+		return
+
+	_resize_expanded = expanded
+	$"EditColor/RGBGrid".visible = expanded
+	$"EditColor/ColorProper".visible = expanded
+	$"EditColor/HSVGrid".columns = 5 if expanded else 15
+	$"EditColor/CustomX/Label".visible = expanded
 
 
 func _set_stored_value(v):

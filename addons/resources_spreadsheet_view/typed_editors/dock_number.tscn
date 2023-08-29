@@ -3,11 +3,15 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.gd" id="1"]
 
 [node name="EditNumber" type="VBoxContainer"]
+offset_right = 1141.0
+offset_bottom = 126.0
 mouse_filter = 0
 script = ExtResource("1")
 
 [node name="Header" type="HBoxContainer" parent="."]
 layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 9
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Header"]
 layout_mode = 2
@@ -20,6 +24,7 @@ text = "EDIT: Number"
 [node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Header"]
 layout_mode = 2
@@ -28,9 +33,11 @@ text = "PROPERTY NAME"
 [node name="HSeparator2" type="HSeparator" parent="Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+size_flags_vertical = 3
 alignment = 1
 
 [node name="CustomX2" type="VBoxContainer" parent="HBoxContainer"]
@@ -38,6 +45,7 @@ layout_mode = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer3"]
 layout_mode = 2
@@ -62,6 +70,11 @@ text = "(?)"
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
 layout_mode = 2
 
+[node name="Label2" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Sequence"
+
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "Start (must not be blank)"
@@ -77,13 +90,32 @@ layout_mode = 2
 tooltip_text = "End"
 placeholder_text = "Step"
 
+[node name="Box" type="HBoxContainer" parent="HBoxContainer/CustomX2/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/CustomX2/HBoxContainer/Box"]
+layout_mode = 2
+
+[node name="SequenceFill3" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer/Box"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Set"
+text = "="
+
+[node name="SequenceFill4" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer/Box"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Add to each value"
+text = "+"
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
 layout_mode = 2
 
 [node name="SequenceFill" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Replace"
+text = "Set"
 
 [node name="SequenceFill2" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2"]
 layout_mode = 2
@@ -163,6 +195,44 @@ text = "-X"
 layout_mode = 2
 text = "/X"
 
+[node name="GridContainerSmall" type="HBoxContainer" parent="HBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+layout_mode = 2
+text = "Value"
+
+[node name="Button1" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "/X"
+
+[node name="Button2" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-X"
+
+[node name="Button3" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-1"
+
+[node name="Button4" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+1"
+
+[node name="Button5" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+X"
+
+[node name="Button6" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "*X"
+
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
 
@@ -172,12 +242,24 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/CustomX"]
 layout_mode = 2
 size_flags_vertical = 6
-text = "Custom Value (for +X buttons)"
+text = "Custom Value"
+horizontal_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX"]
+[node name="Box" type="HBoxContainer" parent="HBoxContainer/CustomX"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/CustomX/Box"]
+layout_mode = 2
+text = "X ="
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX/Box"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 text = "1000"
 
+[connection signal="pressed" from="HBoxContainer/CustomX2/HBoxContainer/Box/SequenceFill3" to="." method="_on_SequenceFill_pressed"]
+[connection signal="pressed" from="HBoxContainer/CustomX2/HBoxContainer/Box/SequenceFill4" to="." method="_on_SequenceFill_pressed"]
 [connection signal="pressed" from="HBoxContainer/CustomX2/HBoxContainer2/SequenceFill" to="." method="_on_SequenceFill_pressed"]
 [connection signal="pressed" from="HBoxContainer/CustomX2/HBoxContainer2/SequenceFill2" to="." method="_on_SequenceFill_pressed" binds= [true]]
 [connection signal="gui_input" from="HBoxContainer/HBoxContainer/NumberPanel" to="." method="_on_NumberPanel_gui_input"]

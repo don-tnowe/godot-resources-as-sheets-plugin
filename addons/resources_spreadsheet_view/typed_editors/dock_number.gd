@@ -3,21 +3,26 @@ extends ResourceTablesDockEditor
 
 @onready var _value_label := $"HBoxContainer/HBoxContainer/NumberPanel/Label"
 @onready var _button_grid := $"HBoxContainer/HBoxContainer/GridContainer"
+@onready var _button_grid_small := $"HBoxContainer/HBoxContainer/GridContainerSmall"
 @onready var _sequence_gen_inputs := $"HBoxContainer/CustomX2/HBoxContainer"
-@onready var _custom_value_edit := $"HBoxContainer/CustomX/LineEdit"
+@onready var _custom_value_edit := $"HBoxContainer/CustomX/Box/LineEdit"
 
 var _stored_value = 0
 var _stored_value_is_int := false
+
 var _mouse_drag_increment := 0.0
 var _mouse_down := false
+
+var _resize_height_small := 0.0
+var _resize_expanded := true
 
 
 func _ready():
 	super._ready()
-	_button_grid.get_child(0).pressed.connect(_increment_values.bind(0.1))
-	_button_grid.get_child(1).pressed.connect(_increment_values.bind(1))
-	_button_grid.get_child(2).pressed.connect(_increment_values.bind(10))
-	_button_grid.get_child(3).pressed.connect(_increment_values.bind(100))
+	_button_grid.get_child(0).pressed.connect(_increment_values.bind(+0.1))
+	_button_grid.get_child(1).pressed.connect(_increment_values.bind(+1))
+	_button_grid.get_child(2).pressed.connect(_increment_values.bind(+10))
+	_button_grid.get_child(3).pressed.connect(_increment_values.bind(+100))
 	_button_grid.get_child(4).pressed.connect(_increment_values_custom.bind(true, false))
 	_button_grid.get_child(5).pressed.connect(_increment_values_custom.bind(true, true))
 
@@ -27,6 +32,15 @@ func _ready():
 	_button_grid.get_child(9).pressed.connect(_increment_values.bind(-100))
 	_button_grid.get_child(10).pressed.connect(_increment_values_custom.bind(false, false))
 	_button_grid.get_child(11).pressed.connect(_increment_values_custom.bind(false, true))
+
+	_button_grid_small.get_child(1).pressed.connect(_increment_values_custom.bind(true, true))
+	_button_grid_small.get_child(2).pressed.connect(_increment_values_custom.bind(true, false))
+	_button_grid_small.get_child(3).pressed.connect(_increment_values.bind(-1))
+	_button_grid_small.get_child(4).pressed.connect(_increment_values.bind(+1))
+	_button_grid_small.get_child(5).pressed.connect(_increment_values_custom.bind(false, false))
+	_button_grid_small.get_child(6).pressed.connect(_increment_values_custom.bind(false, true))
+
+	_resize_height_small = get_child(1).get_minimum_size().y
 
 
 func try_edit_value(value, type, property_hint) -> bool:
@@ -42,6 +56,22 @@ func try_edit_value(value, type, property_hint) -> bool:
 	_button_grid.get_child(6).visible = !_stored_value_is_int
 
 	return true
+
+
+func resize_drag(to_height : float):
+	var expanded : bool = to_height >= _resize_height_small
+	if _resize_expanded == expanded:
+		return
+
+	_resize_expanded = expanded
+	_button_grid.visible = expanded
+	_button_grid_small.visible = !expanded
+	$"HBoxContainer/CustomX2/HBoxContainer/Label2".visible = !expanded
+	$"HBoxContainer/CustomX2/HBoxContainer3".visible = expanded
+	$"HBoxContainer/HBoxContainer/NumberPanel".visible = expanded
+	$"HBoxContainer/CustomX2/HBoxContainer2".visible = expanded
+	$"HBoxContainer/CustomX2/HBoxContainer/Box".visible = !expanded
+	$"HBoxContainer/CustomX/Label".visible = expanded
 
 
 func _increment_values(by : float):

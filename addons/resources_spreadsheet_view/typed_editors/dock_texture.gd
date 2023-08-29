@@ -9,13 +9,13 @@ func try_edit_value(value, type, _property_hint) -> bool:
 		return false
 	
 	_stored_value = value
-	$"CenterContainer/HBoxContainer/TextureRect".texture = value
+	$"HBoxContainer/TextureRect".texture = value
 	return true
 
 
 func _on_Button_pressed():
-	var h_count = $"CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit".text.to_int()
-	var v_count = $"CenterContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit2".text.to_int()
+	var h_count = $"HBoxContainer/VBoxContainer/HBoxContainer/LineEdit".text.to_int()
+	var v_count = $"HBoxContainer/VBoxContainer/HBoxContainer/LineEdit2".text.to_int()
 	# No, Scene Unique Names can not be used in-editor (last time i checked)
 
 	var folder_name := _stored_value.resource_path.get_basename()
