@@ -175,11 +175,11 @@ func can_select_cell(cell : Control) -> bool:
 	return !cell in edited_cells
 
 
-func get_cell_column(cell) -> int:
+func get_cell_column(cell : Control) -> int:
 	return cell.get_index() % editor_view.columns.size()
 
 
-func get_cell_row(cell) -> int:
+func get_cell_row(cell : Control) -> int:
 	return cell.get_index() / editor_view.columns.size() + editor_view.first_row
 
 

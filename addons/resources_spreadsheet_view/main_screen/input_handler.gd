@@ -84,13 +84,6 @@ func _key_specific_action(event : InputEvent):
 	elif event.keycode == KEY_TAB:
 		_move_selection_on_grid((1 if !ctrl_pressed else 10), 0)
 
-	# Non-text and paths can't be edited.
-	if editor_view.columns[column] == "resource_path":
-		return
-	
-	if !selection.column_editors[column].is_text():
-		return
-	
 	# CURSOR MOVEMENT
 	if event.keycode == KEY_LEFT:
 		TextEditingUtilsClass.multi_move_left(

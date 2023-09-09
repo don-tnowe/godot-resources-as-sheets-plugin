@@ -10,7 +10,7 @@ func create_cell(caller : Control) -> Control:
 	node.custom_minimum_size.x = 56
 	node.add_child(color)
 	color.name = "Color"
-	call_deferred(&"_resize_color_rect", color)
+	_resize_color_rect.call_deferred(color)
 	return node
 
 

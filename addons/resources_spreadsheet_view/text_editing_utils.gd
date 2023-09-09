@@ -65,7 +65,7 @@ static func multi_erase_right(values : Array, cursor_positions : Array, ctrl_pre
 	return values
 
 
-static func multi_erase_left(values : Array, cursor_positions : Array, ctrl_pressed):
+static func multi_erase_left(values : Array, cursor_positions : Array, ctrl_pressed : bool):
 	for i in values.size():
 		var start_pos = cursor_positions[i]
 
@@ -78,12 +78,12 @@ static func multi_erase_left(values : Array, cursor_positions : Array, ctrl_pres
 	return values
 
 
-static func multi_move_left(values : Array, cursor_positions : Array, ctrl_pressed):
+static func multi_move_left(values : Array, cursor_positions : Array, ctrl_pressed : bool):
 	for i in cursor_positions.size():
 		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], -1, ctrl_pressed)
 
 
-static func multi_move_right(values : Array, cursor_positions : Array, ctrl_pressed):
+static func multi_move_right(values : Array, cursor_positions : Array, ctrl_pressed : bool):
 	for i in cursor_positions.size():
 		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], 1, ctrl_pressed)
 

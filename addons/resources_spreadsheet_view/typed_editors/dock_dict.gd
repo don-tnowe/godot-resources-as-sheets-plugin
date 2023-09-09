@@ -169,7 +169,7 @@ func var_to_str_no_sort(value, indent = "  ", cur_indent = ""):
 		cur_indent += indent
 		lines.resize(value.size())
 		for i in lines.size():
-			if value[i] is Array || value[i] is Dictionary:
+			if value[i] is Array or value[i] is Dictionary:
 				lines[i] = "%s%s" % [cur_indent, var_to_str_no_sort(value[i])]
 
 			else:
@@ -184,7 +184,7 @@ func var_to_str_no_sort(value, indent = "  ", cur_indent = ""):
 		cur_indent += indent
 		lines.resize(keys.size())
 		for i in lines.size():
-			if values[i] is Array || values[i] is Dictionary:
+			if values[i] is Array or values[i] is Dictionary:
 				lines[i] = "%s%s : %s" % [cur_indent, var_to_str(keys[i]), var_to_str_no_sort(values[i])]
 
 			else:

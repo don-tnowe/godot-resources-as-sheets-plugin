@@ -324,7 +324,7 @@ func duplicate_selected_rows(new_name : String):
 func delete_selected_rows():
 	io.delete_rows(_get_row_resources(_selection.get_edited_rows()))
 	refresh()
-	call_deferred(&"refresh")
+	refresh.call_deferred()
 
 
 func has_row_names():

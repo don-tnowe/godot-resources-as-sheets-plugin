@@ -54,7 +54,7 @@ func initialize(path):
 
 func save():
 	resource_path = edited_path.get_basename() + SUFFIX
-	ResourceSaver.call_deferred("save", self)
+	ResourceSaver.save.call_deferred(self)
 
 
 func string_to_property(string : String, col_index : int):
