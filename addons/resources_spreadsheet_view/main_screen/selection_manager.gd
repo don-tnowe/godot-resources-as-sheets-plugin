@@ -14,7 +14,7 @@ const EditorViewClass = preload("res://addons/resources_spreadsheet_view/editor_
 @onready var editor_view : EditorViewClass = get_parent()
 
 var edited_cells : Array = []
-var edited_cells_text : Array[String] = []
+var edited_cells_text : Array = []
 var edit_cursor_positions : Array[int] = []
 
 var all_cell_editors : Array = []
@@ -209,9 +209,10 @@ func _add_cell_to_selection(cell : Control):
 func _update_selected_cells_text():
 	if edited_cells_text.size() == 0:
 		return
-		
+
+	var column_dtype := get_cell_column(editor_view.column_types[edited_cells[0]])
 	for i in edited_cells.size():
-		edited_cells_text[i] = str(edited_cells[i].text)
+		edited_cells_text[i] = editor_view.try_convert(edited_cells[i].text, column_dtype)
 		edit_cursor_positions[i] = edited_cells_text[i].length()
 
 
@@ -245,5 +246,5 @@ func _on_inspector_property_edited(property : String):
 	values.resize(edited_cells.size())
 	values.fill(inspector_resource[property])
 
-	editor_view.call_deferred(&"set_edited_cells_values", values)
+	editor_view.set_edited_cells_values.call_deferred(values)
 	_try_open_docks(edited_cells[0])

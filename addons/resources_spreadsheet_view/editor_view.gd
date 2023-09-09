@@ -356,7 +356,7 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 
 		column_editor.set_value(update_cell, values[i])
 		if values[i] is String:
-			values[i] = _try_convert(values[i], column_types[update_column])
+			values[i] = try_convert(values[i], column_types[update_column])
 
 		if values[i] == null:
 			continue
@@ -384,7 +384,7 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 	io.save_entries(rows, update_row_indices)
 
 
-func _try_convert(value, type):
+func try_convert(value, type):
 	if type == TYPE_BOOL:
 		# "off" displayed in lowercase, "ON" in uppercase.
 		return value[0] == "o"
