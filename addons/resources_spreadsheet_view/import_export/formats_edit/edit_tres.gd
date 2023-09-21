@@ -58,11 +58,10 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 	if dir == null: return []
 
 	editor_view.remembered_paths.clear()
-	var cur_dir_script : Script = null
+	var cur_dir_types : Dictionary = {}
 
 	var file_stack : Array[String] = []
 	var folder_stack : Array[String] = [folderpath]
-	var res : Resource
 
 	while folder_stack.size() > 0:
 		folderpath = folder_stack.pop_back()
@@ -73,22 +72,45 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 		for x in DirAccess.get_directories_at(folderpath):
 			folder_stack.append(folderpath.path_join(x))
 
-	for x in file_stack:
+	var loaded_res : Array[Resource] = []
+	var res : Resource = null
+	loaded_res.resize(file_stack.size())
+	for i in file_stack.size():
 		res = null
-		if x.ends_with(".tres"):
-			res = load(x)
-			if res.get_script() == null:
-				continue
+		if file_stack[i].ends_with(".tres"):
+			res = load(file_stack[i])
+			loaded_res[i] = res
+			cur_dir_types[res.get_class()] = cur_dir_types.get(res.get_class(), 0) + 1
+			var res_script := res.get_script()
+			if res_script != null:
+				cur_dir_types[res_script] = cur_dir_types.get(res_script, 0) + 1
 
-			if !is_instance_valid(cur_dir_script):
-				editor_view.fill_property_data(res)
-				cur_dir_script = res.get_script()
-				if !(sort_by in res):
-					sort_by = "resource_path"
+		editor_view.remembered_paths[file_stack[i]] = res
 
-			if res.get_script() == cur_dir_script:
-				insert_func.call(res, rows, sort_by, sort_reverse)
-		
-		editor_view.remembered_paths[x] = res
+	var most_count_key = null
+	var most_count_count := 0
+	var most_count_is_base_class := false
+	for k in cur_dir_types:
+		var v : int = cur_dir_types[k]
+		if v > most_count_count || (v >= most_count_count && most_count_is_base_class):
+			most_count_key = k
+			most_count_count = v
+			most_count_is_base_class = k is String
+
+	var first_loadable_found := false
+	for x in loaded_res:
+		if x == null: continue
+		if !first_loadable_found:
+			first_loadable_found = true
+			editor_view.fill_property_data(x)
+			if !(sort_by in x):
+				sort_by = "resource_path"
+
+		if most_count_is_base_class:
+			if x.get_class() == most_count_key:
+				insert_func.call(x, rows, sort_by, sort_reverse)
+
+		elif x.get_script() == most_count_key:
+			insert_func.call(x, rows, sort_by, sort_reverse)
 
 	return rows
