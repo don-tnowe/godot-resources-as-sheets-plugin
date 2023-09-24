@@ -12,7 +12,6 @@ extends Control
 			await ready
 
 		_textfield.text = v
-
 @export_multiline var default_text_ml := "":
 	set(v):
 		default_text_ml = v
@@ -20,21 +19,38 @@ extends Control
 			await ready
 
 		_textfield_ml.text = v
+@export var function_save_key := ""
 
 var _textfield : LineEdit
 var _textfield_ml : TextEdit
 var _togglable_popup : PopupPanel
+var _saved_function_index_label : Label
+
+var _saved_functions : Array = []
+var _saved_function_selected := -1
 
 
-func _enter_tree():
+func load_saved_functions(func_dict : Dictionary):
+	if !func_dict.has(function_save_key):
+		func_dict[function_save_key] = [default_text_ml]
+
+	_saved_functions = func_dict[function_save_key]
+	_on_saved_function_selected(0)
+
+
+func _ready():
 	var toggle_button := Button.new()
 	var popup_box := VBoxContainer.new()
 	var popup_buttons_box := HBoxContainer.new()
 	var title_label := Label.new()
 	var submit_button := Button.new()
+	var move_label := Label.new()
+	var move_button_l := Button.new()
+	var move_button_r := Button.new()
 	_textfield = LineEdit.new()
 	_togglable_popup = PopupPanel.new()
 	_textfield_ml = TextEdit.new()
+	_saved_function_index_label = Label.new()
 
 	add_child(_textfield)
 	add_child(toggle_button)
@@ -44,15 +60,15 @@ func _enter_tree():
 	popup_box.add_child(_textfield_ml)
 	popup_box.add_child(popup_buttons_box)
 	popup_buttons_box.add_child(submit_button)
+	popup_buttons_box.add_child(move_label)
+	popup_buttons_box.add_child(move_button_l)
+	popup_buttons_box.add_child(_saved_function_index_label)
+	popup_buttons_box.add_child(move_button_r)
 
 	title_label.text = title
 
 	toggle_button.icon = get_theme_icon("Collapse", "EditorIcons")
 	toggle_button.pressed.connect(_on_expand_pressed)
-
-	submit_button.text = "Run multiline!"
-	submit_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	submit_button.pressed.connect(_on_text_submitted)
 
 	_textfield.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_textfield.text_submitted.connect(_on_text_submitted.unbind(1))
@@ -60,14 +76,27 @@ func _enter_tree():
 	_textfield_ml.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_textfield_ml.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
+	submit_button.text = "Run multiline!"
+	submit_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	submit_button.pressed.connect(_on_text_submitted)
+
+	move_label.text = "Choose saved:"
+	move_button_l.icon = get_theme_icon("PagePrevious", "EditorIcons")
+	move_button_l.pressed.connect(_on_saved_function_bumped.bind(-1))
+	_on_saved_function_selected(0)
+	move_button_r.icon = get_theme_icon("PageNext", "EditorIcons")
+	move_button_r.pressed.connect(_on_saved_function_bumped.bind(+1))
+
+
 
 func _on_expand_pressed():
 	_togglable_popup.popup(Rect2i(_textfield.get_screen_position(), Vector2(size.x, 256.0)))
 
 
-
 func _on_text_submitted():
 	[_table_filter, _table_process][mode].call()
+	_saved_functions[_saved_function_selected] = _textfield_ml.text
+	get_node(editor_view_path).save_data.call_deferred()
 
 
 func _get_script_source_code(first_line : String):
@@ -116,3 +145,29 @@ func _table_process():
 		values[i] = new_script_instance.get_result(values[i], editor_view.rows[edited_rows[i]], edited_rows[i], i)
 
 	editor_view.set_edited_cells_values(values)
+
+
+func _on_saved_function_selected(new_index : int):
+	if new_index < 0:
+		new_index = 0
+
+	if _saved_function_selected == _saved_functions.size() - 1 and _textfield_ml.text == default_text_ml:
+		_saved_functions.resize(_saved_functions.size() - 1)
+
+	elif _saved_function_selected >= 0:
+		_saved_functions[_saved_function_selected] = _textfield_ml.text
+
+	_saved_function_selected = new_index
+	if new_index >= _saved_functions.size():
+		_saved_functions.resize(new_index + 1)
+		for i in _saved_functions.size():
+			if _saved_functions[i] == null:
+				_saved_functions[i] = default_text_ml
+
+	_textfield_ml.text = _saved_functions[new_index]
+	_saved_function_index_label.text = "%d/%d" % [new_index + 1, _saved_functions.size()]
+	get_node(editor_view_path).save_data.call_deferred()
+
+
+func _on_saved_function_bumped(increment : int):
+	_on_saved_function_selected(_saved_function_selected + increment)

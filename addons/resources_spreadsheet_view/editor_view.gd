@@ -28,6 +28,7 @@ var column_hints := []
 var column_hint_strings := []
 var rows := []
 var remembered_paths := {}
+var table_functions_dict := {}
 
 var search_cond : RefCounted
 var io : RefCounted
@@ -45,6 +46,10 @@ func _ready():
 
 		node_recent_paths.load_paths(as_var.get("recent_paths", []))
 		node_columns.hidden_columns = as_var.get("hidden_columns", {})
+		table_functions_dict = as_var.get("table_functions", {})
+		for x in $"HeaderContentSplit/VBoxContainer/Search/Search".get_children():
+			if x.has_method(&"load_saved_functions"):
+				x.load_saved_functions(table_functions_dict)
 
 	if node_recent_paths.recent_paths.size() >= 1:
 		display_folder(node_recent_paths.recent_paths[0], "resource_name", false, true)
@@ -241,6 +246,7 @@ func save_data():
 		{
 			"recent_paths" : node_recent_paths.recent_paths,
 			"hidden_columns" : node_columns.hidden_columns,
+			"table_functions" : table_functions_dict,
 		}
 	, "  "))
 

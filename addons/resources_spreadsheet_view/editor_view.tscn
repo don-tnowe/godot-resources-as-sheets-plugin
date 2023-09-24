@@ -270,6 +270,7 @@ editor_view_path = NodePath("../../../../..")
 title = "func f(res : Resource, index : int):"
 default_text = "true"
 default_text_ml = "return true"
+function_save_key = "filter"
 
 [node name="VSeparator" type="VSeparator" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
 layout_mode = 2
@@ -304,6 +305,7 @@ mode = 1
 title = "func f(value : Var, res : Resource, index : int):"
 default_text = "value"
 default_text_ml = "return value"
+function_save_key = "process"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
 layout_mode = 2
