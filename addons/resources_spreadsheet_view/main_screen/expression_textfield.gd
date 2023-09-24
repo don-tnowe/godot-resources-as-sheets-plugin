@@ -132,17 +132,17 @@ func _table_filter():
 
 func _table_process():
 	var new_script := GDScript.new()
-	new_script.source_code = _get_script_source_code("static func get_result(value, res, row_index, cell_index):\n")
+	new_script.source_code = _get_script_source_code("static func get_result(value, res, all_res, row_index):\n")
 	new_script.reload()
 
 	var editor_view := get_node(editor_view_path)
 	var new_script_instance = new_script.new()
 	var values = editor_view.get_edited_cells_values()
-	var cur_row := 0
 
-	var edited_rows = editor_view._selection.get_edited_rows()
+	var edited_rows : Array[int] = editor_view._selection.get_edited_rows()
+	var edited_resources := edited_rows.map(func(x): return editor_view.rows[x])
 	for i in values.size():
-		values[i] = new_script_instance.get_result(values[i], editor_view.rows[edited_rows[i]], edited_rows[i], i)
+		values[i] = new_script_instance.get_result(values[i], editor_view.rows[edited_rows[i]], edited_resources, i)
 
 	editor_view.set_edited_cells_values(values)
 
