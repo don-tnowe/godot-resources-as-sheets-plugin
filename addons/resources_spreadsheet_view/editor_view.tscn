@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=30 format=3 uid="uid://tmleonv20aqk"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="3_7ja2l"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/recent_paths.gd" id="4_umoob"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/expression_textfield.gd" id="5_faq75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/table_pages.gd" id="5_ka2yn"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/column_header_manager.gd" id="6_emnmd"]
 [ext_resource type="PackedScene" uid="uid://d1s6oihqedvo5" path="res://addons/resources_spreadsheet_view/main_screen/table_header.tscn" id="7_3dx0v"]
@@ -261,10 +262,14 @@ mouse_filter = 0
 mouse_default_cursor_shape = 16
 text = "(?)"
 
-[node name="SearchCond" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+[node name="Filter" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "true"
+script = ExtResource("5_faq75")
+editor_view_path = NodePath("../../../../..")
+title = "func f(res : Resource, index : int):"
+default_text = "true"
+default_text_ml = "return true"
 
 [node name="VSeparator" type="VSeparator" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
 layout_mode = 2
@@ -290,9 +295,15 @@ mouse_filter = 0
 mouse_default_cursor_shape = 16
 text = "(?)"
 
-[node name="ProcessExpr" type="LineEdit" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+[node name="Process" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("5_faq75")
+editor_view_path = NodePath("../../../../..")
+mode = 1
+title = "func f(value : Var, res : Resource, index : int):"
+default_text = "value"
+default_text_ml = "return value"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
 layout_mode = 2
@@ -548,8 +559,6 @@ metadata/_edit_lock_ = true
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/SelectDir" to="Control/FileDialog" method="popup_centered"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/DeletePath" to="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths" method="remove_selected_path_from_recent"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/ImportExport" to="Control/FileDialogText" method="popup_centered"]
-[connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/SearchCond" to="." method="_on_search_cond_text_submitted"]
-[connection signal="text_submitted" from="HeaderContentSplit/VBoxContainer/Search/Search/ProcessExpr" to="." method="_on_process_expr_text_submitted"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Refresh" to="." method="_on_path_text_submitted"]
 [connection signal="value_changed" from="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages/LineEdit" to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_LineEdit_value_changed"]
 [connection signal="dir_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]

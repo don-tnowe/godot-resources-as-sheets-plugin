@@ -87,9 +87,6 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 
 	if folderpath.ends_with(".tres") and !folderpath.ends_with(ResourceTablesImport.SUFFIX):
 		folderpath = folderpath.get_base_dir() + "/"
-	
-	if search_cond == null:
-		_on_search_cond_text_submitted("true")
 
 	node_recent_paths.add_path_to_recent(folderpath)
 	first_row = node_page_manager.first_row
@@ -150,7 +147,7 @@ func fill_property_data(res):
 
 
 func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
-	if !search_cond.can_show(res, rows.size()):
+	if search_cond != null && !search_cond.can_show(res, rows.size()):
 		return
 		
 	for i in rows.size():
@@ -400,34 +397,6 @@ func _get_row_resources(row_indices) -> Array:
 		arr[i] = rows[row_indices[i]]
 
 	return arr
-
-
-func _on_search_cond_text_submitted(new_text : String):
-	var new_script := GDScript.new()
-	new_script.source_code = "static func can_show(res, index):\n\treturn " + new_text
-	new_script.reload()
-
-	search_cond = new_script
-	refresh()
-
-
-func _on_process_expr_text_submitted(new_text : String):
-	if new_text == "":
-		new_text = "true"
-
-	var new_script := GDScript.new()
-	new_script.source_code = "static func get_result(value, res, row_index, cell_index):\n\treturn " + new_text
-	new_script.reload()
-
-	var new_script_instance = new_script.new()
-	var values = get_edited_cells_values()
-	var cur_row := 0
-
-	var edited_rows = _selection.get_edited_rows()
-	for i in values.size():
-		values[i] = new_script_instance.get_result(values[i], rows[edited_rows[i]], edited_rows[i], i)
-
-	set_edited_cells_values(values)
 
 
 func _on_File_pressed():
