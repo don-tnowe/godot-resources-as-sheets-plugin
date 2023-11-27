@@ -51,6 +51,7 @@ func _on_file_selected(path : String):
 	import_data = ResourceTablesImport.new()
 	import_data.initialize(path)
 	_reset_controls()
+	await get_tree().process_frame
 	_open_dialog(path)
 	get_parent().popup_centered()
 	position = Vector2.ZERO

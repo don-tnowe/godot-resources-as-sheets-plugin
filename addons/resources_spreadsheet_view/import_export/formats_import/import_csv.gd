@@ -17,10 +17,15 @@ static func import_as_arrays(import_data) -> Array:
 	var text_lines := [file.get_line().split(import_data.delimeter)]
 	var space_after_delimeter = false
 	var line = text_lines[0]
+	if line.size() == 0:
+		return []
+
 	if line.size() == 1:
 		import_data.delimeter = ","
 		line = line[0].split(import_data.delimeter)
 		text_lines[0] = line
+		if line.size() <= 1:
+			return []
 
 	if line[1].begins_with(" "):
 		for i in line.size():

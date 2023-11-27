@@ -14,7 +14,7 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 @onready var _on_cell_gui_input : Callable = $"InputHandler"._on_cell_gui_input
 @onready var _selection := $"SelectionManager"
 
-var editor_interface : EditorInterface
+var editor_interface : Object
 var editor_plugin : EditorPlugin
 
 var current_path := ""
@@ -56,7 +56,7 @@ func _ready():
 
 
 func _on_filesystem_changed():
-	var editor_fs := editor_interface.get_resource_filesystem()
+	var editor_fs : EditorFileSystem = editor_interface.get_resource_filesystem()
 	var path := editor_fs.get_filesystem_path(current_path)
 	if !path: return
 

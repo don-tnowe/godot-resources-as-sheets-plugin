@@ -8,6 +8,10 @@ var undo_redo : EditorUndoRedoManager
 func _enter_tree() -> void:
 	editor_view = load(get_script().resource_path.get_base_dir() + "/editor_view.tscn").instantiate()
 	editor_view.editor_interface = get_editor_interface()
+	if editor_view.editor_interface == null:
+		# 4.2: now a singleton
+		editor_view.editor_interface = Engine.get_singleton("EditorInterface")
+
 	editor_view.editor_plugin = self
 	undo_redo = get_undo_redo()
 	get_editor_interface().get_editor_main_screen().add_child(editor_view)

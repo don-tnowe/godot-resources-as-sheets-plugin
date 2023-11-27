@@ -14,11 +14,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-use_hidden_tabs_for_min_size = true
 script = ExtResource("1")
 prop_list_item_scene = ExtResource("2_xfhmf")
-formats_export = [ExtResource("2_33c6s")]
-formats_import = [ExtResource("2_fxayt")]
+formats_export = Array[Script]([ExtResource("2_33c6s")])
+formats_import = Array[Script]([ExtResource("2_fxayt")])
 
 [node name="Import" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -30,6 +29,7 @@ size_flags_vertical = 3
 
 [node name="Scroll" type="ScrollContainer" parent="Import/Margins"]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
 [node name="Box" type="VBoxContainer" parent="Import/Margins/Scroll"]
 layout_mode = 2
@@ -184,6 +184,5 @@ layout_mode = 2
 [connection signal="toggled" from="Export/Box/CheckBox" to="." method="_on_export_space_toggled"]
 [connection signal="toggled" from="Export/Box3/CheckBox" to="." method="_on_remove_first_row_toggled"]
 [connection signal="format_changed" from="Export/StyleSettingsE" to="." method="_on_enum_format_changed"]
-[connection signal="format_changed" from="Export/StyleSettingsE" to="Import/Margins/Scroll/Box/StyleSettingsI" method="_on_format_changed"]
 [connection signal="pressed" from="Export/Box2/Button" to="." method="_on_export_csv_pressed"]
 [connection signal="pressed" from="Export/Box2/Cancel" to="." method="close"]
