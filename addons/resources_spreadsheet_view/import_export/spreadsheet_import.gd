@@ -280,7 +280,9 @@ static func get_resource_property_types(res : Resource, properties : Array) -> A
 			if x["hint"] == PROPERTY_HINT_ENUM:
 				var enum_values = x["hint_string"].split(",")
 				for i in enum_values.size():
-					enum_values[i] = enum_values[i].left(enum_values[i].find(":"))
+					var index_found : int = enum_values[i].find(":")
+					if index_found == -1: continue
+					enum_values[i] = enum_values[i].left(index_found)
 
 				result[found] = enum_values
 
