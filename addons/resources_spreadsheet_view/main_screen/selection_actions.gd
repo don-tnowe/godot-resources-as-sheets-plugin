@@ -35,16 +35,11 @@ func _on_grid_cells_rightclicked(cells):
 
 
 func _on_grid_cells_selected(cells):
-	if ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "context_menu_on_leftclick"):
-		open(cells, true)
-
-	else: hide()
+	open(cells, true, true)
 
 
-func open(cells : Array, pin_to_cell : bool = false):
-	set_process_input(true)
-	set_process_unhandled_input(true)
-	if cells.size() == 0:
+func open(cells : Array, pin_to_cell : bool = false, from_leftclick : bool = false):
+	if cells.size() == 0 or (from_leftclick and !ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "context_menu_on_leftclick")):
 		hide()
 		cell = null
 		return
@@ -68,17 +63,27 @@ func open(cells : Array, pin_to_cell : bool = false):
 
 
 func close():
-	set_process_input(false)
-	set_process_unhandled_input(false)
+	pass
 
 
-func _unhandled_input(event):
+func _input(event : InputEvent):
 	if !editor_view.is_visible_in_tree():
 		close()
 		return
-	
+
+	if event is InputEventMouseButton and event.is_pressed():
+		close()
+		return
+
 	if event is InputEventKey:
-		if Input.is_key_pressed(KEY_CTRL):
+		if event.is_pressed() and event.is_command_or_control_pressed():
+			global_position = get_global_mouse_position() + Vector2.ONE
+			if cell != null:
+				global_position = Vector2(
+					cell.global_position.x + cell.size.x,
+					cell.global_position.y
+				)
+
 			# Dupe
 			if event.keycode == KEY_D:
 				_on_Duplicate_pressed()
@@ -88,21 +93,7 @@ func _unhandled_input(event):
 			if event.keycode == KEY_R:
 				_on_Rename_pressed()
 				return
-				
-	if event is InputEventMouseButton and event.is_pressed():
-		close()
 
-
-func _input(event):
-	if cell == null: return
-	if !editor_view.is_visible_in_tree():
-		close()
-		return
-
-	global_position = Vector2(
-		cell.global_position.x + cell.size.x,
-		cell.global_position.y
-	)
 
 
 func _on_Duplicate_pressed():
@@ -157,6 +148,7 @@ func _show_editbox(action):
 			editbox_input.text = editor_view.get_last_selected_row()\
 				.resource_path.get_file().get_basename()
 	
+	show()
 	editbox_input.grab_focus()
 	editbox_input.caret_column = 999999999
 	editbox_node.size = Vector2.ZERO
