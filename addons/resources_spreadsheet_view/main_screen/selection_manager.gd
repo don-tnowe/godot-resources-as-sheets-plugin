@@ -210,7 +210,7 @@ func _update_selected_cells_text():
 	if edited_cells_text.size() == 0:
 		return
 
-	var column_dtype := get_cell_column(editor_view.column_types[edited_cells[0]])
+	var column_dtype : int = editor_view.column_types[get_cell_column(edited_cells[0])]
 	for i in edited_cells.size():
 		edited_cells_text[i] = editor_view.try_convert(edited_cells[i].text, column_dtype)
 		edit_cursor_positions[i] = edited_cells_text[i].length()

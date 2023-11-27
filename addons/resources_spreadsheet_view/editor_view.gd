@@ -152,7 +152,7 @@ func fill_property_data(res):
 
 
 func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
-	if search_cond != null && !search_cond.can_show(res, rows.size()):
+	if search_cond != null and !search_cond.can_show(res, rows.size()):
 		return
 		
 	for i in rows.size():
