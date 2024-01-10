@@ -28,6 +28,7 @@ var column_hints := []
 var column_hint_strings := []
 var rows := []
 var remembered_paths := {}
+var remembered_paths_total_count := 0
 var table_functions_dict := {}
 
 var search_cond : RefCounted
@@ -56,19 +57,8 @@ func _ready():
 
 
 func _on_filesystem_changed():
-	var editor_fs : EditorFileSystem = editor_interface.get_resource_filesystem()
-	var path := editor_fs.get_filesystem_path(current_path)
-	if !path: return
-
-	var file_total_count := 0
-	var folder_stack : Array[EditorFileSystemDirectory] = [path]
-	while folder_stack.size() > 0:
-		path = folder_stack.pop_back()
-		file_total_count += path.get_file_count()
-		for i in path.get_subdir_count():
-			folder_stack.append(path.get_subdir(i))
-
-	if file_total_count != remembered_paths.size():
+	var file_total_count := _get_file_count_recursive(current_path)
+	if file_total_count != remembered_paths_total_count:
 		refresh()
 
 	else:
@@ -82,6 +72,22 @@ func _on_filesystem_changed():
 				remembered_paths[res.resource_path] = res
 				refresh()
 				break
+
+
+func _get_file_count_recursive(path : String) -> int:
+	var editor_fs : EditorFileSystem = editor_interface.get_resource_filesystem()
+	var path_dir := editor_fs.get_filesystem_path(path)
+	if !path_dir: return 0
+
+	var file_total_count := 0
+	var folder_stack : Array[EditorFileSystemDirectory] = [path_dir]
+	while folder_stack.size() > 0:
+		path_dir = folder_stack.pop_back()
+		file_total_count += path_dir.get_file_count()
+		for i in path_dir.get_subdir_count():
+			folder_stack.append(path_dir.get_subdir(i))
+
+	return file_total_count
 
 
 func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false, is_echo : bool = false):
@@ -107,9 +113,9 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 		or columns.size() != node_columns.get_child_count()
 	)
 	current_path = folderpath
+	remembered_paths_total_count = _get_file_count_recursive(folderpath)
 	node_columns.update()
-
-	emit_signal("grid_updated")
+	grid_updated.emit()
 
 
 func refresh(force_rebuild : bool = true):
@@ -129,6 +135,7 @@ func _load_resources_from_path(path : String, sort_by : String, sort_reverse : b
 			io = ResourceTablesEditFormatTres.new()
 	
 	io.editor_view = self
+	remembered_paths.clear()
 	rows = io.import_from_path(path, insert_row_sorted, sort_by, sort_reverse)
 
 
@@ -160,6 +167,7 @@ func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reve
 			rows.insert(i, res)
 			return
 	
+	remembered_paths[res.resource_path] = res
 	rows.append(res)
 
 

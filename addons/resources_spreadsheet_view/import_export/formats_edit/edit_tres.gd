@@ -57,7 +57,6 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 	var dir := DirAccess.open(folderpath)
 	if dir == null: return []
 
-	editor_view.remembered_paths.clear()
 	var cur_dir_types : Dictionary = {}
 
 	var file_stack : Array[String] = []
@@ -84,8 +83,6 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 			var res_script := res.get_script()
 			if res_script != null:
 				cur_dir_types[res_script] = cur_dir_types.get(res_script, 0) + 1
-
-		editor_view.remembered_paths[file_stack[i]] = res
 
 	var most_count_key = null
 	var most_count_count := 0
