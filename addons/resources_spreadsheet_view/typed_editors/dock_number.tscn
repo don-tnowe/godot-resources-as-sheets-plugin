@@ -75,17 +75,17 @@ visible = false
 layout_mode = 2
 text = "Sequence"
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="Start" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "Start (must not be blank)"
 placeholder_text = "Start *"
 
-[node name="LineEdit2" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="End" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "End"
 placeholder_text = "End"
 
-[node name="LineEdit3" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="Step" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "End"
 placeholder_text = "Step"

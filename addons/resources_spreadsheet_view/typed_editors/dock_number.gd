@@ -138,18 +138,18 @@ func _on_SequenceFill_pressed(add : bool = false):
 
 
 func _fill_sequence(arr : Array, add : bool = false) -> Array:
-	if !_sequence_gen_inputs.get_child(0).text.is_valid_float():
+	if !_sequence_gen_inputs.get_node("Start").text.is_valid_float():
 		return arr
 
 	var start := float(_sequence_gen_inputs.get_child(0).text)
 	var end = null
 	var step = null
 		
-	if _sequence_gen_inputs.get_child(2).text.is_valid_float():
-		step = float(_sequence_gen_inputs.get_child(2).text)
+	if _sequence_gen_inputs.get_node("Step").text.is_valid_float():
+		step = float(_sequence_gen_inputs.get_node("Step").text)
 	
-	if _sequence_gen_inputs.get_child(1).text.is_valid_float():
-		end = float(_sequence_gen_inputs.get_child(1).text)
+	if _sequence_gen_inputs.get_node("End").text.is_valid_float():
+		end = float(_sequence_gen_inputs.get_node("End").text)
 
 	if end == null:
 		end = INF if step == null or step >= 0 else -INF
