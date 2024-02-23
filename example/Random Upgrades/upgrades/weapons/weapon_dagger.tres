@@ -1,18 +1,18 @@
-[gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://cux4x0qopwiqk"]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cux4x0qopwiqk"]
 
-[ext_resource type="Texture2D" uid="uid://d38giyxvkhl6g" path="res://example/Random Upgrades/icons/all_icons/all_icons_3.tres" id="1"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_birsa"]
 
 [resource]
 resource_name = "Weapon: Daggers"
-script = ExtResource("2")
+script = ExtResource("1_birsa")
+weapon_damage = 4.0
+weapon_cooldown = 6.0
 color1 = Color(0.635294, 0.760784, 1, 1)
 max_duplicates = 1
 tags = Array[String](["weapon", "strength", "projectile"])
 type = 0
 attributes = Array[int]([0, 3])
-icon = ExtResource("1")
-prerequisites = Array[ExtResource("2")]([])
+prerequisites = Array[Resource("res://example/Random Upgrades/upgrade_data.gd")]([])
 color2 = Color(0.980392, 0.584314, 0.203922, 1)
 base_weight = 10.0
 is_notable = false

@@ -121,9 +121,9 @@ func select_cell(cell : Control):
 
 
 func select_cells(cells : Array):
-	var last_selectible = null
+	var last_selectible : Control = null
 	for x in cells:
-		if can_select_cell(x):
+		if x.mouse_filter != MOUSE_FILTER_IGNORE and can_select_cell(x):
 			_add_cell_to_selection(x)
 			last_selectible = x
 
@@ -133,7 +133,7 @@ func select_cells(cells : Array):
 
 func select_cells_to(cell : Control):
 	var column_index := get_cell_column(cell)
-	if column_index != get_cell_column(edited_cells[edited_cells.size() - 1]):
+	if edited_cells.size() == 0 or column_index != get_cell_column(edited_cells[edited_cells.size() - 1]):
 		return
 	
 	var row_start := get_cell_row(edited_cells[edited_cells.size() - 1]) - editor_view.first_row
@@ -144,8 +144,9 @@ func select_cells_to(cell : Control):
 
 	for i in range(row_start, row_end, edge_shift):
 		var cur_cell : Control = editor_view.node_table_root.get_child(i * editor_view.columns.size() + column_index)
-		if !cur_cell.visible:
+		if !cur_cell.visible or cur_cell.mouse_filter == MOUSE_FILTER_IGNORE:
 			# When search is active, some cells will be hidden.
+			# When showing several classes, empty cells will be non-selectable.
 			continue
 
 		column_editors[column_index].set_selected(cur_cell, true)

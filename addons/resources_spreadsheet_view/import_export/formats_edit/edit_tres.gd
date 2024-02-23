@@ -57,8 +57,6 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 	var dir := DirAccess.open(folderpath)
 	if dir == null: return []
 
-	var cur_dir_types : Dictionary = {}
-
 	var file_stack : Array[String] = []
 	var folder_stack : Array[String] = [folderpath]
 
@@ -73,41 +71,17 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 
 	var loaded_res : Array[Resource] = []
 	var res : Resource = null
+	var cur_dir_types : Dictionary = {}
 	loaded_res.resize(file_stack.size())
 	for i in file_stack.size():
 		res = null
 		if file_stack[i].ends_with(".tres"):
 			res = load(file_stack[i])
 			loaded_res[i] = res
-			cur_dir_types[res.get_class()] = cur_dir_types.get(res.get_class(), 0) + 1
-			var res_script := res.get_script()
-			if res_script != null:
-				cur_dir_types[res_script] = cur_dir_types.get(res_script, 0) + 1
 
-	var most_count_key = null
-	var most_count_count := 0
-	var most_count_is_base_class := false
-	for k in cur_dir_types:
-		var v : int = cur_dir_types[k]
-		if v > most_count_count || (v >= most_count_count && most_count_is_base_class):
-			most_count_key = k
-			most_count_count = v
-			most_count_is_base_class = k is String
-
-	var first_loadable_found := false
+	editor_view.fill_property_data_many(loaded_res)
 	for x in loaded_res:
 		if x == null: continue
-		if !first_loadable_found:
-			first_loadable_found = true
-			editor_view.fill_property_data(x)
-			if !(sort_by in x):
-				sort_by = "resource_path"
-
-		if most_count_is_base_class:
-			if x.get_class() == most_count_key:
-				insert_func.call(x, rows, sort_by, sort_reverse)
-
-		elif x.get_script() == most_count_key:
-			insert_func.call(x, rows, sort_by, sort_reverse)
+		insert_func.call(x, rows, sort_by, sort_reverse)
 
 	return rows

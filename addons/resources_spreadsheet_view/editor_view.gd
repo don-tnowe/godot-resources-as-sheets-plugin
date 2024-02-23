@@ -107,11 +107,26 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 	if columns.size() == 0: return
 
 	node_folder_path.text = folderpath
-	_update_table(
+	if (
 		force_rebuild
 		or current_path != folderpath
 		or columns.size() != node_columns.get_child_count()
-	)
+	):
+		node_table_root.columns = columns.size()
+		for x in node_table_root.get_children():
+			x.free()
+
+		node_columns.columns = columns
+
+	var cells_left_to_free = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
+	while cells_left_to_free > 0:
+		node_table_root.get_child(0).free()
+		cells_left_to_free -= 1
+	
+	var color_rows = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
+	for i in last_row - first_row:
+		_update_row(first_row + i, color_rows)
+
 	current_path = folderpath
 	remembered_paths_total_count = _get_file_count_recursive(folderpath)
 	node_columns.update()
@@ -139,7 +154,7 @@ func _load_resources_from_path(path : String, sort_by : String, sort_reverse : b
 	rows = io.import_from_path(path, insert_row_sorted, sort_by, sort_reverse)
 
 
-func fill_property_data(res):
+func fill_property_data(res : Resource):
 	columns.clear()
 	column_types.clear()
 	column_hints.clear()
@@ -147,23 +162,53 @@ func fill_property_data(res):
 	var column_values := []
 	var i := -1
 	for x in res.get_property_list():
-		if x["usage"] & PROPERTY_USAGE_EDITOR != 0 and x["name"] != "script":
+		if x[&"usage"] & PROPERTY_USAGE_EDITOR != 0 and x[&"name"] != "script":
 			i += 1
-			columns.append(x["name"])
-			column_types.append(x["type"])
-			column_hints.append(x["hint"])
-			column_hint_strings.append(x["hint_string"].split(","))
+			columns.append(x[&"name"])
+			column_types.append(x[&"type"])
+			column_hints.append(x[&"hint"])
+			column_hint_strings.append(x[&"hint_string"].split(","))
 			column_values.append(io.get_value(res, columns[i]))
 
 	_selection.initialize_editors(column_values, column_types, column_hints)
 
 
+func fill_property_data_many(resources : Array):
+	columns.clear()
+	column_types.clear()
+	column_hints.clear()
+	column_hint_strings.clear()
+	var column_values := []
+	var i := -1
+	var found_props := {}
+	for x in resources:
+		if x == null: continue
+		for y in x.get_property_list():
+			found_props[y[&"name"]] = y
+			y[&"owner_object"] = x
+
+	for x in found_props.values():
+		if x[&"usage"] & PROPERTY_USAGE_EDITOR != 0 and x[&"name"] != "script":
+			i += 1
+			columns.append(x[&"name"])
+			column_types.append(x[&"type"])
+			column_hints.append(x[&"hint"])
+			column_hint_strings.append(x[&"hint_string"].split(","))
+			column_values.append(io.get_value(x[&"owner_object"], columns[i]))
+
+	_selection.initialize_editors(column_values, column_types, column_hints)
+
+
 func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
-	if search_cond != null and !search_cond.can_show(res, rows.size()):
+	if search_cond != null and not search_cond.can_show(res, rows.size()):
 		return
-		
+
+	if not sort_by in res:
+		return
+
+	var sort_value = io.get_value(res, sort_by)
 	for i in rows.size():
-		if sort_reverse == compare_values(io.get_value(res, sort_by), io.get_value(rows[i], sort_by)):
+		if sort_reverse == compare_values(sort_value, io.get_value(rows[i], sort_by)):
 			rows.insert(i, res)
 			return
 	
@@ -192,33 +237,6 @@ func _set_sorting(sort_by):
 	sorting_by = sort_by
 
 
-func _update_table(columns_changed : bool):
-	if columns_changed:
-		node_table_root.columns = columns.size()
-		for x in node_table_root.get_children():
-			x.free()
-
-		node_columns.columns = columns
-
-	var to_free = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
-	while to_free > 0:
-		node_table_root.get_child(0).free()
-		to_free -= 1
-	
-	var color_rows = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
-	
-	_update_row_range(
-		first_row,
-		last_row,
-		color_rows
-	)
-
-
-func _update_row_range(first : int, last : int, color_rows : bool):
-	for i in last - first:
-		_update_row(first + i, color_rows)
-
-
 func _update_row(row_index : int, color_rows : bool = true):
 	var current_node : Control
 	var next_color := Color.WHITE
@@ -237,13 +255,26 @@ func _update_row(row_index : int, color_rows : bool = true):
 				+ "\n---\n"
 				+ "Of " + res_path
 			)
-		
-		column_editors[i].set_value(current_node, io.get_value(rows[row_index], columns[i]))
-		if columns[i] == "resource_path":
+
+		if columns[i] in rows[row_index]:
+			current_node.mouse_filter = MOUSE_FILTER_STOP
+			current_node.modulate.a = 1.0
+
+		else:
+			# Empty cell, can't click, property doesn't exist.
+			current_node.mouse_filter = MOUSE_FILTER_IGNORE
+			current_node.modulate.a = 0.0
+			continue
+
+		if columns[i] == &"resource_path":
 			column_editors[i].set_value(current_node, res_path)
 
-		if color_rows and column_types[i] == TYPE_COLOR:
-			next_color = io.get_value(rows[row_index], columns[i])
+		else:			
+			var cell_value = io.get_value(rows[row_index], columns[i])
+			if cell_value != null or column_types[i] == TYPE_OBJECT:
+				column_editors[i].set_value(current_node, cell_value)
+				if color_rows and column_types[i] == TYPE_COLOR:
+					next_color = cell_value
 
 		column_editors[i].set_color(current_node, next_color)
 
