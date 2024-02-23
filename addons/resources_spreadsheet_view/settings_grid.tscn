@@ -37,13 +37,12 @@ text = "Enable"
 [node name="Label2" type="Label" parent="RichTextLabel/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Colored array elements"
+text = "Collection item color tint"
 autowrap_mode = 2
 
-[node name="ColorArrays" type="CheckBox" parent="RichTextLabel/GridContainer"]
+[node name="ArrayColorTint" type="SpinBox" parent="RichTextLabel/GridContainer"]
 layout_mode = 2
-button_pressed = true
-text = "Enable"
+value = 100.0
 
 [node name="Label3" type="Label" parent="RichTextLabel/GridContainer"]
 layout_mode = 2

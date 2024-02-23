@@ -14,7 +14,7 @@ func create_cell(caller : Control) -> Control:
 func set_value(node : Control, value):
 	var children := node.get_node("Box").get_children()
 	node.custom_minimum_size.x = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_min_width")
-	var colored = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_arrays")
+	var color_tint : float = 0.01 * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_color_tint", 100.0)
 	while children.size() < value.size():
 		children.append(Label.new())
 		node.get_node("Box").add_child(children[children.size() - 1])
@@ -26,18 +26,18 @@ func set_value(node : Control, value):
 
 		else:
 			children[i].visible = true
-			_write_value_to_child(value[i], value[i], column_hints, children[i], colored)
+			_write_value_to_child(value[i], value[i], column_hints, children[i], color_tint)
 
 
-func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, colored : bool):
+func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, color_tint : float):
 	if value is Resource:
 		value = _resource_to_string(value)
 
 	child.text = str(value)
 	child.self_modulate = (
-		Color.WHITE
-		if !colored else
-		Color(str(key).hash()) + Color(0.25, 0.25, 0.25, 1.0)
+		Color.WHITE * (1.0 - color_tint)
+		+
+		(Color(str(key).hash()) + Color(0.2, 0.2, 0.2, 1.0)) * color_tint
 	)
 
 
