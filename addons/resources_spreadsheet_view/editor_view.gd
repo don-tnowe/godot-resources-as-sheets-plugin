@@ -19,7 +19,7 @@ var editor_plugin : EditorPlugin
 
 var current_path := ""
 var save_data_path : String = get_script().resource_path.get_base_dir() + "/saved_state.json"
-var sorting_by := ""
+var sorting_by := &""
 var sorting_reverse := false
 
 var columns := []
@@ -56,6 +56,17 @@ func _ready():
 		display_folder(node_recent_paths.recent_paths[0], "resource_name", false, true)
 
 
+func save_data():
+	var file = FileAccess.open(save_data_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(
+		{
+			"recent_paths" : node_recent_paths.recent_paths,
+			"hidden_columns" : node_columns.hidden_columns,
+			"table_functions" : table_functions_dict,
+		}
+	, "  "))
+
+
 func _on_filesystem_changed():
 	var file_total_count := _get_file_count_recursive(current_path)
 	if file_total_count != remembered_paths_total_count:
@@ -90,8 +101,14 @@ func _get_file_count_recursive(path : String) -> int:
 	return file_total_count
 
 
-func display_folder(folderpath : String, sort_by : String = "", sort_reverse : bool = false, force_rebuild : bool = false, is_echo : bool = false):
-	if folderpath == "": return  # Root folder resources tend to have MANY properties.
+func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse : bool = false, force_rebuild : bool = false, is_echo : bool = false):
+	if folderpath == "":
+		# You wouldn't just wanna edit ALL resources in the project, that's a long time to load!
+		return
+
+	if sort_by == "":
+		sort_by = &"resource_path"
+
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
 	if folderpath.get_extension() == "":
 		folderpath = folderpath.trim_suffix("/") + "/"
@@ -118,12 +135,12 @@ func display_folder(folderpath : String, sort_by : String = "", sort_reverse : b
 
 		node_columns.columns = columns
 
-	var cells_left_to_free = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
+	var cells_left_to_free : int = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
 	while cells_left_to_free > 0:
 		node_table_root.get_child(0).free()
 		cells_left_to_free -= 1
 	
-	var color_rows = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
+	var color_rows : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
 	for i in last_row - first_row:
 		_update_row(first_row + i, color_rows)
 
@@ -137,7 +154,7 @@ func refresh(force_rebuild : bool = true):
 	display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
 
 
-func _load_resources_from_path(path : String, sort_by : String, sort_reverse : bool):
+func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse : bool):
 	if path.ends_with("/"):
 		io = ResourceTablesEditFormatTres.new()
 
@@ -199,21 +216,21 @@ func fill_property_data_many(resources : Array):
 	_selection.initialize_editors(column_values, column_types, column_hints)
 
 
-func insert_row_sorted(res : Resource, rows : Array, sort_by : String, sort_reverse : bool):
-	if search_cond != null and not search_cond.can_show(res, rows.size()):
+func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName, sort_reverse : bool):
+	if search_cond != null and not search_cond.can_show(res, loaded_rows.size()):
 		return
 
 	if not sort_by in res:
 		return
 
 	var sort_value = io.get_value(res, sort_by)
-	for i in rows.size():
-		if sort_reverse == compare_values(sort_value, io.get_value(rows[i], sort_by)):
-			rows.insert(i, res)
+	for i in loaded_rows.size():
+		if sort_reverse == compare_values(sort_value, io.get_value(loaded_rows[i], sort_by)):
+			loaded_rows.insert(i, res)
 			return
 	
 	remembered_paths[res.resource_path] = res
-	rows.append(res)
+	loaded_rows.append(res)
 
 
 func compare_values(a, b) -> bool:
@@ -230,7 +247,7 @@ func compare_values(a, b) -> bool:
 	return a > b
 
 
-func _set_sorting(sort_by):
+func _set_sorting(sort_by : StringName):
 	var sort_reverse : bool = !(sorting_by != sort_by or sorting_reverse)
 	sorting_reverse = sort_reverse
 	display_folder(current_path, sort_by, sort_reverse)
@@ -277,31 +294,6 @@ func _update_row(row_index : int, color_rows : bool = true):
 					next_color = cell_value
 
 		column_editors[i].set_color(current_node, next_color)
-
-
-func save_data():
-	var file = FileAccess.open(save_data_path, FileAccess.WRITE)
-	file.store_string(JSON.stringify(
-		{
-			"recent_paths" : node_recent_paths.recent_paths,
-			"hidden_columns" : node_columns.hidden_columns,
-			"table_functions" : table_functions_dict,
-		}
-	, "  "))
-
-
-func _on_path_text_submitted(new_text : String = ""):
-	if new_text != "":
-		current_path = new_text
-		display_folder(new_text, "", false, true)
-
-	else:
-		refresh()
-
-
-func _on_FileDialog_dir_selected(dir : String):
-	node_folder_path.text = dir
-	display_folder(dir)
 
 
 func get_selected_column() -> int:
@@ -433,6 +425,20 @@ func try_convert(value, type):
 
 	# If it can't convert, throws exception and returns null.
 	return convert(value, type)
+
+
+func _on_path_text_submitted(new_text : String = ""):
+	if new_text != "":
+		current_path = new_text
+		display_folder(new_text, "", false, true)
+
+	else:
+		refresh()
+
+
+func _on_FileDialog_dir_selected(dir : String):
+	node_folder_path.text = dir
+	display_folder(dir)
 
 
 func _get_row_resources(row_indices) -> Array:

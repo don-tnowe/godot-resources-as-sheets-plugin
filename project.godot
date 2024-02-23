@@ -23,7 +23,7 @@ resources_spreadsheet_view/context_menu_on_leftclick=false
 
 [application]
 
-config/name="Addon: Resources as Sheets"
+config/name="Addon: Resources as Tables"
 config/features=PackedStringArray("4.0")
 
 [editor_plugins]

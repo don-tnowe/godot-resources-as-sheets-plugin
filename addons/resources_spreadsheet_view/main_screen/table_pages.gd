@@ -72,8 +72,11 @@ func _on_grid_updated():
 		_fill_buttons_with_prefixes(btns, strings, page_count)
 
 
-func _fill_buttons_with_prefixes(btns, strings, page_count):
+func _fill_buttons_with_prefixes(btns : Array, strings : Array, page_count : int):
 	for i in page_count:
+		if strings[i] == null:
+			continue
+
 		if i == 0:
 			btns[0].text = strings[0][0]
 			continue
