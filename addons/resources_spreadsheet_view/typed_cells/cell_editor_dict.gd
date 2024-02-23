@@ -12,7 +12,7 @@ func create_cell(caller : Control) -> Control:
 func set_value(node : Control, value):
 	var children = node.get_node("Box").get_children()
 	node.custom_minimum_size.x = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_min_width")
-	var colored = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_arrays")
+	var color_tint : float = 0.01 * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_color_tint", 100.0)
 	while children.size() < value.size():
 		children.append(Label.new())
 		node.get_node("Box").add_child(children[children.size() - 1])
@@ -30,7 +30,7 @@ func set_value(node : Control, value):
 			if values[i] is Resource: values[i] = _resource_to_string(values[i])
 			if keys[i] is Resource: keys[i] = _resource_to_string(keys[i])
 
-			_write_value_to_child("%s ◆ %s" % [keys[i], values[i]], keys[i], column_hints, children[i], colored)
+			_write_value_to_child("%s ◆ %s" % [keys[i], values[i]], keys[i], column_hints, children[i], color_tint)
 
 
 func is_text():
