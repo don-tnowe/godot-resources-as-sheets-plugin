@@ -320,17 +320,25 @@ tooltip_text = "Refresh"
 script = ExtResource("3_7ja2l")
 icon_name = "Loop"
 
-[node name="Pages" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3" node_paths=PackedStringArray("node_editor_view_root")]
+[node name="Pages" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
+size_flags_horizontal = 3
 script = ExtResource("5_ka2yn")
-node_editor_view_root = NodePath("../../../..")
 
 [node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
 layout_mode = 2
 text = "Page:"
 
-[node name="Pagelist" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
+[node name="Scroll" type="ScrollContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
 layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="Pagelist" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Label2" type="Label" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
 layout_mode = 2
@@ -338,13 +346,10 @@ text = "Rows per page:"
 
 [node name="LineEdit" type="SpinBox" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"]
 layout_mode = 2
+size_flags_vertical = 4
 min_value = 2.0
 max_value = 300.0
 value = 50.0
-
-[node name="HSeparator" type="HSeparator" parent="HeaderContentSplit/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="Sep" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 layout_mode = 2

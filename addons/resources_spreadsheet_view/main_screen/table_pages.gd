@@ -16,22 +16,26 @@ func _on_grid_updated():
 	first_row = min(current_page, page_count) * rows_per_page
 	last_row = min(first_row + rows_per_page, node_editor_view_root.rows.size())
 
-	var pagelist_node = $"Pagelist"
+	var pagelist_node := $"Scroll/Pagelist"
 	for x in pagelist_node.get_children():
 		x.queue_free()
 	
-	var button_group = ButtonGroup.new()
-	var btns = []
+	var button_group := ButtonGroup.new()
+	var btns := []
 	btns.resize(page_count)
 	for i in page_count:
-		var btn = Button.new()
+		var btn := Button.new()
 		btns[i] = btn
 		btn.toggle_mode = true
 		btn.button_group = button_group
 		btn.text = str(i + 1)
 		btn.pressed.connect(_on_button_pressed.bind(btn))
+		btn.size_flags_vertical = SIZE_SHRINK_CENTER
 		pagelist_node.add_child(btn)
-			
+
+	var pagelist_line := HSeparator.new()
+	pagelist_line.size_flags_horizontal = SIZE_EXPAND_FILL
+	pagelist_node.add_child(pagelist_line)
 	btns[current_page].button_pressed = true
 
 	var sort_property = node_editor_view_root.sorting_by
@@ -106,5 +110,4 @@ func _on_LineEdit_value_changed(value):
 
 
 func _update_view():
-	_on_grid_updated()
 	node_editor_view_root.refresh(false)
