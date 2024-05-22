@@ -1,7 +1,7 @@
 @tool
 extends HBoxContainer
 
-@export @onready var node_editor_view_root : Control = $"../../../.."
+@onready var node_editor_view_root : Control = $"../../../.."
 
 var rows_per_page := 50
 var current_page := 0
@@ -41,10 +41,11 @@ func _on_grid_updated():
 	var sort_property = node_editor_view_root.sorting_by
 	if sort_property == "": sort_property = "resource_path"
 	var sort_type = node_editor_view_root.column_types[node_editor_view_root.columns.find(sort_property)]
-	var property_values = []
+	var property_values := []
 	property_values.resize(page_count)
 	if(node_editor_view_root.rows.size() == 0):
 		return
+
 	for i in page_count:
 		property_values[i] = node_editor_view_root.rows[i * rows_per_page].get(sort_property)
 
@@ -57,7 +58,7 @@ func _on_grid_updated():
 			btns[i].self_modulate = property_values[i] * 0.75 + Color(0.25, 0.25, 0.25, 1.0)
 	
 	elif sort_type == TYPE_STRING:
-		var strings = []
+		var strings := []
 		strings.resize(page_count)
 		for i in page_count:
 			strings[i] = property_values[i].get_file()
@@ -67,7 +68,7 @@ func _on_grid_updated():
 		_fill_buttons_with_prefixes(btns, strings, page_count)
 	
 	elif sort_type == TYPE_OBJECT:
-		var strings = []
+		var strings := []
 		strings.resize(page_count + 1)
 		for i in page_count:
 			if is_instance_valid(property_values[i]):
