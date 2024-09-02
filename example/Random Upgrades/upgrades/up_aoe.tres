@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://2y7extlq12d5"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=4 format=3 uid="uid://2y7extlq12d5"]
 
 [ext_resource type="Texture2D" uid="uid://butx3l1jdcgcc" path="res://example/Random Upgrades/icons/all_icons/all_icons_6.tres" id="1_prpsx"]
 [ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
+[ext_resource type="Resource" uid="uid://8m6y2o6tbmpn" path="res://example/Random Upgrades/upgrades/elemental.tres" id="3_xu25t"]
 
 [resource]
 resource_name = "Upgrade: Area of Effect"
@@ -12,7 +13,7 @@ tags = Array[String](["aoe"])
 type = 1
 attributes = Array[int]([3])
 icon = ExtResource("1_prpsx")
-prerequisites = Array[ExtResource("2")]([])
+prerequisites = Array[ExtResource("2")]([ExtResource("3_xu25t")])
 color2 = Color(0.964706, 0.298039, 0.298039, 1)
 base_weight = 10.0
 is_notable = false

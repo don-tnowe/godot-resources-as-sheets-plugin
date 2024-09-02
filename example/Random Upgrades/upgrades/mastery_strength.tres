@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="UpgradeData" load_steps=6 format=3 uid="uid://d1suh8iai43st"]
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=7 format=3 uid="uid://d1suh8iai43st"]
 
 [ext_resource type="Texture2D" uid="uid://dfpwu4ra3fxgx" path="res://example/Random Upgrades/icons/all_icons/all_icons_2.tres" id="1_442ey"]
 [ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
 [ext_resource type="Resource" uid="uid://cux4x0qopwiqk" path="res://example/Random Upgrades/upgrades/weapons/weapon_dagger.tres" id="2_kb33p"]
 [ext_resource type="Resource" uid="uid://b78jqcpgef2ud" path="res://example/Random Upgrades/upgrades/weapons/weapon_axe.tres" id="3_tt25f"]
 [ext_resource type="Resource" uid="uid://xl0yx8uq6bfp" path="res://example/Random Upgrades/upgrades/weapons/weapon_spear.tres" id="4_kpsn8"]
+[ext_resource type="Resource" uid="uid://c6hsg3j74vm56" path="res://example/Random Upgrades/upgrades/up_strength.tres" id="6_gpjyk"]
 
 [resource]
 resource_name = "Mastery: Strength"
@@ -15,7 +16,7 @@ tags = Array[String](["strength", "mastery"])
 type = 2
 attributes = Array[int]([0, 0, 4, 128])
 icon = ExtResource("1_442ey")
-prerequisites = Array[ExtResource("2")]([ExtResource("2_kb33p"), ExtResource("3_tt25f"), ExtResource("4_kpsn8")])
+prerequisites = Array[ExtResource("2")]([ExtResource("2_kb33p"), ExtResource("3_tt25f"), ExtResource("4_kpsn8"), ExtResource("6_gpjyk")])
 color2 = Color(0.992157, 0.941176, 0.2, 1)
 base_weight = 1.0
 is_notable = true

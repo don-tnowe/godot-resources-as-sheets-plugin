@@ -247,6 +247,17 @@ func compare_values(a, b) -> bool:
 	return a > b
 
 
+func column_can_solo_open(column_index : int) -> bool:
+	return (
+		column_types[column_index] == TYPE_OBJECT
+		or (column_types[column_index] == TYPE_ARRAY and column_hint_strings[column_index][0].begins_with("24"))
+	)
+
+
+func column_solo_open(column_index : int):
+	display_folder(current_path.trim_suffix("/") + "::" + columns[column_index])
+
+
 func _set_sorting(sort_by : StringName):
 	var sort_reverse : bool = !(sorting_by != sort_by or sorting_reverse)
 	sorting_reverse = sort_reverse
@@ -258,7 +269,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 	var current_node : Control
 	var next_color := Color.WHITE
 	var column_editors : Array = _selection.column_editors
-	var res_path : String = rows[row_index].resource_path.get_basename().substr(current_path.length())
+	var shortened_path : String = rows[row_index].resource_path.get_file().trim_suffix(".tres")
 	for i in columns.size():
 		if node_table_root.get_child_count() <= (row_index - first_row) * columns.size() + i:
 			current_node = column_editors[i].create_cell(self)
@@ -270,7 +281,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 			current_node.tooltip_text = (
 				columns[i].capitalize()
 				+ "\n---\n"
-				+ "Of " + res_path
+				+ "Of " + shortened_path
 			)
 
 		if columns[i] in rows[row_index]:
@@ -284,7 +295,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 			continue
 
 		if columns[i] == &"resource_path":
-			column_editors[i].set_value(current_node, res_path)
+			column_editors[i].set_value(current_node, shortened_path)
 
 		else:			
 			var cell_value = io.get_value(rows[row_index], columns[i])

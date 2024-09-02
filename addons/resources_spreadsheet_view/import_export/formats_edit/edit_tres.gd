@@ -53,6 +53,15 @@ func has_row_names():
 
 
 func import_from_path(folderpath : String, insert_func : Callable, sort_by : String, sort_reverse : bool = false) -> Array:
+	var solo_property := ""
+	var solo_property_split : Array[String] = []
+	if folderpath.contains("::"):
+		var found_at := folderpath.find("::")
+		solo_property = folderpath.substr(found_at + "::".length()).trim_suffix("/")
+		folderpath = folderpath.left(found_at)
+		for x in solo_property.split("::"):
+			solo_property_split.append(x)
+
 	var rows := []
 	var dir := DirAccess.open(folderpath)
 	if dir == null: return []
@@ -69,19 +78,39 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 		for x in DirAccess.get_directories_at(folderpath):
 			folder_stack.append(folderpath.path_join(x))
 
-	var loaded_res : Array[Resource] = []
-	var res : Resource = null
-	var cur_dir_types : Dictionary = {}
-	loaded_res.resize(file_stack.size())
-	for i in file_stack.size():
-		res = null
-		if file_stack[i].ends_with(".tres"):
-			res = load(file_stack[i])
-			loaded_res[i] = res
+	var loaded_res_unique := {}
+	for x in file_stack:
+		if !x.ends_with(".tres"):
+			continue
 
-	editor_view.fill_property_data_many(loaded_res)
-	for x in loaded_res:
+		if solo_property.is_empty():
+			loaded_res_unique[load(x)] = true
+
+		else:
+			_append_soloed_property(load(x), loaded_res_unique, solo_property_split)
+
+	editor_view.fill_property_data_many(loaded_res_unique.keys())
+	for x in loaded_res_unique.keys():
 		if x == null: continue
 		insert_func.call(x, rows, sort_by, sort_reverse)
 
 	return rows
+
+
+func _append_soloed_property(current_res : Resource, result : Dictionary, solo_property_split : Array[String], solo_property_split_idx : int = -solo_property_split.size()):
+	var soloed_value = current_res[solo_property_split[solo_property_split_idx]]
+	if solo_property_split_idx == -1:
+		if soloed_value is Resource:
+			result[soloed_value] = true
+
+		elif soloed_value is Array:
+			for x in soloed_value:
+				result[x] = true
+
+	else:
+		if soloed_value is Resource:
+			_append_soloed_property(soloed_value, result, solo_property_split, solo_property_split_idx + 1)
+
+		elif soloed_value is Array:
+			for x in soloed_value:
+				_append_soloed_property(x, result, solo_property_split, solo_property_split_idx + 1)

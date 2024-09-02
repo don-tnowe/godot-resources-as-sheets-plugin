@@ -15,13 +15,14 @@ var columns := []:
 	set(v):
 		columns = v
 		for x in get_children():
+			remove_child(x)
 			x.queue_free()
 
 		var new_node : Control
 		for x in v:
 			new_node = table_header_scene.instantiate()
-			add_child(new_node)
 			new_node.manager = self
+			add_child(new_node)
 			new_node.set_label(x)
 			new_node.get_node("Button").pressed.connect(editor_view._set_sorting.bind(x))
 

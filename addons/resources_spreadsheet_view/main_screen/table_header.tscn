@@ -19,10 +19,5 @@ clip_text = true
 [node name="Button2" type="MenuButton" parent="."]
 layout_mode = 2
 size_flags_horizontal = 9
-item_count = 2
-popup/item_0/text = "Select All"
-popup/item_0/id = 0
-popup/item_1/text = "Hide"
-popup/item_1/id = 1
 script = ExtResource("2_0ymob")
 icon_name = "ArrowDown"
