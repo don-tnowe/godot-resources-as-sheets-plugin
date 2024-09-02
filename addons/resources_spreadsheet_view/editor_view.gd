@@ -117,32 +117,10 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 		folderpath = folderpath.get_base_dir() + "/"
 
 	node_recent_paths.add_path_to_recent(folderpath)
-	first_row = node_page_manager.first_row
-	_load_resources_from_path(folderpath, sort_by, sort_reverse)
-	last_row = min(first_row + node_page_manager.rows_per_page, rows.size())
-
-	if columns.size() == 0: return
-
 	node_folder_path.text = folderpath
-	if (
-		force_rebuild
-		or current_path != folderpath
-		or columns.size() != node_columns.get_child_count()
-	):
-		node_table_root.columns = columns.size()
-		for x in node_table_root.get_children():
-			x.free()
 
-		node_columns.columns = columns
-
-	var cells_left_to_free : int = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
-	while cells_left_to_free > 0:
-		node_table_root.get_child(0).free()
-		cells_left_to_free -= 1
-	
-	var color_rows : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
-	for i in last_row - first_row:
-		_update_row(first_row + i, color_rows)
+	_load_resources_from_path(folderpath, sort_by, sort_reverse)
+	_update_visible_rows(force_rebuild or current_path != folderpath)
 
 	current_path = folderpath
 	remembered_paths_total_count = _get_file_count_recursive(folderpath)
@@ -150,8 +128,26 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 	grid_updated.emit()
 
 
+func display_resources(resource_array : Array):
+	current_path = ""
+	node_recent_paths.select(-1)
+	fill_property_data_many(resource_array)
+	rows.clear()
+	for x in resource_array:
+		insert_row_sorted(x, rows, sorting_by, sorting_reverse)
+
+	_update_visible_rows()
+
+	node_columns.update()
+	grid_updated.emit()
+
+
 func refresh(force_rebuild : bool = true):
-	display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
+	if current_path == "":
+		display_resources(rows)
+
+	else:
+		display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
 
 
 func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse : bool):
@@ -169,6 +165,30 @@ func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse
 	io.editor_view = self
 	remembered_paths.clear()
 	rows = io.import_from_path(path, insert_row_sorted, sort_by, sort_reverse)
+
+
+func _update_visible_rows(force_rebuild : bool = true):
+	first_row = node_page_manager.first_row
+	last_row = min(first_row + node_page_manager.rows_per_page, rows.size())
+
+	if columns.size() == 0:
+		return
+
+	if force_rebuild or columns.size() != node_columns.get_child_count():
+		node_table_root.columns = columns.size()
+		for x in node_table_root.get_children():
+			x.free()
+
+		node_columns.columns = columns
+
+	var cells_left_to_free : int = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
+	while cells_left_to_free > 0:
+		node_table_root.get_child(0).free()
+		cells_left_to_free -= 1
+	
+	var color_rows : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
+	for i in last_row - first_row:
+		_update_row(first_row + i, color_rows)
 
 
 func fill_property_data(res : Resource):
