@@ -1,7 +1,8 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://djqq1lqaevth5"]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://djqq1lqaevth5"]
 
 [ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_pewbv"]
 [ext_resource type="Texture2D" uid="uid://cluvoehgeqmcu" path="res://example/Random Upgrades/icons/all_icons/all_icons_4.tres" id="1_sr0ui"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2_yatbe"]
 
 [resource]
 resource_name = "Weapon: Blizzard"
@@ -14,7 +15,7 @@ tags = Array[String](["weapon", "magic", "elemental"])
 type = 0
 attributes = Array[int]([1, 2])
 icon = ExtResource("1_sr0ui")
-prerequisites = Array[Resource("res://example/Random Upgrades/upgrade_data.gd")]([])
+prerequisites = Array[ExtResource("2_yatbe")]([])
 color2 = Color(0.189457, 0.452246, 0.902344, 1)
 base_weight = 10.0
 is_notable = false

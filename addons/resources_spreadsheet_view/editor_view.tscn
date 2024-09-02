@@ -533,15 +533,15 @@ exclusive = true
 min_size = Vector2i(600, 400)
 
 [node name="ImportExport" parent="Control/ImportExport" instance=ExtResource("14_3p12b")]
+current_tab = 0
 
-[node name="SelectionActions" parent="Control" node_paths=PackedStringArray("editor_view", "selection") instance=ExtResource("23_m53sx")]
+[node name="SelectionActions" parent="Control" node_paths=PackedStringArray("selection") instance=ExtResource("23_m53sx")]
 visible = false
 layout_mode = 2
 offset_left = -506.0
 offset_top = 65.0
 offset_right = -426.0
 offset_bottom = 117.0
-editor_view = NodePath("../..")
 selection = NodePath("../../SelectionManager")
 
 [node name="InputHandler" type="Node" parent="."]
