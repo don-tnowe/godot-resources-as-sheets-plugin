@@ -139,11 +139,11 @@ func display_resources(resource_array : Array):
 
 	current_path = ""
 	node_recent_paths.select(-1)
-	fill_property_data_many(resource_array)
 	rows = []
 	for x in resource_array:
 		insert_row_sorted(x, rows, sorting_by, sorting_reverse)
 
+	fill_property_data_many(rows)
 	_update_visible_rows()
 
 	node_columns.update()
@@ -176,14 +176,11 @@ func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse
 
 
 func _update_visible_rows(force_rebuild : bool = true):
-	first_row = node_page_manager.first_row
-	last_row = min(first_row + node_page_manager.rows_per_page, rows.size())
-
+	node_page_manager.update_page_count(rows)
 	if columns.size() == 0:
 		return
 
-	if force_rebuild or columns.size() != node_columns.get_child_count():
-		node_table_root.columns = columns.size()
+	if force_rebuild or columns != node_columns.columns:
 		for x in node_table_root.get_children():
 			x.free()
 
@@ -223,18 +220,21 @@ func fill_property_data_many(resources : Array):
 	column_types.clear()
 	column_hints.clear()
 	column_hint_strings.clear()
+	node_page_manager.update_page_count(resources)
 	var column_values := []
 	var i := -1
 	var found_props := {}
 	for x in resources:
 		if x == null: continue
-		if not search_cond.is_null() and not search_cond.call(x, 0):
+		i += 1
+		if not search_cond.is_null() and not search_cond.call(x, i):
 			continue
 
 		for y in x.get_property_list():
 			found_props[y[&"name"]] = y
 			y[&"owner_object"] = x
 
+	i = -1
 	for x in found_props.values():
 		if x[&"usage"] & PROPERTY_USAGE_EDITOR != 0 and x[&"name"] != "script":
 			i += 1

@@ -5,17 +5,18 @@ extends HBoxContainer
 
 var rows_per_page := 50
 var current_page := 0
-var first_row := 0
-var last_row := 50
+
+
+func update_page_count(array : Array) -> int:
+	var page_count : int = (node_editor_view_root.rows.size() - 1) / rows_per_page + 1
+	node_editor_view_root.first_row = min(current_page, page_count) * rows_per_page
+	node_editor_view_root.last_row = min(node_editor_view_root.first_row + rows_per_page, array.size())
+	return page_count
 
 
 func _on_grid_updated():
 	visible = true
-
-	var page_count = (node_editor_view_root.rows.size() - 1) / rows_per_page + 1
-	first_row = min(current_page, page_count) * rows_per_page
-	last_row = min(first_row + rows_per_page, node_editor_view_root.rows.size())
-
+	var page_count := update_page_count(node_editor_view_root.rows)
 	var pagelist_node := $"Scroll/Pagelist"
 	for x in pagelist_node.get_children():
 		x.queue_free()

@@ -89,11 +89,11 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 		else:
 			_append_soloed_property(load(x), loaded_res_unique, solo_property_split)
 
-	editor_view.fill_property_data_many(loaded_res_unique.keys())
 	for x in loaded_res_unique.keys():
 		if x == null: continue
 		insert_func.call(x, rows, sort_by, sort_reverse)
 
+	editor_view.fill_property_data_many(loaded_res_unique.keys())
 	return rows
 
 
