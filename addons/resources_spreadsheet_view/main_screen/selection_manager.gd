@@ -5,6 +5,7 @@ signal cells_selected(cells)
 signal cells_rightclicked(cells)
 
 const EditorViewClass = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
+const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
 
 @export var cell_editor_classes : Array[Script] = []
 
@@ -50,24 +51,10 @@ func _draw():
 		if edit_cursor_positions[i] >= edited_cells_text[i].length():
 			continue
 
-		var char_size := Vector2(0, font.get_ascent(font_size))
-		var cursor_pos := Vector2(label_padding_left, 0)
-		var cell_text : String = edited_cells_text[i]
 		var cell : Control = edited_cells[i]
-		if cell is Label and cell.horizontal_alignment == HORIZONTAL_ALIGNMENT_RIGHT:
-			cursor_pos.x += cell.size.x - font.get_multiline_string_size(edited_cells[i].text, HORIZONTAL_ALIGNMENT_RIGHT, -1, font_size).x
-
-		for j in max(edit_cursor_positions[i], 0) + 1:
-			if j == 0: continue
-			if cell_text.unicode_at(j - 1) == newline_char:
-				cursor_pos.x = label_padding_left
-				cursor_pos.y += font.get_ascent(font_size)
-				continue
-
-			char_size = font.get_char_size(cell_text.unicode_at(j - 1), font_size)
-			cursor_pos.x += char_size.x
-
-		draw_rect(Rect2(cursor_pos + cell.global_position - global_position, Vector2(2, char_size.y)), Color(1, 1, 1, 0.5))
+		var caret_rect := TextEditingUtilsClass.get_caret_rect(edited_cells_text[i], edit_cursor_positions[i], font, font_size, label_padding_left, 2.0)
+		caret_rect.position += cell.global_position - global_position
+		draw_rect(caret_rect, Color(1, 1, 1, 0.5))
 
 
 func initialize_editors(column_values, column_types, column_hints):

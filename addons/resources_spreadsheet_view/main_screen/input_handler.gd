@@ -72,42 +72,29 @@ func _key_specific_action(event : InputEvent):
 	var ctrl_pressed := Input.is_key_pressed(KEY_CTRL)
 
 	# BETWEEN-CELL NAVIGATION
+	var grid_move_offset := (10 if ctrl_pressed else 1)
 	if event.keycode == KEY_UP:
-		_move_selection_on_grid(0, (-1 if !ctrl_pressed else -10))
+		_move_selection_on_grid(0, -grid_move_offset)
 
 	elif event.keycode == KEY_DOWN:
-		_move_selection_on_grid(0, (1 if !ctrl_pressed else 10))
+		_move_selection_on_grid(0, +grid_move_offset)
 
 	elif Input.is_key_pressed(KEY_SHIFT) and event.keycode == KEY_TAB:
-		_move_selection_on_grid((-1 if !ctrl_pressed else -10), 0)
+		_move_selection_on_grid(-grid_move_offset, 0)
 	
 	elif event.keycode == KEY_TAB:
-		_move_selection_on_grid((1 if !ctrl_pressed else 10), 0)
+		_move_selection_on_grid(+grid_move_offset, 0)
 
-	# CURSOR MOVEMENT
-	if event.keycode == KEY_LEFT:
-		TextEditingUtilsClass.multi_move_left(
-			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
-		)
-	
-	elif event.keycode == KEY_RIGHT:
-		TextEditingUtilsClass.multi_move_right(
-			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
-		)
-	
-	elif event.keycode == KEY_HOME:
-		for i in selection.edit_cursor_positions.size():
-			selection.edit_cursor_positions[i] = 0
-
-	elif event.keycode == KEY_END:
-		for i in selection.edit_cursor_positions.size():
-			selection.edit_cursor_positions[i] = selection.edited_cells_text[i].length()
-	
-	# Ctrl + C (so you can edit in a proper text editor instead of this wacky nonsense)
 	elif ctrl_pressed and event.keycode == KEY_C:
 		TextEditingUtilsClass.multi_copy(selection.edited_cells_text)
 		get_viewport().set_input_as_handled()
-			
+
+	# TEXT CARET MOVEMENT
+	var caret_move_offset := TextEditingUtilsClass.get_caret_movement_from_key(event.keycode)
+	if TextEditingUtilsClass.multi_move_caret(caret_move_offset, selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed):
+		selection.queue_redraw()
+		return
+
 	# The following actions do not work on non-editable cells.
 	if !selection.column_editors[column].is_text() or editor_view.columns[column] == "resource_path":
 		return

@@ -47,10 +47,44 @@ static func revert_non_typing(text : String) -> String:
 	return text
 
 
-static func multi_erase_right(values : Array, cursor_positions : Array, ctrl_pressed : bool):
+static func get_caret_movement_from_key(keycode : int) -> int:
+	match keycode:
+		KEY_LEFT: 
+			return -1
+		KEY_RIGHT: 
+			return +1
+		KEY_HOME: 
+			return -2
+		KEY_END: 
+			return +2
+
+	return 0
+
+
+static func multi_move_caret(offset : int, edited_cells_text : Array, edit_caret_positions : Array, whole_word : bool) -> bool:
+	if offset == -1:
+		for i in edit_caret_positions.size():
+			edit_caret_positions[i] = _step_cursor(edited_cells_text[i], edit_caret_positions[i], -1, whole_word)
+
+	elif offset == +1:
+		for i in edit_caret_positions.size():
+			edit_caret_positions[i] = _step_cursor(edited_cells_text[i], edit_caret_positions[i], +1, whole_word)
+
+	elif offset < -1:
+		for i in edit_caret_positions.size():
+			edit_caret_positions[i] = 0
+
+	elif offset > +1:
+		for i in edit_caret_positions.size():
+			edit_caret_positions[i] = edited_cells_text[i].length()
+
+	return offset != 0
+
+
+static func multi_erase_right(values : Array, cursor_positions : Array, whole_word : bool):
 	for i in values.size():
 		var start_pos = cursor_positions[i]
-		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], 1, ctrl_pressed)
+		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], 1, whole_word)
 
 		cursor_positions[i] = min(
 			cursor_positions[i], 
@@ -65,27 +99,17 @@ static func multi_erase_right(values : Array, cursor_positions : Array, ctrl_pre
 	return values
 
 
-static func multi_erase_left(values : Array, cursor_positions : Array, ctrl_pressed : bool):
+static func multi_erase_left(values : Array, cursor_positions : Array, whole_word : bool):
 	for i in values.size():
 		var start_pos = cursor_positions[i]
 
-		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], -1, ctrl_pressed)
+		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], -1, whole_word)
 		values[i] = (
 			values[i].substr(0, cursor_positions[i])
 			+ values[i].substr(start_pos)
 		)
 
 	return values
-
-
-static func multi_move_left(values : Array, cursor_positions : Array, ctrl_pressed : bool):
-	for i in cursor_positions.size():
-		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], -1, ctrl_pressed)
-
-
-static func multi_move_right(values : Array, cursor_positions : Array, ctrl_pressed : bool):
-	for i in cursor_positions.size():
-		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], 1, ctrl_pressed)
 
 
 static func multi_paste(values : Array, cursor_positions : Array):
@@ -127,21 +151,38 @@ static func multi_input(input_char : String, values : Array, cursor_positions : 
 	return values
 
 
-static func _step_cursor(text : String, start : int, step : int = 1, ctrl_pressed : bool = false) -> int:
+static func get_caret_rect(cell_text : String, caret_position : int, font : Font, font_size : int, label_padding_left : float, caret_width : float = 2.0) -> Rect2:
+	var char_size := Vector2(0, font.get_ascent(font_size))
+	var result_pos := Vector2(label_padding_left, 0)
+	for j in max(caret_position, 0) + 1:
+		if j == 0: continue
+		if cell_text.unicode_at(j - 1) == 10:
+			# If "\n" found, next line.
+			result_pos.x = label_padding_left
+			result_pos.y += font.get_ascent(font_size)
+			continue
+
+		char_size = font.get_char_size(cell_text.unicode_at(j - 1), font_size)
+		result_pos.x += char_size.x
+
+	return Rect2(result_pos, Vector2(2, char_size.y))
+
+
+static func _step_cursor(text : String, start : int, step : int = 1, whole_word : bool = false) -> int:
 	var cur := start
-	if ctrl_pressed and is_character_whitespace(text, cur + step):
+	if whole_word and is_character_whitespace(text, cur + step):
 		cur += step
 
 	while true:
 		cur += step
-		if !ctrl_pressed or is_character_whitespace(text, cur):
+		if !whole_word or is_character_whitespace(text, cur):
 			if cur > text.length():
 				return text.length()
 
 			if cur <= 0:
 				return 0
 
-			if ctrl_pressed and step < 0:
+			if whole_word and step < 0:
 				return cur + 1
 
 			return cur
