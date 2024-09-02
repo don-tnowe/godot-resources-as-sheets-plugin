@@ -60,6 +60,7 @@ func open(cells : Array, pin_to_cell : bool = false, from_leftclick : bool = fal
 	top_level = true
 	$"Control2/Label".text = str(cells.size()) + (" Cells" if cells.size() % 10 != 1 else " Cell")
 	$"GridContainer/Rename".visible = editor_view.has_row_names()
+	$"GridContainer/SoloOpen".visible = editor_view.column_can_solo_open(editor_view.get_selected_column())
 
 
 func close():
@@ -95,7 +96,6 @@ func _input(event : InputEvent):
 				return
 
 
-
 func _on_Duplicate_pressed():
 	_show_editbox(EDITBOX_DUPLICATE)
 
@@ -119,6 +119,19 @@ func _on_Rename_pressed():
 
 func _on_Delete_pressed():
 	_show_editbox(EDITBOX_DELETE)
+
+
+func _on_SoloOpen_pressed():
+	var resources_to_open_unique := {}
+	for x in editor_view.get_edited_cells_values():
+		if x is Array:
+			for y in x:
+				resources_to_open_unique[y] = true
+
+		if x is Resource:
+			resources_to_open_unique[x] = true
+
+	editor_view.display_resources(resources_to_open_unique.keys())
 
 
 func _show_editbox(action):

@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/selection_actions.gd" id="1_qv6ov"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_a4ihj"]
 
-[sub_resource type="Image" id="Image_1546g"]
+[sub_resource type="Image" id="Image_pjk43"]
 data = {
 "data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "LumAlpha8",
@@ -14,9 +14,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="2"]
-image = SubResource("Image_1546g")
+image = SubResource("Image_pjk43")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydxuk"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2l2b"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -29,12 +29,13 @@ border_width_right = 2
 border_width_bottom = 2
 corner_detail = 1
 
-[node name="SelectionActions" type="MarginContainer"]
+[node name="SelectionActions" type="MarginContainer" node_paths=PackedStringArray("editor_view")]
 offset_right = 80.0
 offset_bottom = 52.0
 size_flags_horizontal = 9
 mouse_filter = 2
 script = ExtResource("1_qv6ov")
+editor_view = NodePath("../..")
 
 [node name="Control2" type="Panel" parent="."]
 layout_mode = 2
@@ -123,6 +124,14 @@ icon = SubResource("2")
 script = ExtResource("1")
 icon_name = "Remove"
 
+[node name="SoloOpen" type="Button" parent="GridContainer"]
+layout_mode = 2
+tooltip_text = "Open selected cells as new table"
+mouse_filter = 1
+icon = SubResource("2")
+script = ExtResource("1")
+icon_name = "Object"
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
 mouse_filter = 2
@@ -148,7 +157,7 @@ offset_bottom = 196.0
 [node name="Panel" type="PanelContainer" parent="Control/ColorRect/Popup"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ydxuk")
+theme_override_styles/panel = SubResource("StyleBoxFlat_r2l2b")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/Popup/Panel"]
 layout_mode = 2
@@ -178,5 +187,6 @@ text = "Cancel"
 [connection signal="pressed" from="GridContainer/CbPaste" to="." method="_on_CbPaste_pressed"]
 [connection signal="pressed" from="GridContainer/Rename" to="." method="_on_Rename_pressed"]
 [connection signal="pressed" from="GridContainer/Delete" to="." method="_on_Delete_pressed"]
+[connection signal="pressed" from="GridContainer/SoloOpen" to="." method="_on_SoloOpen_pressed"]
 [connection signal="pressed" from="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer/Button" to="." method="_on_editbox_accepted"]
 [connection signal="pressed" from="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer/Button2" to="." method="_on_editbox_closed"]
