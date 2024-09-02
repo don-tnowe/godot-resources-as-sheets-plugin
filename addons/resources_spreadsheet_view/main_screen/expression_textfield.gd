@@ -126,7 +126,7 @@ func _table_filter():
 	new_script.reload()
 
 	var editor_view := get_node(editor_view_path)
-	editor_view.search_cond = new_script
+	editor_view.search_cond = new_script.can_show
 	editor_view.refresh()
 
 

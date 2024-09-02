@@ -31,7 +31,7 @@ var remembered_paths := {}
 var remembered_paths_total_count := 0
 var table_functions_dict := {}
 
-var search_cond : RefCounted
+var search_cond : Callable
 var io : RefCounted
 
 var first_row := 0
@@ -237,7 +237,7 @@ func fill_property_data_many(resources : Array):
 
 
 func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName, sort_reverse : bool):
-	if search_cond != null and not search_cond.can_show(res, loaded_rows.size()):
+	if not search_cond.is_null() and not search_cond.call(res, loaded_rows.size()):
 		return
 
 	if not sort_by in res:
@@ -281,8 +281,8 @@ func column_solo_open(column_index : int):
 func _set_sorting(sort_by : StringName):
 	var sort_reverse : bool = !(sorting_by != sort_by or sorting_reverse)
 	sorting_reverse = sort_reverse
-	display_folder(current_path, sort_by, sort_reverse)
 	sorting_by = sort_by
+	refresh()
 
 
 func _update_row(row_index : int, color_rows : bool = true):
