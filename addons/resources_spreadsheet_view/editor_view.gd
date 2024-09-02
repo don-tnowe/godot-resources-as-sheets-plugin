@@ -443,7 +443,7 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 			values[i],
 			row
 		)
-		continue
+
 		if column_types[update_column] == TYPE_COLOR:
 			for j in columns.size() - update_column:
 				if j != 0 and column_types[j + update_column] == TYPE_COLOR:
@@ -451,7 +451,7 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 
 				_selection.column_editors[j + update_column].set_color(
 					update_cell.get_parent().get_child(
-						row * columns.size() + update_column + j - first_row
+						(row - first_row) * columns.size() + update_column + j
 					),
 					values[i]
 				)
