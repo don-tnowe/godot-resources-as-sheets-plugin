@@ -67,4 +67,5 @@ func _on_list_id_pressed(id : int):
 				if x is Resource:
 					resources_to_open_unique[x] = true
 
-			manager.editor_view.display_resources(resources_to_open_unique.keys())
+			if resources_to_open_unique.size() > 0:
+				manager.editor_view.display_resources(resources_to_open_unique.keys())

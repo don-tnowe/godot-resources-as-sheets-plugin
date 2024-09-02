@@ -131,7 +131,8 @@ func _on_SoloOpen_pressed():
 		if x is Resource:
 			resources_to_open_unique[x] = true
 
-	editor_view.display_resources(resources_to_open_unique.keys())
+	if resources_to_open_unique.size() > 0:
+		editor_view.display_resources(resources_to_open_unique.keys())
 
 
 func _show_editbox(action):

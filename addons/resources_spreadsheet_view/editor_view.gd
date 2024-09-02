@@ -68,6 +68,9 @@ func save_data():
 
 
 func _on_filesystem_changed():
+	if current_path == "":
+		return
+
 	var file_total_count := _get_file_count_recursive(current_path)
 	if file_total_count != remembered_paths_total_count:
 		refresh()
@@ -109,7 +112,6 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 	if sort_by == "":
 		sort_by = &"resource_path"
 
-	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = false
 	if folderpath.get_extension() == "":
 		folderpath = folderpath.trim_suffix("/") + "/"
 
@@ -127,12 +129,18 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 	node_columns.update()
 	grid_updated.emit()
 
+	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".visible = rows.size() == 0
+	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".text = "No rows visible?\nThis might happen when sorting by a property that isn't here anymore.\nTry clicking a column header to sort again!\n\nIt's also possible that your Filter expression is filtering them out."
+
 
 func display_resources(resource_array : Array):
+	if sorting_by == "":
+		sorting_by = &"resource_path"
+
 	current_path = ""
 	node_recent_paths.select(-1)
 	fill_property_data_many(resource_array)
-	rows.clear()
+	rows = []
 	for x in resource_array:
 		insert_row_sorted(x, rows, sorting_by, sorting_reverse)
 
@@ -243,9 +251,9 @@ func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName
 	if not sort_by in res:
 		return
 
-	var sort_value = io.get_value(res, sort_by)
+	var sort_value = res[sort_by]
 	for i in loaded_rows.size():
-		if sort_reverse == compare_values(sort_value, io.get_value(loaded_rows[i], sort_by)):
+		if sort_reverse == compare_values(sort_value, loaded_rows[i][sort_by]):
 			loaded_rows.insert(i, res)
 			return
 	
