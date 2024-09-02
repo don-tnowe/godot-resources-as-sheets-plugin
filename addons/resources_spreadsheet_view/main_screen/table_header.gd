@@ -24,13 +24,17 @@ func _on_about_to_popup():
 	if !manager.editor_view.column_can_solo_open(get_index()):
 		menu_popup.add_item("(not a Resource property)", 2)
 		menu_popup.set_item_disabled(2, true)
-
-	elif manager.editor_view.get_edited_cells_values().size() == 0 or manager.editor_view.get_selected_column() != get_index():
-		menu_popup.add_item("Open Sub-Resources of Whole Column (none selected)", 2)
+		menu_popup.add_separator("", 3)
 
 	else:
-		menu_popup.add_item("Open Sub-Resources in Selection", 2)
+		menu_popup.add_item("Open Sub-Resources of Column", 2)
 
+		if manager.editor_view.get_edited_cells_values().size() == 0 or manager.editor_view.get_selected_column() != get_index():
+			menu_popup.add_item("(none selected)", 3)
+			menu_popup.set_item_disabled(3, true)
+
+		else:
+			menu_popup.add_item("Open Sub-Resources in Selection", 3)
 
 
 func _on_main_gui_input(event : InputEvent):
@@ -52,17 +56,15 @@ func _on_list_id_pressed(id : int):
 		1:
 			manager.hide_column(get_index())
 		2:
-			if manager.editor_view.get_edited_cells_values().size() == 0 or manager.editor_view.get_selected_column() != get_index():
-				manager.editor_view.column_solo_open(get_index())
+			manager.editor_view.column_solo_open(get_index())
+		3:
+			var resources_to_open_unique := {}
+			for x in manager.editor_view.get_edited_cells_values():
+				if x is Array:
+					for y in x:
+						resources_to_open_unique[y] = true
 
-			else:
-				var resources_to_open_unique := {}
-				for x in manager.editor_view.get_edited_cells_values():
-					if x is Array:
-						for y in x:
-							resources_to_open_unique[y] = true
+				if x is Resource:
+					resources_to_open_unique[x] = true
 
-					if x is Resource:
-						resources_to_open_unique[x] = true
-
-				manager.editor_view.display_resources(resources_to_open_unique.keys())
+			manager.editor_view.display_resources(resources_to_open_unique.keys())
