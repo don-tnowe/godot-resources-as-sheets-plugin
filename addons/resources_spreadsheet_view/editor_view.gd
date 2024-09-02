@@ -228,6 +228,9 @@ func fill_property_data_many(resources : Array):
 	var found_props := {}
 	for x in resources:
 		if x == null: continue
+		if not search_cond.is_null() and not search_cond.call(x, 0):
+			continue
+
 		for y in x.get_property_list():
 			found_props[y[&"name"]] = y
 			y[&"owner_object"] = x
