@@ -9,7 +9,8 @@ const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/
 @onready var selection : TablesPluginSelectionManagerClass = get_node("../SelectionManager")
 
 
-func _on_cell_gui_input(event : InputEvent, cell : Control):
+func _on_cell_gui_input(event : InputEvent, cell_node : Control):
+	var cell := selection.get_cell_node_position(cell_node)
 	if event is InputEventMouseButton:
 		editor_view.grab_focus()
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:

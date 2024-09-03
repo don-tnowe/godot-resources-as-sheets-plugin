@@ -344,11 +344,8 @@ func get_selected_column() -> int:
 
 func select_column(column_index : int):
 	_selection.deselect_all_cells()
-	_selection.select_cell(node_table_root.get_child(column_index))
-	_selection.select_cells_to(node_table_root.get_child(
-		column_index + columns.size()
-		* (last_row - first_row - 1))
-	)
+	_selection.select_cell(Vector2i(column_index, 0))
+	_selection.select_cells_to(Vector2i(column_index, rows.size() - 1))
 
 
 func set_edited_cells_values(new_cell_values : Array):
@@ -414,8 +411,6 @@ func get_last_selected_row():
 func get_edited_cells_values() -> Array:
 	var cells : Array = _selection.edited_cells.duplicate()
 	var column_index : int = _selection.get_cell_column(_selection.edited_cells[0])
-	var cell_editor : Object = _selection.column_editors[column_index]
-
 	var result := []
 	result.resize(cells.size())
 	for i in cells.size():
@@ -428,7 +423,15 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 	var column_editor = _selection.column_editors[update_column]
 	for i in update_rows.size():
 		var row = update_row_indices[i]
-		var update_cell = node_table_root.get_child((row - first_row) * columns.size() + update_column)
+		io.set_value(
+			update_rows[i],
+			columns[update_column],
+			values[i],
+			row
+		)
+		var update_cell : Control = _selection.get_cell_node_from_position(Vector2i(update_column, row))
+		if update_cell == null:
+			continue
 
 		column_editor.set_value(update_cell, values[i])
 		if values[i] is String:
@@ -436,13 +439,6 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 
 		if values[i] == null:
 			continue
-		
-		io.set_value(
-			update_rows[i],
-			columns[update_column],
-			values[i],
-			row
-		)
 
 		if column_types[update_column] == TYPE_COLOR:
 			for j in columns.size() - update_column:
@@ -450,9 +446,7 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 					break
 
 				_selection.column_editors[j + update_column].set_color(
-					update_cell.get_parent().get_child(
-						(row - first_row) * columns.size() + update_column + j
-					),
+					_selection.get_cell_node_from_position(Vector2i(update_column + j, row)),
 					values[i]
 				)
 

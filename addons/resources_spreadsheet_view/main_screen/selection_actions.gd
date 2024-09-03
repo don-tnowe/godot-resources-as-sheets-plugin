@@ -45,7 +45,7 @@ func open(cells : Array, pin_to_cell : bool = false, from_leftclick : bool = fal
 		return
 	
 	if pin_to_cell:
-		cell = cells[-1]
+		cell = selection.get_cell_node_from_position(cells[-1])
 		set_deferred(&"global_position", Vector2(
 			cell.global_position.x + cell.size.x,
 			cell.global_position.y
