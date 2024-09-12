@@ -460,7 +460,7 @@ func try_convert(value, type):
 		return value[0] == "o"
 
 	# If it can't convert, throws exception and returns null.
-	return convert(value, type)
+	return type_convert(value, type)
 
 
 func _on_path_text_submitted(new_text : String = ""):
