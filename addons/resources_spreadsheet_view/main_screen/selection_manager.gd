@@ -113,7 +113,10 @@ func select_cell(cell : Vector2i):
 func select_cells(cells : Array):
 	var last_selectible : Vector2i = Vector2i(-1, -1)
 	for x in cells:
-		if x.mouse_filter != MOUSE_FILTER_IGNORE and can_select_cell(x):
+		var node: Node = get_cell_node_from_position(x)
+		if node == null:
+			continue
+		if node.mouse_filter != MOUSE_FILTER_IGNORE and can_select_cell(x):
 			_add_cell_to_selection(x)
 			last_selectible = x
 
