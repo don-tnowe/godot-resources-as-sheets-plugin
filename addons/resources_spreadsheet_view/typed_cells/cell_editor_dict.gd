@@ -35,3 +35,11 @@ func set_value(node : Control, value):
 
 func is_text():
 	return false
+
+
+func to_text(value) -> String:
+	return var_to_str(value).replace("\n", " ")
+
+
+func from_text(text : String):
+	return str_to_var(text)
