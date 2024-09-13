@@ -29,11 +29,11 @@ func set_value(node : Control, value):
 func is_text():
 	return true
 
-## Override to, if [method is_text] returns [code]true[/code], define custom behaviour for converting the value into text for editing.
+## Override to define custom behaviour for converting the value into text for editing and copy/paste.
 func to_text(value) -> String:
 	return var_to_str(value)
 
-## Override to, if [method is_text] returns [code]true[/code], define custom behaviour for converting the value from text for editing.
+## Override to define custom behaviour for converting the value from text for editing and copy/paste.
 func from_text(text : String):
 	return str_to_var(text)
 

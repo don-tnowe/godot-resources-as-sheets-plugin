@@ -133,9 +133,6 @@ static func multi_paste(values : Array, cursor_positions : Array):
 
 
 static func multi_copy(values : Array):
-	for i in values.size():
-		values[i] = values[i]
-	
 	DisplayServer.clipboard_set("\n".join(values))
 
 

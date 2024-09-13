@@ -90,6 +90,11 @@ func _key_specific_action(event : InputEvent):
 		TextEditingUtilsClass.multi_copy(selection.edited_cells_text)
 		get_viewport().set_input_as_handled()
 
+	# Ctrl + V
+	elif ctrl_pressed and event.keycode == KEY_V and editor_view.columns[column] != "resource_path":
+		selection.clipboard_paste()
+		get_viewport().set_input_as_handled()
+
 	# TEXT CARET MOVEMENT
 	var caret_move_offset := TextEditingUtilsClass.get_caret_movement_from_key(event.keycode)
 	if TextEditingUtilsClass.multi_move_caret(caret_move_offset, selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed):
@@ -100,13 +105,6 @@ func _key_specific_action(event : InputEvent):
 	if !selection.column_editors[column].is_text() or editor_view.columns[column] == "resource_path":
 		return
 	
-	# Ctrl + V
-	elif ctrl_pressed and event.keycode == KEY_V:
-		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_paste(
-			selection.edited_cells_text, selection.edit_cursor_positions
-		))
-		get_viewport().set_input_as_handled()
-
 	# ERASING
 	elif event.keycode == KEY_BACKSPACE:
 		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_erase_left(

@@ -132,11 +132,11 @@ func select_cells_to(cell : Vector2i):
 		var cur_cell_node := get_cell_node_from_position(cur_cell)
 		if cur_cell not in edited_cells:
 			edited_cells.append(cur_cell)
-			if column_editors[column_index].is_text():
-				var cur_cell_value = editor_view.io.get_value(editor_view.rows[cur_cell.y], editor_view.columns[cur_cell.x])
-				var cur_cell_text : String = column_editor.to_text(cur_cell_value)
-				edited_cells_text.append(cur_cell_text)
-				edit_cursor_positions.append(cur_cell_text.length())
+
+			var cur_cell_value = editor_view.io.get_value(editor_view.rows[cur_cell.y], editor_view.columns[cur_cell.x])
+			var cur_cell_text : String = column_editor.to_text(cur_cell_value)
+			edited_cells_text.append(cur_cell_text)
+			edit_cursor_positions.append(cur_cell_text.length())
 
 		if cur_cell_node == null or !cur_cell_node.visible or cur_cell_node.mouse_filter == MOUSE_FILTER_IGNORE:
 			# When showing several classes, empty cells will be non-selectable.
@@ -203,6 +203,23 @@ func get_edited_rows() -> Array[int]:
 	return rows
 
 
+func clipboard_paste():
+	if column_editors[edited_cells[0].x].is_text():
+		editor_view.set_edited_cells_values(
+			TextEditingUtilsClass.multi_paste(
+				edited_cells_text,
+				edit_cursor_positions,
+			)
+		)
+
+	elif DisplayServer.clipboard_has():
+		var lines := []
+		for x in DisplayServer.clipboard_get().split("\n"):
+			lines.append(str_to_var(x))
+
+		editor_view.set_edited_cells_values(lines)
+
+
 func _selection_changed():
 	queue_redraw()
 	cells_selected.emit(edited_cells)
@@ -223,11 +240,10 @@ func _add_cell_to_selection(cell : Vector2i):
 	if cell_node != null:
 		column_editor.set_selected(cell_node, true)
 
-	if column_editor.is_text():
-		var cell_value = editor_view.io.get_value(editor_view.rows[cell.y], editor_view.columns[cell.x])
-		var text_value : String = column_editor.to_text(cell_value)
-		edited_cells_text.append(text_value)
-		edit_cursor_positions.append(text_value.length())
+	var cell_value = editor_view.io.get_value(editor_view.rows[cell.y], editor_view.columns[cell.x])
+	var text_value : String = column_editor.to_text(cell_value)
+	edited_cells_text.append(text_value)
+	edit_cursor_positions.append(text_value.length())
 
 
 func _update_selected_cells_text():

@@ -105,12 +105,7 @@ func _on_CbCopy_pressed():
 
 
 func _on_CbPaste_pressed():
-	editor_view.set_edited_cells_values(
-		TextEditingUtilsClass.multi_paste(
-			selection.edited_cells_text,
-			selection.edit_cursor_positions
-		)
-	)
+	selection.clipboard_paste()
 
 
 func _on_Rename_pressed():
