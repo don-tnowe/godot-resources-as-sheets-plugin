@@ -58,11 +58,7 @@ func _draw():
 
 
 func initialize_editors(column_values, column_types, column_hints):
-	deselect_all_cells()
-	edited_cells.clear()
-	edited_cells_text.clear()
-	edit_cursor_positions.clear()
-
+	_set_visible_selected(false)
 	column_editors.clear()
 	for i in column_values.size():
 		for x in all_cell_editors:
@@ -72,11 +68,7 @@ func initialize_editors(column_values, column_types, column_hints):
 
 
 func deselect_all_cells():
-	for x in edited_cells:
-		var cell_node := get_cell_node_from_position(x)
-		if cell_node != null:
-			column_editors[get_cell_column(x)].set_selected(cell_node, false)
-
+	_set_visible_selected(false)
 	edited_cells.clear()
 	edited_cells_text.clear()
 	edit_cursor_positions.clear()
@@ -101,7 +93,7 @@ func deselect_cell(cell : Vector2i):
 
 func select_cell(cell : Vector2i):
 	var column_index := get_cell_column(cell)
-	if edited_cells.size() == 0 or edited_cells[0].x != cell.x:
+	if edited_cells.size() == 0 or edited_cells[0].x == cell.x:
 		_add_cell_to_selection(cell)
 		_try_open_docks(cell)
 		inspector_resource = editor_view.rows[get_cell_row(cell)]
@@ -138,7 +130,7 @@ func select_cells_to(cell : Vector2i):
 	for i in range(row_start, row_end, edge_shift):
 		var cur_cell := Vector2i(column_index, i)
 		var cur_cell_node := get_cell_node_from_position(cur_cell)
-		if cur_cell_node != null and !cur_cell in edited_cells:
+		if cur_cell not in edited_cells:
 			edited_cells.append(cur_cell)
 			if column_editors[column_index].is_text():
 				var cur_cell_value = editor_view.io.get_value(editor_view.rows[cur_cell.y], editor_view.columns[cur_cell.x])
@@ -214,6 +206,13 @@ func get_edited_rows() -> Array[int]:
 func _selection_changed():
 	queue_redraw()
 	cells_selected.emit(edited_cells)
+
+
+func _set_visible_selected(state : bool):	
+	for x in edited_cells:
+		var cell_node := get_cell_node_from_position(x)
+		if cell_node != null:
+			column_editors[get_cell_column(x)].set_selected(cell_node, state)
 
 
 func _add_cell_to_selection(cell : Vector2i):

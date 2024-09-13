@@ -220,7 +220,6 @@ func fill_property_data_many(resources : Array):
 	column_types.clear()
 	column_hints.clear()
 	column_hint_strings.clear()
-	node_page_manager.update_page_count(resources)
 	var column_values := []
 	var i := -1
 	var found_props := {}
