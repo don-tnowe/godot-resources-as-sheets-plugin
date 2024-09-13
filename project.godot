@@ -14,12 +14,13 @@ color_arrays=true
 [addons]
 
 resources_spreadsheet_view/color_rows=true
-resources_spreadsheet_view/color_arrays=true
 resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/array_min_width=128.0
 resources_spreadsheet_view/resource_preview_size=32.0
 resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/fold_docks=true
 
 [application]
 

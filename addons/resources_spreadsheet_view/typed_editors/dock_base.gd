@@ -33,6 +33,10 @@ func resize_drag(to_height : float):
 	return
 
 
+func resize_set_hidden(state : bool):
+	get_child(1).visible = !state
+
+
 func _on_header_gui_input(event : InputEvent):
 	if event is InputEventMouseMotion:
 		var pressed := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
@@ -40,7 +44,7 @@ func _on_header_gui_input(event : InputEvent):
 			_resize_target_height -= event.relative.y
 			custom_minimum_size.y = clamp(_resize_target_height, 0.0, get_viewport().size.y * 0.75)
 			resize_drag(_resize_target_height)
-			get_child(1).visible = _resize_target_height > $"Header".size.y
+			resize_set_hidden(_resize_target_height <= $"Header".size.y)
 
 	if event is InputEventMouseButton:
 		_resize_target_height = custom_minimum_size.y

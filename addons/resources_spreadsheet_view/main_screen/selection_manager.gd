@@ -38,6 +38,10 @@ func _ready():
 	scrollbar.get_h_scroll_bar().value_changed.connect(queue_redraw.unbind(1), CONNECT_DEFERRED)
 	scrollbar.get_v_scroll_bar().value_changed.connect(queue_redraw.unbind(1), CONNECT_DEFERRED)
 
+	if ProjectSettings.get_setting(editor_view.TablesPluginSettingsClass.PREFIX + "fold_docks", false):
+		for x in node_property_editors.get_children():
+			x.resize_set_hidden(true)
+
 
 func _draw():
 	var font := get_theme_font("font", "Label")
