@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=31 format=3 uid="uid://tmleonv20aqk"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -27,6 +27,7 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="21_58wf8"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="22_bni8r"]
 [ext_resource type="PackedScene" uid="uid://b51hnttsie7k5" path="res://addons/resources_spreadsheet_view/main_screen/selection_actions.tscn" id="23_m53sx"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_number.gd" id="28_a0j2e"]
 
 [sub_resource type="Gradient" id="Gradient_8kp6w"]
 offsets = PackedFloat32Array(0, 0.995413, 1)
@@ -551,7 +552,7 @@ script = ExtResource("14_2t57a")
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("15_mx6qn")
-cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("19_oeuko"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("22_bni8r")])
+cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("19_oeuko"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("28_a0j2e"), ExtResource("22_bni8r")])
 node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
 scrollbar = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll")
 metadata/_edit_lock_ = true

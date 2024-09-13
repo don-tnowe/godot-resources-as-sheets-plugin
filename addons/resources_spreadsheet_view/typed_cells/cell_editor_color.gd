@@ -33,3 +33,11 @@ func set_value(node : Control, value):
 		_cached_color = value
 
 	node.get_node("Color").color = value
+
+
+func to_text(value) -> String:
+	return value.to_html()
+
+
+func from_text(text : String):
+	return Color.from_string(text, Color.BLACK)

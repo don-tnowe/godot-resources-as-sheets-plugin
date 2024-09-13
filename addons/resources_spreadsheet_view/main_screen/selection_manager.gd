@@ -101,7 +101,7 @@ func deselect_cell(cell : Vector2i):
 
 func select_cell(cell : Vector2i):
 	var column_index := get_cell_column(cell)
-	if can_select_cell(cell):
+	if edited_cells.size() == 0 or edited_cells[0].x != cell.x:
 		_add_cell_to_selection(cell)
 		_try_open_docks(cell)
 		inspector_resource = editor_view.rows[get_cell_row(cell)]
@@ -111,14 +111,13 @@ func select_cell(cell : Vector2i):
 
 
 func select_cells(cells : Array):
-	var last_selectible : Vector2i = Vector2i(-1, -1)
+	var last_selectible := Vector2i(-1, -1)
+	var started_empty := edited_cells.size() == 0
 	for x in cells:
-		var node: Node = get_cell_node_from_position(x)
-		if node == null:
-			continue
-		if node.mouse_filter != MOUSE_FILTER_IGNORE and can_select_cell(x):
+		if started_empty or edited_cells[0].x != x.x:
 			_add_cell_to_selection(x)
-			last_selectible = x
+			if get_cell_node_from_position(x) != null:
+				last_selectible = x
 
 	if last_selectible != Vector2i(-1, -1):
 		select_cell(last_selectible)
@@ -135,14 +134,15 @@ func select_cells_to(cell : Vector2i):
 	row_start += edge_shift
 	row_end += edge_shift
 
+	var column_editor := column_editors[column_index]
 	for i in range(row_start, row_end, edge_shift):
-		var cur_cell : Vector2i = Vector2i(column_index, i)
-		var cur_cell_node : Control = get_cell_node_from_position(cur_cell)
-		if !cur_cell in edited_cells:
+		var cur_cell := Vector2i(column_index, i)
+		var cur_cell_node := get_cell_node_from_position(cur_cell)
+		if cur_cell_node != null and !cur_cell in edited_cells:
 			edited_cells.append(cur_cell)
 			if column_editors[column_index].is_text():
 				var cur_cell_value = editor_view.io.get_value(editor_view.rows[cur_cell.y], editor_view.columns[cur_cell.x])
-				var cur_cell_text = cur_cell_value.to_html() if cur_cell_value is Color else str(cur_cell_value)
+				var cur_cell_text : String = column_editor.to_text(cur_cell_value)
 				edited_cells_text.append(cur_cell_text)
 				edit_cursor_positions.append(cur_cell_text.length())
 
@@ -219,27 +219,28 @@ func _selection_changed():
 func _add_cell_to_selection(cell : Vector2i):
 	edited_cells.append(cell)
 
-	var cell_node := get_cell_node_from_position(cell)
-	if cell_node == null:
-		return
-
 	var column_editor = column_editors[get_cell_column(cell)]
-	column_editor.set_selected(cell_node, true)
+	var cell_node := get_cell_node_from_position(cell)
+	if cell_node != null:
+		column_editor.set_selected(cell_node, true)
+
 	if column_editor.is_text():
-		edited_cells_text.append(str(cell_node.text))
-		edit_cursor_positions.append(cell_node.text.length())
+		var cell_value = editor_view.io.get_value(editor_view.rows[cell.y], editor_view.columns[cell.x])
+		var text_value : String = column_editor.to_text(cell_value)
+		edited_cells_text.append(text_value)
+		edit_cursor_positions.append(text_value.length())
 
 
 func _update_selected_cells_text():
 	if edited_cells_text.size() == 0:
 		return
 
-	var column_dtype : int = editor_view.column_types[get_cell_column(edited_cells[0])]
+	var column_editor := column_editors[get_cell_column(edited_cells[0])]
 	for i in edited_cells.size():
-		edited_cells_text[i] = editor_view.try_convert(
-			editor_view.io.get_value(editor_view.rows[edited_cells[i].y], editor_view.columns[edited_cells[i].x]),
-			column_dtype
-		)
+		edited_cells_text[i] = column_editor.to_text(editor_view.io.get_value(
+			editor_view.rows[edited_cells[i].y],
+			editor_view.columns[edited_cells[i].x],
+		))
 		edit_cursor_positions[i] = edited_cells_text[i].length()
 
 

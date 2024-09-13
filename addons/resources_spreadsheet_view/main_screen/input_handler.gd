@@ -102,31 +102,31 @@ func _key_specific_action(event : InputEvent):
 	
 	# Ctrl + V
 	elif ctrl_pressed and event.keycode == KEY_V:
-		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_paste(
+		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_paste(
 			selection.edited_cells_text, selection.edit_cursor_positions
 		))
 		get_viewport().set_input_as_handled()
 
 	# ERASING
 	elif event.keycode == KEY_BACKSPACE:
-		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_erase_left(
+		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_erase_left(
 			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
 		))
 
 	elif event.keycode == KEY_DELETE:
-		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_erase_right(
+		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_erase_right(
 			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
 		))
 		get_viewport().set_input_as_handled()
 
 	# And finally, text typing.
 	elif event.keycode == KEY_ENTER:
-		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_input(
+		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_input(
 			"\n", selection.edited_cells_text, selection.edit_cursor_positions
 		))
 
 	elif event.unicode != 0 and event.unicode != 127:
-		editor_view.set_edited_cells_values(TextEditingUtilsClass.multi_input(
+		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_input(
 			char(event.unicode), selection.edited_cells_text, selection.edit_cursor_positions
 		))
 
@@ -137,13 +137,13 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 	var selected_cells := selection.edited_cells.duplicate()
 	var num_columns := editor_view.columns.size()
 	var num_rows := editor_view.rows.size()
-	var new_child_index := Vector2i(0, 0)
+	var new_child_pos := Vector2i(0, 0)
 	for i in selected_cells.size():
-		new_child_index = Vector2i(
+		new_child_pos = Vector2i(
 			clamp(selected_cells[i].x + move_h, 0, num_columns - 1),
 			clamp(selected_cells[i].y + move_v, 0, num_rows - 1),
 		)
-		selected_cells[i] = new_child_index
+		selected_cells[i] = new_child_pos
 
 	editor_view.grab_focus()
 	selection.deselect_all_cells()

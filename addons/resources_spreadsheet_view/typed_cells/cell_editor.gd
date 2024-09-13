@@ -29,6 +29,14 @@ func set_value(node : Control, value):
 func is_text():
 	return true
 
+## Override to, if [method is_text] returns [code]true[/code], define custom behaviour for converting the value into text for editing.
+func to_text(value) -> String:
+	return var_to_str(value)
+
+## Override to, if [method is_text] returns [code]true[/code], define custom behaviour for converting the value from text for editing.
+func from_text(text : String):
+	return str_to_var(text)
+
 ## Override to change behaviour when there are color cells to the left of this cell.
 func set_color(node : Control, color : Color):
 	node.get_node("Back").modulate = color * 1.0

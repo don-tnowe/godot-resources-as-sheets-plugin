@@ -348,14 +348,29 @@ func select_column(column_index : int):
 	_selection.select_cells_to(Vector2i(column_index, rows.size() - 1))
 
 
-func set_edited_cells_values(new_cell_values : Array):
-	var edited_rows = _selection.get_edited_rows()
-	var column = _selection.get_cell_column(_selection.edited_cells[0])
-	var edited_cells_resources = _get_row_resources(edited_rows)
+func set_edited_cells_values_text(new_cell_values : Array):
+	var column_editor : Object = _selection.column_editors[get_selected_column()]
 
 	# Duplicated here since if using text editing, edited_cells_text needs to modified
 	# but here, it would be converted from a String breaking editing
-	new_cell_values = new_cell_values.duplicate()
+	var new_cell_values_converted = new_cell_values.duplicate()
+	for i in new_cell_values.size():
+		new_cell_values_converted[i] = column_editor.from_text(new_cell_values[i])
+
+	set_edited_cells_values(new_cell_values_converted)
+	for i in new_cell_values.size():
+		var i_pos : Vector2i = _selection.edited_cells[i]
+		var update_cell : Control = _selection.get_cell_node_from_position(i_pos)
+		if update_cell == null:
+			continue
+
+		column_editor.set_value(update_cell, new_cell_values[i])
+
+
+func set_edited_cells_values(new_cell_values : Array):
+	var edited_rows : Array = _selection.get_edited_rows()
+	var column : int = _selection.get_cell_column(_selection.edited_cells[0])
+	var edited_cells_resources := _get_row_resources(edited_rows)
 
 	editor_plugin.undo_redo.create_action("Set Cell Values")
 	editor_plugin.undo_redo.add_undo_method(
@@ -410,7 +425,7 @@ func get_last_selected_row():
 
 func get_edited_cells_values() -> Array:
 	var cells : Array = _selection.edited_cells.duplicate()
-	var column_index : int = _selection.get_cell_column(_selection.edited_cells[0])
+	var column_index : int = _selection.get_cell_column(cells[0])
 	var result := []
 	result.resize(cells.size())
 	for i in cells.size():
@@ -434,9 +449,6 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 			continue
 
 		column_editor.set_value(update_cell, values[i])
-		if values[i] is String:
-			values[i] = try_convert(values[i], column_types[update_column])
-
 		if values[i] == null:
 			continue
 
@@ -452,15 +464,6 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 
 	node_columns._update_column_sizes()
 	io.save_entries(rows, update_row_indices)
-
-
-func try_convert(value, type):
-	if type == TYPE_BOOL:
-		# "off" displayed in lowercase, "ON" in uppercase.
-		return value[0] == "o"
-
-	# If it can't convert, throws exception and returns null.
-	return type_convert(value, type)
 
 
 func _on_path_text_submitted(new_text : String = ""):
