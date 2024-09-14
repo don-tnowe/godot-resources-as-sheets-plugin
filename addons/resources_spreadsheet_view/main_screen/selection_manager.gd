@@ -277,7 +277,8 @@ func _try_open_docks(cell : Vector2i):
 
 func _on_inspector_property_edited(property : String):
 	if !editor_view.is_visible_in_tree(): return
-	if inspector_resource == null: return
+	if inspector_resource != editor_view.editor_plugin.get_editor_interface().get_inspector().get_edited_object():
+		return
 	
 	if editor_view.columns[get_cell_column(edited_cells[0])] != property:
 		var columns := editor_view.columns
