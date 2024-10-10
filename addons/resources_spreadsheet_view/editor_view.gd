@@ -10,6 +10,7 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 @export @onready var node_table_root : GridContainer = $"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 @export @onready var node_columns : HBoxContainer = $"HeaderContentSplit/VBoxContainer/Columns/Columns"
 @export @onready var node_page_manager : Control = $"HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"
+@export @onready var node_class_filter : Control = $"HeaderContentSplit/VBoxContainer/Search/Search/Class"
 
 @onready var _on_cell_gui_input : Callable = $"InputHandler"._on_cell_gui_input
 @onready var _selection := $"SelectionManager"
@@ -166,6 +167,7 @@ func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse
 		var loaded = load(path)
 		if loaded is ResourceTablesImport:
 			io = loaded.view_script.new()
+			node_class_filter.hide()
 
 		else:
 			io = ResourceTablesEditFormatTres.new()
@@ -216,6 +218,8 @@ func fill_property_data(res : Resource):
 
 
 func fill_property_data_many(resources : Array):
+	node_class_filter.fill(resources)
+
 	columns.clear()
 	column_types.clear()
 	column_hints.clear()
@@ -227,6 +231,9 @@ func fill_property_data_many(resources : Array):
 		if x == null: continue
 		i += 1
 		if not search_cond.is_null() and not search_cond.call(x, i):
+			continue
+
+		if not node_class_filter.filter(x):
 			continue
 
 		for y in x.get_property_list():
@@ -250,7 +257,7 @@ func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName
 	if not search_cond.is_null() and not search_cond.call(res, loaded_rows.size()):
 		return
 
-	if not sort_by in res:
+	if not sort_by in res or not node_class_filter.filter(res):
 		return
 
 	var sort_value = res[sort_by]

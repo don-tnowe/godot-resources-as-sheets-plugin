@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=32 format=3 uid="uid://tmleonv20aqk"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/recent_paths.gd" id="4_umoob"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/expression_textfield.gd" id="5_faq75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/table_pages.gd" id="5_ka2yn"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/class_filter.gd" id="6_2v7d5"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/column_header_manager.gd" id="6_emnmd"]
 [ext_resource type="PackedScene" uid="uid://d1s6oihqedvo5" path="res://addons/resources_spreadsheet_view/main_screen/table_header.tscn" id="7_3dx0v"]
 [ext_resource type="PackedScene" uid="uid://ddqak780cwwfj" path="res://addons/resources_spreadsheet_view/typed_editors/dock_enum_array.tscn" id="8_234wn"]
@@ -36,7 +37,7 @@ colors = PackedColorArray(1, 1, 1, 0.490196, 1, 1, 1, 0.0458716, 1, 1, 1, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_18il8"]
 gradient = SubResource("Gradient_8kp6w")
 
-[node name="Control" type="MarginContainer" node_paths=PackedStringArray("node_folder_path", "node_recent_paths", "node_table_root", "node_columns", "node_page_manager")]
+[node name="Control" type="MarginContainer" node_paths=PackedStringArray("node_folder_path", "node_recent_paths", "node_table_root", "node_columns", "node_page_manager", "node_class_filter")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -60,6 +61,7 @@ node_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBo
 node_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
 node_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
 node_page_manager = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages")
+node_class_filter = NodePath("HeaderContentSplit/VBoxContainer/Search/Search/Class")
 metadata/_edit_lock_ = true
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
@@ -188,7 +190,6 @@ script = ExtResource("3_7ja2l")
 icon_name = "TextFile"
 
 [node name="Search" type="VBoxContainer" parent="HeaderContentSplit/VBoxContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
 
@@ -274,6 +275,31 @@ default_text_ml = "return true"
 function_save_key = "filter"
 
 [node name="VSeparator" type="VSeparator" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+
+[node name="Class" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
+layout_mode = 2
+script = ExtResource("6_2v7d5")
+
+[node name="Label5" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/Search/Class"]
+layout_mode = 2
+text = "Class:"
+
+[node name="Class" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/Search/Search/Class"]
+layout_mode = 2
+clip_text = true
+fit_to_longest_item = false
+
+[node name="Label" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/Search/Class"]
+layout_mode = 2
+text = "Sub:"
+
+[node name="Subclasses" type="CheckBox" parent="HeaderContentSplit/VBoxContainer/Search/Search/Class"]
+layout_mode = 2
+tooltip_text = "Include Subclasses"
+button_pressed = true
+
+[node name="VSeparator2" type="VSeparator" parent="HeaderContentSplit/VBoxContainer/Search/Search/Class"]
 layout_mode = 2
 
 [node name="Label3" type="Label" parent="HeaderContentSplit/VBoxContainer/Search/Search"]
