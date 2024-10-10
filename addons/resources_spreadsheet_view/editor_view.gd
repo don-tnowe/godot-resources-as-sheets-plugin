@@ -54,7 +54,7 @@ func _ready():
 				x.load_saved_functions(table_functions_dict)
 
 	if node_recent_paths.recent_paths.size() >= 1:
-		display_folder(node_recent_paths.recent_paths[0], "resource_name", false, true)
+		display_folder(node_recent_paths.recent_paths[-1], "resource_name", false, true)
 
 
 func save_data():

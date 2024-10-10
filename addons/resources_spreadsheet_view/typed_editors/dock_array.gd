@@ -33,7 +33,7 @@ func try_edit_value(value, type, property_hint) -> bool:
 	
 	var is_generic_array = _stored_type == TYPE_ARRAY and !value.is_typed()
 	button_box.get_child(1).visible = (
-		is_generic_array or value.get_typed_builtin() == TYPE_STRING
+		is_generic_array or value.get_typed_builtin() == TYPE_STRING or value.get_typed_builtin() == TYPE_STRING_NAME
 		or _stored_type == TYPE_PACKED_STRING_ARRAY
 	)
 	button_box.get_child(2).visible = (
@@ -50,9 +50,15 @@ func try_edit_value(value, type, property_hint) -> bool:
 
 	if value.get_typed_builtin() == TYPE_OBJECT:
 		if !value_input is EditorResourcePicker:
-			var new_input := EditorResourcePicker.new()
+			var new_input : EditorResourcePicker = load("res://addons/resources_spreadsheet_view/editor_resource_array_picker.gd").new()
 			new_input.size_flags_horizontal = SIZE_EXPAND_FILL
 			new_input.base_type = value.get_typed_class_name()
+			new_input.on_resources_dropped.connect(func(p):
+				_add_values(p)
+				for x in p:
+					_add_recent(x)
+			)
+			new_input.resource_selected.connect(func(p1, p2): EditorInterface.edit_resource(p1))
 
 			value_input.replace_by(new_input)
 			value_input.free()
@@ -81,6 +87,22 @@ func _add_value(value):
 			cur_value = cur_value.duplicate()
 
 		cur_value.append(value)
+		values[i] = cur_value
+
+	sheet.set_edited_cells_values(values)
+
+
+func _add_values(added_values : Array):
+	_stored_value.append_array(added_values)
+	var values = sheet.get_edited_cells_values()
+	var cur_value
+	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
+	for i in values.size():
+		cur_value = values[i]
+		if dupe_array:
+			cur_value = cur_value.duplicate()
+
+		cur_value.append_array(added_values)
 		values[i] = cur_value
 
 	sheet.set_edited_cells_values(values)
@@ -115,9 +137,8 @@ func _add_recent(value):
 	var node := Button.new()
 	var value_str : String = str(value)
 	if value is Resource:
-		value_str = value.resource_path.get_file()
+		value_str = value.resource_path.get_file() if value.resource_name == "" else value.resource_name
 		node.tooltip_text = value.resource_path
-		value = value.resource_path
 
 	node.text = value_str
 	node.self_modulate = Color(value_str.hash()) + Color(0.25, 0.25, 0.25, 1.0)
@@ -125,16 +146,21 @@ func _add_recent(value):
 	recent_container.add_child(node)
 
 
-func _on_recent_clicked(button, value):
-	var val = recent_container.get_child(1).selected
-	value_input.text = str(value)
-	if val == 0:
+func _on_recent_clicked(button : Button, value):
+	var recent_mode : int = recent_container.get_child(1).selected
+	if value_input is EditorResourcePicker:
+		value_input.edited_resource = value
+
+	else:
+		value_input.text = str(value)
+
+	if recent_mode == 0:
 		_add_value(value)
 
-	if val == 1:
+	if recent_mode == 1:
 		_remove_value(value)
 
-	if val == 2:
+	if recent_mode == 2:
 		button.queue_free()
 
 
@@ -193,11 +219,15 @@ func _on_Variant_pressed():
 
 
 func _on_Resource_pressed():
+	var new_value
 	if value_input is LineEdit:
-		_add_value(load(value_input.text))
+		new_value = load(value_input.text)
 
 	elif value_input is EditorResourcePicker:
-		_add_value(value_input.edited_resource)
+		new_value = value_input.edited_resource
+
+	_add_value(new_value)
+	_add_recent(new_value)
 
 
 func _on_AddRecentFromSel_pressed():

@@ -53,6 +53,11 @@ func _add_value(value):
 	super._add_recent(key)
 
 
+func _add_values(added_values : Array):
+	for x in added_values:
+		_add_value(x)
+
+
 func _remove_value(_value):
 	var key = _get_key_from_box()
 	_stored_value.erase(key)
