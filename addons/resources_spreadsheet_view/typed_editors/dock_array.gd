@@ -237,7 +237,7 @@ func _on_AddRecentFromSel_pressed():
 
 
 func _on_contents_edit_text_changed():
-	var value := str_to_var(contents_label.text)
+	var value = str_to_var(contents_label.text)
 	if !value is Array:
 		return
 

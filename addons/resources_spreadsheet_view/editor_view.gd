@@ -5,12 +5,12 @@ signal grid_updated()
 
 const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
-@export @onready var node_folder_path : LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
-@export @onready var node_recent_paths : OptionButton = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths"
-@export @onready var node_table_root : GridContainer = $"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
-@export @onready var node_columns : HBoxContainer = $"HeaderContentSplit/VBoxContainer/Columns/Columns"
-@export @onready var node_page_manager : Control = $"HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"
-@export @onready var node_class_filter : Control = $"HeaderContentSplit/VBoxContainer/Search/Search/Class"
+@onready var node_folder_path : LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
+@onready var node_recent_paths : OptionButton = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths"
+@onready var node_table_root : GridContainer = $"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
+@onready var node_columns : HBoxContainer = $"HeaderContentSplit/VBoxContainer/Columns/Columns"
+@onready var node_page_manager : Control = $"HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"
+@onready var node_class_filter : Control = $"HeaderContentSplit/VBoxContainer/Search/Search/Class"
 
 @onready var _on_cell_gui_input : Callable = $"InputHandler"._on_cell_gui_input
 @onready var _selection := $"SelectionManager"

@@ -5,9 +5,9 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 
 @export var table_header_scene : PackedScene
 
-@export @onready var editor_view : Control = $"../../../.."
-@export @onready var hide_columns_button : BaseButton = $"../../MenuStrip/VisibleCols"
-@export @onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
+@onready var editor_view : Control = $"../../../.."
+@onready var hide_columns_button : BaseButton = $"../../MenuStrip/VisibleCols"
+@onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 
 
 var hidden_columns := {}

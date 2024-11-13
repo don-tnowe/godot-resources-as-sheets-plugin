@@ -29,13 +29,12 @@ border_width_right = 2
 border_width_bottom = 2
 corner_detail = 1
 
-[node name="SelectionActions" type="MarginContainer" node_paths=PackedStringArray("editor_view")]
+[node name="SelectionActions" type="MarginContainer"]
 offset_right = 80.0
 offset_bottom = 52.0
 size_flags_horizontal = 9
 mouse_filter = 2
 script = ExtResource("1_qv6ov")
-editor_view = NodePath("../..")
 
 [node name="Control2" type="Panel" parent="."]
 layout_mode = 2

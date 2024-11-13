@@ -1,7 +1,7 @@
 @tool
 extends OptionButton
 
-@export @onready var editor_view := $"../../../../.."
+@onready var editor_view := $"../../../../.."
 
 var recent_paths := []
 

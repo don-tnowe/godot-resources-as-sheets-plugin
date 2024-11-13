@@ -9,8 +9,8 @@ const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/
 
 @export var cell_editor_classes : Array[Script] = []
 
-@export @onready var node_property_editors : VBoxContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors"
-@export @onready var scrollbar : ScrollContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"
+@onready var node_property_editors : VBoxContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors"
+@onready var scrollbar : ScrollContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"
 
 @onready var editor_view : EditorViewClass = get_parent()
 

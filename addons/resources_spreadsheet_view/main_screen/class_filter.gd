@@ -86,7 +86,7 @@ func filter(resource : Resource) -> bool:
 
 	if selected_script != null and resource.get_script() != selected_script:
 		if include_subclasses:
-			var cur_class := resource.get_script()
+			var cur_class : Script = resource.get_script()
 			while cur_class != null:
 				cur_class = cur_class.get_base_script()
 				if cur_class == selected_script:

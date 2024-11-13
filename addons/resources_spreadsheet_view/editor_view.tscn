@@ -37,7 +37,7 @@ colors = PackedColorArray(1, 1, 1, 0.490196, 1, 1, 1, 0.0458716, 1, 1, 1, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_18il8"]
 gradient = SubResource("Gradient_8kp6w")
 
-[node name="Control" type="MarginContainer" node_paths=PackedStringArray("node_folder_path", "node_recent_paths", "node_table_root", "node_columns", "node_page_manager", "node_class_filter")]
+[node name="Control" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,12 +56,6 @@ theme_override_constants/margin_left = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_wfx75")
-node_folder_path = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path")
-node_recent_paths = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths")
-node_table_root = NodePath("HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
-node_columns = NodePath("HeaderContentSplit/VBoxContainer/Columns/Columns")
-node_page_manager = NodePath("HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages")
-node_class_filter = NodePath("HeaderContentSplit/VBoxContainer/Search/Search/Class")
 metadata/_edit_lock_ = true
 
 [node name="HeaderContentSplit" type="VBoxContainer" parent="."]
@@ -174,14 +168,13 @@ layout_mode = 2
 layout_mode = 2
 text = "Open Recent:"
 
-[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2" node_paths=PackedStringArray("editor_view")]
+[node name="RecentPaths" type="OptionButton" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 clip_text = true
 fit_to_longest_item = false
 script = ExtResource("4_umoob")
-editor_view = NodePath("../../../../..")
 
 [node name="ImportExport" type="Button" parent="HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -385,14 +378,11 @@ layout_mode = 2
 clip_contents = true
 layout_mode = 2
 
-[node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns" node_paths=PackedStringArray("editor_view", "hide_columns_button", "grid")]
+[node name="Columns" type="HBoxContainer" parent="HeaderContentSplit/VBoxContainer/Columns"]
 layout_mode = 0
 theme_override_constants/separation = 0
 script = ExtResource("6_emnmd")
 table_header_scene = ExtResource("7_3dx0v")
-editor_view = NodePath("../../../..")
-hide_columns_button = NodePath("../../MenuStrip/VisibleCols")
-grid = NodePath("../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid")
 
 [node name="Sep2" type="Control" parent="HeaderContentSplit/VBoxContainer"]
 visible = false
@@ -455,14 +445,17 @@ layout_mode = 2
 [node name="EditEnumArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("8_234wn")]
 visible = false
 layout_mode = 2
+path_property_name = NodePath("Header/Label")
 
 [node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("9_nts08")]
 visible = false
 layout_mode = 2
+path_property_name = NodePath("Header/Label")
 
 [node name="EditDict" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("13_il556")]
 visible = false
 layout_mode = 2
+path_property_name = NodePath("Header/Label")
 
 [node name="EditColor" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("10_nsma2")]
 visible = false
@@ -564,25 +557,22 @@ physics_interpolation_mode = 0
 current_tab = 0
 script = null
 
-[node name="SelectionActions" parent="Control" node_paths=PackedStringArray("selection") instance=ExtResource("23_m53sx")]
+[node name="SelectionActions" parent="Control" instance=ExtResource("23_m53sx")]
 visible = false
 layout_mode = 2
 offset_left = -506.0
 offset_top = 65.0
 offset_right = -426.0
 offset_bottom = 117.0
-selection = NodePath("../../SelectionManager")
 
 [node name="InputHandler" type="Node" parent="."]
 script = ExtResource("14_2t57a")
 
-[node name="SelectionManager" type="Control" parent="." node_paths=PackedStringArray("node_property_editors", "scrollbar")]
+[node name="SelectionManager" type="Control" parent="."]
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("15_mx6qn")
 cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("19_oeuko"), ExtResource("17_sofdw"), ExtResource("18_oeewr"), ExtResource("19_7x44x"), ExtResource("20_swsbn"), ExtResource("21_58wf8"), ExtResource("28_a0j2e"), ExtResource("22_bni8r")])
-node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors")
-scrollbar = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll")
 metadata/_edit_lock_ = true
 
 [connection signal="gui_input" from="." to="InputHandler" method="_gui_input"]
