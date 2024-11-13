@@ -1,12 +1,11 @@
-tool
+@tool
 extends GridContainer
 
 signal format_changed(case, delimiter, bool_yes, bool_no)
 
 
 func _send_signal(arg1 = null):
-	emit_signal(
-		"format_changed",
+	format_changed.emit(
 		$"HBoxContainer/Case".selected,
 		[" ", "_", "-"][$"HBoxContainer/Separator".selected],
 		$"HBoxContainer2/True".text,

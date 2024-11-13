@@ -1,10 +1,9 @@
-class_name SpreadsheetEditFormatCsv
-extends SpreadsheetEditFormatTres
+class_name ResourceTablesEditFormatCsv
+extends ResourceTablesEditFormatTres
 
 var import_data
 var csv_rows = []
 var resource_original_positions = {}
-var timer : SceneTreeTimer
 
 
 func get_value(entry, key : String):
@@ -17,10 +16,9 @@ func set_value(entry, key : String, value, index : int):
 
 
 func save_entries(all_entries : Array, indices : Array, repeat : bool = true):
-	if timer == null || timer.time_left <= 0.0:
-		var file = File.new()
+	if timer == null or timer.time_left <= 0.0:
 		var space_after_delimeter = import_data.delimeter.ends_with(" ")
-		file.open(import_data.edited_path, File.WRITE)
+		var file = FileAccess.open(import_data.edited_path, FileAccess.WRITE)
 		for x in csv_rows:
 			if space_after_delimeter:
 				for i in x.size():
@@ -28,11 +26,10 @@ func save_entries(all_entries : Array, indices : Array, repeat : bool = true):
 					x[i] = " " + x[i]
 
 			file.store_csv_line(x, import_data.delimeter[0])
-		
-		file.close()
+
 		if repeat:
 			timer = editor_view.get_tree().create_timer(3.0)
-			timer.connect("timeout", self, "save_entries", [all_entries, indices, false])
+			timer.timeout.connect(save_entries.bind(all_entries, indices, false))
 
 
 func create_resource(entry) -> Resource:
@@ -70,11 +67,10 @@ func _bump_row_indices(from : int, increment : int = 1):
 			resource_original_positions[k] += increment
 
 
-func import_from_path(path : String, insert_func : FuncRef, sort_by : String, sort_reverse : bool = false) -> Array:
+func import_from_path(path : String, insert_func : Callable, sort_by : String, sort_reverse : bool = false) -> Array:
 	import_data = load(path)
-	var file = File.new()
-	file.open(import_data.edited_path, File.READ)
-	csv_rows = SpreadsheetImportFormatCsv.import_as_arrays(import_data)
+	var file = FileAccess.open(import_data.edited_path, FileAccess.READ)
+	csv_rows = ResourceTablesImportFormatCsv.import_as_arrays(import_data)
 
 	var rows := []
 	var res : Resource
@@ -85,9 +81,8 @@ func import_from_path(path : String, insert_func : FuncRef, sort_by : String, so
 
 		res = import_data.strings_to_resource(csv_rows[i])
 		res.resource_path = ""
-		insert_func.call_func(res, rows, sort_by, sort_reverse)
+		insert_func.call(res, rows, sort_by, sort_reverse)
 		resource_original_positions[res] = i
-	
+
 	editor_view.fill_property_data(rows[0])
-	file.close()
 	return rows

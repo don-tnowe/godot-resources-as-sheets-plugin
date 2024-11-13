@@ -1,23 +1,31 @@
-class_name SpreadsheetImportFormatCsv
-extends Reference
+class_name ResourceTablesImportFormatCsv
+extends RefCounted
 
 
 static func can_edit_path(path : String):
 	return path.ends_with(".csv")
 
 
+static func get_properties(entries, import_data):
+	return Array(entries[0])
+
+
 static func import_as_arrays(import_data) -> Array:
-	var file = File.new()
-	file.open(import_data.edited_path, File.READ)
+	var file = FileAccess.open(import_data.edited_path, FileAccess.READ)
 
 	import_data.delimeter = ";"
 	var text_lines := [file.get_line().split(import_data.delimeter)]
 	var space_after_delimeter = false
 	var line = text_lines[0]
+	if line.size() == 0:
+		return []
+
 	if line.size() == 1:
 		import_data.delimeter = ","
 		line = line[0].split(import_data.delimeter)
 		text_lines[0] = line
+		if line.size() <= 1:
+			return []
 
 	if line[1].begins_with(" "):
 		for i in line.size():
@@ -39,12 +47,12 @@ static func import_as_arrays(import_data) -> Array:
 		elif line.size() != 1:
 			line.resize(text_lines[0].size())
 			text_lines.append(line)
-	
-	file.close()
+
 	var entries = []
 	entries.resize(text_lines.size())
 
 	for i in entries.size():
 		entries[i] = text_lines[i]
 
+	import_data.prop_names = entries[0]
 	return entries

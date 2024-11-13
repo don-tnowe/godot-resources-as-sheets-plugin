@@ -1,177 +1,296 @@
-tool
-extends MarginContainer
+@tool
+extends Control
 
-enum {
-	EDITBOX_DUPLICATE = 1,
-	EDITBOX_RENAME,
-	EDITBOX_DELETE,
-}
+signal cells_selected(cells_positions)
+signal cells_rightclicked(cells_positions)
 
-export var editor_view := NodePath("../..")
+const EditorViewClass = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
+const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
 
-onready var editbox_node := $"Control/ColorRect/Popup"
-onready var editbox_label := editbox_node.get_node("Panel/VBoxContainer/Label")
-onready var editbox_input := editbox_node.get_node("Panel/VBoxContainer/LineEdit")
+@export var cell_editor_classes : Array[Script] = []
 
-var cell : Control
-var editbox_action : int
+@export @onready var node_property_editors : VBoxContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors"
+@export @onready var scrollbar : ScrollContainer = $"../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"
+
+@onready var editor_view : EditorViewClass = get_parent()
+
+var edited_cells : Array = []
+var edited_cells_text : Array = []
+var edit_cursor_positions : Array[int] = []
+
+var all_cell_editors : Array = []
+var column_editors : Array[Object] = []
+var inspector_resource : Resource
 
 
 func _ready():
-	editbox_input.get_node("../..").add_stylebox_override(
-		"panel",
-		get_stylebox("Content", "EditorStyles")
-	)
+	# Load cell editors and instantiate them
+	for x in cell_editor_classes:
+		all_cell_editors.append(x.new())
+		all_cell_editors[all_cell_editors.size() - 1].hint_strings_array = editor_view.column_hint_strings
+
+	get_parent()\
+		.editor_interface\
+		.get_inspector()\
+		.property_edited\
+		.connect(_on_inspector_property_edited)
+
+	scrollbar.get_h_scroll_bar().value_changed.connect(queue_redraw.unbind(1), CONNECT_DEFERRED)
+	scrollbar.get_v_scroll_bar().value_changed.connect(queue_redraw.unbind(1), CONNECT_DEFERRED)
+
+	if ProjectSettings.get_setting(editor_view.TablesPluginSettingsClass.PREFIX + "fold_docks", false):
+		for x in node_property_editors.get_children():
+			x.resize_set_hidden(true)
 
 
-func _on_grid_cells_context(cells):
-	open(cells)
+func _draw():
+	var font := get_theme_font(&"font", &"Label")
+	var font_size := get_theme_font_size(&"font", &"Label")
+	var label_padding_left := 2.0
+	var newline_char := 10
+	if edit_cursor_positions.size() != edited_cells.size():
+		return
+
+	for i in edited_cells.size():
+		if edit_cursor_positions[i] >= edited_cells_text[i].length():
+			continue
+
+		var cell : Control = get_cell_node_from_position(edited_cells[i])
+		var caret_rect := TextEditingUtilsClass.get_caret_rect(edited_cells_text[i], edit_cursor_positions[i], font, font_size, label_padding_left, 2.0)
+		caret_rect.position += cell.global_position - global_position
+		draw_rect(caret_rect, Color(1, 1, 1, 0.5))
 
 
-func _on_grid_cells_selected(cells):
-	if ProjectSettings.get_setting(SettingsGrid.SETTING_PREFIX + "context_menu_on_leftclick"):
-		open(cells, true)
+func initialize_editors(column_values, column_types, column_hints):
+	_set_visible_selected(false)
+	column_editors.clear()
+	for i in column_values.size():
+		for x in all_cell_editors:
+			if x.can_edit_value(column_values[i], column_types[i], column_hints[i], i):
+				column_editors.append(x)
+				break
 
-	else: hide()
+
+func deselect_all_cells():
+	_set_visible_selected(false)
+	edited_cells.clear()
+	edited_cells_text.clear()
+	edit_cursor_positions.clear()
+	_selection_changed()
 
 
-func open(cells : Array, pin_to_cell : bool = false):
-	if cells.size() == 0:
-		hide()
-		cell = null
+func deselect_cell(cell : Vector2i):
+	var idx := edited_cells.find(cell)
+	if idx == -1: return
+
+	edited_cells.remove_at(idx)
+	if edited_cells_text.size() != 0:
+		edited_cells_text.remove_at(idx)
+		edit_cursor_positions.remove_at(idx)
+
+	var cell_node := get_cell_node_from_position(cell)
+	if cell_node != null:
+		column_editors[get_cell_column(cell)].set_selected(cell_node, false)
+
+	_selection_changed()
+
+
+func select_cell(cell : Vector2i):
+	var column_index := get_cell_column(cell)
+	if edited_cells.size() == 0 or edited_cells[0].x == cell.x:
+		_add_cell_to_selection(cell)
+		_try_open_docks(cell)
+		inspector_resource = editor_view.rows[get_cell_row(cell)]
+		editor_view.editor_plugin.get_editor_interface().edit_resource(inspector_resource)
+
+	_selection_changed()
+
+
+func select_cells(cells : Array):
+	var last_selectible := Vector2i(-1, -1)
+	var started_empty := edited_cells.size() == 0
+	for x in cells:
+		if started_empty or edited_cells[0].x != x.x:
+			_add_cell_to_selection(x)
+			if get_cell_node_from_position(x) != null:
+				last_selectible = x
+
+	if last_selectible != Vector2i(-1, -1):
+		select_cell(last_selectible)
+
+
+func select_cells_to(cell : Vector2i):
+	var column_index := get_cell_column(cell)
+	if edited_cells.size() == 0 or column_index != get_cell_column(edited_cells[-1]):
 		return
 	
-	if pin_to_cell:
-		cell = cells[-1]
-		rect_global_position = Vector2(
-			cell.rect_global_position.x + cell.rect_size.x,
-			cell.rect_global_position.y
+	var row_start := get_cell_row(edited_cells[-1])
+	var row_end := get_cell_row(cell)
+	var edge_shift := -1 if row_start > row_end else 1
+	row_start += edge_shift
+	row_end += edge_shift
+
+	var column_editor := column_editors[column_index]
+	for i in range(row_start, row_end, edge_shift):
+		var cur_cell := Vector2i(column_index, i)
+		var cur_cell_node := get_cell_node_from_position(cur_cell)
+		if cur_cell not in edited_cells:
+			edited_cells.append(cur_cell)
+
+			var cur_cell_value = editor_view.io.get_value(editor_view.rows[cur_cell.y], editor_view.columns[cur_cell.x])
+			var cur_cell_text : String = column_editor.to_text(cur_cell_value)
+			edited_cells_text.append(cur_cell_text)
+			edit_cursor_positions.append(cur_cell_text.length())
+
+		if cur_cell_node == null or !cur_cell_node.visible or cur_cell_node.mouse_filter == MOUSE_FILTER_IGNORE:
+			# When showing several classes, empty cells will be non-selectable.
+			continue
+
+		column_editors[column_index].set_selected(cur_cell_node, true)
+
+	_selection_changed()
+
+
+func rightclick_cells():
+	cells_rightclicked.emit(edited_cells)
+
+
+func is_cell_node_selected(cell : Control) -> bool:
+	return get_cell_node_position(cell) in edited_cells
+
+
+func is_cell_selected(cell : Vector2i) -> bool:
+	return cell in edited_cells
+
+
+func can_select_cell(cell : Vector2i) -> bool:
+	if edited_cells.size() == 0:
+		return true
+
+	if (
+		get_cell_column(cell)
+		!= get_cell_column(edited_cells[0])
+	):
+		return false
+
+	return !cell in edited_cells
+
+
+func get_cell_node_from_position(cell_pos : Vector2i) -> Control:
+	var cell_index := (cell_pos.y - editor_view.first_row) * editor_view.columns.size() + cell_pos.x
+	if cell_index < 0 or cell_index >= editor_view.node_table_root.get_child_count():
+		return null
+
+	return editor_view.node_table_root.get_child(cell_index)
+
+
+func get_cell_node_position(cell : Control) -> Vector2i:
+	var col_count := editor_view.columns.size()
+	var cell_index := cell.get_index()
+	return Vector2i(cell_index % col_count, cell_index / col_count + editor_view.first_row)
+
+
+func get_cell_column(cell : Vector2i) -> int:
+	return cell.x
+
+
+func get_cell_row(cell : Vector2i) -> int:
+	return cell.y
+
+
+func get_edited_rows() -> Array[int]:
+	var rows : Array[int] = []
+	rows.resize(edited_cells.size())
+	for i in rows.size():
+		rows[i] = get_cell_row(edited_cells[i])
+
+	return rows
+
+
+func clipboard_paste():
+	if column_editors[edited_cells[0].x].is_text():
+		editor_view.set_edited_cells_values(
+			TextEditingUtilsClass.multi_paste(
+				edited_cells_text,
+				edit_cursor_positions,
+			)
 		)
 
-	else:
-		cell = null
-		rect_global_position = get_global_mouse_position() + Vector2.ONE
+	elif DisplayServer.clipboard_has():
+		var lines := []
+		for x in DisplayServer.clipboard_get().split("\n"):
+			lines.append(str_to_var(x))
 
-	rect_size = Vector2.ZERO
-	set_as_toplevel(true)
-	show()
-	$"Control2/Label".text = str(cells.size()) + (" Cells" if cells.size() % 10 != 1 else " Cell")
-	$"GridContainer/Rename".visible = get_node(editor_view).has_row_names()
+		editor_view.set_edited_cells_values(lines)
 
 
-func _unhandled_input(event):
-	if !get_node(editor_view).is_visible_in_tree():
-		hide()
+func _selection_changed():
+	queue_redraw()
+	cells_selected.emit(edited_cells)
+
+
+func _set_visible_selected(state : bool):	
+	for x in edited_cells:
+		var cell_node := get_cell_node_from_position(x)
+		if cell_node != null:
+			column_editors[get_cell_column(x)].set_selected(cell_node, state)
+
+
+func _add_cell_to_selection(cell : Vector2i):
+	edited_cells.append(cell)
+
+	var column_editor = column_editors[get_cell_column(cell)]
+	var cell_node := get_cell_node_from_position(cell)
+	if cell_node != null:
+		column_editor.set_selected(cell_node, true)
+
+	var cell_value = editor_view.io.get_value(editor_view.rows[cell.y], editor_view.columns[cell.x])
+	var text_value : String = column_editor.to_text(cell_value)
+	edited_cells_text.append(text_value)
+	edit_cursor_positions.append(text_value.length())
+
+
+func _update_selected_cells_text():
+	if edited_cells_text.size() == 0:
+		return
+
+	var column_editor := column_editors[get_cell_column(edited_cells[0])]
+	for i in edited_cells.size():
+		edited_cells_text[i] = column_editor.to_text(editor_view.io.get_value(
+			editor_view.rows[edited_cells[i].y],
+			editor_view.columns[edited_cells[i].x],
+		))
+		edit_cursor_positions[i] = edited_cells_text[i].length()
+
+
+func _try_open_docks(cell : Vector2i):
+	var column_index = get_cell_column(cell)
+	var row = editor_view.rows[get_cell_row(cell)]
+	var column = editor_view.columns[column_index]
+	var type = editor_view.column_types[column_index]
+	var hints = editor_view.column_hints[column_index]
+
+	for x in node_property_editors.get_children():
+		x.visible = x.try_edit_value(editor_view.io.get_value(row, column), type, hints)
+		x.get_node(x.path_property_name).text = column
+
+
+func _on_inspector_property_edited(property : String):
+	if !editor_view.is_visible_in_tree(): return
+	if inspector_resource != editor_view.editor_plugin.get_editor_interface().get_inspector().get_edited_object():
 		return
 	
-	if event is InputEventKey:
-		if Input.is_key_pressed(KEY_CONTROL):
-			# Dupe
-			if event.scancode == KEY_D:
-				_on_Duplicate_pressed()
-				return
-			
-			# Rename
-			if event.scancode == KEY_R:
-				_on_Rename_pressed()
-				return
-				
-	if event is InputEventMouseButton && event.is_pressed():
-		hide()
+	if editor_view.columns[get_cell_column(edited_cells[0])] != property:
+		var columns := editor_view.columns
+		var previously_edited = edited_cells.duplicate()
+		var new_column := columns.find(property)
+		deselect_all_cells()
+		for i in previously_edited.size():
+			_add_cell_to_selection(Vector2i(new_column, previously_edited[i].y))
 
+	var values = []
+	values.resize(edited_cells.size())
+	values.fill(inspector_resource[property])
 
-func _input(event):
-	if cell == null: return
-	if !get_node(editor_view).is_visible_in_tree():
-		hide()
-		return
-	
-	rect_global_position = Vector2(
-		cell.rect_global_position.x + cell.rect_size.x,
-		cell.rect_global_position.y
-	)
-
-
-func _on_Duplicate_pressed():
-	_show_editbox(EDITBOX_DUPLICATE)
-
-
-func _on_CbCopy_pressed():
-	TextEditingUtils.multi_copy(get_node(editor_view).edited_cells_text)
-
-
-func _on_CbPaste_pressed():
-	get_node(editor_view).set_edited_cells_values(
-		TextEditingUtils.multi_paste(
-			get_node(editor_view).edited_cells_text,
-			get_node(editor_view).edit_cursor_positions
-		)
-	)
-
-
-func _on_Rename_pressed():
-	_show_editbox(EDITBOX_RENAME)
-
-
-func _on_Delete_pressed():
-	_show_editbox(EDITBOX_DELETE)
-
-
-func _show_editbox(action):
-	var node_editor_view = get_node(editor_view)
-	editbox_action = action
-	match(action):
-		EDITBOX_DUPLICATE:
-			if !node_editor_view.has_row_names():
-				_on_editbox_accepted()
-				return
-
-			if node_editor_view.edited_cells.size() == 1:
-				editbox_label.text = "Input new row's name..."
-				editbox_input.text = node_editor_view.get_last_selected_row()\
-					.resource_path.get_file().get_basename()
-
-			else:
-				editbox_label.text = "Input suffix to append to names..."
-				editbox_input.text = ""
-
-		EDITBOX_RENAME:
-			editbox_label.text = "Input new name for row..."
-			editbox_input.text = node_editor_view.get_last_selected_row()\
-				.resource_path.get_file().get_basename()
-
-		EDITBOX_DELETE:
-			editbox_label.text = "Really delete selected rows? (Irreversible!!!)"
-			editbox_input.text = node_editor_view.get_last_selected_row()\
-				.resource_path.get_file().get_basename()
-	
-	editbox_input.grab_focus()
-	editbox_input.caret_position = 999999999
-	editbox_node.show()
-	$"Control/ColorRect".show()
-	$"Control/ColorRect".set_as_toplevel(true)
-	$"Control/ColorRect".rect_size = get_viewport_rect().size * 4.0
-	editbox_node.rect_global_position = (
-		rect_global_position
-		+ rect_size * 0.5
-		- editbox_node.get_child(0).rect_size * 0.5
-	)
-
-
-func _on_editbox_closed():
-	editbox_node.hide()
-	$"Control/ColorRect".hide()
-
-
-func _on_editbox_accepted():
-	match(editbox_action):
-		EDITBOX_DUPLICATE:
-			get_node(editor_view).duplicate_selected_rows(editbox_input.text)
-
-		EDITBOX_RENAME:
-			get_node(editor_view).rename_row(get_node(editor_view).get_last_selected_row(), editbox_input.text)
-
-		EDITBOX_DELETE:
-			get_node(editor_view).delete_selected_rows()
-
-	_on_editbox_closed()
+	editor_view.set_edited_cells_values.call_deferred(values)
+	_try_open_docks(edited_cells[0])

@@ -27,7 +27,7 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum.gd" id="20_swsbn"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="21_58wf8"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="22_bni8r"]
-[ext_resource type="PackedScene" uid="uid://b51hnttsie7k5" path="res://addons/resources_spreadsheet_view/main_screen/selection_actions.tscn" id="23_m53sx"]
+[ext_resource type="PackedScene" uid="uid://b51hnttsie7k5" path="res://addons/resources_spreadsheet_view/selection_actions.tscn" id="23_m53sx"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_number.gd" id="28_a0j2e"]
 
 [sub_resource type="Gradient" id="Gradient_8kp6w"]
@@ -560,7 +560,9 @@ exclusive = true
 min_size = Vector2i(600, 400)
 
 [node name="ImportExport" parent="Control/ImportExport" instance=ExtResource("14_3p12b")]
+physics_interpolation_mode = 0
 current_tab = 0
+script = null
 
 [node name="SelectionActions" parent="Control" node_paths=PackedStringArray("selection") instance=ExtResource("23_m53sx")]
 visible = false
@@ -583,7 +585,6 @@ node_property_editors = NodePath("../HeaderContentSplit/MarginContainer/FooterCo
 scrollbar = NodePath("../HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll")
 metadata/_edit_lock_ = true
 
-[connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_grid_updated"]
 [connection signal="gui_input" from="." to="InputHandler" method="_gui_input"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/File" to="." method="_on_File_pressed"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/SearchProcess" to="." method="_on_SearchProcess_pressed"]
