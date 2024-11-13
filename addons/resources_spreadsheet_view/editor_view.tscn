@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://tmleonv20aqk"]
+[gd_scene load_steps=32 format=3 uid="uid://5pic6fxx6et3"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -27,7 +27,7 @@
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_enum.gd" id="20_swsbn"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_resource.gd" id="21_58wf8"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_string.gd" id="22_bni8r"]
-[ext_resource type="PackedScene" uid="uid://b51hnttsie7k5" path="res://addons/resources_spreadsheet_view/selection_actions.tscn" id="23_m53sx"]
+[ext_resource type="PackedScene" uid="uid://b51hnttsie7k5" path="res://addons/resources_spreadsheet_view/main_screen/selection_actions.tscn" id="23_m53sx"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_cells/cell_editor_number.gd" id="28_a0j2e"]
 
 [sub_resource type="Gradient" id="Gradient_8kp6w"]
@@ -445,17 +445,14 @@ layout_mode = 2
 [node name="EditEnumArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("8_234wn")]
 visible = false
 layout_mode = 2
-path_property_name = NodePath("Header/Label")
 
 [node name="EditArray" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("9_nts08")]
 visible = false
 layout_mode = 2
-path_property_name = NodePath("Header/Label")
 
 [node name="EditDict" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("13_il556")]
 visible = false
 layout_mode = 2
-path_property_name = NodePath("Header/Label")
 
 [node name="EditColor" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Footer/PropertyEditors" instance=ExtResource("10_nsma2")]
 visible = false
