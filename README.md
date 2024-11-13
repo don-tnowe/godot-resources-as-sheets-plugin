@@ -8,7 +8,7 @@ A plugin for Godot 4 that adds a tab for editing folders of Resources as data ta
 
 - Edit Text, Numbers, Colors and Booleans via keyboard, and view Resources, Arrays and Enums editable through Inspector
 - Select multiple cells in one column (Shift/Ctrl+Click) to edit them in the Inspector simultaneously.
-- Multi-cell text editing right in the . Just click a ce
+- Multi-cell text editing right in the table view. Click a cell and type with your keyboard, press arrow keys to move and see the typing caret.
 - CSV support - Import, Export or Edit directly with strongly-typed columns
 ---
 - Special mass operations for some datatypes
@@ -34,9 +34,9 @@ Possible inputs:
 - `Shift + Click` - Select all cells between A and B in one column
 - `Up / Down / Shift + Tab / Tab` - Move cell selection
 ---
-- `Left / Right` - Move cursor along cell text
-- `Backspace / Delete` - Erase text Left / Right from cursor
-- `Home / End` - Move cursor to start/end of cell
+- `Left / Right` - Move caret along cell text
+- `Backspace / Delete` - Erase one character Left / Right from caret
+- `Home / End` - Move caret to start/end of cell
 - `Ctrl + <move/erase> / Cmd + <move/erase>` - Move through / Erase whole word
 ---
 - `Ctrl / Cmd + C/V` - Copy cells / Paste text into cells (*make sure no scene nodes are selected*)
