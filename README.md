@@ -56,7 +56,7 @@ Made by Don Tnowe in 2022.
 
 [My games on Itch](https://don-tnowe.itch.io)
 
-**Need help or want to chat? Message me!** [Telegram](t.me/don_tnowe), [Discord](https://discord.com/channels/@me/726139164566880426)
+**Need help or want to chat? Message me!** [Telegram](https://t.me/don_tnowe), [Discord](https://discord.com/channels/@me/726139164566880426)
 
 **Did this tool help you so much you'd like to give back?** [Donate on PayPal!](https://www.paypal.com/donate?hosted_button_id=VURRD7VAZ8C9E)
 
