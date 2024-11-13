@@ -1,13 +1,14 @@
-# Edit Resources as Spreadsheet
+# Edit Resources as Table
 
     "Welp, it is what it sounds like!"
 
-A plugin for Godot 3 (and now 4!) that adds a tab for editing folders of Resources as data tables. It was made from neccessity when trying to develop another plugin.
+A plugin for Godot 4 that adds a tab for editing folders of Resources as data tables. It was made from neccessity when trying to develop another plugin.
+
+[Godot 3 branch](https://github.com/don-tnowe/godot-resources-as-sheets-plugin/tree/godot-3), [Godot 4 branch](https://github.com/don-tnowe/godot-resources-as-sheets-plugin/tree/Godot-4)
 
 - Edit Text, Numbers, Colors and Booleans via keyboard, and view Resources, Arrays and Enums editable through Inspector
 - Select multiple cells in one column (Shift/Ctrl+Click) to edit them in the Inspector simultaneously.
-- Multi-cell text editing (*in 4.0 only: the cursor is visible if cursor is inside text!*)
-- Copy-paste Text into Cells (one line, one cell)
+- Multi-cell text editing right in the . Just click a ce
 - CSV support - Import, Export or Edit directly with strongly-typed columns
 ---
 - Special mass operations for some datatypes
@@ -18,7 +19,8 @@ A plugin for Godot 3 (and now 4!) that adds a tab for editing folders of Resourc
 ![Gif](./images/resources_as_sheet2.gif)
 
 - Sort entries by column
-- Search by evaluating GDScript expression
+- Filter rows by evaluating GDScript expression
+- Filter rows by Resource class/script
 - Apply GDScript expression to selected rows
 - Row stylization (color-type cells change look of the row until next color-type)
 - Saves recently opened folders and hidden columns between sessions
@@ -30,7 +32,7 @@ A plugin for Godot 3 (and now 4!) that adds a tab for editing folders of Resourc
 Possible inputs:
 - `Ctrl + Click / Cmd + Click` - Select multiple cells in one column
 - `Shift + Click` - Select all cells between A and B in one column
-- (*4.0 only*) `Up / Down / Shift + Tab / Tab` - Move cell selection
+- `Up / Down / Shift + Tab / Tab` - Move cell selection
 ---
 - `Left / Right` - Move cursor along cell text
 - `Backspace / Delete` - Erase text Left / Right from cursor
@@ -47,12 +49,17 @@ If clipboard contains as many lines as there are cells selected, each line is pa
 To add support of more datatypes, check out the `typed_cells` and `typed_editors` folders. `typed_cells` need to be added in the `editor_view` root's exported array, and `typed_editors` are placed there under the `%PropertyEditors` node.
 
 #
+
 Made by Don Tnowe in 2022.
 
 [My Website](https://redbladegames.netlify.app)
 
-[Itch](https://don-tnowe.itch.io)
+[My games on Itch](https://don-tnowe.itch.io)
 
-[Twitter](https://twitter.com/don_tnowe)
+**Need help or want to chat? Message me!** [Telegram](t.me/don_tnowe), [Discord](https://discord.com/channels/@me/726139164566880426)
+
+**Did this tool help you so much you'd like to give back?** [Donate on PayPal!](https://www.paypal.com/donate?hosted_button_id=VURRD7VAZ8C9E)
+
+#
 
 Copying and Modification is allowed in accordance to the MIT license, full text is included.
