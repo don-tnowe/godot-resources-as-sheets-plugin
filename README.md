@@ -1,16 +1,22 @@
 # Edit Resources as Table
 
-    "Welp, it is what it sounds like!"
+    "Welp, it does what it sounds like!"
 
-A plugin for Godot 4 that adds a tab for editing folders of Resources as data tables. It was made from neccessity when trying to develop another plugin.
+A plugin for Godot 4 that adds a tab for viewing and editing folders of Resources as data tables, one Resource per row. It was made from necessity when trying to develop another plugin.
+
+[Attribution and Contact](https://github.com/don-tnowe/godot-resources-as-sheets-plugin/tree/master?tab=readme-ov-file#attribution-and-contact)
 
 [Godot 3 branch](https://github.com/don-tnowe/godot-resources-as-sheets-plugin/tree/godot-3), [Godot 4 branch](https://github.com/don-tnowe/godot-resources-as-sheets-plugin/tree/Godot-4)
 
+## Features
+
 - Edit Text, Numbers, Colors and Booleans via keyboard, and view Resources, Arrays and Enums editable through Inspector
 - Select multiple cells in one column (Shift/Ctrl+Click) to edit them in the Inspector simultaneously.
-- Multi-cell text editing right in the table view. Click a cell and type with your keyboard, press arrow keys to move and see the typing caret.
+- Multi-cell text editing right in the table view. Click a cell and type with your keyboard into all selected cells, [move the typing caret with a keyboard input](https://github.com/don-tnowe/godot-resources-as-sheets-plugin/tree/master?tab=readme-ov-file#keyboard-inputs) to make it visible.
 - CSV support - Import, Export or Edit directly with strongly-typed columns
+
 ---
+
 - Special mass operations for some datatypes
     - Multiply/add numbers
     - Rotate color hues/adjust sat/val/RGB
@@ -28,8 +34,8 @@ A plugin for Godot 4 that adds a tab for editing folders of Resources as data ta
 
 ![Gif](./images/resources_as_sheet3.gif)
 
----
-Possible inputs:
+## Keyboard Inputs
+
 - `Ctrl + Click / Cmd + Click` - Select multiple cells in one column
 - `Shift + Click` - Select all cells between A and B in one column
 - `Up / Down / Shift + Tab / Tab` - Move cell selection
@@ -48,9 +54,11 @@ If clipboard contains as many lines as there are cells selected, each line is pa
 
 To add support of more datatypes, check out the `typed_cells` and `typed_editors` folders. `typed_cells` need to be added in the `editor_view` root's exported array, and `typed_editors` are placed there under the `%PropertyEditors` node.
 
-#
+## Attribution and Contact
 
 Made by Don Tnowe in 2022.
+
+[License](./LICENSE.md)
 
 [My Website](https://redbladegames.netlify.app)
 
