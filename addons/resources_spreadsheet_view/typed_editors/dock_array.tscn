@@ -1,0 +1,195 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3a2cip8ffccv"]
+
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_editors/dock_array.gd" id="1"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="2"]
+
+[sub_resource type="Image" id="Image_3slrg"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 131, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 128, 128, 4, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 93, 93, 55, 255, 97, 97, 58, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 98, 98, 47, 255, 97, 97, 42, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 94, 94, 46, 255, 93, 93, 236, 255, 93, 93, 233, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 93, 93, 252, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_3oshq"]
+image = SubResource("Image_3slrg")
+
+[node name="EditArray" type="VBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+mouse_filter = 0
+script = ExtResource("1")
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 9
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Header/HBoxContainer"]
+layout_mode = 2
+text = "EDIT: Array"
+
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Header"]
+layout_mode = 2
+text = "PROPERTY NAME"
+
+[node name="HSeparator2" type="HSeparator" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HSplitContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 380
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Panel" type="MarginContainer" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="TextEdit" parent="HBoxContainer/HBoxContainer/Panel"]
+layout_mode = 2
+size_flags_vertical = 5
+text = "[]"
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="MarginContainer" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/Control"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Input value to add/erase..."
+clear_button_enabled = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Add:"
+
+[node name="String" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Add string"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "String"
+
+[node name="Int" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Add integer"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "int"
+
+[node name="Float" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Add float"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "float"
+
+[node name="Variant" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Guess type and add"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "Variant"
+
+[node name="Object" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Add resource (by path if string)"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "Object"
+
+[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Erase:"
+
+[node name="Remove" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Find and erase value in textbox"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "Remove"
+
+[node name="Remove2" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Remove last value"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "MoveLeft"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Control2" type="ScrollContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/Control2/HBoxContainer"]
+layout_mode = 2
+
+[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/Control2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+layout_mode = 2
+text = "Recent:"
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+layout_mode = 2
+selected = 0
+fit_to_longest_item = false
+item_count = 3
+popup/item_0/text = "Add"
+popup/item_1/text = "Erase"
+popup/item_1/id = 1
+popup/item_2/text = "Remove From Recent"
+popup/item_2/id = 2
+
+[node name="AddRecentFromSel" type="Button" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+layout_mode = 2
+tooltip_text = "Add from selected cells"
+icon = SubResource("ImageTexture_3oshq")
+script = ExtResource("2")
+icon_name = "ListSelect"
+
+[connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/String" to="." method="_on_String_pressed"]
+[connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Int" to="." method="_on_Int_pressed"]
+[connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Float" to="." method="_on_Float_pressed"]
+[connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Variant" to="." method="_on_Variant_pressed"]
+[connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Object" to="." method="_on_Resource_pressed"]
+[connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Remove" to="." method="_on_Remove_pressed"]
+[connection signal="pressed" from="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer/Remove2" to="." method="_on_RemoveLast_pressed"]
+[connection signal="pressed" from="HBoxContainer/Control2/HBoxContainer/HFlowContainer/AddRecentFromSel" to="." method="_on_AddRecentFromSel_pressed"]

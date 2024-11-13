@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://desvy1h36yy1s"]
+
+[ext_resource type="Script" path="res://example/Items/item_type.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://dwi4ioxeauoc4" path="res://example/Items/item_icons/items.png" id="2_bon0y"]
+
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("2_bon0y")
+region = Rect2(48, 36, 12, 12)
+
+[resource]
+script = ExtResource("2")
+name = "metalscrap_wyvernite"
+description = "desc_metalscrap_wyvernite"
+max_stack_count = 20
+in_inventory_width = 1
+in_inventory_height = 1
+texture = SubResource("1")
+slot_flags = 8
+default_properties = {
+"back_color": Color(0.67451, 0.270588, 0.972549, 1)
+}

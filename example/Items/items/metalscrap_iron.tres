@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dyb3w176j3sco"]
+
+[ext_resource type="Script" path="res://example/Items/item_type.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://dwi4ioxeauoc4" path="res://example/Items/item_icons/items.png" id="2_61lme"]
+
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("2_61lme")
+region = Rect2(36, 24, 12, 12)
+
+[resource]
+script = ExtResource("2")
+name = "metalscrap_iron"
+description = "desc_metalscrap_iron"
+max_stack_count = 20
+in_inventory_width = 1
+in_inventory_height = 1
+texture = SubResource("1")
+slot_flags = 8
+default_properties = {}

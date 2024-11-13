@@ -1,0 +1,101 @@
+[gd_scene load_steps=3 format=3 uid="uid://rww3gpl052bn"]
+
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.gd" id="1"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_h3mns"]
+
+[node name="EditTexture" type="VBoxContainer"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.25463
+offset_bottom = 126.0
+grow_horizontal = 2
+mouse_filter = 0
+script = ExtResource("1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 9
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Header/HBoxContainer"]
+layout_mode = 2
+text = "EDIT: Texture"
+
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Header"]
+layout_mode = 2
+text = "PROPERTY NAME"
+
+[node name="HSeparator2" type="HSeparator" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("PlaceholderTexture2D_h3mns")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+auto_translate = false
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Atlas Chopper"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "H Count"
+
+[node name="LineEdit2" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "V Count"
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Chop chop chop!!!"
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]

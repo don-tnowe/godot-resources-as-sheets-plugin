@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://7vy4rqrqnt4q"]
+
+[ext_resource type="Script" path="res://example/Items/item_type.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://dwi4ioxeauoc4" path="res://example/Items/item_icons/items.png" id="2_oismr"]
+
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("2_oismr")
+region = Rect2(96, 24, 12, 24)
+
+[resource]
+script = ExtResource("2")
+name = "scroll_enchant"
+description = "desc_scroll_enchant"
+max_stack_count = 20
+in_inventory_width = 1
+in_inventory_height = 2
+texture = SubResource("1")
+slot_flags = 6
+default_properties = {
+"back_color": Color(0.67451, 0.270588, 0.972549, 1)
+}

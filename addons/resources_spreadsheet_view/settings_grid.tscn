@@ -1,0 +1,110 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhunxgcae6h1"]
+
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="1_s8s2f"]
+
+[node name="Settings" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -622.0
+offset_bottom = -322.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="RichTextLabel"]
+layout_mode = 2
+columns = 2
+script = ExtResource("1_s8s2f")
+
+[node name="Label" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Color-type cells style rows"
+autowrap_mode = 2
+
+[node name="ColorRows" type="CheckBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Enable"
+
+[node name="Label2" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Collection item color tint"
+autowrap_mode = 2
+
+[node name="ArrayColorTint" type="SpinBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+value = 100.0
+
+[node name="Label3" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Array cell min width"
+autowrap_mode = 2
+
+[node name="ArrayMinWidth" type="SpinBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+min_value = 32.0
+max_value = 512.0
+value = 128.0
+
+[node name="Label8" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resource preview size (Including Textures)"
+autowrap_mode = 2
+
+[node name="ResourcePreviewSize" type="SpinBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+min_value = 8.0
+max_value = 1024.0
+value = 32.0
+
+[node name="Label7" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Clip header text (makes columns smaller)"
+autowrap_mode = 2
+
+[node name="ClipHeaders" type="CheckBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+text = "Enable"
+
+[node name="Label5" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Duplicate arrays on edit (slower, but can be undone)"
+autowrap_mode = 2
+
+[node name="DupeArrays" type="CheckBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Enable"
+
+[node name="Label6" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Show context menu on left-click (and not just rightclick)"
+autowrap_mode = 2
+
+[node name="ContextMenuOnLeftclick" type="CheckBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+text = "Enable"
+
+[node name="Label9" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fold bottom docks on startup (drag their top bar to resize)"
+autowrap_mode = 2
+
+[node name="FoldDocks" type="CheckBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+text = "Enable"

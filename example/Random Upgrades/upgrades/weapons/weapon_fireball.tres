@@ -1,0 +1,28 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://rjxr4qtfc6qd"]
+
+[ext_resource type="Texture2D" uid="uid://cluvoehgeqmcu" path="res://example/Random Upgrades/icons/all_icons/all_icons_4.tres" id="1_5uqil"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_mehe7"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2_1ne1s"]
+
+[resource]
+resource_name = "Weapon: Fireball"
+script = ExtResource("1_mehe7")
+weapon_damage = 4.0
+weapon_cooldown = 6.0
+color1 = Color(0.635294, 0.760784, 1, 1)
+max_duplicates = 1
+tags = Array[String](["weapon", "magic", "projectile", "elemental"])
+type = 0
+attributes = Array[int]([1, 2])
+icon = ExtResource("1_5uqil")
+prerequisites = Array[ExtResource("2_1ne1s")]([])
+color2 = Color(0.189457, 0.452246, 0.902344, 1)
+base_weight = 10.0
+is_notable = false
+multiplier_per_tag = "magic 2.0"
+multiplier_if_tag_present = ""
+multiplier_if_tag_not_present = ""
+max_tags_present = "weapon 4"
+list_item_delimeter = " "
+list_row_delimeter = "
+"

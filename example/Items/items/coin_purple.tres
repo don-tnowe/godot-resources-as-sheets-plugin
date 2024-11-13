@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://4amkkv73m0lc"]
+
+[ext_resource type="Script" path="res://example/Items/item_type.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://dwi4ioxeauoc4" path="res://example/Items/item_icons/items.png" id="2_gphlp"]
+
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("2_gphlp")
+region = Rect2(0, 12, 12, 12)
+
+[resource]
+script = ExtResource("2")
+name = "coin_purple"
+description = "desc_coin_purple"
+max_stack_count = 100
+in_inventory_width = 1
+in_inventory_height = 1
+texture = SubResource("1")
+slot_flags = 6
+default_properties = {
+"back_color": Color(0.67451, 0.270588, 0.972549, 1)
+}

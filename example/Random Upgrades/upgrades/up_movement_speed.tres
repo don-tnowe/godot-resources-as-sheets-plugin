@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=4 format=3 uid="uid://bn0r0bvk8fylt"]
+
+[ext_resource type="Texture2D" uid="uid://dfpwu4ra3fxgx" path="res://example/Random Upgrades/icons/all_icons/all_icons_2.tres" id="1_fy5ui"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2_gfl7s"]
+[ext_resource type="Resource" uid="uid://c6hsg3j74vm56" path="res://example/Random Upgrades/upgrades/up_strength.tres" id="3_5v8xn"]
+
+[resource]
+resource_name = "Upgrade: Strength"
+script = ExtResource("2_gfl7s")
+color1 = Color(1, 1, 1, 1)
+max_duplicates = 9
+tags = Array[String](["strength"])
+type = 1
+attributes = Array[int]([0])
+icon = ExtResource("1_fy5ui")
+prerequisites = Array[ExtResource("2_gfl7s")]([ExtResource("3_5v8xn")])
+color2 = Color(0.980392, 0.584314, 0.203922, 1)
+base_weight = 10.0
+is_notable = false
+multiplier_per_tag = ""
+multiplier_if_tag_present = ""
+multiplier_if_tag_not_present = "strength 0"
+max_tags_present = ""
+list_item_delimeter = " "
+list_row_delimeter = "
+"

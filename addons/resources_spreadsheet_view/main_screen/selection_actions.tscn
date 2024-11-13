@@ -1,0 +1,192 @@
+[gd_scene load_steps=7 format=3 uid="uid://b51hnttsie7k5"]
+
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="1"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/selection_actions.gd" id="1_qv6ov"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_a4ihj"]
+
+[sub_resource type="Image" id="Image_pjk43"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "LumAlpha8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="2"]
+image = SubResource("Image_pjk43")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2l2b"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0.365, 0.365, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_detail = 1
+
+[node name="SelectionActions" type="MarginContainer" node_paths=PackedStringArray("editor_view")]
+offset_right = 80.0
+offset_bottom = 52.0
+size_flags_horizontal = 9
+mouse_filter = 2
+script = ExtResource("1_qv6ov")
+editor_view = NodePath("../..")
+
+[node name="Control2" type="Panel" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control2"]
+show_behind_parent = true
+layout_mode = 0
+mouse_filter = 2
+
+[node name="ColorRect2" type="ColorRect" parent="Control2"]
+modulate = Color(0, 0, 0, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -2.0
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_a4ihj")
+
+[node name="Label" type="Label" parent="Control2"]
+layout_mode = 0
+offset_top = -26.0
+offset_right = 57.0
+text = "Actions"
+vertical_alignment = 2
+
+[node name="ColorRect3" type="Panel" parent="Control2/Label"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 2.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 9
+size_flags_vertical = 9
+mouse_filter = 2
+columns = 3
+
+[node name="Duplicate" type="Button" parent="GridContainer"]
+layout_mode = 2
+tooltip_text = "Duplicate Selected Rows (Ctrl+D)"
+mouse_filter = 1
+icon = SubResource("2")
+script = ExtResource("1")
+icon_name = "Duplicate"
+
+[node name="CbCopy" type="Button" parent="GridContainer"]
+layout_mode = 2
+tooltip_text = "Copy to Clipboard (Ctrl+C)"
+mouse_filter = 1
+icon = SubResource("2")
+script = ExtResource("1")
+icon_name = "ActionCopy"
+
+[node name="CbPaste" type="Button" parent="GridContainer"]
+layout_mode = 2
+tooltip_text = "Paste Clipboard (Ctrl+V)"
+mouse_filter = 1
+icon = SubResource("2")
+script = ExtResource("1")
+icon_name = "ActionPaste"
+
+[node name="Rename" type="Button" parent="GridContainer"]
+layout_mode = 2
+tooltip_text = "Rename Selected Rows (Ctrl+R)"
+mouse_filter = 1
+icon = SubResource("2")
+script = ExtResource("1")
+icon_name = "Edit"
+
+[node name="Delete" type="Button" parent="GridContainer"]
+layout_mode = 2
+tooltip_text = "DELETE Selected Rows"
+mouse_filter = 1
+icon = SubResource("2")
+script = ExtResource("1")
+icon_name = "Remove"
+
+[node name="SoloOpen" type="Button" parent="GridContainer"]
+layout_mode = 2
+tooltip_text = "Open selected cells as new table"
+mouse_filter = 1
+icon = SubResource("2")
+script = ExtResource("1")
+icon_name = "Object"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -80.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.498039)
+
+[node name="Popup" type="MarginContainer" parent="Control/ColorRect"]
+layout_mode = 0
+offset_top = 100.0
+offset_right = 140.0
+offset_bottom = 196.0
+
+[node name="Panel" type="PanelContainer" parent="Control/ColorRect/Popup"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r2l2b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/Popup/Panel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Input new name..."
+
+[node name="LineEdit" type="LineEdit" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "OK"
+
+[node name="Button2" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[connection signal="pressed" from="GridContainer/Duplicate" to="." method="_on_Duplicate_pressed"]
+[connection signal="pressed" from="GridContainer/CbCopy" to="." method="_on_CbCopy_pressed"]
+[connection signal="pressed" from="GridContainer/CbPaste" to="." method="_on_CbPaste_pressed"]
+[connection signal="pressed" from="GridContainer/Rename" to="." method="_on_Rename_pressed"]
+[connection signal="pressed" from="GridContainer/Delete" to="." method="_on_Delete_pressed"]
+[connection signal="pressed" from="GridContainer/SoloOpen" to="." method="_on_SoloOpen_pressed"]
+[connection signal="pressed" from="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer/Button" to="." method="_on_editbox_accepted"]
+[connection signal="pressed" from="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer/Button2" to="." method="_on_editbox_closed"]

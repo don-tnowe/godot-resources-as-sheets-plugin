@@ -1,0 +1,28 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://dmgt12il41ul7"]
+
+[ext_resource type="Script" path="res://example/Items/item_type.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dwi4ioxeauoc4" path="res://example/Items/item_icons/items.png" id="2_1ooxf"]
+
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("2_1ooxf")
+region = Rect2(0, 168, 24, 24)
+
+[resource]
+script = ExtResource("1")
+name = "head_helmet"
+description = "desc_head_helmet"
+max_stack_count = 1
+in_inventory_width = 2
+in_inventory_height = 2
+texture = SubResource("1")
+slot_flags = 11
+default_properties = {
+"back_color": Color(1, 0.65098, 0, 1),
+"price": {
+"res://example/wyvernbox/item_types/consumable/coin_gold.tres": 50,
+"res://example/wyvernbox/item_types/consumable/coin_purple.tres": 10
+},
+"stats": {
+"defense": 8.0
+}
+}

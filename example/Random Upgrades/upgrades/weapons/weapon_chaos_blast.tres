@@ -1,0 +1,30 @@
+[gd_resource type="Resource" load_steps=5 format=3 uid="uid://60buw33oe30f"]
+
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_02in4"]
+[ext_resource type="Texture2D" uid="uid://cluvoehgeqmcu" path="res://example/Random Upgrades/icons/all_icons/all_icons_4.tres" id="1_6lnsr"]
+[ext_resource type="PackedScene" uid="uid://b4cix5ebtpdbf" path="res://example/Random Upgrades/new scene.tscn" id="1_xh6ym"]
+[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="3_o4xc8"]
+
+[resource]
+resource_name = "Weapon: Chaos Blast"
+script = ExtResource("1_02in4")
+weapon_damage = 12.0
+weapon_cooldown = 8.0
+color1 = Color(0.635294, 0.760784, 1, 1)
+max_duplicates = 1
+tags = Array[String](["weapon", "magic", "projectile", "legendary"])
+type = 0
+attributes = Array[int]([1, 1, 1, 3])
+icon = ExtResource("1_6lnsr")
+custom_scene = ExtResource("1_xh6ym")
+prerequisites = Array[ExtResource("3_o4xc8")]([])
+color2 = Color(0.407843, 0.192157, 0.827451, 1)
+base_weight = 1.0
+is_notable = true
+multiplier_per_tag = "magic 2.0"
+multiplier_if_tag_present = ""
+multiplier_if_tag_not_present = ""
+max_tags_present = "weapon 4"
+list_item_delimeter = " "
+list_row_delimeter = "
+"
