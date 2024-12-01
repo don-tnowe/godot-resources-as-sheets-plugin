@@ -455,7 +455,8 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 			continue
 
 		column_editor.set_value(update_cell, values[i])
-		if update_rows[i].get_script().is_tool():
+		var row_script : Object = update_rows[i].get_script()
+		if row_script != null && row_script.is_tool():
 			for column_i in columns.size():
 				if column_i == update_column:
 					continue
