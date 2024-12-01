@@ -400,7 +400,7 @@ func set_edited_cells_values(new_cell_values : Array):
 		new_cell_values.duplicate()
 	)
 	editor_plugin.undo_redo.commit_action(true)
-	# editor_interface.get_resource_filesystem().scan()
+	_selection._update_selected_cells_text()
 
 
 func rename_row(row, new_name):

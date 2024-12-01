@@ -10,7 +10,7 @@ func set_value(node : Control, value):
 		_set_value_internal(node, value)
 
 	else:
-		_set_value_internal(node, !node.text.begins_with("O"))
+		_set_value_internal(node, node.text.begins_with("O"))
 
 
 func _set_value_internal(node, value):
@@ -23,4 +23,8 @@ func to_text(value) -> String:
 
 
 func from_text(text : String):
-	return text[0] == "O"
+	if text.begins_with("O"):
+		return text == "ON"
+
+	else:
+		return text != "off"
