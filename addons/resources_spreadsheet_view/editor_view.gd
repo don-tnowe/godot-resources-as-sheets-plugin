@@ -441,9 +441,9 @@ func get_edited_cells_values() -> Array:
 
 
 func _update_resources(update_rows : Array, update_row_indices : Array[int], update_column : int, values : Array):
-	var column_editor = _selection.column_editors[update_column]
+	var column_editor : Object = _selection.column_editors[update_column]
 	for i in update_rows.size():
-		var row = update_row_indices[i]
+		var row := update_row_indices[i]
 		io.set_value(
 			update_rows[i],
 			columns[update_column],
@@ -455,6 +455,14 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 			continue
 
 		column_editor.set_value(update_cell, values[i])
+		if update_rows[i].get_script().is_tool():
+			for column_i in columns.size():
+				if column_i == update_column:
+					continue
+
+				var update_cell_c : Control = _selection.get_cell_node_from_position(Vector2i(column_i, row))
+				_selection.column_editors[column_i].set_value(update_cell_c, update_rows[i].get(columns[column_i]))
+
 		if values[i] == null:
 			continue
 
