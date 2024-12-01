@@ -6,7 +6,7 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 @export var table_header_scene : PackedScene
 
 @onready var editor_view : Control = $"../../../.."
-@onready var hide_columns_button : BaseButton = $"../../MenuStrip/VisibleCols"
+@onready var hide_columns_button : MenuButton = $"../../MenuStrip/VisibleCols"
 @onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 
 
@@ -100,8 +100,8 @@ func _update_column_sizes():
 
 
 func _update_hidden_columns():
-	var current_path = editor_view.current_path
-	var rows_shown = editor_view.last_row - editor_view.first_row
+	var current_path : String = editor_view.current_path
+	var rows_shown : int = editor_view.last_row - editor_view.first_row
 
 	if !hidden_columns.has(current_path):
 		hidden_columns[current_path] = {
@@ -110,10 +110,9 @@ func _update_hidden_columns():
     }
 		editor_view.save_data()
 
-	var visible_column_count = 0
+	var visible_column_count := 0
 	for i in columns.size():
-		var column_visible = !hidden_columns[current_path].has(columns[i])
-
+		var column_visible : bool = !hidden_columns[current_path].has(columns[i])
 		get_child(i).visible = column_visible
 		for j in rows_shown:
 			grid.get_child(j * columns.size() + i).visible = column_visible
@@ -129,8 +128,8 @@ func _on_h_scroll_changed(value):
 
 
 func _on_visible_cols_about_to_popup():
-	var current_path = editor_view.current_path
-	var popup = hide_columns_button.get_popup()
+	var current_path : String = editor_view.current_path
+	var popup := hide_columns_button.get_popup()
 	popup.clear()
 	popup.hide_on_checkable_item_selection = false
 	
@@ -140,8 +139,8 @@ func _on_visible_cols_about_to_popup():
 
 
 func _on_visible_cols_id_pressed(id : int):
-	var current_path = editor_view.current_path
-	var popup = hide_columns_button.get_popup()
+	var current_path : String = editor_view.current_path
+	var popup := hide_columns_button.get_popup()
 	if popup.is_item_checked(id):
 		popup.set_item_checked(id, false)
 		hidden_columns[current_path][columns[id]] = true

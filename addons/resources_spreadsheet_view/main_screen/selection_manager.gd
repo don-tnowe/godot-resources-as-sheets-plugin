@@ -4,7 +4,7 @@ extends Control
 signal cells_selected(cells_positions)
 signal cells_rightclicked(cells_positions)
 
-const EditorViewClass = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
+const EditorViewClass := preload("res://addons/resources_spreadsheet_view/editor_view.gd")
 const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
 
 @export var cell_editor_classes : Array[Script] = []
@@ -239,7 +239,7 @@ func _set_visible_selected(state : bool):
 func _add_cell_to_selection(cell : Vector2i):
 	edited_cells.append(cell)
 
-	var column_editor = column_editors[get_cell_column(cell)]
+	var column_editor := column_editors[get_cell_column(cell)]
 	var cell_node := get_cell_node_from_position(cell)
 	if cell_node != null:
 		column_editor.set_selected(cell_node, true)
@@ -264,11 +264,11 @@ func _update_selected_cells_text():
 
 
 func _try_open_docks(cell : Vector2i):
-	var column_index = get_cell_column(cell)
+	var column_index := get_cell_column(cell)
 	var row = editor_view.rows[get_cell_row(cell)]
-	var column = editor_view.columns[column_index]
-	var type = editor_view.column_types[column_index]
-	var hints = editor_view.column_hints[column_index]
+	var column := editor_view.columns[column_index]
+	var type := editor_view.column_types[column_index]
+	var hints := editor_view.column_hints[column_index]
 
 	for x in node_property_editors.get_children():
 		x.visible = x.try_edit_value(editor_view.io.get_value(row, column), type, hints)
@@ -282,13 +282,13 @@ func _on_inspector_property_edited(property : String):
 	
 	if editor_view.columns[get_cell_column(edited_cells[0])] != property:
 		var columns := editor_view.columns
-		var previously_edited = edited_cells.duplicate()
+		var previously_edited := edited_cells.duplicate()
 		var new_column := columns.find(property)
 		deselect_all_cells()
 		for i in previously_edited.size():
 			_add_cell_to_selection(Vector2i(new_column, previously_edited[i].y))
 
-	var values = []
+	var values := []
 	values.resize(edited_cells.size())
 	values.fill(inspector_resource[property])
 

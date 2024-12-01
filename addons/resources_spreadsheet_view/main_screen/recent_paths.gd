@@ -38,7 +38,7 @@ func remove_selected_path_from_recent():
 	if get_item_count() == 0:
 		return
 	
-	var idx_in_array = selected
+	var idx_in_array := selected
 	recent_paths.remove_at(idx_in_array)
 	remove_item(idx_in_array)
 

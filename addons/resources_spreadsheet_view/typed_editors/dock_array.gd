@@ -31,7 +31,7 @@ func try_edit_value(value, type, property_hint) -> bool:
 	_stored_value = value.duplicate()  # Generic arrays are passed by reference
 	contents_label.text = str(value)
 	
-	var is_generic_array = _stored_type == TYPE_ARRAY and !value.is_typed()
+	var is_generic_array : bool = _stored_type == TYPE_ARRAY and !value.is_typed()
 	button_box.get_child(1).visible = (
 		is_generic_array or value.get_typed_builtin() == TYPE_STRING or value.get_typed_builtin() == TYPE_STRING_NAME
 		or _stored_type == TYPE_PACKED_STRING_ARRAY
@@ -78,7 +78,7 @@ func try_edit_value(value, type, property_hint) -> bool:
 
 func _add_value(value):
 	_stored_value.append(value)
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value
 	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
@@ -94,7 +94,7 @@ func _add_value(value):
 
 func _add_values(added_values : Array):
 	_stored_value.append_array(added_values)
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value
 	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
@@ -110,7 +110,7 @@ func _add_values(added_values : Array):
 
 func _remove_value(value):
 	_stored_value.remove_at(_stored_value.find(value))
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value : Array
 	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
@@ -177,7 +177,7 @@ func _on_Remove_pressed():
 
 func _on_RemoveLast_pressed():
 	_stored_value.pop_back()
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value : Array
 	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
@@ -241,7 +241,7 @@ func _on_contents_edit_text_changed():
 	if !value is Array:
 		return
 
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	for i in values.size():
 		values[i] = values[i].duplicate()
 		values[i].resize(value.size())

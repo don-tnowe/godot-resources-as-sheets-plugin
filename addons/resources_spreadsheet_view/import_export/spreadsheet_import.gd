@@ -123,7 +123,7 @@ func property_to_string(value, col_index : int) -> String:
 
 
 func create_property_line_for_prop(col_index : int) -> String:
-	var result = "@export var " + prop_names[col_index] + " :"
+	var result : String = "@export var " + prop_names[col_index] + " :"
 	match prop_types[col_index]:
 		PropType.STRING:
 			return result + "= \"\"\r\n"
@@ -190,7 +190,7 @@ func create_enum_for_prop(col_index) -> String:
 
 
 func generate_script(entries, has_classname = true) -> GDScript:
-	var source = ""
+	var source := ""
 #	if has_classname and script_classname != "":
 #		source = "class_name " + script_classname + " \r\nextends Resource\r\n\r\n"
 #
@@ -208,14 +208,14 @@ func generate_script(entries, has_classname = true) -> GDScript:
 		if (prop_names[i] != "resource_path") and (prop_names[i] != "resource_name"):
 			source += create_property_line_for_prop(i)
 	
-	var created_script = GDScript.new()
+	var created_script : GDScript = GDScript.new()
 	created_script.source_code = source
 	created_script.reload()
 	return created_script
 
 
 func strings_to_resource(strings : Array):
-	var new_res = new_script.new()
+	var new_res := new_script.new()
 	for j in min(prop_names.size(), strings.size()):
 		new_res.set(prop_names[j], string_to_property(strings[j], j))
 	
@@ -235,7 +235,7 @@ func resource_to_strings(res : Resource):
 
 
 func get_uniques(entries : Array) -> Dictionary:
-	var result = {}
+	var result := {}
 	for i in prop_types.size():
 		if prop_types[i] == PropType.ENUM:
 			var cur_value := ""
@@ -254,7 +254,7 @@ func get_uniques(entries : Array) -> Dictionary:
 
 
 static func change_name_to_format(name : String, case : int, delim : String):
-	var string = name.capitalize().replace(" ", delim)
+	var string := name.capitalize().replace(" ", delim)
 	if case == NameCasing.ALL_LOWER:
 		return string.to_lower()
 
@@ -269,16 +269,16 @@ static func change_name_to_format(name : String, case : int, delim : String):
 
 
 static func get_resource_property_types(res : Resource, properties : Array) -> Array:
-	var result = []
+	var result := []
 	result.resize(properties.size())
 	result.fill(PropType.STRING)
 	var cur_type := 0
 	for x in res.get_property_list():
-		var found = properties.find(x["name"])
+		var found := properties.find(x["name"])
 		if found == -1: continue
 		if x["usage"] & PROPERTY_USAGE_EDITOR != 0:
 			if x["hint"] == PROPERTY_HINT_ENUM:
-				var enum_values = x["hint_string"].split(",")
+				var enum_values : PackedStringArray = x["hint_string"].split(",")
 				for i in enum_values.size():
 					var index_found : int = enum_values[i].find(":")
 					if index_found == -1: continue

@@ -1,9 +1,9 @@
 class_name ResourceTablesEditFormatCsv
 extends ResourceTablesEditFormatTres
 
-var import_data
-var csv_rows = []
-var resource_original_positions = {}
+var import_data : ResourceTablesImport
+var csv_rows := []
+var resource_original_positions := {}
 
 
 func get_value(entry, key : String):
@@ -17,10 +17,10 @@ func set_value(entry, key : String, value, index : int):
 
 func save_entries(all_entries : Array, indices : Array, repeat : bool = true):
 	if timer == null or timer.time_left <= 0.0:
-		var space_after_delimeter = import_data.delimeter.ends_with(" ")
-		var file = FileAccess.open(import_data.edited_path, FileAccess.WRITE)
+		var space_after_delimiter := import_data.delimeter.ends_with(" ")
+		var file := FileAccess.open(import_data.edited_path, FileAccess.WRITE)
 		for x in csv_rows:
-			if space_after_delimeter:
+			if space_after_delimiter:
 				for i in x.size():
 					if i == 0: continue
 					x[i] = " " + x[i]
@@ -39,7 +39,7 @@ func create_resource(entry) -> Resource:
 func duplicate_rows(rows : Array, name_input : String):
 	for x in rows:
 		var new_res = x.duplicate()
-		var index = resource_original_positions[x]
+		var index : int = resource_original_positions[x]
 		csv_rows.insert(index, import_data.resource_to_strings(new_res))
 		_bump_row_indices(index + 1, 1)
 		resource_original_positions[new_res] = index + 1
@@ -49,8 +49,8 @@ func duplicate_rows(rows : Array, name_input : String):
 
 func delete_rows(rows):
 	for x in rows:
-		var index = resource_original_positions[x]
-		csv_rows.remove(index)
+		var index : int = resource_original_positions[x]
+		csv_rows.remove_at(index)
 		_bump_row_indices(index, -1)
 		resource_original_positions.erase(x)
 
@@ -69,7 +69,7 @@ func _bump_row_indices(from : int, increment : int = 1):
 
 func import_from_path(path : String, insert_func : Callable, sort_by : String, sort_reverse : bool = false) -> Array:
 	import_data = load(path)
-	var file = FileAccess.open(import_data.edited_path, FileAccess.READ)
+	var file := FileAccess.open(import_data.edited_path, FileAccess.READ)
 	csv_rows = ResourceTablesImportFormatCsv.import_as_arrays(import_data)
 
 	var rows := []

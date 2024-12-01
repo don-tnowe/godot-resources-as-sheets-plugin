@@ -23,10 +23,10 @@ var save_data_path : String = get_script().resource_path.get_base_dir() + "/save
 var sorting_by := &""
 var sorting_reverse := false
 
-var columns := []
-var column_types := []
-var column_hints := []
-var column_hint_strings := []
+var columns : Array[StringName] = []
+var column_types : Array[int] = []
+var column_hints : Array[int] = []
+var column_hint_strings : Array[PackedStringArray] = []
 var rows := []
 var remembered_paths := {}
 var remembered_paths_total_count := 0
@@ -42,28 +42,28 @@ var last_row := 0
 func _ready():
 	editor_interface.get_resource_filesystem().filesystem_changed.connect(_on_filesystem_changed)
 	if FileAccess.file_exists(save_data_path):
-		var file = FileAccess.open(save_data_path, FileAccess.READ)
-		var as_text = file.get_as_text()
-		var as_var = JSON.parse_string(as_text)
+		var file := FileAccess.open(save_data_path, FileAccess.READ)
+		var as_text := file.get_as_text()
+		var as_var := JSON.parse_string(as_text)
 
-		node_recent_paths.load_paths(as_var.get("recent_paths", []))
-		node_columns.hidden_columns = as_var.get("hidden_columns", {})
-		table_functions_dict = as_var.get("table_functions", {})
+		node_recent_paths.load_paths(as_var.get(&"recent_paths", []))
+		node_columns.hidden_columns = as_var.get(&"hidden_columns", {})
+		table_functions_dict = as_var.get(&"table_functions", {})
 		for x in $"HeaderContentSplit/VBoxContainer/Search/Search".get_children():
 			if x.has_method(&"load_saved_functions"):
 				x.load_saved_functions(table_functions_dict)
 
 	if node_recent_paths.recent_paths.size() >= 1:
-		display_folder(node_recent_paths.recent_paths[-1], "resource_name", false, true)
+		display_folder(node_recent_paths.recent_paths[-1], &"resource_name", false, true)
 
 
 func save_data():
-	var file = FileAccess.open(save_data_path, FileAccess.WRITE)
+	var file := FileAccess.open(save_data_path, FileAccess.WRITE)
 	file.store_string(JSON.stringify(
 		{
-			"recent_paths" : node_recent_paths.recent_paths,
-			"hidden_columns" : node_columns.hidden_columns,
-			"table_functions" : table_functions_dict,
+			&"recent_paths" : node_recent_paths.recent_paths,
+			&"hidden_columns" : node_columns.hidden_columns,
+			&"table_functions" : table_functions_dict,
 		}
 	, "  "))
 
@@ -164,7 +164,7 @@ func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse
 		io = ResourceTablesEditFormatTres.new()
 
 	else:
-		var loaded = load(path)
+		var loaded := load(path)
 		if loaded is ResourceTablesImport:
 			io = loaded.view_script.new()
 			node_class_filter.hide()
@@ -359,7 +359,7 @@ func set_edited_cells_values_text(new_cell_values : Array):
 
 	# Duplicated here since if using text editing, edited_cells_text needs to modified
 	# but here, it would be converted from a String breaking editing
-	var new_cell_values_converted = new_cell_values.duplicate()
+	var new_cell_values_converted := new_cell_values.duplicate()
 	for i in new_cell_values.size():
 		new_cell_values_converted[i] = column_editor.from_text(new_cell_values[i])
 

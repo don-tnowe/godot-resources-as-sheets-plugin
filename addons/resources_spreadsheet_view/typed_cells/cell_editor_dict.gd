@@ -10,14 +10,14 @@ func create_cell(caller : Control) -> Control:
 
 
 func set_value(node : Control, value):
-	var children = node.get_node("Box").get_children()
+	var children := node.get_node("Box").get_children()
 	node.custom_minimum_size.x = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_min_width")
 	var color_tint : float = 0.01 * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_color_tint", 100.0)
 	while children.size() < value.size():
 		children.append(Label.new())
 		node.get_node("Box").add_child(children[children.size() - 1])
 	
-	var column_hints = hint_strings_array[node.get_index() % hint_strings_array.size()]
+	var column_hints : PackedStringArray = hint_strings_array[node.get_index() % hint_strings_array.size()]
 	var values : Array = value.values()
 	var keys : Array = value.keys()
 

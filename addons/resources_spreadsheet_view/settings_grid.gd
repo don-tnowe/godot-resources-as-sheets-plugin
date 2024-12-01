@@ -1,7 +1,7 @@
 @tool
 extends GridContainer
 
-const PREFIX = "addons/resources_spreadsheet_view/"
+const PREFIX := "addons/resources_spreadsheet_view/"
 
 
 func _ready():

@@ -136,8 +136,8 @@ func _table_process():
 	new_script.reload()
 
 	var editor_view := get_node(editor_view_path)
-	var new_script_instance = new_script.new()
-	var values = editor_view.get_edited_cells_values()
+	var new_script_instance := new_script.new()
+	var values : Array = editor_view.get_edited_cells_values()
 
 	var edited_rows : Array[int] = editor_view._selection.get_edited_rows()
 	var edited_resources := edited_rows.map(func(x): return editor_view.rows[x])

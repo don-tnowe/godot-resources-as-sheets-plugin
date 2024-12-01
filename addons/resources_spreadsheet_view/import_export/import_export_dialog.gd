@@ -9,7 +9,7 @@ extends Control
 @onready var filename_options := $"Import/Margins/Scroll/Box/Grid/UseAsFilename"
 @onready var classname_field := $"Import/Margins/Scroll/Box/Grid/Classname"
 @onready var prop_list := $"Import/Margins/Scroll/Box"
-@onready var file_dialog = $"../../FileDialogText"
+@onready var file_dialog := $"../../FileDialogText"
 
 var format_extension := ".csv"
 var entries := []
@@ -19,7 +19,7 @@ var import_data : ResourceTablesImport
 
 
 func _ready():
-	var create_file_button = Button.new()
+	var create_file_button := Button.new()
 	file_dialog.get_child(3, true).get_child(3, true).add_child(create_file_button)
 	create_file_button.get_parent().move_child(create_file_button, 2)
 	create_file_button.text = "Create File"
@@ -33,13 +33,13 @@ func _ready():
 
 
 func _on_create_file_pressed():
-	var new_name = (
+	var new_name : String = (
 		file_dialog.get_child(3, true).get_child(3, true).get_child(1, true).text
 	)
 	if new_name == "":
 		new_name += editor_view.current_path.get_base_dir().get_file()
 
-	var file = FileAccess.open((
+	var file := FileAccess.open((
 			file_dialog.get_child(3, true).get_child(0, true).get_child(6, true).text
 			+ "/"
 			+ new_name.get_basename() + format_extension
@@ -72,7 +72,7 @@ func _open_dialog(path : String):
 
 
 func _load_property_names(path):
-	var prop_types = import_data.prop_types
+	var prop_types := import_data.prop_types
 	prop_types.resize(import_data.prop_names.size())
 	prop_types.fill(4)
 	for i in import_data.prop_names.size():
@@ -107,7 +107,7 @@ func _create_prop_editors():
 		if !x is GridContainer: x.free()
 
 	for i in import_data.prop_names.size():
-		var new_node = prop_list_item_scene.instantiate()
+		var new_node := prop_list_item_scene.instantiate()
 		prop_list.add_child(new_node)
 		new_node.display(import_data.prop_names[i], import_data.prop_types[i])
 		new_node.connect_all_signals(self, i)
@@ -163,8 +163,8 @@ func _on_import_edit_pressed():
 
 
 func _on_export_csv_pressed():
-	var exported_cols = editor_view.columns.duplicate()
-	exported_cols.erase("resource_local_to_scene")
+	var exported_cols : Array = editor_view.columns.duplicate()
+	exported_cols.erase(&"resource_local_to_scene")
 	for x in editor_view.node_columns.hidden_columns[editor_view.current_path].keys():
 		exported_cols.erase(x)
 

@@ -39,9 +39,9 @@ func _on_grid_updated():
 	pagelist_node.add_child(pagelist_line)
 	btns[current_page].button_pressed = true
 
-	var sort_property = node_editor_view_root.sorting_by
+	var sort_property : StringName = node_editor_view_root.sorting_by
 	if sort_property == "": sort_property = "resource_path"
-	var sort_type = node_editor_view_root.column_types[node_editor_view_root.columns.find(sort_property)]
+	var sort_type : int = node_editor_view_root.column_types[node_editor_view_root.columns.find(sort_property)]
 	var property_values := []
 	property_values.resize(page_count)
 	if(node_editor_view_root.rows.size() == 0):

@@ -11,12 +11,12 @@ static func get_properties(entries, import_data):
 
 
 static func import_as_arrays(import_data) -> Array:
-	var file = FileAccess.open(import_data.edited_path, FileAccess.READ)
+	var file := FileAccess.open(import_data.edited_path, FileAccess.READ)
 
 	import_data.delimeter = ";"
-	var text_lines := [file.get_line().split(import_data.delimeter)]
-	var space_after_delimeter = false
-	var line = text_lines[0]
+	var text_lines : Array[PackedStringArray] = [file.get_line().split(import_data.delimeter)]
+	var space_after_delimeter := false
+	var line := text_lines[0]
 	if line.size() == 0:
 		return []
 
@@ -48,7 +48,7 @@ static func import_as_arrays(import_data) -> Array:
 			line.resize(text_lines[0].size())
 			text_lines.append(line)
 
-	var entries = []
+	var entries := []
 	entries.resize(text_lines.size())
 
 	for i in entries.size():

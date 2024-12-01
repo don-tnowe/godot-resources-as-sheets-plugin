@@ -75,7 +75,7 @@ func resize_drag(to_height : float):
 
 
 func _increment_values(by : float):
-	var cell_values = sheet.get_edited_cells_values()
+	var cell_values : Array = sheet.get_edited_cells_values()
 	if _stored_value_is_int:
 		_stored_value += int(by)
 		for i in cell_values.size():
@@ -97,7 +97,7 @@ func _increment_values_custom(positive : bool, multiplier : bool):
 
 	else:
 		if !positive: value = 1 / value
-		var cell_values = sheet.get_edited_cells_values()
+		var cell_values : Array = sheet.get_edited_cells_values()
 		_stored_value *= value
 		for i in cell_values.size():
 			cell_values[i] *= value

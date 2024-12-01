@@ -38,7 +38,7 @@ func _add_value(value):
 	var key = _get_key_from_box()
 	_stored_value[key] = value
 
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value
 	var dupe_value : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays")
 	for i in values.size():
@@ -62,7 +62,7 @@ func _remove_value(_value):
 	var key = _get_key_from_box()
 	_stored_value.erase(key)
 
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value
 	var dupe_value : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
@@ -106,7 +106,7 @@ func _on_Replace_pressed():
 	var new_key = _to_key(value_input.text, _key_type_selected)
 	_stored_value[new_key] = _stored_value[old_key]
 
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value
 	var dupe_value : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
@@ -125,7 +125,7 @@ func _add_recent(_value):
 
 
 func _on_recent_clicked(button, value):
-	var val = recent_container.get_child(1).selected
+	var val : int = recent_container.get_child(1).selected
 	key_input.text = str(value)
 	if val == 0:
 		# Do nothing! What if the value for the key doesn't match?
@@ -159,7 +159,7 @@ func _on_contents_edit_text_changed():
 	if !value is Dictionary:
 		return
 
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	for i in values.size():
 		values[i] = value.duplicate()
 

@@ -83,7 +83,7 @@ static func multi_move_caret(offset : int, edited_cells_text : Array, edit_caret
 
 static func multi_erase_right(values : Array, cursor_positions : Array, whole_word : bool):
 	for i in values.size():
-		var start_pos = cursor_positions[i]
+		var start_pos : int = cursor_positions[i]
 		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], 1, whole_word)
 
 		cursor_positions[i] = min(
@@ -101,7 +101,7 @@ static func multi_erase_right(values : Array, cursor_positions : Array, whole_wo
 
 static func multi_erase_left(values : Array, cursor_positions : Array, whole_word : bool):
 	for i in values.size():
-		var start_pos = cursor_positions[i]
+		var start_pos : int = cursor_positions[i]
 
 		cursor_positions[i] = _step_cursor(values[i], cursor_positions[i], -1, whole_word)
 		values[i] = (

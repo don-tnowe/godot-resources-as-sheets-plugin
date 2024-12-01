@@ -59,7 +59,7 @@ func _set_stored_value(v):
 
 
 func _increment_values(by : float, property : int):
-	var cell_values = sheet.get_edited_cells_values()
+	var cell_values : Array = sheet.get_edited_cells_values()
 	match property:
 		0:
 			_stored_value.r += by / 255.0

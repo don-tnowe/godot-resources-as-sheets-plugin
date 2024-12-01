@@ -3,7 +3,7 @@ extends RefCounted
 
 const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
 
-const CELL_SCENE_DIR = "res://addons/resources_spreadsheet_view/typed_cells/"
+const CELL_SCENE_DIR := "res://addons/resources_spreadsheet_view/typed_cells/"
 
 var hint_strings_array := []
 

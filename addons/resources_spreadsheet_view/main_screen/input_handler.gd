@@ -1,8 +1,8 @@
 @tool
 extends Node
 
-const TablesPluginEditorViewClass = preload("res://addons/resources_spreadsheet_view/editor_view.gd")
-const TablesPluginSelectionManagerClass = preload("res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd")
+const TablesPluginEditorViewClass := preload("res://addons/resources_spreadsheet_view/editor_view.gd")
+const TablesPluginSelectionManagerClass := preload("res://addons/resources_spreadsheet_view/main_screen/selection_manager.gd")
 const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
 
 @onready var editor_view : TablesPluginEditorViewClass = get_parent()
@@ -69,7 +69,7 @@ func _input(event : InputEvent):
 
 
 func _key_specific_action(event : InputEvent):
-	var column = selection.get_cell_column(selection.edited_cells[0])
+	var column := selection.get_cell_column(selection.edited_cells[0])
 	var ctrl_pressed := Input.is_key_pressed(KEY_CTRL)
 
 	# BETWEEN-CELL NAVIGATION

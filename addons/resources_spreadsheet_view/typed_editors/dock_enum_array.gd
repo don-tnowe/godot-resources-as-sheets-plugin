@@ -60,7 +60,7 @@ func _create_option_button(index : int):
 
 func _add_value(option_value : int):
 	_stored_value.append(option_value)
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value
 	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
@@ -76,7 +76,7 @@ func _add_value(option_value : int):
 
 func _remove_value(option_value : int):
 	_stored_value.append(option_value)
-	var values = sheet.get_edited_cells_values()
+	var values : Array = sheet.get_edited_cells_values()
 	var cur_value
 	var dupe_array : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "dupe_arrays") 
 	for i in values.size():
