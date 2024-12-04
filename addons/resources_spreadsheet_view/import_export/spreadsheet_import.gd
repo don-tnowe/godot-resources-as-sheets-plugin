@@ -215,7 +215,7 @@ func generate_script(entries, has_classname = true) -> GDScript:
 
 
 func strings_to_resource(strings : Array):
-	var new_res := new_script.new()
+	var new_res : Object = new_script.new()
 	for j in min(prop_names.size(), strings.size()):
 		new_res.set(prop_names[j], string_to_property(strings[j], j))
 	

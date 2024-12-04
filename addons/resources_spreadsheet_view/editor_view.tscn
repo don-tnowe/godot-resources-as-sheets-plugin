@@ -481,12 +481,12 @@ file_mode = 3
 filters = PackedStringArray("*.tres")
 
 [node name="FileDialogText" type="FileDialog" parent="Control"]
-title = "Open"
+title = "Open or Create Text File"
 size = Vector2i(800, 500)
 min_size = Vector2i(800, 400)
-ok_button_text = "Open"
+ok_button_text = "Open or Create Text File"
 mode_overrides_title = false
-file_mode = 0
+file_mode = 3
 filters = PackedStringArray("*.csv")
 
 [node name="Info" type="AcceptDialog" parent="Control"]
@@ -551,8 +551,6 @@ min_size = Vector2i(600, 400)
 
 [node name="ImportExport" parent="Control/ImportExport" instance=ExtResource("14_3p12b")]
 physics_interpolation_mode = 0
-current_tab = 0
-script = null
 
 [node name="SelectionActions" parent="Control" instance=ExtResource("23_m53sx")]
 visible = false
@@ -588,6 +586,7 @@ metadata/_edit_lock_ = true
 [connection signal="file_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
 [connection signal="dir_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_selected"]
 [connection signal="file_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_selected"]
+[connection signal="files_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_dialog_text_files_selected"]
 [connection signal="close_requested" from="Control/ImportExport" to="Control/ImportExport" method="hide"]
 [connection signal="cells_rightclicked" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_rightclicked"]
 [connection signal="cells_selected" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_selected"]

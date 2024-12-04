@@ -14,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+current_tab = 0
 script = ExtResource("1")
 prop_list_item_scene = ExtResource("2_xfhmf")
 formats_export = Array[Script]([ExtResource("2_33c6s")])
@@ -22,6 +23,7 @@ formats_import = Array[Script]([ExtResource("2_fxayt")])
 [node name="Import" type="VBoxContainer" parent="."]
 layout_mode = 2
 mouse_filter = 2
+metadata/_tab_index = 0
 
 [node name="Margins" type="MarginContainer" parent="Import"]
 layout_mode = 2
@@ -96,6 +98,7 @@ mouse_filter = 2
 [node name="Export" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Info" type="Label" parent="Export"]
 layout_mode = 2
@@ -117,7 +120,7 @@ alignment = 1
 [node name="Label2" type="Label" parent="Export/Box"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Delimeter:"
+text = "Delimiter:"
 
 [node name="Button" type="Button" parent="Export/Box"]
 layout_mode = 2

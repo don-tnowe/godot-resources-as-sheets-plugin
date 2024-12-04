@@ -19,35 +19,24 @@ var import_data : ResourceTablesImport
 
 
 func _ready():
-	var create_file_button := Button.new()
-	file_dialog.get_child(3, true).get_child(3, true).add_child(create_file_button)
-	create_file_button.get_parent().move_child(create_file_button, 2)
-	create_file_button.text = "Create File"
-	create_file_button.visible = true
-	create_file_button.icon = get_theme_icon(&"New", &"EditorIcons")
-	create_file_button.pressed.connect(_on_create_file_pressed)
 	hide()
 	show()
 	get_parent().min_size = Vector2(600, 400)
 	get_parent().size = Vector2(600, 400)
 
 
-func _on_create_file_pressed():
-	var new_name : String = (
-		file_dialog.get_child(3, true).get_child(3, true).get_child(1, true).text
-	)
-	if new_name == "":
-		new_name += editor_view.current_path.get_base_dir().get_file()
-
-	var file := FileAccess.open((
-			file_dialog.get_child(3, true).get_child(0, true).get_child(6, true).text
-			+ "/"
-			+ new_name.get_basename() + format_extension
-	), FileAccess.WRITE)
-	file_dialog.invalidate()
-
-
 func _on_file_selected(path : String):
+	if !FileAccess.file_exists(path):
+		if path.get_extension() != "":
+			# Path is a file path: replace extension
+			path = path.get_basename() + ".csv"
+
+		else:
+			# Path is a directory: add filename, add extension
+			path = path.path_join(editor_view.current_path.trim_suffix("/").get_file()) + ".csv"
+
+		FileAccess.open(path, FileAccess.WRITE)
+
 	import_data = ResourceTablesImport.new()
 	import_data.initialize(path)
 	_reset_controls()
@@ -55,6 +44,10 @@ func _on_file_selected(path : String):
 	_open_dialog(path)
 	get_parent().popup_centered()
 	position = Vector2.ZERO
+
+
+func _on_files_selected(paths : PackedStringArray):
+	_on_file_selected(paths[0])
 
 
 func _open_dialog(path : String):
@@ -220,3 +213,6 @@ func _on_enum_format_changed(case, delimiter, bool_yes, bool_no):
 
 func close():
 	get_parent().hide()
+
+func _on_file_dialog_text_files_selected(paths:PackedStringArray) -> void:
+	pass # Replace with function body.

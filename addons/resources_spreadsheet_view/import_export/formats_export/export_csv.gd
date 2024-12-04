@@ -17,7 +17,7 @@ static func export_to_file(entries_array : Array, column_names : Array, into_pat
 	line.resize(column_names.size())
 	if import_data.remove_first_row:
 		for j in column_names.size():
-			line[j] = column_names[j]
+			line[j] = String(column_names[j])
 			if space_after_delimiter and j != 0:
 				line[j] = " " + line[j]
 		
