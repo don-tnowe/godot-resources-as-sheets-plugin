@@ -212,7 +212,8 @@ func generate_script(entries, has_classname = true) -> GDScript:
 
 func strings_to_resource(strings : Array, destination_path : String) -> Resource:
 	if destination_path == "":
-		destination_path = edited_path.path_join("import/")
+		destination_path = edited_path.get_base_dir().path_join("import/")
+		DirAccess.make_dir_recursive_absolute(destination_path)
 
 	var new_path : String = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres") + ".tres"
 	if !FileAccess.file_exists(new_path):
