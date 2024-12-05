@@ -79,7 +79,7 @@ func import_from_path(path : String, insert_func : Callable, sort_by : String, s
 		if import_data.remove_first_row and i == 0:
 			continue
 
-		res = import_data.strings_to_resource(csv_rows[i])
+		res = import_data.strings_to_resource(csv_rows[i], "")
 		res.resource_path = ""
 		insert_func.call(res, rows, sort_by, sort_reverse)
 		resource_original_positions[res] = i

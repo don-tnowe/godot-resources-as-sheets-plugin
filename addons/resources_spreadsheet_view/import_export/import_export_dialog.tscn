@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b413igx28kkvb"]
+[gd_scene load_steps=8 format=3 uid="uid://b413igx28kkvb"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/import_export_dialog.gd" id="1"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/formats_export/export_csv.gd" id="2_33c6s"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/formats_import/import_csv.gd" id="2_fxayt"]
 [ext_resource type="PackedScene" uid="uid://b8llymigbprh6" path="res://addons/resources_spreadsheet_view/import_export/property_list_item.tscn" id="2_xfhmf"]
 [ext_resource type="PackedScene" uid="uid://ckhf3bqy2rqjr" path="res://addons/resources_spreadsheet_view/import_export/import_export_enum_format.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="5_k5rhi"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_080hd"]
 
@@ -43,11 +44,42 @@ columns = 2
 
 [node name="Label" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
 layout_mode = 2
-text = "Use as filename:"
+text = "Column Used as Filename:"
 
 [node name="UseAsFilename" type="OptionButton" parent="Import/Margins/Scroll/Box/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Label4" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+layout_mode = 2
+text = "Use Script:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Import/Margins/Scroll/Box/Grid"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "(create new GDScript)"
+editable = false
+
+[node name="Button2" type="Button" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("5_k5rhi")
+icon_name = "Clear"
+
+[node name="Button" type="Button" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("5_k5rhi")
+icon_name = "Folder"
+
+[node name="FileDialog" type="FileDialog" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+title = "Choose Script..."
+initial_position = 4
+size = Vector2i(800, 500)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 0
 
 [node name="Label2" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
 visible = false
@@ -60,15 +92,18 @@ layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="RemoveFirstRow" type="CheckBox" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Label3" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+layout_mode = 2
+text = "Flags:"
+
+[node name="Flags" type="VBoxContainer" parent="Import/Margins/Scroll/Box/Grid"]
+layout_mode = 2
+
+[node name="RemoveFirstRow" type="CheckBox" parent="Import/Margins/Scroll/Box/Grid/Flags"]
 layout_mode = 2
 text = "First row contains property names"
 
-[node name="Control" type="Control" parent="Import/Margins/Scroll/Box/Grid"]
-layout_mode = 2
-
-[node name="Control2" type="Control" parent="Import/Margins/Scroll/Box/Grid"]
-visible = false
+[node name="HSeparator" type="HSeparator" parent="Import/Margins/Scroll/Box"]
 layout_mode = 2
 
 [node name="StyleSettingsI" parent="Import/Margins/Scroll/Box" instance=ExtResource("4")]
@@ -173,9 +208,11 @@ text = "Cancel"
 [node name="Control2" type="Control" parent="Export"]
 layout_mode = 2
 
-[connection signal="item_selected" from="Import/Margins/Scroll/Box/Grid/UseAsFilename" to="." method="_on_filename_options_item_selected"]
+[connection signal="pressed" from="Import/Margins/Scroll/Box/Grid/HBoxContainer/Button2" to="Import/Margins/Scroll/Box/Grid/HBoxContainer/LineEdit" method="set_text" binds= [""]]
+[connection signal="pressed" from="Import/Margins/Scroll/Box/Grid/HBoxContainer/Button" to="Import/Margins/Scroll/Box/Grid/HBoxContainer/FileDialog" method="popup_centered"]
+[connection signal="file_selected" from="Import/Margins/Scroll/Box/Grid/HBoxContainer/FileDialog" to="Import/Margins/Scroll/Box/Grid/HBoxContainer/LineEdit" method="set_text"]
 [connection signal="text_changed" from="Import/Margins/Scroll/Box/Grid/Classname" to="." method="_on_classname_field_text_changed"]
-[connection signal="toggled" from="Import/Margins/Scroll/Box/Grid/RemoveFirstRow" to="." method="_on_remove_first_row_toggled"]
+[connection signal="toggled" from="Import/Margins/Scroll/Box/Grid/Flags/RemoveFirstRow" to="." method="_on_remove_first_row_toggled"]
 [connection signal="format_changed" from="Import/Margins/Scroll/Box/StyleSettingsI" to="." method="_on_enum_format_changed"]
 [connection signal="format_changed" from="Import/Margins/Scroll/Box/StyleSettingsI" to="Export/StyleSettingsE" method="_on_format_changed"]
 [connection signal="pressed" from="Import/Box/Ok2" to="." method="_on_import_edit_pressed"]

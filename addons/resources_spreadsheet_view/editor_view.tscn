@@ -484,7 +484,7 @@ filters = PackedStringArray("*.tres")
 title = "Open or Create Text File"
 size = Vector2i(800, 500)
 min_size = Vector2i(800, 400)
-ok_button_text = "Open or Create Text File"
+ok_button_text = "Open"
 mode_overrides_title = false
 file_mode = 3
 filters = PackedStringArray("*.csv")
@@ -586,7 +586,7 @@ metadata/_edit_lock_ = true
 [connection signal="file_selected" from="Control/FileDialog" to="." method="_on_FileDialog_dir_selected"]
 [connection signal="dir_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_selected"]
 [connection signal="file_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_selected"]
-[connection signal="files_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_file_dialog_text_files_selected"]
+[connection signal="files_selected" from="Control/FileDialogText" to="Control/ImportExport/ImportExport" method="_on_files_selected"]
 [connection signal="close_requested" from="Control/ImportExport" to="Control/ImportExport" method="hide"]
 [connection signal="cells_rightclicked" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_rightclicked"]
 [connection signal="cells_selected" from="SelectionManager" to="Control/SelectionActions" method="_on_grid_cells_selected"]

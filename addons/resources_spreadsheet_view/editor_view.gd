@@ -116,7 +116,7 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 	if folderpath.get_extension() == "":
 		folderpath = folderpath.trim_suffix("/") + "/"
 
-	if folderpath.ends_with(".tres") and !folderpath.ends_with(ResourceTablesImport.SUFFIX):
+	if folderpath.ends_with(".tres") and !(load(folderpath) is ResourceTablesImport):
 		folderpath = folderpath.get_base_dir() + "/"
 
 	node_recent_paths.add_path_to_recent(folderpath)

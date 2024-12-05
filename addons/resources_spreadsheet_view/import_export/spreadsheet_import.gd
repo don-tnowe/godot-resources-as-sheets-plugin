@@ -20,7 +20,7 @@ enum NameCasing {
 	ALL_CAPS,
 }
 
-const SUFFIX := "_spreadsheet_import.tres"
+const SUFFIX := "_table_import.tres"
 const TYPE_MAP := {
 	TYPE_STRING : PropType.STRING,
 	TYPE_FLOAT : PropType.FLOAT,
@@ -38,7 +38,7 @@ const TYPE_MAP := {
 @export var script_classname := ""
 @export var remove_first_row := true
 
-@export var new_script : GDScript
+@export var new_script : Script
 @export var view_script : Script = ResourceTablesEditFormatCsv
 @export var delimeter := ";"
 @export var enum_format : Array = [NameCasing.CAPS_WORD, " ", "Yes", "No"]
@@ -90,10 +90,6 @@ func string_to_property(string : String, col_index : int):
 
 func property_to_string(value, col_index : int) -> String:
 	if value == null: return ""
-	if col_index == 0:
-		if prop_names[col_index] == "resource_path":
-			return value.get_file().get_basename()
-	
 	if prop_types[col_index] is PackedStringArray:
 		return prop_types[col_index][value].capitalize()
 
@@ -214,13 +210,31 @@ func generate_script(entries, has_classname = true) -> GDScript:
 	return created_script
 
 
-func strings_to_resource(strings : Array):
-	var new_res : Object = new_script.new()
+func strings_to_resource(strings : Array, destination_path : String) -> Resource:
+	if destination_path == "":
+		destination_path = edited_path.path_join("import/")
+
+	var new_path : String = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres") + ".tres"
+	if !FileAccess.file_exists(new_path):
+		new_path = destination_path.path_join(new_path) + ".tres"
+
+	var new_res : Resource
+	if FileAccess.file_exists(new_path):
+		new_res = load(new_path)
+
+	else:
+		new_path = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres") + ".tres"
+		if !new_path.begins_with("res://"):
+			new_path = destination_path.path_join(new_path)
+
+		new_res = new_script.new()
+		new_res.resource_path = new_path
+
 	for j in min(prop_names.size(), strings.size()):
 		new_res.set(prop_names[j], string_to_property(strings[j], j))
-	
+
 	if prop_used_as_filename != "":
-		new_res.resource_path = edited_path.get_basename() + "/" + new_res.get(prop_used_as_filename) + ".tres"
+		new_res.resource_path = new_path
 	
 	return new_res
 

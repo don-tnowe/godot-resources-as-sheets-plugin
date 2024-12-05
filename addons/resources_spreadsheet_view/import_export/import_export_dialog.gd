@@ -8,13 +8,14 @@ extends Control
 @onready var editor_view := $"../../.."
 @onready var filename_options := $"Import/Margins/Scroll/Box/Grid/UseAsFilename"
 @onready var classname_field := $"Import/Margins/Scroll/Box/Grid/Classname"
+@onready var script_path_field := $"Import/Margins/Scroll/Box/Grid/HBoxContainer/LineEdit"
 @onready var prop_list := $"Import/Margins/Scroll/Box"
+@onready var format_settings := $"Import/Margins/Scroll/Box/StyleSettingsI"
 @onready var file_dialog := $"../../FileDialogText"
 
 var format_extension := ".csv"
 var entries := []
 
-var property_used_as_filename := 0
 var import_data : ResourceTablesImport
 
 
@@ -37,11 +38,41 @@ func _on_file_selected(path : String):
 
 		FileAccess.open(path, FileAccess.WRITE)
 
-	import_data = ResourceTablesImport.new()
-	import_data.initialize(path)
-	_reset_controls()
+	import_data = null
+	for x in DirAccess.get_files_at(path.get_base_dir()):
+		if !x.ends_with(".tres"):
+			continue
+
+		var found_res := load(path.get_base_dir().path_join(x))
+		if !(found_res is ResourceTablesImport):
+			continue
+
+		import_data = found_res
+		_load_settings_from_import_file(found_res)
+		for format_x in formats_import:
+			if format_x.new().can_edit_path(path):
+				entries = format_x.new().import_as_arrays(import_data)
+
+		break
+
+	if import_data == null:
+		import_data = ResourceTablesImport.new()
+		import_data.initialize(path)
+
+		for format_x in formats_import:
+			if format_x.new().can_edit_path(path):
+				entries = format_x.new().import_as_arrays(import_data)
+
+		classname_field.text = import_data.edited_path.get_file().get_basename()\
+			.capitalize().replace(" ", "")
+		import_data.script_classname = classname_field.text
+
+		_load_property_names_from_textfile(path)
+
+	_create_prop_editors()
+	$"Import/Margins/Scroll/Box/StyleSettingsI"._send_signal()
+
 	await get_tree().process_frame
-	_open_dialog(path)
 	get_parent().popup_centered()
 	position = Vector2.ZERO
 
@@ -50,21 +81,7 @@ func _on_files_selected(paths : PackedStringArray):
 	_on_file_selected(paths[0])
 
 
-func _open_dialog(path : String):
-	classname_field.text = import_data.edited_path.get_file().get_basename()\
-		.capitalize().replace(" ", "")
-	import_data.script_classname = classname_field.text
-
-	for x in formats_import:
-		if x.new().can_edit_path(path):
-			entries = x.new().import_as_arrays(import_data)
-
-	_load_property_names(path)
-	_create_prop_editors()
-	$"Import/Margins/Scroll/Box/StyleSettingsI"._send_signal()
-
-
-func _load_property_names(path):
+func _load_property_names_from_textfile(path : String):
 	var prop_types := import_data.prop_types
 	prop_types.resize(import_data.prop_names.size())
 	prop_types.fill(4)
@@ -95,6 +112,18 @@ func _load_property_names(path):
 		filename_options.add_item(import_data.prop_names[i], i)
 
 
+func _load_settings_from_import_file(from_file : ResourceTablesImport):
+	filename_options.clear()
+	for i in import_data.prop_names.size():
+		filename_options.add_item(import_data.prop_names[i], i)
+
+	if import_data.new_script != null:
+		classname_field.text = import_data.new_script.get_global_name()
+		script_path_field.text = from_file.new_script.resource_path
+
+	format_settings.set_format_array(import_data.enum_format)
+
+
 func _create_prop_editors():
 	for x in prop_list.get_children():
 		if !x is GridContainer: x.free()
@@ -116,31 +145,34 @@ func _generate_class(save_script = true):
 		import_data.new_script = load(import_data.edited_path.get_basename() + ".gd")
 
 
-func _export_tres_folder():
+func _on_import_to_tres_pressed():
+	if script_path_field.text != "":
+		import_data.new_script = load(script_path_field.text)
+
+	if import_data.new_script == null:
+		_generate_class()
+
 	DirAccess.open("res://").make_dir_recursive(import_data.edited_path.get_basename())
 
-	import_data.prop_used_as_filename = import_data.prop_names[property_used_as_filename]
+	import_data.prop_used_as_filename = import_data.prop_names[filename_options.selected]
 	var new_res : Resource
 	for i in entries.size():
 		if import_data.remove_first_row and i == 0:
 			continue
 
-		new_res = import_data.strings_to_resource(entries[i])
+		new_res = import_data.strings_to_resource(entries[i], editor_view.current_path)
 		ResourceSaver.save(new_res)
 
-
-func _on_import_to_tres_pressed():
-	_generate_class()
-	_export_tres_folder()
 	await get_tree().process_frame
-	editor_view.display_folder(import_data.edited_path.get_basename() + "/")
 	await get_tree().process_frame
 	editor_view.refresh()
 	close()
 
 
 func _on_import_edit_pressed():
-	_generate_class(false)
+	if import_data.new_script == null:
+		_generate_class(false)
+
 	import_data.prop_used_as_filename = ""
 	import_data.save()
 	await get_tree().process_frame
@@ -166,7 +198,6 @@ func _on_export_csv_pressed():
 	editor_view.refresh()
 	close()
 
-
 # Input controls
 func _on_classname_field_text_changed(new_text : String):
 	import_data.script_classname = new_text.replace(" ", "")
@@ -176,10 +207,6 @@ func _on_remove_first_row_toggled(button_pressed : bool):
 	import_data.remove_first_row = button_pressed
 #	$"Export/Box2/Button".button_pressed = true
 	$"Export/Box3/CheckBox".button_pressed = button_pressed
-
-
-func _on_filename_options_item_selected(index):
-	property_used_as_filename = index
 
 
 func _on_list_item_type_selected(type : int, index : int):
@@ -202,17 +229,9 @@ func _on_export_space_toggled(button_pressed : bool):
 	)
 
 
-func _reset_controls():
-	$"Export/Box/CheckBox".button_pressed = false
-	_on_remove_first_row_toggled(true)
-
-
 func _on_enum_format_changed(case, delimiter, bool_yes, bool_no):
 	import_data.enum_format = [case, delimiter, bool_yes, bool_no]
 
 
 func close():
 	get_parent().hide()
-
-func _on_file_dialog_text_files_selected(paths:PackedStringArray) -> void:
-	pass # Replace with function body.
