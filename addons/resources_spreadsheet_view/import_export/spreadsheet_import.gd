@@ -210,6 +210,33 @@ func generate_script(entries, has_classname = true) -> GDScript:
 	return created_script
 
 
+func load_external_script(script_res : Script):
+	new_script = script_res
+	var result := {}
+	for x in script_res.get_script_property_list():
+		if x.hint != PROPERTY_HINT_ENUM or x.type != TYPE_INT:
+			continue
+
+		var cur_value := ""
+		var result_for_prop := {}
+		result[prop_names.find(x.name)] = result_for_prop
+		var hint_arr : Array = x.hint_string.split(",")
+		for current_hint in hint_arr.size():
+			var colon_found : int = hint_arr[current_hint].rfind(":")
+			cur_value = hint_arr[current_hint]
+			if cur_value == "":
+				cur_value = "N_A"
+
+			if colon_found != -1:
+				var value_split := cur_value.split(":")
+				result_for_prop[value_split[1].to_upper()] = value_split[0]
+
+			else:
+				result_for_prop[cur_value.to_upper()] = result_for_prop.size()
+
+	uniques = result
+
+
 func strings_to_resource(strings : Array, destination_path : String) -> Resource:
 	if destination_path == "":
 		destination_path = edited_path.get_base_dir().path_join("import/")

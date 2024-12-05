@@ -147,7 +147,7 @@ func _generate_class(save_script = true):
 
 func _on_import_to_tres_pressed():
 	if script_path_field.text != "":
-		import_data.new_script = load(script_path_field.text)
+		import_data.load_external_script(load(script_path_field.text))
 
 	if import_data.new_script == null:
 		_generate_class()
