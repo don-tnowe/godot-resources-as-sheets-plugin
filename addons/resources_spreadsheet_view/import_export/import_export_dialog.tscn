@@ -87,7 +87,7 @@ layout_mode = 2
 [node name="Label5" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
 self_modulate = Color(1, 0.84375, 0, 1)
 layout_mode = 2
-text = "WARNING: Importing with a pre-existing Script will currently not import Enums, as well as datatypes not selectible below."
+text = "WARNING: Importing with a pre-existing Script will not import datatypes not selectible below."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -228,9 +228,6 @@ layout_mode = 2
 [connection signal="pressed" from="Import/Box/Ok2" to="." method="_on_import_edit_pressed"]
 [connection signal="pressed" from="Import/Box/Ok" to="." method="_on_import_to_tres_pressed"]
 [connection signal="pressed" from="Import/Box/Cancel" to="." method="close"]
-[connection signal="pressed" from="Export/Box/Button" to="." method="_on_export_delimeter_pressed" binds= [","]]
-[connection signal="pressed" from="Export/Box/Button2" to="." method="_on_export_delimeter_pressed" binds= [";"]]
-[connection signal="pressed" from="Export/Box/Button3" to="." method="_on_export_delimeter_pressed" binds= [" "]]
 [connection signal="toggled" from="Export/Box/CheckBox" to="." method="_on_export_space_toggled"]
 [connection signal="toggled" from="Export/Box3/CheckBox" to="." method="_on_remove_first_row_toggled"]
 [connection signal="format_changed" from="Export/StyleSettingsE" to="." method="_on_enum_format_changed"]
