@@ -81,6 +81,16 @@ ok_button_text = "Open"
 mode_overrides_title = false
 file_mode = 0
 
+[node name="Control" type="Control" parent="Import/Margins/Scroll/Box/Grid"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+self_modulate = Color(1, 0.84375, 0, 1)
+layout_mode = 2
+text = "WARNING: Importing with a pre-existing Script will currently not import Enums, as well as datatypes not selectible below."
+horizontal_alignment = 1
+autowrap_mode = 3
+
 [node name="Label2" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
 visible = false
 layout_mode = 2
