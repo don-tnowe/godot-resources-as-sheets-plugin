@@ -41,6 +41,7 @@ func _on_main_gui_input(event : InputEvent):
 	if event is InputEventMouseButton and event.pressed:
 		var popup : Popup = $"Button2".get_popup()
 		if event.button_index == MOUSE_BUTTON_RIGHT:
+			_on_about_to_popup()
 			popup.visible = !popup.visible
 			popup.size = Vector2.ZERO
 			popup.position = Vector2i(get_global_mouse_position()) + get_viewport().position
