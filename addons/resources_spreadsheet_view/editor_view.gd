@@ -47,22 +47,36 @@ func _ready():
 		var as_var := JSON.parse_string(as_text)
 
 		node_recent_paths.load_paths(as_var.get(&"recent_paths", []))
-		node_columns.hidden_columns = as_var.get(&"hidden_columns", {})
+		node_columns.column_properties = as_var.get(&"column_properties", {})
 		table_functions_dict = as_var.get(&"table_functions", {})
 		for x in $"HeaderContentSplit/VBoxContainer/Search/Search".get_children():
 			if x.has_method(&"load_saved_functions"):
 				x.load_saved_functions(table_functions_dict)
+
+		# Legacy compat: old hidden column format
+		var legacy_hidden_columns : Dictionary = as_var.get(&"hidden_columns", {})
+		for k in legacy_hidden_columns:
+			for k2 in legacy_hidden_columns[k]:
+				node_columns.column_properties[k] = node_columns.column_properties.get(k, {})
+				node_columns.column_properties[k][k2] = { &"visibility" : 0 }
 
 	if node_recent_paths.recent_paths.size() >= 1:
 		display_folder(node_recent_paths.recent_paths[-1], &"resource_name", false, true)
 
 
 func save_data():
+	if (
+		node_recent_paths.recent_paths.is_empty()
+		and node_columns.column_properties.is_empty()
+		and table_functions_dict.is_empty()
+	):
+		return
+
 	var file := FileAccess.open(save_data_path, FileAccess.WRITE)
 	file.store_string(JSON.stringify(
 		{
 			&"recent_paths" : node_recent_paths.recent_paths,
-			&"hidden_columns" : node_columns.hidden_columns,
+			&"column_properties" : node_columns.column_properties,
 			&"table_functions" : table_functions_dict,
 		}
 	, "  "))

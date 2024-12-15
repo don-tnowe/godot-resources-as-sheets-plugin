@@ -10,7 +10,7 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 @onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 
 
-var hidden_columns := {}
+var column_properties := {}
 var columns := []:
 	set(v):
 		columns = v
@@ -44,9 +44,35 @@ func update():
 
 
 func hide_column(column_index : int):
-	hidden_columns[editor_view.current_path][editor_view.columns[column_index]] = true
+	set_column_property(column_index, &"visibility", 0)
 	editor_view.save_data()
 	update()
+
+
+func set_column_property(column_index : int, property_key : StringName, property_value):
+	var dict := column_properties
+	if !dict.has(editor_view.current_path):
+		dict[editor_view.current_path] = {}
+
+	dict = dict[editor_view.current_path]	
+	if !dict.has(columns[column_index]):
+		dict[columns[column_index]] = {}
+
+	dict = dict[columns[column_index]]
+	dict[property_key] = property_value
+
+
+func get_column_property(column_index : int, property_key : StringName, property_default = null):
+	var dict := column_properties
+	if !dict.has(editor_view.current_path):
+		return property_default
+
+	dict = dict[editor_view.current_path]	
+	if !dict.has(columns[column_index]):
+		return property_default
+
+	dict = dict[columns[column_index]]
+	return dict.get(property_key, property_default)
 
 
 func select_column(column_index : int):
@@ -103,16 +129,16 @@ func _update_hidden_columns():
 	var current_path : String = editor_view.current_path
 	var rows_shown : int = editor_view.last_row - editor_view.first_row
 
-	if !hidden_columns.has(current_path):
-		hidden_columns[current_path] = {
-      "resource_local_to_scene" : true,
-      "resource_name" : true,
-    }
+	if !column_properties.has(current_path):
+		column_properties[current_path] = {
+			"resource_local_to_scene" : { &"visibility" : 0 },
+			"resource_name" : { &"visibility" : 0 },
+		}
 		editor_view.save_data()
 
 	var visible_column_count := 0
 	for i in columns.size():
-		var column_visible : bool = !hidden_columns[current_path].has(columns[i])
+		var column_visible : bool = get_column_property(i, &"visibility", 1) != 0
 		get_child(i).visible = column_visible
 		for j in rows_shown:
 			grid.get_child(j * columns.size() + i).visible = column_visible
@@ -128,26 +154,23 @@ func _on_h_scroll_changed(value):
 
 
 func _on_visible_cols_about_to_popup():
-	var current_path : String = editor_view.current_path
 	var popup := hide_columns_button.get_popup()
 	popup.clear()
 	popup.hide_on_checkable_item_selection = false
-	
 	for i in columns.size():
 		popup.add_check_item(columns[i].capitalize(), i)
-		popup.set_item_checked(i, not hidden_columns[current_path].has(columns[i]))
+		popup.set_item_checked(i, get_column_property(i, &"visibility", 1) != 0)
 
 
 func _on_visible_cols_id_pressed(id : int):
-	var current_path : String = editor_view.current_path
 	var popup := hide_columns_button.get_popup()
 	if popup.is_item_checked(id):
 		popup.set_item_checked(id, false)
-		hidden_columns[current_path][columns[id]] = true
+		set_column_property(id, &"visibility", 0)
 
 	else:
 		popup.set_item_checked(id, true)
-		hidden_columns[current_path].erase(columns[id])
+		set_column_property(id, &"visibility", 1)
 
 	editor_view.save_data()
 	update()
