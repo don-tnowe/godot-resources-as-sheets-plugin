@@ -81,6 +81,7 @@ layout_mode = 2
 tooltip_text = "Settings"
 focus_mode = 0
 toggle_mode = true
+button_pressed = true
 text = "Filter/Process"
 flat = true
 
