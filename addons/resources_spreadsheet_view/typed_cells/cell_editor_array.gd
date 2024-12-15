@@ -42,7 +42,10 @@ func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Lab
 
 
 func _resource_to_string(res : Resource):
-	return res.resource_name if res.resource_name != "" else res.resource_path.get_file()
+	return (
+		((res._to_string() + "\n") if res.has_method(&"_to_string") else "")
+		+ (res.resource_name if res.resource_name != "" else res.resource_path.get_file())
+	)
 
 
 func is_text():

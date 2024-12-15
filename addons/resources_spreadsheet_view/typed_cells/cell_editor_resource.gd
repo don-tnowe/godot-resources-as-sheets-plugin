@@ -18,29 +18,34 @@ func create_cell(caller : Control) -> Control:
 
 
 func set_value(node : Control, value):
+	var preview_node := node.get_node("Box/Tex")
+	var label_node := node.get_node("Box/Label")
 	if value == null:
-		node.get_node("Box/Tex").visible = false
-		node.get_node("Box/Label").text = "[empty]"
+		preview_node.visible = false
+		label_node.text = "[empty]"
 		node.editor_description = ""
 
 	if !value is Resource: return
 	
 	node.editor_description = value.resource_path
+	if value.has_method(&"_to_string"):
+		label_node.text = value._to_string() + "\n"
+
 	if value.resource_name == "":
-		node.get_node("Box/Label").text = "[" + value.resource_path.get_file().get_basename() + "]"
+		label_node.text = "[" + value.resource_path.get_file() + "]"
 
 	else:
-		node.get_node("Box/Label").text = value.resource_name
+		label_node.text = value.resource_name
 
 	if value is Texture:
-		node.get_node("Box/Tex").visible = true
-		node.get_node("Box/Tex").texture = value
+		preview_node.visible = true
+		preview_node.texture = value
 
 	else:
-		node.get_node("Box/Tex").visible = false
+		preview_node.visible = false
 		previewer.queue_resource_preview(value.resource_path, self, &"_on_preview_loaded", node)
 		
-	node.get_node("Box/Tex").custom_minimum_size = Vector2.ONE * ProjectSettings.get_setting(
+	preview_node.custom_minimum_size = Vector2.ONE * ProjectSettings.get_setting(
 		TablesPluginSettingsClass.PREFIX + "resource_preview_size"
 	)
 
