@@ -31,11 +31,14 @@ func set_value(node : Control, value):
 	if value.has_method(&"_to_string"):
 		label_node.text = value._to_string() + "\n"
 
+	elif value.has_method(&"ToString"):
+		label_node.text = value.ToString() + "\n"
+
 	if value.resource_name == "":
-		label_node.text = "[" + value.resource_path.get_file() + "]"
+		label_node.text += "[" + value.resource_path.get_file() + "]"
 
 	else:
-		label_node.text = value.resource_name
+		label_node.text += value.resource_name
 
 	if value is Texture:
 		preview_node.visible = true
