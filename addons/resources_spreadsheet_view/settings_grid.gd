@@ -10,13 +10,21 @@ func _ready():
 
 	for x in get_children():
 		var setting : String = PREFIX + x.name.to_snake_case()
-		if x is BaseButton:
+		if x is CheckBox:
 			x.toggled.connect(_set_setting.bind(setting))
 			if !ProjectSettings.has_setting(setting):
 				_set_setting(x.button_pressed, setting)
 
 			else:
 				x.button_pressed = ProjectSettings.get_setting(setting)
+
+		elif x is OptionButton:
+			x.item_selected.connect(_set_setting.bind(setting))
+			if !ProjectSettings.has_setting(setting):
+				_set_setting(x.selected, setting)
+
+			else:
+				x.selected = ProjectSettings.get_setting(setting)
 
 		elif x is Range:
 			x.value_changed.connect(_set_setting.bind(setting))

@@ -28,17 +28,7 @@ func set_value(node : Control, value):
 	if !value is Resource: return
 	
 	node.editor_description = value.resource_path
-	if value.has_method(&"_to_string"):
-		label_node.text = value._to_string() + "\n"
-
-	elif value.has_method(&"ToString"):
-		label_node.text = value.ToString() + "\n"
-
-	if value.resource_name == "":
-		label_node.text += "[" + value.resource_path.get_file() + "]"
-
-	else:
-		label_node.text += value.resource_name
+	label_node.text = _resource_to_string(value, ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_cell_label_mode", 0))
 
 	if value is Texture:
 		preview_node.visible = true
@@ -66,3 +56,18 @@ func _on_preview_loaded(path : String, preview : Texture, thumbnail_preview : Te
 	if is_instance_valid(node):
 		node.get_node("Box/Tex").visible = true
 		node.get_node("Box/Tex").texture = preview
+
+
+static func _resource_to_string(res : Resource, cell_label_mode : int):
+	var prefix := ""
+	if cell_label_mode != 2:
+		if res.has_method(&"_to_string"):
+			prefix = res._to_string() + "\n"
+
+		elif res.has_method(&"ToString"):
+			prefix = res.ToString() + "\n"
+
+	if cell_label_mode == 1 && !prefix.is_empty():
+		return prefix.trim_suffix("\n")
+
+	return prefix + (res.resource_name if res.resource_name != "" else "[%s]" % res.resource_path.get_file())

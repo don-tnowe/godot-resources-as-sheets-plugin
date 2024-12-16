@@ -107,4 +107,24 @@ autowrap_mode = 2
 
 [node name="FoldDocks" type="CheckBox" parent="RichTextLabel/GridContainer"]
 layout_mode = 2
+button_pressed = true
 text = "Enable"
+
+[node name="Label10" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resources in cells (allow viewing _to_string() override's result)"
+autowrap_mode = 2
+
+[node name="ResourceCellLabelMode" type="OptionButton" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+toggle_mode = false
+selected = 1
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Name + ToString()"
+popup/item_0/id = 3
+popup/item_1/text = "ToString()"
+popup/item_1/id = 1
+popup/item_2/text = "Name Only"
+popup/item_2/id = 2

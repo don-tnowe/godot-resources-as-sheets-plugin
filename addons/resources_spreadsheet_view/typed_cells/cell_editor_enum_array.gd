@@ -12,7 +12,7 @@ func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return hint_strings_array[column_index][0].begins_with("2/2:")
 
 
-func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, color_tint : float):
+func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, color_tint : float, cell_label_mode : int):
 	var value_str : String
 	var key_found := -1
 	for i in hint_arr.size():
@@ -36,4 +36,4 @@ func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Lab
 	else:
 		value_str = "?:%s" % value
 
-	super(value_str, value_str, hint_arr, child, color_tint)
+	super(value_str, value_str, hint_arr, child, color_tint, cell_label_mode)

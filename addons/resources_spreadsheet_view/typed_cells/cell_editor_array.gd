@@ -15,6 +15,7 @@ func set_value(node : Control, value):
 	var children := node.get_node("Box").get_children()
 	node.custom_minimum_size.x = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_min_width")
 	var color_tint : float = 0.01 * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_color_tint", 100.0)
+	var cell_label_mode : int = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_cell_label_mode", 0)
 	while children.size() < value.size():
 		children.append(Label.new())
 		node.get_node("Box").add_child(children[children.size() - 1])
@@ -26,12 +27,12 @@ func set_value(node : Control, value):
 
 		else:
 			children[i].visible = true
-			_write_value_to_child(value[i], value[i], column_hints, children[i], color_tint)
+			_write_value_to_child(value[i], value[i], column_hints, children[i], color_tint, cell_label_mode)
 
 
-func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, color_tint : float):
+func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, color_tint : float, cell_label_mode : int):
 	if value is Resource:
-		value = _resource_to_string(value)
+		value = _resource_to_string(value, cell_label_mode)
 
 	child.text = str(value)
 	child.self_modulate = (
@@ -41,15 +42,19 @@ func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Lab
 	)
 
 
-func _resource_to_string(res : Resource):
+static func _resource_to_string(res : Resource, cell_label_mode : int):
 	var prefix := ""
-	if res.has_method(&"_to_string"):
-		prefix = res._to_string() + "\n"
+	if cell_label_mode != 2:
+		if res.has_method(&"_to_string"):
+			prefix = res._to_string() + "\n"
 
-	if res.has_method(&"ToString"):
-		prefix = res.ToString() + "\n"
+		elif res.has_method(&"ToString"):
+			prefix = res.ToString() + "\n"
 
-	return prefix + (res.resource_name if res.resource_name != "" else res.resource_path.get_file())
+	if cell_label_mode == 1 && !prefix.is_empty():
+		return prefix.trim_suffix("\n")
+
+	return prefix + (res.resource_name if res.resource_name != "" else "[%s]" % res.resource_path.get_file())
 
 
 func is_text():
