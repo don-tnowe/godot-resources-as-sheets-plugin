@@ -217,11 +217,17 @@ func clipboard_paste():
 		)
 
 	elif DisplayServer.clipboard_has():
-		var lines := []
-		for x in DisplayServer.clipboard_get().split("\n"):
-			lines.append(str_to_var(x))
+		var values := []
+		values.resize(edited_cells.size())
+		var pasted_lines := DisplayServer.clipboard_get().replace("\r", "").split("\n")
+		var paste_each_line := pasted_lines.size() == values.size()
 
-		editor_view.set_edited_cells_values(lines)
+		for i in values.size():
+			values[i] = str_to_var(
+				pasted_lines[i] if paste_each_line else DisplayServer.clipboard_get()
+			)
+
+		editor_view.set_edited_cells_values(values)
 
 
 func _selection_changed():
