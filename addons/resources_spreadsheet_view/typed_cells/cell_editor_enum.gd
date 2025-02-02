@@ -23,7 +23,7 @@ func set_value(node : Control, value):
 			key_found = i
 			break
 
-	if key_found != -1:
+	if key_found != -1 and key_found < hint_arr.size():
 		value_str = hint_arr[key_found]
 
 	else:
