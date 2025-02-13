@@ -242,7 +242,7 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 		destination_path = edited_path.get_base_dir().path_join("import/")
 		DirAccess.make_dir_recursive_absolute(destination_path)
 
-	var new_path : String = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres") + ".tres"
+	var new_path : String = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres")
 	if !FileAccess.file_exists(new_path):
 		new_path = destination_path.path_join(new_path) + ".tres"
 
