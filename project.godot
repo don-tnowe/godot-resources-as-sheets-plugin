@@ -28,10 +28,6 @@ resources_spreadsheet_view/resource_cell_label_mode=1
 config/name="Addon: Resources as Tables"
 config/features=PackedStringArray("4.3")
 
-[autoload]
-
-Globals="*res://inventory/globals.gd"
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/resources_spreadsheet_view/plugin.cfg")

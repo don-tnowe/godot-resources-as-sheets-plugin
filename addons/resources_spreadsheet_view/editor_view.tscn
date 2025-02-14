@@ -551,7 +551,6 @@ exclusive = true
 min_size = Vector2i(600, 400)
 
 [node name="ImportExport" parent="Control/ImportExport" instance=ExtResource("14_3p12b")]
-physics_interpolation_mode = 0
 
 [node name="SelectionActions" parent="Control" instance=ExtResource("23_m53sx")]
 visible = false
