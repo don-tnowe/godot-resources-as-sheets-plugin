@@ -87,7 +87,12 @@ func string_to_property(string : String, col_index : int):
 				return int(uniques[col_index]["N_A"])
 
 			else:
-				return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
+				if string.is_valid_int():
+					return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
+				else:
+					# If the enum is a string, we actually just want the key not the value
+					var enum_keys : Dictionary = uniques[col_index]
+					return int(enum_keys.find_key(string))
 		
 		PropType.ARRAY:
 			return str_to_var(string)
@@ -115,6 +120,7 @@ func property_to_string(value, col_index : int) -> String:
 			return value.resource_path
 
 		PropType.ENUM:
+			print(enum_format)
 			var dict = uniques[col_index]
 			for k in dict:
 				if dict[k] == value:
@@ -187,6 +193,7 @@ func create_enum_for_prop(col_index) -> String:
 			+ ",\r\n"
 		)
 	result += "\tMAX,\r\n}\r\n\r\n"
+	
 	return result
 
 
@@ -324,7 +331,7 @@ func get_uniques(entries : Array) -> Dictionary:
 				
 				if !result[i].has(cur_value):
 					result[i][cur_value] = result[i].size()
-
+	
 	return result
 
 

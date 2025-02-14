@@ -125,6 +125,8 @@ func _load_property_names_from_textfile(path : String):
 			prop_types[i] = ResourceTablesImport.PropType.INT
 		elif type == TYPE_FLOAT:
 			prop_types[i] = ResourceTablesImport.PropType.FLOAT
+		elif type_hint == PROPERTY_HINT_ENUM:
+			prop_types[i] = ResourceTablesImport.PropType.ENUM
 		# Don't guess Ints automatically - further rows might have floats
 		elif entries[1][i].is_valid_float():
 			prop_types[i] = ResourceTablesImport.PropType.FLOAT
