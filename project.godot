@@ -26,7 +26,7 @@ resources_spreadsheet_view/resource_cell_label_mode=1
 [application]
 
 config/name="Addon: Resources as Tables"
-config/features=PackedStringArray("4.4")
+config/features=PackedStringArray("4.3")
 
 [autoload]
 

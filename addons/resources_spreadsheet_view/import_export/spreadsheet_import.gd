@@ -120,7 +120,6 @@ func property_to_string(value, col_index : int) -> String:
 			return value.resource_path
 
 		PropType.ENUM:
-			print(enum_format)
 			var dict = uniques[col_index]
 			for k in dict:
 				if dict[k] == value:
@@ -255,10 +254,16 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 		destination_path = edited_path.get_base_dir().path_join("import/")
 		DirAccess.make_dir_recursive_absolute(destination_path)
 	
-	var new_path : String = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres")
+	# If a full path is provided this catches that case
+	var new_path : String = strings[prop_names.find(prop_used_as_filename)]
 	
 	if !FileAccess.file_exists(new_path):
-		new_path = destination_path.path_join(new_path) + ".tres"
+		# If we're just missing the full path, do this one
+		if new_path.ends_with('.tres'):
+			new_path = destination_path.path_join(new_path)
+		# Else we assume we have only a name with no path or extenstion
+		else:
+			new_path = destination_path.path_join(new_path) + ".tres"
 	
 	var new_res : Resource
 	if FileAccess.file_exists(new_path):
