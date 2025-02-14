@@ -21,11 +21,16 @@ resources_spreadsheet_view/resource_preview_size=32.0
 resources_spreadsheet_view/context_menu_on_leftclick=false
 resources_spreadsheet_view/array_color_tint=100.0
 resources_spreadsheet_view/fold_docks=true
+resources_spreadsheet_view/resource_cell_label_mode=1
 
 [application]
 
 config/name="Addon: Resources as Tables"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.4")
+
+[autoload]
+
+Globals="*res://inventory/globals.gd"
 
 [editor_plugins]
 

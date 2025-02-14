@@ -10,6 +10,7 @@ enum PropType {
 	COLOR,
 	OBJECT,
 	ENUM,
+	ARRAY,
 	MAX,
 }
 
@@ -28,6 +29,7 @@ const TYPE_MAP := {
 	TYPE_INT : PropType.INT,
 	TYPE_OBJECT : PropType.OBJECT,
 	TYPE_COLOR : PropType.COLOR,
+	TYPE_ARRAY : PropType.ARRAY,
 }
 
 @export var prop_types : Array
@@ -86,6 +88,9 @@ func string_to_property(string : String, col_index : int):
 
 			else:
 				return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
+		
+		PropType.ARRAY:
+			return str_to_var(string)
 
 
 func property_to_string(value, col_index : int) -> String:
@@ -214,9 +219,10 @@ func load_external_script(script_res : Script):
 	new_script = script_res
 	var result := {}
 	for x in script_res.get_script_property_list():
+		
 		if x.hint != PROPERTY_HINT_ENUM or x.type != TYPE_INT:
 			continue
-
+		
 		var cur_value := ""
 		var result_for_prop := {}
 		result[prop_names.find(x.name)] = result_for_prop
@@ -241,15 +247,15 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 	if destination_path == "":
 		destination_path = edited_path.get_base_dir().path_join("import/")
 		DirAccess.make_dir_recursive_absolute(destination_path)
-
+	
 	var new_path : String = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres")
+	
 	if !FileAccess.file_exists(new_path):
 		new_path = destination_path.path_join(new_path) + ".tres"
-
+	
 	var new_res : Resource
 	if FileAccess.file_exists(new_path):
 		new_res = load(new_path)
-
 	else:
 		new_path = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres") + ".tres"
 		if !new_path.begins_with("res://"):
@@ -257,9 +263,36 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 
 		new_res = new_script.new()
 		new_res.resource_path = new_path
-
+	
+	var prop_list = new_res.get_property_list()
+	
 	for j in min(prop_names.size(), strings.size()):
-		new_res.set(prop_names[j], string_to_property(strings[j], j))
+		var skip_next = false
+		var cast_array = false
+		
+		# Check the properties of the resource you're making to see if its a 
+		# special case
+		for prop in prop_list:
+			# If this is a resource but the data is blank, skip it
+			if prop.name == prop_names[j] and prop.hint == PROPERTY_HINT_RESOURCE_TYPE and strings[j] == '':
+				skip_next = true
+				break
+			# If we know an array is coming, we need to set things differently
+			if prop.name == prop_names[j] and prop.type == TYPE_ARRAY:
+				cast_array = true
+				break
+		
+		# This is awful, but the workaround for typed casting
+		# 	https://github.com/godotengine/godot/issues/72620
+		if cast_array:
+			# Get the array thats typed properly
+			var typed_array := new_res.get(prop_names[j])
+			var generic_array : Array = string_to_property(strings[j], j)
+			# This transforms the returned array into the right type
+			typed_array.assign(generic_array)
+			new_res.set(prop_names[j], typed_array)
+		elif !skip_next:
+			new_res.set(prop_names[j], string_to_property(strings[j], j))
 
 	if prop_used_as_filename != "":
 		new_res.resource_path = new_path
@@ -320,6 +353,7 @@ static func get_resource_property_types(res : Resource, properties : Array) -> A
 		if found == -1: continue
 		if x["usage"] & PROPERTY_USAGE_EDITOR != 0:
 			if x["hint"] == PROPERTY_HINT_ENUM:
+				
 				var enum_values : PackedStringArray = x["hint_string"].split(",")
 				for i in enum_values.size():
 					var index_found : int = enum_values[i].find(":")
