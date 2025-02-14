@@ -10,6 +10,18 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 @onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 
 
+var hidden_columns := {}:
+	get:
+		var result := {}
+		for k_path in column_properties:
+			var result_one_path := {}
+			result[k_path] = result_one_path
+			for k_column in column_properties[k_path]:
+				for k_property in column_properties[k_path][k_column]:
+					if k_property == &"visibility" && [k_property]:
+						result[k_column] = true
+
+		return result
 var column_properties := {}
 var columns := []:
 	set(v):
