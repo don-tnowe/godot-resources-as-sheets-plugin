@@ -80,6 +80,7 @@ size = Vector2i(800, 500)
 ok_button_text = "Open"
 mode_overrides_title = false
 file_mode = 0
+filters = PackedStringArray("*.gd", "*.cs")
 
 [node name="Control" type="Control" parent="Import/Margins/Scroll/Box/Grid"]
 layout_mode = 2

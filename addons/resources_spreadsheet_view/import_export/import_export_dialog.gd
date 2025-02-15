@@ -11,7 +11,7 @@ extends Control
 @onready var script_path_field := $"Import/Margins/Scroll/Box/Grid/HBoxContainer/LineEdit"
 @onready var prop_list := $"Import/Margins/Scroll/Box"
 @onready var format_settings := $"Import/Margins/Scroll/Box/StyleSettingsI"
-@onready var file_dialog := $"../../FileDialogText"
+#@onready var file_dialog := $"../../FileDialogText"
 
 var format_extension := ".csv"
 var entries := []
