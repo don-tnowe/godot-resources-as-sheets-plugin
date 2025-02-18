@@ -11,6 +11,7 @@ extends Control
 @onready var script_path_field := $"Import/Margins/Scroll/Box/Grid/HBoxContainer/LineEdit"
 @onready var prop_list := $"Import/Margins/Scroll/Box"
 @onready var format_settings := $"Import/Margins/Scroll/Box/StyleSettingsI"
+@onready var file_dialog_use_script: FileDialog = $Import/Margins/Scroll/Box/Grid/HBoxContainer/FileDialog
 #@onready var file_dialog := $"../../FileDialogText"
 
 var format_extension := ".csv"
@@ -22,8 +23,11 @@ var import_data : ResourceTablesImport
 func _ready():
 	hide()
 	show()
-	get_parent().min_size = Vector2(600, 400)
+	if get_parent().get('min_size'):
+		get_parent().min_size = Vector2(600, 400)
 	get_parent().size = Vector2(600, 400)
+	
+	file_dialog_use_script.file_selected.connect(_on_file_dialog_file_selected)
 
 
 func _on_file_selected(path : String):
@@ -66,7 +70,7 @@ func _on_file_selected(path : String):
 		classname_field.text = import_data.edited_path.get_file().get_basename()\
 			.capitalize().replace(" ", "")
 		import_data.script_classname = classname_field.text
-
+		
 		_load_property_names_from_textfile(path)
 
 	_create_prop_editors()
@@ -85,6 +89,7 @@ func _load_property_names_from_textfile(path : String):
 	var prop_types := import_data.prop_types
 	prop_types.resize(import_data.prop_names.size())
 	prop_types.fill(4)
+	
 	for i in import_data.prop_names.size():
 		import_data.prop_names[i] = entries[0][i]\
 			.replace("\"", "")\
@@ -96,14 +101,37 @@ func _load_property_names_from_textfile(path : String):
 			.replace("/", "_")\
 			.replace("\\", "_")\
 			.to_lower()
-
-		# Don't guess Ints automatically - further rows might have floats
-		if entries[1][i].is_valid_float():
+		
+		var type_hint = -99
+		var type = -99
+		# If a script for this resource already exists, try to use it to figure 
+		# out the type hints 
+		if script_path_field.text:
+			var existing_resource = load(script_path_field.text).new()
+			
+			for prop_dict in existing_resource.get_property_list():
+				if prop_dict.name == import_data.prop_names[i]:
+					type_hint = prop_dict.hint
+					type = prop_dict.type
+		
+		# We check type hints, types, then parse to figure out the types
+		if type_hint == PROPERTY_HINT_FILE:
+			prop_types[i] = ResourceTablesImport.PropType.STRING
+		elif type_hint == PROPERTY_HINT_RESOURCE_TYPE:
+			prop_types[i] = ResourceTablesImport.PropType.OBJECT
+		elif type == TYPE_ARRAY:
+			prop_types[i] = ResourceTablesImport.PropType.ARRAY
+		elif type == TYPE_INT and type_hint != PROPERTY_HINT_ENUM:
+			prop_types[i] = ResourceTablesImport.PropType.INT
+		elif type == TYPE_FLOAT:
 			prop_types[i] = ResourceTablesImport.PropType.FLOAT
-
+		elif type_hint == PROPERTY_HINT_ENUM:
+			prop_types[i] = ResourceTablesImport.PropType.ENUM
+		# Don't guess Ints automatically - further rows might have floats
+		elif entries[1][i].is_valid_float():
+			prop_types[i] = ResourceTablesImport.PropType.FLOAT
 		elif entries[1][i].begins_with("res://"):
 			prop_types[i] = ResourceTablesImport.PropType.OBJECT
-
 		else:
 			prop_types[i] = ResourceTablesImport.PropType.STRING
 
@@ -127,7 +155,7 @@ func _load_settings_from_import_file(from_file : ResourceTablesImport):
 func _create_prop_editors():
 	for x in prop_list.get_children():
 		if !x is GridContainer: x.free()
-
+	await get_tree().process_frame
 	for i in import_data.prop_names.size():
 		var new_node := prop_list_item_scene.instantiate()
 		prop_list.add_child(new_node)
@@ -159,7 +187,7 @@ func _on_import_to_tres_pressed():
 	for i in entries.size():
 		if import_data.remove_first_row and i == 0:
 			continue
-
+		
 		new_res = import_data.strings_to_resource(entries[i], editor_view.current_path)
 		ResourceSaver.save(new_res)
 
@@ -235,3 +263,9 @@ func _on_enum_format_changed(case, delimiter, bool_yes, bool_no):
 
 func close():
 	get_parent().hide()
+
+
+# Handles reloading the import hint editor if a Resource script is chosen
+func _on_file_dialog_file_selected(path: String) -> void:
+	script_path_field.text = path
+	_on_file_selected(import_data.edited_path)
