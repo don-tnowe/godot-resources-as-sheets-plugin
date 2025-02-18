@@ -54,5 +54,4 @@ static func import_as_arrays(import_data) -> Array:
 	for i in entries.size():
 		entries[i] = text_lines[i]
 
-	import_data.prop_names = entries[0]
 	return entries

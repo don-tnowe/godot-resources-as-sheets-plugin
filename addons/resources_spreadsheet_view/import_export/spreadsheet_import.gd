@@ -10,7 +10,7 @@ enum PropType {
 	COLOR,
 	OBJECT,
 	ENUM,
-	ARRAY,
+	COLLECTION,
 	MAX,
 }
 
@@ -29,7 +29,8 @@ const TYPE_MAP := {
 	TYPE_INT : PropType.INT,
 	TYPE_OBJECT : PropType.OBJECT,
 	TYPE_COLOR : PropType.COLOR,
-	TYPE_ARRAY : PropType.ARRAY,
+	TYPE_ARRAY : PropType.COLLECTION,
+	TYPE_DICTIONARY : PropType.COLLECTION,
 }
 
 @export var prop_types : Array
@@ -93,9 +94,23 @@ func string_to_property(string : String, col_index : int):
 					# If the enum is a string, we actually just want the key not the value
 					var enum_keys : Dictionary = uniques[col_index]
 					return int(enum_keys.find_key(string))
-		
-		PropType.ARRAY:
-			return str_to_var(string)
+
+		PropType.COLLECTION:
+			var result = str_to_var(string)
+			if result is Array:
+				for i in result.size():
+					if result[i] is String && result[i].begins_with("res://"):
+						result[i] = load(result[i])
+
+			if result is Dictionary:
+				for k in result:
+					if result[k] is String && result[k].begins_with("res://"):
+						result[k] = load(result[k])
+
+			if result == null:
+				result = []
+
+			return result
 
 
 func property_to_string(value, col_index : int) -> String:
@@ -118,6 +133,20 @@ func property_to_string(value, col_index : int) -> String:
 
 		PropType.OBJECT:
 			return value.resource_path
+
+		PropType.COLLECTION:
+			value = value.duplicate()
+			if value is Array:
+				for i in value.size():
+					if value[i] is Resource:
+						value[i] = value[i].resource_path
+
+			if value is Dictionary:
+				for k in value:
+					if value[k] is Resource:
+						value[k] = value[k].resource_path
+
+			return str(value)
 
 		PropType.ENUM:
 			var dict = uniques[col_index]
@@ -148,6 +177,9 @@ func create_property_line_for_prop(col_index : int) -> String:
 
 		PropType.OBJECT:
 			return result + " Resource\r\n"
+
+		PropType.COLLECTION:
+			return result + "= []\r\n"
 
 		PropType.ENUM:
 			return result + " %s\r\n" % _escape_forbidden_enum_names(prop_names[col_index].capitalize().replace(" ", ""))
@@ -221,6 +253,36 @@ func generate_script(entries, has_classname = true) -> GDScript:
 	return created_script
 
 
+func load_property_names_from_textfile(path : String, loaded_entries : Array):
+	prop_types.resize(prop_names.size())
+	prop_types.fill(4)
+	for i in prop_names.size():
+		prop_names[i] = loaded_entries[0][i]\
+			.replace("\"", "")\
+			.replace(" ", "_")\
+			.replace("-", "_")\
+			.replace(".", "_")\
+			.replace(",", "_")\
+			.replace("\t", "_")\
+			.replace("/", "_")\
+			.replace("\\", "_")\
+			.to_lower()
+
+		var value = loaded_entries[1][i]
+		var value_cast = str_to_var(value)
+		# Don't guess Ints automatically - further rows might have floats
+		if value_cast is Array or value_cast is Dictionary:
+			prop_types[i] = ResourceTablesImport.PropType.COLLECTION
+		elif value.is_valid_float():
+			prop_types[i] = ResourceTablesImport.PropType.FLOAT
+		elif value.begins_with("res://") && prop_names[i] != "resource_path":
+			prop_types[i] = ResourceTablesImport.PropType.OBJECT
+		elif value.length() == 6 or value.length() == 8 or (value.length() > 0 and value[0] == "#"):
+			prop_types[i] = ResourceTablesImport.PropType.COLOR
+		else:
+			prop_types[i] = ResourceTablesImport.PropType.STRING
+
+
 func load_external_script(script_res : Script):
 	new_script = script_res
 	var result := {}
@@ -258,57 +320,58 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 	var new_path : String = strings[prop_names.find(prop_used_as_filename)]
 	
 	if !FileAccess.file_exists(new_path):
-		# If we're just missing the full path, do this one
-		if new_path.ends_with('.tres'):
-			new_path = destination_path.path_join(new_path)
-		# Else we assume we have only a name with no path or extenstion
-		else:
-			new_path = destination_path.path_join(new_path) + ".tres"
+		new_path = destination_path.path_join(new_path).trim_suffix(".tres") + ".tres"
 	
-	var new_res : Resource
-	if FileAccess.file_exists(new_path):
-		new_res = load(new_path)
-	else:
-		new_path = strings[prop_names.find(prop_used_as_filename)].trim_suffix(".tres") + ".tres"
+	if !FileAccess.file_exists(new_path):
+		new_path = (strings[prop_names.find(prop_used_as_filename)]
+			.trim_prefix(destination_path)
+			.trim_suffix(".tres") + ".tres"
+		)
 		if !new_path.begins_with("res://"):
 			new_path = destination_path.path_join(new_path)
 
+		DirAccess.make_dir_recursive_absolute(new_path.get_base_dir())
+
+	var new_res : Resource
+	if FileAccess.file_exists(new_path):
+		new_res = load(new_path)
+
+	else:
 		new_res = new_script.new()
 		new_res.resource_path = new_path
 	
 	var prop_list = new_res.get_property_list()
 	
-	for j in min(prop_names.size(), strings.size()):
-		var skip_next = false
-		var cast_array = false
+	for i in mini(prop_names.size(), strings.size()):
+		var skip_next := false
+		var cast_array := false
 		
 		# Check the properties of the resource you're making to see if its a 
 		# special case
 		for prop in prop_list:
 			# If this is a resource but the data is blank, skip it
-			if prop.name == prop_names[j] and prop.hint == PROPERTY_HINT_RESOURCE_TYPE and strings[j] == '':
+			if prop.name == prop_names[i] and prop.hint == PROPERTY_HINT_RESOURCE_TYPE and strings[i] == '':
 				skip_next = true
 				break
 			# If we know an array is coming, we need to set things differently
-			if prop.name == prop_names[j] and prop.type == TYPE_ARRAY:
+			if prop.name == prop_names[i] and prop.type == TYPE_ARRAY:
 				cast_array = true
 				break
 		
 		# This is awful, but the workaround for typed casting
 		# 	https://github.com/godotengine/godot/issues/72620
 		if cast_array:
-			# Get the array thats typed properly
-			var typed_array := new_res.get(prop_names[j])
-			var generic_array : Array = string_to_property(strings[j], j)
-			# This transforms the returned array into the right type
+			var typed_array := new_res.get(prop_names[i])
+			var generic_array : Array = string_to_property(strings[i], i)
 			typed_array.assign(generic_array)
-			new_res.set(prop_names[j], typed_array)
+			new_res.set(prop_names[i], typed_array)
+
 		elif !skip_next:
-			new_res.set(prop_names[j], string_to_property(strings[j], j))
+			new_res.set(prop_names[i], string_to_property(strings[i], i))
 
 	if prop_used_as_filename != "":
 		new_res.resource_path = new_path
-	
+
 	return new_res
 
 

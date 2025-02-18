@@ -51,30 +51,17 @@ func _on_file_selected(path : String):
 		if !(found_res is ResourceTablesImport):
 			continue
 
-		import_data = found_res
-		_load_settings_from_import_file(found_res)
-		for format_x in formats_import:
-			if format_x.new().can_edit_path(path):
-				entries = format_x.new().import_as_arrays(import_data)
-
+		_import_settings_from_settings_file(found_res, path)
 		break
 
 	if import_data == null:
-		import_data = ResourceTablesImport.new()
-		import_data.initialize(path)
-
-		for format_x in formats_import:
-			if format_x.new().can_edit_path(path):
-				entries = format_x.new().import_as_arrays(import_data)
-
-		classname_field.text = import_data.edited_path.get_file().get_basename()\
-			.capitalize().replace(" ", "")
-		import_data.script_classname = classname_field.text
-		
-		_load_property_names_from_textfile(path)
+		_create_new_settings_file(path)
 
 	_create_prop_editors()
 	$"Import/Margins/Scroll/Box/StyleSettingsI"._send_signal()
+
+	if editor_view.rows.size() > 0:
+		script_path_field.text = editor_view.rows[0].get_script().resource_path
 
 	await get_tree().process_frame
 	get_parent().popup_centered()
@@ -85,71 +72,49 @@ func _on_files_selected(paths : PackedStringArray):
 	_on_file_selected(paths[0])
 
 
-func _load_property_names_from_textfile(path : String):
-	var prop_types := import_data.prop_types
-	prop_types.resize(import_data.prop_names.size())
-	prop_types.fill(4)
-	
-	var existing_type_hints := {}
-	var existing_types := {}
-	# If a script for this resource already exists, try to use it to figure 
-	# out the type hints 
-	if script_path_field.text:
-		var existing_resource : Resource = load(script_path_field.text).new()
-		for prop_dict in existing_resource.get_property_list():
-			existing_type_hints[prop_dict.name] = prop_dict.hint
-			existing_types[prop_dict.name] = prop_dict.type
+func _import_settings_from_settings_file(settings_file : ResourceTablesImport, textfile_path : String):
+	import_data = settings_file
 
-	for i in import_data.prop_names.size():
-		import_data.prop_names[i] = entries[0][i]\
-			.replace("\"", "")\
-			.replace(" ", "_")\
-			.replace("-", "_")\
-			.replace(".", "_")\
-			.replace(",", "_")\
-			.replace("\t", "_")\
-			.replace("/", "_")\
-			.replace("\\", "_")\
-			.to_lower()
-		
-		# We check type hints, types, then parse to figure out the types
-		var cur_type_hint : int = existing_type_hints.get(import_data.prop_names[i], -1)
-		var cur_type : int = existing_types.get(import_data.prop_names[i], -1)
-		if cur_type_hint == PROPERTY_HINT_FILE:
-			prop_types[i] = ResourceTablesImport.PropType.STRING
-		elif cur_type_hint == PROPERTY_HINT_RESOURCE_TYPE:
-			prop_types[i] = ResourceTablesImport.PropType.OBJECT
-		elif cur_type == TYPE_ARRAY:
-			prop_types[i] = ResourceTablesImport.PropType.ARRAY
-		elif cur_type == TYPE_INT and cur_type_hint != PROPERTY_HINT_ENUM:
-			prop_types[i] = ResourceTablesImport.PropType.INT
-		elif cur_type == TYPE_FLOAT:
-			prop_types[i] = ResourceTablesImport.PropType.FLOAT
-		elif type_hint == PROPERTY_HINT_ENUM:
-			prop_types[i] = ResourceTablesImport.PropType.ENUM
-		# Don't guess Ints automatically - further rows might have floats
-		elif entries[1][i].is_valid_float():
-			prop_types[i] = ResourceTablesImport.PropType.FLOAT
-		elif entries[1][i].begins_with("res://"):
-			prop_types[i] = ResourceTablesImport.PropType.OBJECT
-		else:
-			prop_types[i] = ResourceTablesImport.PropType.STRING
-
-	filename_options.clear()
-	for i in import_data.prop_names.size():
-		filename_options.add_item(import_data.prop_names[i], i)
-
-
-func _load_settings_from_import_file(from_file : ResourceTablesImport):
 	filename_options.clear()
 	for i in import_data.prop_names.size():
 		filename_options.add_item(import_data.prop_names[i], i)
 
 	if import_data.new_script != null:
 		classname_field.text = import_data.new_script.get_global_name()
-		script_path_field.text = from_file.new_script.resource_path
+		script_path_field.text = settings_file.new_script.resource_path
 
 	format_settings.set_format_array(import_data.enum_format)
+	for format_x in formats_import:
+		var new_importer = format_x.new()
+		if new_importer.can_edit_path(textfile_path):
+			entries = format_x.new().import_as_arrays(import_data)
+			break
+
+
+func _create_new_settings_file(textfile_path : String):
+	import_data = ResourceTablesImport.new()
+	import_data.initialize(textfile_path)
+
+	for format_x in formats_import:
+		var new_importer = format_x.new()
+		if new_importer.can_edit_path(textfile_path):
+			entries = new_importer.import_as_arrays(import_data)
+			import_data.prop_names = new_importer.get_properties(entries, import_data)
+			break
+
+	classname_field.text = import_data.edited_path.get_file().get_basename()\
+		.capitalize().replace(" ", "")
+	import_data.script_classname = classname_field.text
+	if script_path_field.text:
+		var existing_resource : Resource = load(script_path_field.text).new()
+		import_data.prop_types = ResourceTablesImport.get_resource_property_types(existing_resource, import_data.prop_names)
+
+	else:
+		import_data.load_property_names_from_textfile(textfile_path, entries)
+
+	filename_options.clear()
+	for i in import_data.prop_names.size():
+		filename_options.add_item(import_data.prop_names[i], i)
 
 
 func _create_prop_editors():
@@ -160,7 +125,8 @@ func _create_prop_editors():
 	for i in import_data.prop_names.size():
 		var new_node := prop_list_item_scene.instantiate()
 		prop_list.add_child(new_node)
-		new_node.display(import_data.prop_names[i], import_data.prop_types[i])
+		var prop_type = import_data.prop_types[i]
+		new_node.display(import_data.prop_names[i], prop_type if !(prop_type is PackedStringArray) else ResourceTablesImport.PropType.ENUM)
 		new_node.connect_all_signals(self, i)
 
 
