@@ -81,19 +81,20 @@ func string_to_property(string : String, col_index : int):
 			return Color(string)
 
 		PropType.OBJECT:
-			return load(string)
+			return null if string == "" else load(string)
 
 		PropType.ENUM:
 			if string == "":
 				return int(uniques[col_index]["N_A"])
 
 			else:
-				if string.is_valid_int():
-					return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
-				else:
-					# If the enum is a string, we actually just want the key not the value
-					var enum_keys : Dictionary = uniques[col_index]
-					return int(enum_keys.find_key(string))
+				return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
+				# if string.is_valid_int():
+				# 	return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
+				# else:
+				# 	# If the enum is a string, we actually just want the key not the value
+				# 	var enum_keys : Dictionary = uniques[col_index]
+				# 	return int(enum_keys.find_key(string))
 
 		PropType.COLLECTION:
 			var result = str_to_var(string)
@@ -339,35 +340,21 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 	else:
 		new_res = new_script.new()
 		new_res.resource_path = new_path
-	
-	var prop_list = new_res.get_property_list()
-	
+
 	for i in mini(prop_names.size(), strings.size()):
 		var skip_next := false
 		var cast_array := false
-		
-		# Check the properties of the resource you're making to see if its a 
-		# special case
-		for prop in prop_list:
-			# If this is a resource but the data is blank, skip it
-			if prop.name == prop_names[i] and prop.hint == PROPERTY_HINT_RESOURCE_TYPE and strings[i] == '':
-				skip_next = true
-				break
-			# If we know an array is coming, we need to set things differently
-			if prop.name == prop_names[i] and prop.type == TYPE_ARRAY:
-				cast_array = true
-				break
-		
+
 		# This is awful, but the workaround for typed casting
 		# 	https://github.com/godotengine/godot/issues/72620
-		if cast_array:
-			var typed_array := new_res.get(prop_names[i])
-			var generic_array : Array = string_to_property(strings[i], i)
-			typed_array.assign(generic_array)
-			new_res.set(prop_names[i], typed_array)
+		var property_value = string_to_property(strings[i], i)
+		if property_value is Array:
+			var property_value_as_typed := new_res.get(prop_names[i])
+			property_value_as_typed.assign(property_value)
+			new_res.set(prop_names[i], property_value_as_typed)
 
-		elif !skip_next:
-			new_res.set(prop_names[i], string_to_property(strings[i], i))
+		else:
+			new_res.set(prop_names[i], property_value)
 
 	if prop_used_as_filename != "":
 		new_res.resource_path = new_path
