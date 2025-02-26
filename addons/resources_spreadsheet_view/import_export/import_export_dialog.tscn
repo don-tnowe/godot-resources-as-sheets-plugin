@@ -15,13 +15,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 1
 script = ExtResource("1")
 prop_list_item_scene = ExtResource("2_xfhmf")
 formats_export = Array[Script]([ExtResource("2_33c6s")])
 formats_import = Array[Script]([ExtResource("2_fxayt")])
 
 [node name="Import" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 metadata/_tab_index = 0
@@ -142,7 +143,6 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="Export" type="VBoxContainer" parent="."]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -171,6 +171,7 @@ text = "Delimiter:"
 [node name="Button" type="Button" parent="Export/Box"]
 layout_mode = 2
 toggle_mode = true
+button_pressed = true
 button_group = SubResource("ButtonGroup_080hd")
 text = "Comma (,)"
 
@@ -229,6 +230,9 @@ layout_mode = 2
 [connection signal="pressed" from="Import/Box/Ok2" to="." method="_on_import_edit_pressed"]
 [connection signal="pressed" from="Import/Box/Ok" to="." method="_on_import_to_tres_pressed"]
 [connection signal="pressed" from="Import/Box/Cancel" to="." method="close"]
+[connection signal="pressed" from="Export/Box/Button" to="." method="_on_export_delimiter_pressed" binds= [","]]
+[connection signal="pressed" from="Export/Box/Button2" to="." method="_on_export_delimiter_pressed" binds= [";"]]
+[connection signal="pressed" from="Export/Box/Button3" to="." method="_on_export_delimiter_pressed" binds= ["	"]]
 [connection signal="toggled" from="Export/Box/CheckBox" to="." method="_on_export_space_toggled"]
 [connection signal="toggled" from="Export/Box3/CheckBox" to="." method="_on_remove_first_row_toggled"]
 [connection signal="format_changed" from="Export/StyleSettingsE" to="." method="_on_enum_format_changed"]

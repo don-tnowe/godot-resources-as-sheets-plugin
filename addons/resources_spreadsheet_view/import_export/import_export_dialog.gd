@@ -212,7 +212,7 @@ func _on_list_item_name_changed(name : String, index : int):
 	import_data.prop_names[index] = name.replace(" ", "")
 
 
-func _on_export_delimeter_pressed(del : String):
+func _on_export_delimiter_pressed(del : String):
 	import_data.delimeter = del + import_data.delimeter.substr(1)
 
 
