@@ -261,6 +261,9 @@ func _update_selected_cells_text():
 		return
 
 	var column_editor := column_editors[get_cell_column(edited_cells[0])]
+	if !column_editor.text_update_on_edit():
+		return
+
 	for i in edited_cells.size():
 		edited_cells_text[i] = column_editor.to_text(editor_view.io.get_value(
 			editor_view.rows[edited_cells[i].y],

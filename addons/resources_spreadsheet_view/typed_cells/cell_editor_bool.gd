@@ -18,6 +18,10 @@ func _set_value_internal(node, value):
 	node.self_modulate.a = 1.0 if value else 0.2
 
 
+func text_update_on_edit():
+	return true
+
+
 func to_text(value) -> String:
 	return "ON" if value else "off"
 

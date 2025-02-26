@@ -29,6 +29,10 @@ func set_value(node : Control, value):
 func is_text():
 	return true
 
+## Override to refresh internal text values when edited using keyboard.
+func text_update_on_edit():
+	return false
+
 ## Override to define custom behaviour for converting the value into text for editing and copy/paste.
 func to_text(value) -> String:
 	return var_to_str(value)
