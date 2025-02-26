@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://5pic6fxx6et3"]
+[gd_scene load_steps=33 format=3 uid="uid://5pic6fxx6et3"]
 
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ddqak780cwwfj" path="res://addons/resources_spreadsheet_view/typed_editors/dock_enum_array.tscn" id="8_234wn"]
 [ext_resource type="PackedScene" uid="uid://c3a2cip8ffccv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_array.tscn" id="9_nts08"]
 [ext_resource type="PackedScene" uid="uid://b3a3bo6cfyh5t" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.tscn" id="10_nsma2"]
+[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/frozen_columns.gd" id="10_vb62w"]
 [ext_resource type="PackedScene" uid="uid://gtbf7b0wptv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="11_q1ao4"]
 [ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="12_4kr6q"]
 [ext_resource type="PackedScene" uid="uid://dhunxgcae6h1" path="res://addons/resources_spreadsheet_view/settings_grid.tscn" id="13_as1sh"]
@@ -436,6 +437,17 @@ To find out keybindings available, open the \"About\" menu."
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="FrozenColumns" type="Control" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FrozenColumns" type="ColorRect" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/FrozenColumns"]
+layout_mode = 1
+size_flags_horizontal = 0
+mouse_filter = 2
+script = ExtResource("10_vb62w")
+
 [node name="Footer" type="VBoxContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit"]
 layout_mode = 2
 
@@ -571,6 +583,7 @@ cell_editor_classes = Array[Script]([ExtResource("16_p7n52"), ExtResource("19_oe
 metadata/_edit_lock_ = true
 
 [connection signal="grid_updated" from="." to="HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages" method="_on_grid_updated"]
+[connection signal="grid_updated" from="." to="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/FrozenColumns/FrozenColumns" method="_on_grid_updated"]
 [connection signal="gui_input" from="." to="InputHandler" method="_gui_input"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/File" to="." method="_on_File_pressed"]
 [connection signal="pressed" from="HeaderContentSplit/VBoxContainer/MenuStrip/SearchProcess" to="." method="_on_SearchProcess_pressed"]

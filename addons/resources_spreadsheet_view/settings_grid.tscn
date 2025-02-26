@@ -128,3 +128,14 @@ popup/item_1/text = "ToString()"
 popup/item_1/id = 1
 popup/item_2/text = "Name Only"
 popup/item_2/id = 2
+
+[node name="Label11" type="Label" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Freeze/Lock First Column"
+autowrap_mode = 2
+
+[node name="FreezeFirstColumn" type="CheckBox" parent="RichTextLabel/GridContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Enable"
