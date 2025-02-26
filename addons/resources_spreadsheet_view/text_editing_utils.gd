@@ -149,20 +149,25 @@ static func multi_input(input_char : String, values : Array, cursor_positions : 
 
 
 static func get_caret_rect(cell_text : String, caret_position : int, font : Font, font_size : int, label_padding_left : float, caret_width : float = 2.0) -> Rect2:
-	var char_size := Vector2(0, font.get_ascent(font_size))
+	var font_height := font.get_height(font_size)
+	var char_size := Vector2(0, font_height)
 	var result_pos := Vector2(label_padding_left, 0)
 	for j in max(caret_position, 0) + 1:
 		if j == 0: continue
 		if cell_text.unicode_at(j - 1) == 10:
 			# If "\n" found, next line.
+			# The 2.0 is ACTUALLY not 2.0 and varies per character.
+			# Since get_char_size() does not return the correct size, this will cause problems with non-Latin characters
 			result_pos.x = label_padding_left
-			result_pos.y += font.get_ascent(font_size)
+			result_pos.y += font_height - 2.0
+			font_height = 0.0
 			continue
 
 		char_size = font.get_char_size(cell_text.unicode_at(j - 1), font_size)
+		font_height = maxf(char_size.y, font_height)
 		result_pos.x += char_size.x
 
-	return Rect2(result_pos, Vector2(2, char_size.y))
+	return Rect2(result_pos + Vector2(1.0, 0.0), Vector2(caret_width, char_size.y))
 
 
 static func _step_cursor(text : String, start : int, step : int = 1, whole_word : bool = false) -> int:

@@ -44,21 +44,19 @@ func _ready():
 
 
 func _draw():
-	var font := get_theme_font("font", "Label")
-	var font_size := get_theme_font_size("font", "Label")
-	var label_padding_left := 2.0
-	var newline_char := 10
-	if edit_cursor_positions.size() != edited_cells.size():
+	if edited_cells.size() == 0 or edit_cursor_positions.size() != edited_cells.size() or !column_editors[edited_cells[0].x].is_text():
 		return
 
+	var font := get_theme_font(&"font", &"Label")
+	var font_size := get_theme_font_size(&"font", &"Label")
+	var caret_color := get_theme_color(&"caret_color", &"LineEdit")
+	var label_padding_left := 2.0
+	var newline_char := 10
 	for i in edited_cells.size():
-		if edit_cursor_positions[i] >= edited_cells_text[i].length():
-			continue
-
 		var cell : Control = get_cell_node_from_position(edited_cells[i])
-		var caret_rect := TextEditingUtilsClass.get_caret_rect(edited_cells_text[i], edit_cursor_positions[i], font, font_size, label_padding_left, 2.0)
+		var caret_rect := TextEditingUtilsClass.get_caret_rect(edited_cells_text[i], edit_cursor_positions[i], font, font_size, label_padding_left, 1.0)
 		caret_rect.position += cell.global_position - global_position
-		draw_rect(caret_rect, Color(1, 1, 1, 0.5))
+		draw_rect(caret_rect, caret_color)
 
 
 func initialize_editors(column_values, column_types, column_hints):
