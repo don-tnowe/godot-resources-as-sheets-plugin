@@ -320,7 +320,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 	var current_node : Control
 	var next_color := Color.WHITE
 	var column_editors : Array = _selection.column_editors
-	var shortened_path : String = rows[row_index].resource_path.get_file().trim_suffix(".tres")
+	var shortened_path : String = rows[row_index].resource_path.substr(current_path.length()).trim_suffix(".tres")
 	for i in columns.size():
 		if node_table_root.get_child_count() <= (row_index - first_row) * columns.size() + i:
 			current_node = column_editors[i].create_cell(self)
@@ -476,7 +476,8 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 					continue
 
 				var update_cell_c : Control = _selection.get_cell_node_from_position(Vector2i(column_i, row))
-				_selection.column_editors[column_i].set_value(update_cell_c, update_rows[i].get(columns[column_i]))
+				if columns[column_i] != &"resource_path":
+					_selection.column_editors[column_i].set_value(update_cell_c, update_rows[i].get(columns[column_i]))
 
 		if values[i] == null:
 			continue
