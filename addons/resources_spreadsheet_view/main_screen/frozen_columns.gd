@@ -19,7 +19,7 @@ func _ready() -> void:
 func _on_grid_updated() -> void:
 	visible = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "freeze_first_column")
 
-	for x in children:
+	for x in get_children():
 		x.queue_free()
 
 	children.clear()
