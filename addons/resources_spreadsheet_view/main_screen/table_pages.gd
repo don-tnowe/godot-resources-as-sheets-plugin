@@ -15,6 +15,9 @@ func update_page_count(array : Array) -> int:
 
 
 func _on_grid_updated():
+	if node_editor_view_root.rows.size() == 0:
+		return
+
 	visible = true
 	var page_count := update_page_count(node_editor_view_root.rows)
 	var pagelist_node := $"Scroll/Pagelist"

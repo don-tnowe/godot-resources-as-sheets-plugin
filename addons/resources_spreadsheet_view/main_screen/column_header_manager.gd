@@ -158,7 +158,7 @@ func _update_hidden_columns():
 		if column_visible:
 			visible_column_count += 1
 
-	grid.columns = visible_column_count
+	grid.columns = maxi(visible_column_count, 1)
 
 
 func _on_h_scroll_changed(value):

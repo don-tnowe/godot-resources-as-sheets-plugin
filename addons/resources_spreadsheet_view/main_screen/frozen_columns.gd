@@ -17,8 +17,11 @@ func _ready() -> void:
 
 
 func _on_grid_updated() -> void:
-	visible = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "freeze_first_column")
+	if editor_view.rows.size() == 0:
+		hide()
+		return
 
+	visible = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "freeze_first_column")
 	for x in get_children():
 		x.queue_free()
 
@@ -27,6 +30,7 @@ func _on_grid_updated() -> void:
 	size.x = 0.0
 
 	await get_tree().process_frame
+
 	var first_visible_column := 0
 	for i in grid.columns:
 		if grid.get_child(i).visible:
