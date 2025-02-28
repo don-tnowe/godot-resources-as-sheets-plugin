@@ -28,10 +28,15 @@ func set_value(node : Control, value):
 
 		else:
 			children[i].visible = true
-			if values[i] is Resource: values[i] = _resource_to_string(values[i], cell_label_mode)
-			if keys[i] is Resource: keys[i] = _resource_to_string(keys[i], cell_label_mode)
+			var current_value = values[i]
+			var current_key = keys[i]
+			if current_value is Resource:
+				current_value = _resource_to_string(current_value, cell_label_mode)
 
-			_write_value_to_child("%s ◆ %s" % [keys[i], values[i]], keys[i], column_hints, children[i], color_tint, cell_label_mode)
+			if current_key is Resource:
+				current_key = _resource_to_string(current_key, cell_label_mode)
+
+			_write_value_to_child("%s ◆ %s" % [current_key, current_value], keys[i], column_hints, children[i], color_tint, cell_label_mode)
 
 
 func is_text():
