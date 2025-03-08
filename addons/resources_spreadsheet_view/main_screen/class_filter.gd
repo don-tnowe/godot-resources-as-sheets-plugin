@@ -25,12 +25,31 @@ func fill(resources : Array):
 	var class_set := {}
 	for x in resources:
 		class_set[x.get_script()] = true
-		class_set[x.get_class()] = true
+		class_set[StringName(x.get_class())] = true
+		var current_s : Script = x.get_script()
+		while current_s != null:
+			current_s = current_s.get_base_script()
+			if class_set.has(current_s):
+				break
+
+			class_set[current_s] = true
+
+		var current_c : StringName = x.get_class()
+		while true:
+			if current_c == &"Resource":
+				break
+
+			current_c = ClassDB.get_parent_class(current_c)
+			if class_set.has(current_c):
+				break
+
+			class_set[current_c] = true
 
 	class_set.erase(null)
 	class_set.erase("Resource")
+
 	for k in class_set:
-		if k is String:
+		if k is StringName:
 			found_builtins.append(k)
 
 		if k is Script:
@@ -40,11 +59,15 @@ func fill(resources : Array):
 	node_options.add_item("<all>")
 	for x in found_builtins:
 		node_options.add_item(x)
-		node_options.set_item_icon(-1, get_theme_icon(x, "EditorIcons"))
+		if has_theme_icon(x, &"EditorIcons"):
+			node_options.set_item_icon(-1, get_theme_icon(x, &"EditorIcons"))
+
+		else:
+			node_options.set_item_icon(-1, get_theme_icon(&"Object", &"EditorIcons"))
 
 	for x in found_scripts:
 		node_options.add_item(x.resource_path.get_file().get_basename().to_pascal_case())
-		node_options.set_item_icon(-1, get_theme_icon("Script", "EditorIcons"))
+		node_options.set_item_icon(-1, get_theme_icon(&"Script", &"EditorIcons"))
 
 	node_options.add_item("")
 
