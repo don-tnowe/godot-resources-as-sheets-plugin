@@ -34,6 +34,9 @@ func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Lab
 	if value is Resource:
 		value = _resource_to_string(value, cell_label_mode)
 
+	if key is Resource:
+		key = _resource_to_string(key, cell_label_mode)
+
 	child.text = str(value)
 	child.self_modulate = (
 		Color.WHITE * (1.0 - color_tint)

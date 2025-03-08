@@ -36,7 +36,7 @@ func set_value(node : Control, value):
 			if current_key is Resource:
 				current_key = _resource_to_string(current_key, cell_label_mode)
 
-			_write_value_to_child("%s ◆ %s" % [current_key, current_value], keys[i], column_hints, children[i], color_tint, cell_label_mode)
+			_write_value_to_child("%s ◆ %s" % [current_key, current_value], current_key, column_hints, children[i], color_tint, cell_label_mode)
 
 
 func is_text():
