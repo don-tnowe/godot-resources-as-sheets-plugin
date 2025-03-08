@@ -54,12 +54,12 @@ func _input(event : InputEvent):
 	if !editor_view.has_focus() or selection.edited_cells.size() == 0:
 		return
 
-	if event.keycode == KEY_CTRL or event.keycode == KEY_SHIFT:
+	if event.keycode == KEY_CTRL or event.keycode == KEY_SHIFT or event.keycode == KEY_META:
 		# Modifier keys do not get processed.
 		return
 	
 	# Ctrl + Z (before, and instead of, committing the action!)
-	if Input.is_key_pressed(KEY_CTRL):
+	if event.is_command_or_control_pressed():
 		if event.keycode == KEY_Z or event.keycode == KEY_Y:
 			return
 
@@ -70,7 +70,7 @@ func _input(event : InputEvent):
 
 func _key_specific_action(event : InputEvent):
 	var column := selection.get_cell_column(selection.edited_cells[0])
-	var ctrl_pressed := Input.is_key_pressed(KEY_CTRL)
+	var ctrl_pressed : bool = event.is_command_or_control_pressed()
 
 	# BETWEEN-CELL NAVIGATION
 	var grid_move_offset := (10 if ctrl_pressed else 1)
