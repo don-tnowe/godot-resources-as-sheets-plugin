@@ -145,6 +145,7 @@ func _update_hidden_columns():
 		column_properties[current_path] = {
 			"resource_local_to_scene" : { &"visibility" : 0 },
 			"resource_name" : { &"visibility" : 0 },
+			"metadata/_custom_type_script" : { &"visibility" : 0 },
 		}
 		editor_view.save_data()
 
