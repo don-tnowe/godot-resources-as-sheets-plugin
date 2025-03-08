@@ -10,6 +10,7 @@ var sheet : Control
 var selection : Array
 
 var _resize_target_height := 0.0
+var _resize_pressed := false
 
 
 func _ready():
@@ -38,13 +39,12 @@ func resize_set_hidden(state : bool):
 
 
 func _on_header_gui_input(event : InputEvent):
-	if event is InputEventMouseMotion:
-		var pressed := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-		if pressed:
-			_resize_target_height -= event.relative.y
-			custom_minimum_size.y = clamp(_resize_target_height, 0.0, get_viewport().size.y * 0.75)
-			resize_drag(_resize_target_height)
-			resize_set_hidden(_resize_target_height <= $"Header".size.y)
+	if event is InputEventMouseMotion and _resize_pressed:
+		_resize_target_height -= event.relative.y
+		custom_minimum_size.y = clamp(_resize_target_height, 0.0, get_viewport().size.y * 0.75)
+		resize_drag(_resize_target_height)
+		resize_set_hidden(_resize_target_height <= $"Header".size.y)
 
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		_resize_pressed = event.pressed
 		_resize_target_height = custom_minimum_size.y
