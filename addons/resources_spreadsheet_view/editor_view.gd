@@ -286,16 +286,16 @@ func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName
 
 func compare_values(a, b) -> bool:
 	if a == null or b == null: return b == null
+	if a is float or a is int:
+		return a > b
+
 	if a is Color:
 		return a.h > b.h if a.h != b.h else a.v > b.v
 
 	if a is Resource:
 		return a.resource_path > b.resource_path
-	
-	if a is Array:
-		return a.size() > b.size()
-		
-	return a > b
+
+	return str(a) > str(b)
 
 
 func column_can_solo_open(column_index : int) -> bool:
