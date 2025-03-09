@@ -21,7 +21,7 @@ func _on_cell_gui_input(event : InputEvent, cell_node : Control):
 			selection.rightclick_cells()
 
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if Input.is_key_pressed(KEY_CTRL):
+			if event.is_command_or_control_pressed():
 				if cell in selection.edited_cells:
 					selection.deselect_cell(cell)
 
