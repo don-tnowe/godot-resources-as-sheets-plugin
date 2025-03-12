@@ -491,7 +491,7 @@ min_size = Vector2i(800, 400)
 ok_button_text = "Open"
 mode_overrides_title = false
 file_mode = 3
-filters = PackedStringArray("*.tres")
+filters = PackedStringArray("*.tres", "*.res")
 
 [node name="FileDialogText" type="FileDialog" parent="Control"]
 title = "Open or Create Text File"

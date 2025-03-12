@@ -25,21 +25,24 @@ func create_resource(entry) -> Resource:
 func duplicate_rows(rows : Array, name_input : String):
 	if rows.size() == 1:
 		var new_row = rows[0].duplicate()
-		new_row.resource_path = rows[0].resource_path.get_base_dir() + "/" + name_input + ".tres"
+		var res_extension := ".res" if rows[0].resource_path.ends_with(".res") else ".tres"
+		new_row.resource_path = rows[0].resource_path.get_base_dir() + "/" + name_input + res_extension
 		ResourceSaver.save(new_row)
 		return
 
 	var new_row
 	for x in rows:
 		new_row = x.duplicate()
-		new_row.resource_path = x.resource_path.get_basename() + name_input + ".tres"
+		var res_extension := ".res" if x.resource_path.ends_with(".res") else ".tres"
+		new_row.resource_path = x.resource_path.get_basename() + name_input + res_extension
 		ResourceSaver.save(new_row)
 
 
 func rename_row(row, new_name : String):
 	var new_row = row
 	DirAccess.open("res://").remove(row.resource_path)
-	new_row.resource_path = row.resource_path.get_base_dir() + "/" + new_name + ".tres"
+	var res_extension := ".res" if row.resource_path.ends_with(".res") else ".tres"
+	new_row.resource_path = row.resource_path.get_base_dir() + "/" + new_name + res_extension
 	ResourceSaver.save(new_row)
 
 
@@ -80,7 +83,7 @@ func import_from_path(folderpath : String, insert_func : Callable, sort_by : Str
 
 	var loaded_res_unique := {}
 	for x in file_stack:
-		if !x.ends_with(".tres"):
+		if !x.ends_with(".tres") and !x.ends_with(".res"):
 			continue
 
 		if solo_property.is_empty():

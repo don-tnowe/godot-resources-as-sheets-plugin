@@ -42,7 +42,7 @@ func _on_file_selected(path : String):
 
 	import_data = null
 	for x in DirAccess.get_files_at(path.get_base_dir()):
-		if !x.ends_with(".tres"):
+		if !x.ends_with(".tres") and !x.ends_with(".res"):
 			continue
 
 		var found_res := load(path.get_base_dir().path_join(x))

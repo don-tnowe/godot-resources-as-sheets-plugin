@@ -130,7 +130,7 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 	if folderpath.get_extension() == "":
 		folderpath = folderpath.trim_suffix("/") + "/"
 
-	if folderpath.ends_with(".tres") and !(load(folderpath) is ResourceTablesImport):
+	if (folderpath.ends_with(".tres") or folderpath.ends_with(".res")) and !(load(folderpath) is ResourceTablesImport):
 		folderpath = folderpath.get_base_dir() + "/"
 
 	node_recent_paths.add_path_to_recent(folderpath)
@@ -320,7 +320,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 	var current_node : Control
 	var next_color := Color.WHITE
 	var column_editors : Array = _selection.column_editors
-	var shortened_path : String = rows[row_index].resource_path.substr(current_path.length()).trim_suffix(".tres")
+	var shortened_path : String = rows[row_index].resource_path.substr(current_path.length()).trim_suffix(".tres").trim_suffix(".res")
 	for i in columns.size():
 		if node_table_root.get_child_count() <= (row_index - first_row) * columns.size() + i:
 			current_node = column_editors[i].create_cell(self)
