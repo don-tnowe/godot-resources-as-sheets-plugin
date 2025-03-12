@@ -22,10 +22,8 @@ var import_data : ResourceTablesImport
 func _ready():
 	hide()
 	show()
-	if get_parent().get("min_size"):
-		get_parent().min_size = Vector2(600, 400)
-
-	get_parent().size = Vector2(600, 400)
+	if get_parent().get("size"):
+		get_parent().size = Vector2(600, 400)
 	
 	file_dialog_use_script.file_selected.connect(_on_file_dialog_file_selected)
 
@@ -61,11 +59,16 @@ func _on_file_selected(path : String):
 	$"Import/Margins/Scroll/Box/StyleSettingsI"._send_signal()
 
 	if editor_view.rows.size() > 0:
-		script_path_field.text = editor_view.rows[0].get_script().resource_path
+		var using_script = editor_view.rows[0].get_script()
+		if using_script != null:
+			script_path_field.text = using_script.resource_path
 
 	await get_tree().process_frame
 	get_parent().popup_centered()
+	await get_tree().process_frame
+	get_parent().min_size = get_combined_minimum_size()
 	position = Vector2.ZERO
+	size = get_parent().size
 
 
 func _on_files_selected(paths : PackedStringArray):
