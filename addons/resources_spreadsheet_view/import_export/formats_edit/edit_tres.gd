@@ -39,10 +39,14 @@ func duplicate_rows(rows : Array, name_input : String):
 
 
 func rename_row(row, new_name : String):
+	var res_extension : String = ".res" if row.resource_path.ends_with(".res") else ".tres"
+	var new_path : String = row.resource_path.get_base_dir() + "/" + new_name + res_extension
+	while FileAccess.file_exists(new_path):
+		new_path = new_path.trim_suffix(res_extension) + "_copy" + res_extension
+
 	var new_row = row
 	DirAccess.open("res://").remove(row.resource_path)
-	var res_extension := ".res" if row.resource_path.ends_with(".res") else ".tres"
-	new_row.resource_path = row.resource_path.get_base_dir() + "/" + new_name + res_extension
+	new_row.resource_path = new_path
 	ResourceSaver.save(new_row)
 
 

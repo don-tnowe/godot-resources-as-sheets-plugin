@@ -220,7 +220,7 @@ func fill_property_data(res : Resource):
 	var column_values := []
 	var i := -1
 	for x in res.get_property_list():
-		if x[&"usage"] & PROPERTY_USAGE_EDITOR != 0 and x[&"name"] != "script":
+		if can_display_property(x):
 			i += 1
 			columns.append(x[&"name"])
 			column_types.append(x[&"type"])
@@ -256,7 +256,7 @@ func fill_property_data_many(resources : Array):
 
 	i = -1
 	for x in found_props.values():
-		if x[&"usage"] & PROPERTY_USAGE_EDITOR != 0 and x[&"name"] != "script":
+		if can_display_property(x):
 			i += 1
 			columns.append(x[&"name"])
 			column_types.append(x[&"type"])
@@ -265,6 +265,16 @@ func fill_property_data_many(resources : Array):
 			column_values.append(io.get_value(x[&"owner_object"], columns[i]))
 
 	_selection.initialize_editors(column_values, column_types, column_hints)
+
+
+func can_display_property(property_info : Dictionary):
+	var prop_type : int = property_info[&"type"]
+	return (
+		prop_type != TYPE_CALLABLE
+		and prop_type != TYPE_SIGNAL
+		and property_info[&"usage"] & PROPERTY_USAGE_EDITOR != 0
+		and property_info[&"name"] != "script"
+	)
 
 
 func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName, sort_reverse : bool):
@@ -295,7 +305,7 @@ func compare_values(a, b) -> bool:
 	if a is Resource:
 		return a.resource_path > b.resource_path
 
-	return str(a) > str(b)
+	return str(a).filenocasecmp_to(str(b)) > 0
 
 
 func column_can_solo_open(column_index : int) -> bool:
