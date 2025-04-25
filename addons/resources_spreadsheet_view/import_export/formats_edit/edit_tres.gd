@@ -9,8 +9,24 @@ func get_value(entry, key : String):
 
 
 func set_value(entry, key : String, value, index : int):
-	entry[key] = value
+	var prev_value = entry[key]
+	if prev_value is StringName:
+		entry[key] = StringName(value)
+		return
 
+	if prev_value is String:
+		entry[key] = String(value)
+		return
+
+	if prev_value is float:
+		entry[key] = float(value)
+		return
+
+	if prev_value is int:
+		entry[key] = int(value)
+		return
+
+	entry[key] = value
 
 func save_entries(all_entries : Array, indices : Array, repeat : bool = true):
 	# No need to save. Resources are saved with Ctrl+S
