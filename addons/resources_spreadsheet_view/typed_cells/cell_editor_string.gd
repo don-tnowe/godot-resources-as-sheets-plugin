@@ -7,11 +7,15 @@ func create_cell(caller : Control) -> Control:
 	return cell_scene
 
 func _resize_text(cell: Label):
-	if cell.text.length() <= 65:
-		cell.autowrap_mode = TextServer.AUTOWRAP_OFF
-	else:
+	var string_size = cell.get_theme_font("font").get_string_size(cell.text, HORIZONTAL_ALIGNMENT_LEFT, -1, cell.get_theme_font_size("normal_font_size"))
+	var string_width = string_size.x
+	var max_column_width = DisplayServer.window_get_size().x / 3
+	if string_width >= max_column_width:
 		cell.autowrap_mode = TextServer.AUTOWRAP_WORD
-		cell.custom_minimum_size.x = 350
+		cell.custom_minimum_size.x = 500
+	else:
+		cell.autowrap_mode = TextServer.AUTOWRAP_OFF
+		cell.custom_minimum_size.x = 24
 
 func to_text(value) -> String:
 	return str(value)
