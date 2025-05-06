@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b3a3bo6cfyh5t"]
 
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.gd" id="1"]
+[ext_resource type="Script" uid="uid://dfppy02g553ys" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.gd" id="1"]
 
 [node name="EditColor" type="VBoxContainer"]
 offset_bottom = 131.0

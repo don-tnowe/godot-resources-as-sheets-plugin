@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="UpgradeData" load_steps=3 format=3 uid="uid://dys7hpijn82t0"]
 
 [ext_resource type="Texture2D" uid="uid://c3bx6kf7frbwk" path="res://example/Random Upgrades/icons/all_icons/all_icons_1.tres" id="1"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
+[ext_resource type="Script" uid="uid://dal80o4tjrktw" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
 
 [resource]
 resource_name = "Upgrade: Health"

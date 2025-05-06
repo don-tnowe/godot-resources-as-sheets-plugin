@@ -1,9 +1,9 @@
 [gd_resource type="Resource" load_steps=5 format=3 uid="uid://c1mrcevxrm5kv"]
 
 [ext_resource type="PackedScene" uid="uid://b4cix5ebtpdbf" path="res://example/Random Upgrades/new scene.tscn" id="1_gppwv"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_ldwst"]
+[ext_resource type="Script" uid="uid://dk08sbdai3pem" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_ldwst"]
 [ext_resource type="Texture2D" uid="uid://d38giyxvkhl6g" path="res://example/Random Upgrades/icons/all_icons/all_icons_3.tres" id="1_lir0x"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="3_8w1k7"]
+[ext_resource type="Script" uid="uid://dal80o4tjrktw" path="res://example/Random Upgrades/upgrade_data.gd" id="3_8w1k7"]
 
 [resource]
 resource_name = "Weapon: Giga Sword"

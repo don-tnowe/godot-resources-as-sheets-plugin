@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckhf3bqy2rqjr"]
 
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/import_export_enum_format.gd" id="1"]
+[ext_resource type="Script" uid="uid://cmbs7j2rx0xa3" path="res://addons/resources_spreadsheet_view/import_export/import_export_enum_format.gd" id="1"]
 
 [node name="EnumFormat" type="GridContainer"]
 columns = 2

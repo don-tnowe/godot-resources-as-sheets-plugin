@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dhunxgcae6h1"]
 
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="1_s8s2f"]
+[ext_resource type="Script" uid="uid://8topi2360xak" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="1_s8s2f"]
 
 [node name="Settings" type="ScrollContainer"]
 anchors_preset = 15

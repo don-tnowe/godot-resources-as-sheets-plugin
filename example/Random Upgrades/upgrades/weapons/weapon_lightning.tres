@@ -1,8 +1,8 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://b0kdw067vtgvn"]
 
 [ext_resource type="Texture2D" uid="uid://cluvoehgeqmcu" path="res://example/Random Upgrades/icons/all_icons/all_icons_4.tres" id="1_jsyxk"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_yjf8q"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2_dskpw"]
+[ext_resource type="Script" uid="uid://dk08sbdai3pem" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_yjf8q"]
+[ext_resource type="Script" uid="uid://dal80o4tjrktw" path="res://example/Random Upgrades/upgrade_data.gd" id="2_dskpw"]
 
 [resource]
 resource_name = "Weapon: Lightning"

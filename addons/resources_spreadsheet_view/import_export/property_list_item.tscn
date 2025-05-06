@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b8llymigbprh6"]
 
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/import_export/property_list_item.gd" id="1"]
+[ext_resource type="Script" uid="uid://c0j7uonbiyaox" path="res://addons/resources_spreadsheet_view/import_export/property_list_item.gd" id="1"]
 
 [node name="Entry" type="HBoxContainer"]
 script = ExtResource("1")

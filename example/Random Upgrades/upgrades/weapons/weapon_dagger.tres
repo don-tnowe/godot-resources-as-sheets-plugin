@@ -1,8 +1,8 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://cux4x0qopwiqk"]
 
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_birsa"]
+[ext_resource type="Script" uid="uid://dk08sbdai3pem" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_birsa"]
 [ext_resource type="Texture2D" uid="uid://d38giyxvkhl6g" path="res://example/Random Upgrades/icons/all_icons/all_icons_3.tres" id="1_sx5xe"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2_po4ym"]
+[ext_resource type="Script" uid="uid://dal80o4tjrktw" path="res://example/Random Upgrades/upgrade_data.gd" id="2_po4ym"]
 
 [resource]
 resource_name = "Weapon: Daggers"

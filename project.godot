@@ -27,7 +27,7 @@ resources_spreadsheet_view/freeze_first_column=true
 [application]
 
 config/name="Addon: Resources as Tables"
-config/features=PackedStringArray("4.3")
+config/features=PackedStringArray("4.4")
 
 [editor_plugins]
 

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="UpgradeData" load_steps=4 format=3 uid="uid://bn0r0bvk8fylt"]
 
 [ext_resource type="Texture2D" uid="uid://dfpwu4ra3fxgx" path="res://example/Random Upgrades/icons/all_icons/all_icons_2.tres" id="1_fy5ui"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2_gfl7s"]
+[ext_resource type="Script" uid="uid://dal80o4tjrktw" path="res://example/Random Upgrades/upgrade_data.gd" id="2_gfl7s"]
 [ext_resource type="Resource" uid="uid://c6hsg3j74vm56" path="res://example/Random Upgrades/upgrades/up_strength.tres" id="3_5v8xn"]
 
 [resource]

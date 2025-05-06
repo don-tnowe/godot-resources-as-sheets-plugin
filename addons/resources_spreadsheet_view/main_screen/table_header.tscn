@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d1s6oihqedvo5"]
 
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/main_screen/table_header.gd" id="1_5fd1m"]
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="2_0ymob"]
+[ext_resource type="Script" uid="uid://dxcn2ds2d4qcx" path="res://addons/resources_spreadsheet_view/main_screen/table_header.gd" id="1_5fd1m"]
+[ext_resource type="Script" uid="uid://dyxdmrhopt5i0" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="2_0ymob"]
 
 [node name="Header" type="HBoxContainer"]
 offset_right = 179.0

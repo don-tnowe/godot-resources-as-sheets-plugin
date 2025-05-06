@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="UpgradeData" load_steps=7 format=3 uid="uid://2totlbwc40e8"]
 
 [ext_resource type="Texture2D" uid="uid://djjpa8lluue1g" path="res://example/Random Upgrades/icons/all_icons/all_icons_5.tres" id="1_ardng"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
+[ext_resource type="Script" uid="uid://dal80o4tjrktw" path="res://example/Random Upgrades/upgrade_data.gd" id="2"]
 [ext_resource type="Resource" uid="uid://rjxr4qtfc6qd" path="res://example/Random Upgrades/upgrades/weapons/weapon_fireball.tres" id="2_485ad"]
 [ext_resource type="Resource" uid="uid://djqq1lqaevth5" path="res://example/Random Upgrades/upgrades/weapons/weapon_blizzard.tres" id="3_xnxxn"]
 [ext_resource type="Resource" uid="uid://b0kdw067vtgvn" path="res://example/Random Upgrades/upgrades/weapons/weapon_lightning.tres" id="4_kn0kg"]

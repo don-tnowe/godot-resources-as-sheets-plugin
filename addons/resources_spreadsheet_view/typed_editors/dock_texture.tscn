@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://rww3gpl052bn"]
 
-[ext_resource type="Script" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.gd" id="1"]
+[ext_resource type="Script" uid="uid://b2fvr6tswpfxc" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.gd" id="1"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_h3mns"]
 

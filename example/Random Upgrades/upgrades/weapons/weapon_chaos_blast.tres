@@ -1,9 +1,9 @@
 [gd_resource type="Resource" load_steps=5 format=3 uid="uid://60buw33oe30f"]
 
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_02in4"]
+[ext_resource type="Script" uid="uid://dk08sbdai3pem" path="res://example/Random Upgrades/upgrade_data_weapon.gd" id="1_02in4"]
 [ext_resource type="Texture2D" uid="uid://cluvoehgeqmcu" path="res://example/Random Upgrades/icons/all_icons/all_icons_4.tres" id="1_6lnsr"]
 [ext_resource type="PackedScene" uid="uid://b4cix5ebtpdbf" path="res://example/Random Upgrades/new scene.tscn" id="1_xh6ym"]
-[ext_resource type="Script" path="res://example/Random Upgrades/upgrade_data.gd" id="3_o4xc8"]
+[ext_resource type="Script" uid="uid://dal80o4tjrktw" path="res://example/Random Upgrades/upgrade_data.gd" id="3_o4xc8"]
 
 [resource]
 resource_name = "Weapon: Chaos Blast"
