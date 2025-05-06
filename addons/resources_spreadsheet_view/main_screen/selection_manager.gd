@@ -54,7 +54,20 @@ func _draw():
 	var newline_char := 10
 	for i in edited_cells.size():
 		var cell : Control = get_cell_node_from_position(edited_cells[i])
-		var caret_rect := TextEditingUtilsClass.get_caret_rect(edited_cells_text[i], edit_cursor_positions[i], font, font_size, label_padding_left, 1.0)
+		var caret_rect := Rect2()
+		if cell.has_method(&"get_character_bounds"):
+			if edited_cells_text[i].length() == edit_cursor_positions[i]:
+				caret_rect = cell.get_character_bounds(edit_cursor_positions[i] - 1)
+				caret_rect.position.x += caret_rect.size.x
+
+			else:
+				caret_rect = cell.get_character_bounds(edit_cursor_positions[i])
+
+			caret_rect.size.x = 1.0
+
+		else:
+			caret_rect = TextEditingUtilsClass.get_caret_rect(edited_cells_text[i], edit_cursor_positions[i], font, font_size, label_padding_left, 1.0)
+
 		caret_rect.position += cell.global_position - global_position
 		draw_rect(caret_rect, caret_color)
 
