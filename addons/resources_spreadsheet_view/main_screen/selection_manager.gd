@@ -295,7 +295,7 @@ func _try_open_docks(cell : Vector2i):
 		x.get_node(x.path_property_name).text = column
 
 
-func _on_inspector_property_edited(property : String):
+func _on_inspector_property_edited(property : StringName):
 	if !editor_view.is_visible_in_tree(): return
 	if inspector_resource != editor_view.editor_plugin.get_editor_interface().get_inspector().get_edited_object():
 		return
@@ -308,9 +308,13 @@ func _on_inspector_property_edited(property : String):
 		for i in previously_edited.size():
 			_add_cell_to_selection(Vector2i(new_column, previously_edited[i].y))
 
+	var new_value = inspector_resource[property]
 	var values := []
 	values.resize(edited_cells.size())
-	values.fill(inspector_resource[property])
+	values.fill(new_value)
+	if new_value is Resource and new_value.resource_path == "":
+		for i in values.size():
+			values[i] = new_value.duplicate()
 
 	editor_view.set_edited_cells_values.call_deferred(values)
 	_try_open_docks(edited_cells[0])
