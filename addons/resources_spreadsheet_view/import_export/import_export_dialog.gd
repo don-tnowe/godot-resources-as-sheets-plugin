@@ -188,8 +188,10 @@ func _on_import_edit_pressed():
 func _on_export_csv_pressed():
 	var exported_cols : Array = editor_view.columns.duplicate()
 	exported_cols.erase(&"resource_local_to_scene")
-	for x in editor_view.node_columns.hidden_columns[editor_view.current_path].keys():
-		exported_cols.erase(x)
+	var column_properties : Dictionary = editor_view.node_columns.column_properties[editor_view.current_path]
+	for k in column_properties:
+		if column_properties[k].get(&"visibility", 1.0) == 0.0:
+			exported_cols.erase(k)
 
 	ResourceTablesExportFormatCsv.export_to_file(editor_view.rows, exported_cols, import_data.edited_path, import_data)
 	await get_tree().process_frame
