@@ -19,7 +19,7 @@ var hidden_columns := {}:
 			for k_column in column_properties[k_path]:
 				for k_property in column_properties[k_path][k_column]:
 					if k_property == &"visibility" && [k_property]:
-						result[k_column] = true
+						result[k_path][k_column] = true
 
 		return result
 var column_properties := {}
