@@ -136,16 +136,27 @@ func property_to_string(value, col_index : int) -> String:
 			return value.resource_path
 
 		PropType.COLLECTION:
-			value = value.duplicate()
 			if value is Array:
+				var new_value := []
+				new_value.resize(value.size())
 				for i in value.size():
+					new_value[i] = value[i]
 					if value[i] is Resource:
-						value[i] = value[i].resource_path
+						new_value[i] = value[i].resource_path
+
+				value = new_value
 
 			if value is Dictionary:
+				var new_value := {}
 				for k in value:
+					new_value[k] = value[k]
 					if value[k] is Resource:
-						value[k] = value[k].resource_path
+						new_value[k] = value[k].resource_path
+
+					if k is Resource:
+						new_value[k.resource_path] = new_value[k]
+
+				value = new_value
 
 			return str(value)
 
@@ -348,8 +359,8 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 		# This is awful, but the workaround for typed casting
 		# 	https://github.com/godotengine/godot/issues/72620
 		var property_value = string_to_property(strings[i], i)
-		if property_value is Array:
-			var property_value_as_typed := new_res.get(prop_names[i])
+		if property_value is Array or property_value is Dictionary:
+			var property_value_as_typed = new_res.get(prop_names[i])
 			property_value_as_typed.assign(property_value)
 			new_res.set(prop_names[i], property_value_as_typed)
 
