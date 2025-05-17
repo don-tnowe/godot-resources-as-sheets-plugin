@@ -14,7 +14,7 @@ enum Attributes {
 @export var color1 := Color.WHITE
 @export var max_duplicates := 0
 @export var tags : Array[String]
-@export_enum("Weapon", "Passive", "Mastery") var type := 0
+@export_enum("Weapon:0", "Passive:1", "Mastery:16") var type := 0
 @export var attributes : Array[Attributes]
 @export var icon : Texture
 @export var custom_scene : PackedScene

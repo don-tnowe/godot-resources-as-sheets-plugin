@@ -61,9 +61,6 @@ func save():
 
 
 func string_to_property(string : String, col_index : int):
-	if prop_types[col_index] is PackedStringArray:
-		return prop_types[col_index].find(string)
-
 	match prop_types[col_index]:
 		PropType.STRING:
 			return string
@@ -91,6 +88,9 @@ func string_to_property(string : String, col_index : int):
 				return int(uniques[col_index]["N_A"])
 
 			else:
+				if !uniques.has(col_index):
+					return -1
+
 				return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
 				# if string.is_valid_int():
 				# 	return int(uniques[col_index][string.capitalize().replace(" ", "_").to_upper()])
@@ -119,9 +119,6 @@ func string_to_property(string : String, col_index : int):
 
 func property_to_string(value, col_index : int) -> String:
 	if value == null: return ""
-	if prop_types[col_index] is PackedStringArray:
-		return prop_types[col_index][value].capitalize()
-
 	match prop_types[col_index]:
 		PropType.STRING:
 			return str(value)
@@ -299,8 +296,6 @@ func load_property_names_from_textfile(path : String, loaded_entries : Array):
 			prop_types[i] = ResourceTablesImport.PropType.STRING
 			enums_exist = true
 
-	uniques = get_uniques(loaded_entries)
-
 
 func load_external_script(script_res : Script):
 	new_script = script_res
@@ -326,8 +321,6 @@ func load_external_script(script_res : Script):
 
 			else:
 				result_for_prop[cur_value.to_upper()] = result_for_prop.size()
-
-	uniques = result
 
 
 func strings_to_resource(strings : Array, destination_path : String) -> Resource:
@@ -420,26 +413,34 @@ static func change_name_to_format(name : String, case : int, delim : String):
 		return string.to_upper()
 
 
-static func get_resource_property_types(res : Resource, properties : Array) -> Array:
-	var result := []
+static func get_resource_property_types(res : Resource, properties : Array, uniques : Dictionary) -> Array:
+	var result : Array[PropType] = []
 	result.resize(properties.size())
 	result.fill(PropType.STRING)
 	var cur_type := 0
 	for x in res.get_property_list():
-		var found := properties.find(x["name"])
-		if found == -1: continue
-		if x["usage"] & PROPERTY_USAGE_EDITOR != 0:
-			if x["hint"] == PROPERTY_HINT_ENUM:
-				
-				var enum_values : PackedStringArray = x["hint_string"].split(",")
+		var poroperty_index := properties.find(x[&"name"])
+		if poroperty_index == -1: continue
+		if x[&"usage"] & PROPERTY_USAGE_EDITOR != 0:
+			if x[&"hint"] == PROPERTY_HINT_ENUM:
+				var enum_values : PackedStringArray = x[&"hint_string"].split(",")
+				var enum_value_dict := {}
+				var max_enum_value := 0
 				for i in enum_values.size():
 					var index_found : int = enum_values[i].find(":")
-					if index_found == -1: continue
-					enum_values[i] = enum_values[i].left(index_found)
+					if index_found == -1:
+						enum_value_dict[enum_values[i].to_upper()] = max_enum_value
+						max_enum_value += 1
+						continue
 
-				result[found] = enum_values
+					var k = enum_values[i].left(index_found).to_upper()
+					var v = enum_values[i].right(index_found + 1).to_int()
+					enum_value_dict[k] = v
+
+				uniques[poroperty_index] = enum_value_dict
+				result[poroperty_index] = PropType.ENUM
 
 			else:
-				result[found] = TYPE_MAP.get(x["type"], PropType.STRING)
+				result[poroperty_index] = TYPE_MAP.get(x[&"type"], PropType.STRING)
 	
 	return result

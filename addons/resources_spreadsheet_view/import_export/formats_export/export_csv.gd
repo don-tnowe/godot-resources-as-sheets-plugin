@@ -10,9 +10,11 @@ static func export_to_file(entries_array : Array, column_names : Array, into_pat
 	var file := FileAccess.open(into_path, FileAccess.WRITE)
 
 	var line := PackedStringArray()
+	var uniques := {}
 	var space_after_delimiter := import_data.delimeter.ends_with(" ")
 	import_data.prop_names = column_names
-	import_data.prop_types = import_data.get_resource_property_types(entries_array[0], column_names)
+	import_data.prop_types = import_data.get_resource_property_types(entries_array[0], column_names, uniques)
+	import_data.uniques = uniques
 	import_data.resource_path = ""
 	line.resize(column_names.size())
 	if import_data.remove_first_row:

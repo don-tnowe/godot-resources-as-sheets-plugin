@@ -110,7 +110,9 @@ func _create_new_settings_file(textfile_path : String):
 	import_data.script_classname = classname_field.text
 	if script_path_field.text:
 		var existing_resource : Resource = load(script_path_field.text).new()
-		import_data.prop_types = ResourceTablesImport.get_resource_property_types(existing_resource, import_data.prop_names)
+		var uniques := {}
+		import_data.prop_types = ResourceTablesImport.get_resource_property_types(existing_resource, import_data.prop_names, uniques)
+		import_data.uniques = uniques
 
 	else:
 		import_data.load_property_names_from_textfile(textfile_path, entries)
