@@ -61,6 +61,9 @@ func save():
 
 
 func string_to_property(string : String, col_index : int):
+	if prop_types[col_index] is PackedStringArray:
+		return prop_types[col_index].find(string)
+
 	match prop_types[col_index]:
 		PropType.STRING:
 			return string
@@ -268,6 +271,7 @@ func generate_script(entries, has_classname = true) -> GDScript:
 func load_property_names_from_textfile(path : String, loaded_entries : Array):
 	prop_types.resize(prop_names.size())
 	prop_types.fill(4)
+	var enums_exist := false
 	for i in prop_names.size():
 		prop_names[i] = loaded_entries[0][i]\
 			.replace("\"", "")\
@@ -293,6 +297,9 @@ func load_property_names_from_textfile(path : String, loaded_entries : Array):
 			prop_types[i] = ResourceTablesImport.PropType.COLOR
 		else:
 			prop_types[i] = ResourceTablesImport.PropType.STRING
+			enums_exist = true
+
+	uniques = get_uniques(loaded_entries)
 
 
 func load_external_script(script_res : Script):
@@ -353,12 +360,9 @@ func strings_to_resource(strings : Array, destination_path : String) -> Resource
 		new_res.resource_path = new_path
 
 	for i in mini(prop_names.size(), strings.size()):
-		var skip_next := false
-		var cast_array := false
-
+		var property_value = string_to_property(strings[i], i)
 		# This is awful, but the workaround for typed casting
 		# 	https://github.com/godotengine/godot/issues/72620
-		var property_value = string_to_property(strings[i], i)
 		if property_value is Array or property_value is Dictionary:
 			var property_value_as_typed = new_res.get(prop_names[i])
 			property_value_as_typed.assign(property_value)
@@ -385,7 +389,7 @@ func resource_to_strings(res : Resource):
 func get_uniques(entries : Array) -> Dictionary:
 	var result := {}
 	for i in prop_types.size():
-		if prop_types[i] == PropType.ENUM:
+		if prop_types[i] is PropType and prop_types[i] == PropType.ENUM:
 			var cur_value := ""
 			result[i] = {}
 			for j in entries.size():
