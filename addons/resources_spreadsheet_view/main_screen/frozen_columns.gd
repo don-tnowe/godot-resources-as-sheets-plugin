@@ -32,7 +32,7 @@ func _on_grid_updated() -> void:
 	await get_tree().process_frame
 
 	var first_visible_column := 0
-	for i in grid.columns:
+	for i in editor_view.columns.size():
 		if grid.get_child(i).visible:
 			first_visible_column = i
 			break
