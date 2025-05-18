@@ -66,7 +66,7 @@ Made by Don Tnowe in 2022.
 
 **Need help or want to chat? Message me!** [Telegram](https://t.me/don_tnowe), [Discord](https://discord.com/channels/@me/726139164566880426)
 
-**Did this tool help you so much you'd like to give back?** [Donate via Ko-Fi!](https://ko-fi.com/don_tnowe)
+**Did this tool help you so much you'd like to give back?** [Donate via PayPal!](https://redbladegames.netlify.app/tip/index.html)
 
 #
 
