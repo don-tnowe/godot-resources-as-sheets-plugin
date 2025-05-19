@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://5pic6fxx6et3"]
+[gd_scene load_steps=34 format=3 uid="uid://5pic6fxx6et3"]
 
 [ext_resource type="Script" uid="uid://5xo17ra4i37j" path="res://addons/resources_spreadsheet_view/editor_view.gd" id="1_wfx75"]
 [ext_resource type="Script" uid="uid://duxju2vxsk50o" path="res://addons/resources_spreadsheet_view/editor_color_setter.gd" id="2_t2s7k"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://c3a2cip8ffccv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_array.tscn" id="9_nts08"]
 [ext_resource type="PackedScene" uid="uid://b3a3bo6cfyh5t" path="res://addons/resources_spreadsheet_view/typed_editors/dock_color.tscn" id="10_nsma2"]
 [ext_resource type="Script" uid="uid://dwf6rnqofdagb" path="res://addons/resources_spreadsheet_view/main_screen/frozen_columns.gd" id="10_vb62w"]
+[ext_resource type="Script" uid="uid://dky1oatlfcbuf" path="res://addons/resources_spreadsheet_view/main_screen/custom_grid_container.gd" id="10_x4vo1"]
 [ext_resource type="PackedScene" uid="uid://gtbf7b0wptv" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.tscn" id="11_q1ao4"]
 [ext_resource type="PackedScene" uid="uid://rww3gpl052bn" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.tscn" id="12_4kr6q"]
 [ext_resource type="PackedScene" uid="uid://dhunxgcae6h1" path="res://addons/resources_spreadsheet_view/settings_grid.tscn" id="13_as1sh"]
@@ -417,10 +418,9 @@ size_flags_vertical = 3
 [node name="MarginContainer" type="MarginContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll"]
 layout_mode = 2
 
-[node name="TableGrid" type="GridContainer" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer"]
+[node name="TableGrid" type="Container" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+script = ExtResource("10_x4vo1")
 
 [node name="Label" type="Label" parent="HeaderContentSplit/MarginContainer/FooterContentSplit/Panel"]
 self_modulate = Color(1, 1, 1, 0.498039)

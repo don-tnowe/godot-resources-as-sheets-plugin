@@ -7,7 +7,7 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 
 @onready var editor_view : Control = $"../../../.."
 @onready var hide_columns_button : MenuButton = $"../../MenuStrip/VisibleCols"
-@onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
+@onready var grid : Container = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 
 
 var hidden_columns := {}:
@@ -37,6 +37,7 @@ var columns := []:
 			add_child(new_node)
 			new_node.set_label(x)
 			new_node.get_node("Button").pressed.connect(editor_view._set_sorting.bind(x))
+			_update_column_sizes()
 
 
 func _ready():
@@ -104,37 +105,31 @@ func _update_column_sizes():
 		return
 	
 	var clip_text : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "clip_headers")
-	var min_width := 0
-	var cell : Control
-
+	var visible_column_minsizes : Array[float] = []
 	for i in column_headers.size():
 		var header = column_headers[i]
-		cell = grid.get_child(i)
+		if header.visible:
+			header.get_child(0).clip_text = clip_text
+			visible_column_minsizes.append(header.get_combined_minimum_size().x)
 
-		header.get_child(0).clip_text = clip_text
-		header.custom_minimum_size.x = 0
-		cell.custom_minimum_size.x = 0
-		header.size.x = 0
-
-		min_width = max(header.size.x, cell.size.x)
-		header.custom_minimum_size.x = min_width
-		cell.custom_minimum_size.x = header.get_minimum_size().x
-		header.size.x = min_width
-
-	grid.hide()
-	grid.show()
-	hide()
-	show()
+	grid.visible_column_minsizes = visible_column_minsizes
 	await get_tree().process_frame
 
 	# Abort if the node has been deleted since.
 	if !is_instance_valid(column_headers[0]):
 		return
 
-	get_parent().custom_minimum_size.y = column_headers[0].size.y
-	for i in column_headers.size():
-		column_headers[i].position.x = grid.get_child(i).position.x
-		column_headers[i].size.x = grid.get_child(i).size.x
+	get_parent().custom_minimum_size.y = column_headers[0].get_combined_minimum_size().y
+	var column_positions : Array = grid.visible_column_positions
+	var i := 0
+	for x in column_headers:
+		if !x.visible:
+			continue
+
+		var pos : float = column_positions[i]
+		x.position.x = pos
+		x.size.x = column_positions[i + 1] - pos
+		i += 1
 
 
 func _update_hidden_columns():
@@ -158,8 +153,6 @@ func _update_hidden_columns():
 
 		if column_visible:
 			visible_column_count += 1
-
-	grid.columns = maxi(visible_column_count, 1)
 
 
 func _on_h_scroll_changed(value):
