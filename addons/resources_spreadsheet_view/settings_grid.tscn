@@ -81,7 +81,7 @@ text = "Enable"
 [node name="Label5" type="Label" parent="RichTextLabel/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Duplicate arrays on edit (slower, but can be undone)"
+text = "Duplicate arrays on edit (slower, but allows undo)"
 autowrap_mode = 2
 
 [node name="DupeArrays" type="CheckBox" parent="RichTextLabel/GridContainer"]
@@ -113,7 +113,7 @@ text = "Enable"
 [node name="Label10" type="Label" parent="RichTextLabel/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Resources in cells (allow viewing _to_string() override's result)"
+text = "Resources in cells (allow viewing _to_string() override's result, ONLY WORKS for scripts with @tool annotation)"
 autowrap_mode = 2
 
 [node name="ResourceCellLabelMode" type="OptionButton" parent="RichTextLabel/GridContainer"]
