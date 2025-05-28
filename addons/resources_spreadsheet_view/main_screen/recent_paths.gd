@@ -15,7 +15,7 @@ func load_paths(paths):
 	for x in paths:
 		add_path_to_recent(x, true)
 
-	selected = 0
+	selected = recent_paths.size() - 1
 
 
 func add_path_to_recent(path : String, is_loading : bool = false):
