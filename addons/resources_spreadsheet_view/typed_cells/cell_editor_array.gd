@@ -38,11 +38,10 @@ func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Lab
 		key = _resource_to_string(key, cell_label_mode)
 
 	child.text = str(value)
-	child.self_modulate = (
-		Color.WHITE * (1.0 - color_tint)
-		+
-		(Color(str(key).hash()) + Color(0.2, 0.2, 0.2, 1.0)) * color_tint
-	)
+	var color : Color = Color.WHITE * (1.0 - color_tint) + (Color(str(key).hash()) + Color(0.2, 0.2, 0.2, 1.0)) * color_tint
+	if color.v < 0.8:
+		color = color.lightened(0.5)
+	child.self_modulate = color
 
 
 static func _resource_to_string(res : Resource, cell_label_mode : int):
