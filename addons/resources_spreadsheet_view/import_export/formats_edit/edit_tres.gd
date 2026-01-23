@@ -41,7 +41,7 @@ func create_resource(entry) -> Resource:
 func duplicate_rows(rows : Array, name_input : String):
 	var new_path := ""
 	if rows.size() == 1:
-		var new_row = rows[0].duplicate()
+		var new_row = rows[0].duplicate(true)
 		var res_extension := ".res" if rows[0].resource_path.ends_with(".res") else ".tres"
 		new_path = rows[0].resource_path.get_base_dir() + "/" + name_input + res_extension
 		while ResourceLoader.exists(new_path):
@@ -53,7 +53,7 @@ func duplicate_rows(rows : Array, name_input : String):
 
 	var new_row
 	for x in rows:
-		new_row = x.duplicate()
+		new_row = x.duplicate(true)
 		var res_extension := ".res" if x.resource_path.ends_with(".res") else ".tres"
 		new_path = x.resource_path.get_basename() + name_input + res_extension
 		while ResourceLoader.exists(new_path):
