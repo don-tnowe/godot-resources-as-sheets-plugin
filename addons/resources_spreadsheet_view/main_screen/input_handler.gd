@@ -136,7 +136,10 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 	var num_columns := editor_view.columns.size()
 	var num_rows := editor_view.rows.size()
 	var new_child_pos := Vector2i(0, 0)
+
+	var removed_cells = 0
 	for i in selected_cells.size():
+		i -= removed_cells
 		new_child_pos = selected_cells[i]
 		for move_count in 1000:
 			if move_v != 0 and (new_child_pos.y + move_v >= num_rows or new_child_pos.y + move_v < 0):
@@ -160,7 +163,18 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 			if selection.get_cell_node_from_position(new_child_pos).is_visible_in_tree():
 				break
 
-		selected_cells[i] = new_child_pos
+		# This handles removing duplicate cells if a multicell selection is moved off of the edge
+		# of the grid
+		var removed = false
+		for x in i:
+			if selected_cells[x] == new_child_pos:
+				selected_cells.remove_at(i)
+				removed_cells += 1
+				removed = true
+				break
+		if !removed:
+			selected_cells[i] = new_child_pos
+	
 
 	editor_view.grab_focus()
 	selection.deselect_all_cells()
