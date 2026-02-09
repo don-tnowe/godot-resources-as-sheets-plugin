@@ -26,7 +26,7 @@ func set_value(node : Control, value):
 	var values : Array = value.values()
 	var keys : Array = value.keys()
 
-	if values[0] is int || values[1] is int:
+	if values.size() >= 2 && (values[0] is int || values[1] is int):
 		# When a value is an enum, the dictionary is always types, so all keys/values are same type.
 		for x in column_hints:
 			if x.begins_with("2/2:") || x.find("2/2:") != -1:
