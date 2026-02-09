@@ -17,11 +17,13 @@ const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/
 var edited_cells : Array = []
 var edited_cells_text : Array = []
 var edit_cursor_positions : Array[int] = []
+var old_edit_cursor_positions : Array[int] = []
 
 var all_cell_editors : Array = []
 var column_editors : Array[Object] = []
 var inspector_resource : Resource
 
+var clipboard : Array
 
 func _ready():
 	# Load cell editors and instantiate them
@@ -82,6 +84,14 @@ func initialize_editors(column_values, column_types, column_hints):
 				break
 
 
+# Helper function for undo-redo in editor_view.gd
+func set_selection(selection : Array, cursor_positions : Array[int]):
+	deselect_all_cells()
+	select_cells(selection)
+	edit_cursor_positions = cursor_positions
+	_selection_changed()
+
+
 func deselect_all_cells():
 	_set_visible_selected(false)
 	edited_cells.clear()
@@ -125,9 +135,6 @@ func select_cells(cells : Array):
 			_add_cell_to_selection(x)
 			if get_cell_node_from_position(x) != null:
 				last_selectible = x
-
-	if last_selectible != Vector2i(-1, -1):
-		select_cell(last_selectible)
 
 
 func select_cells_to(cell : Vector2i):
@@ -217,26 +224,36 @@ func get_edited_rows() -> Array[int]:
 
 	return rows
 
+func clipboard_copy():
+	var text_values = edited_cells_text
+	for i in text_values.size():
+		text_values[i] = text_values[i].replace('\n', ' ')
+	DisplayServer.clipboard_set("\n".join(text_values))
+
+	clipboard = [] 
+	clipboard.resize(edited_cells.size())
+	for i in edited_cells.size():
+		clipboard[i] = editor_view.io.get_value(editor_view.rows[edited_cells[i].y], editor_view.columns[edited_cells[i].x])
+	return
+
 
 func clipboard_paste():
-	if column_editors[edited_cells[0].x].is_text():
-		editor_view.set_edited_cells_values(
-			TextEditingUtilsClass.multi_paste(
-				edited_cells_text,
-				edit_cursor_positions,
-			)
-		)
-
-	elif DisplayServer.clipboard_has():
-		var values := []
-		values.resize(edited_cells.size())
+	if DisplayServer.clipboard_has():
 		var pasted_lines := DisplayServer.clipboard_get().replace("\r", "").split("\n")
-		var paste_each_line := pasted_lines.size() == values.size()
+		var pastable_cell_count = min(max(edited_cells.size(), pasted_lines.size()), editor_view.rows.size() - edited_cells[0].y)
 
+		var values := []
+		values.resize(pastable_cell_count)
+
+		var text_cells = column_editors[edited_cells[0].x].is_text()
 		for i in values.size():
-			values[i] = str_to_var(
-				pasted_lines[i] if paste_each_line else DisplayServer.clipboard_get()
-			)
+			if i >= edit_cursor_positions.size():
+				select_cell(edited_cells[0] + Vector2i(0, i))
+			if text_cells:
+				edit_cursor_positions[i] = pasted_lines[i % pasted_lines.size()].length()
+				values[i] = pasted_lines[i % pasted_lines.size()]
+			else:
+				values[i] = clipboard[i]
 
 		editor_view.set_edited_cells_values(values)
 
@@ -244,6 +261,7 @@ func clipboard_paste():
 func _selection_changed():
 	queue_redraw()
 	cells_selected.emit(edited_cells)
+	old_edit_cursor_positions = edit_cursor_positions.duplicate()
 
 
 func _set_visible_selected(state : bool):	
