@@ -17,10 +17,6 @@ func _ready() -> void:
 
 
 func _on_grid_updated() -> void:
-	if editor_view.rows.size() == 0:
-		hide()
-		return
-
 	visible = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "freeze_first_column")
 	for x in get_children():
 		x.queue_free()
@@ -36,6 +32,9 @@ func _on_grid_updated() -> void:
 		if grid.get_child(i).visible:
 			first_visible_column = i
 			break
+
+	if editor_view.rows.size() == 0:
+		return
 
 	var total_column_count : int = editor_view.columns.size()
 	children.resize(grid.get_child_count() / total_column_count)

@@ -100,9 +100,6 @@ func _update_column_sizes():
 	var column_headers := get_children()
 
 	if grid.get_child_count() < column_headers.size(): return
-	if column_headers.size() != columns.size():
-		editor_view.refresh()
-		return
 	
 	var clip_text : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "clip_headers")
 	var visible_column_minsizes : Array[float] = []

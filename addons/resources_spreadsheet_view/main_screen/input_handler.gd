@@ -11,6 +11,9 @@ const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/
 
 func _on_cell_gui_input(event : InputEvent, cell_node : Control):
 	var cell := selection.get_cell_node_position(cell_node)
+	# There are no cells in this case, so we can't do anything
+	if cell.x < 0:
+		return
 	if event is InputEventMouseButton:
 		editor_view.grab_focus()
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
