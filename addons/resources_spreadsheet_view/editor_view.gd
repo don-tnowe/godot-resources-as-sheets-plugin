@@ -193,8 +193,6 @@ func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse
 
 func _update_visible_rows(force_rebuild : bool = true):
 	node_page_manager.update_page_count(rows)
-	if columns.size() == 0:
-		return
 
 	if force_rebuild or columns != node_columns.columns:
 		for x in node_table_root.get_children():

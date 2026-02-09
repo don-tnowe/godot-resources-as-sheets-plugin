@@ -73,6 +73,7 @@ func _draw():
 
 
 func initialize_editors(column_values, column_types, column_hints):
+	deselect_all_cells()
 	_set_visible_selected(false)
 	column_editors.clear()
 	for i in column_values.size():
@@ -197,6 +198,8 @@ func get_cell_node_from_position(cell_pos : Vector2i) -> Control:
 
 func get_cell_node_position(cell : Control) -> Vector2i:
 	var col_count := editor_view.columns.size()
+	if col_count == 0:
+		return Vector2(-1, -1);
 	var cell_index := cell.get_index()
 	return Vector2i(cell_index % col_count, cell_index / col_count + editor_view.first_row)
 
