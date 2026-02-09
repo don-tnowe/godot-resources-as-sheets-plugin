@@ -26,6 +26,7 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
+	remove_context_menu_plugin(popup_plugin)
 	if is_instance_valid(editor_view):
 		editor_view.queue_free()
 
