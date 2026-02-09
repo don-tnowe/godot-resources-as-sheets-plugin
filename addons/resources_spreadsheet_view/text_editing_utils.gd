@@ -112,30 +112,6 @@ static func multi_erase_left(values : Array, cursor_positions : Array, whole_wor
 	return values
 
 
-static func multi_paste(values : Array, cursor_positions : Array):
-	var pasted_lines := DisplayServer.clipboard_get().replace("\r", "").split("\n")
-	var paste_each_line := pasted_lines.size() == values.size()
-
-	for i in values.size():
-		if paste_each_line:
-			cursor_positions[i] += pasted_lines[i].length()
-
-		else:
-			cursor_positions[i] += DisplayServer.clipboard_get().length()
-
-		values[i] = (
-			values[i].left(cursor_positions[i])
-			+ (pasted_lines[i] if paste_each_line else DisplayServer.clipboard_get())
-			+ values[i].substr(cursor_positions[i])
-		)
-
-	return values
-
-
-static func multi_copy(values : Array):
-	DisplayServer.clipboard_set("\n".join(values))
-
-
 static func multi_input(input_char : String, values : Array, cursor_positions : Array):
 	for i in values.size():
 		values[i] = (

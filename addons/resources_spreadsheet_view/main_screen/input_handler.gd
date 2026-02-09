@@ -8,7 +8,6 @@ const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/
 @onready var editor_view : TablesPluginEditorViewClass = get_parent()
 @onready var selection : TablesPluginSelectionManagerClass = get_node("../SelectionManager")
 
-
 func _on_cell_gui_input(event : InputEvent, cell_node : Control):
 	var cell := selection.get_cell_node_position(cell_node)
 	if event is InputEventMouseButton:
@@ -71,6 +70,7 @@ func _input(event : InputEvent):
 func _key_specific_action(event : InputEvent):
 	var column := selection.get_cell_column(selection.edited_cells[0])
 	var ctrl_pressed : bool = event.is_command_or_control_pressed()
+	var caret_move_offset := TextEditingUtilsClass.get_caret_movement_from_key(event.keycode)
 
 	# BETWEEN-CELL NAVIGATION
 	var grid_move_offset := (10 if ctrl_pressed else 1)
@@ -87,7 +87,7 @@ func _key_specific_action(event : InputEvent):
 		_move_selection_on_grid(+grid_move_offset, 0)
 
 	elif ctrl_pressed and event.keycode == KEY_C:
-		TextEditingUtilsClass.multi_copy(selection.edited_cells_text)
+		selection.clipboard_copy()
 		get_viewport().set_input_as_handled()
 
 	# Ctrl + V
@@ -95,38 +95,38 @@ func _key_specific_action(event : InputEvent):
 		selection.clipboard_paste()
 		get_viewport().set_input_as_handled()
 
+	elif ctrl_pressed and event.keycode == KEY_S:
+		return	
+
 	# TEXT CARET MOVEMENT
-	var caret_move_offset := TextEditingUtilsClass.get_caret_movement_from_key(event.keycode)
-	if TextEditingUtilsClass.multi_move_caret(caret_move_offset, selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed):
+	elif TextEditingUtilsClass.multi_move_caret(caret_move_offset, selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed):
 		selection.queue_redraw()
 		return
 
 	# The following actions do not work on non-editable cells.
-	if !selection.column_editors[column].is_text() or editor_view.columns[column] == "resource_path":
-		return
-	
-	# ERASING
-	elif event.keycode == KEY_BACKSPACE:
-		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_erase_left(
-			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
-		))
+	elif selection.column_editors[column].is_text() and !editor_view.columns[column] == "resource_path":
+		# ERASING
+		if event.keycode == KEY_BACKSPACE:
+			editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_erase_left(
+				selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
+			))
 
-	elif event.keycode == KEY_DELETE:
-		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_erase_right(
-			selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
-		))
-		get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_DELETE:
+			editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_erase_right(
+				selection.edited_cells_text, selection.edit_cursor_positions, ctrl_pressed
+			))
+			get_viewport().set_input_as_handled()
 
-	# And finally, text typing.
-	elif event.keycode == KEY_ENTER:
-		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_input(
-			"\n", selection.edited_cells_text, selection.edit_cursor_positions
-		))
+		# And finally, text typing.
+		elif event.keycode == KEY_ENTER:
+			editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_input(
+				"\n", selection.edited_cells_text, selection.edit_cursor_positions
+			))
 
-	elif event.unicode != 0 and event.unicode != 127:
-		editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_input(
-			char(event.unicode), selection.edited_cells_text, selection.edit_cursor_positions
-		))
+		elif event.unicode != 0 and event.unicode != 127:
+			editor_view.set_edited_cells_values_text(TextEditingUtilsClass.multi_input(
+				char(event.unicode), selection.edited_cells_text, selection.edit_cursor_positions
+			))
 
 	selection.queue_redraw()
 

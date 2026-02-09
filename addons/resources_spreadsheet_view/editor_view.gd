@@ -399,6 +399,9 @@ func set_edited_cells_values_text(new_cell_values : Array):
 
 func set_edited_cells_values(new_cell_values : Array):
 	var edited_rows : Array = _selection.get_edited_rows()
+	while new_cell_values.size() > edited_rows.size():
+		edited_rows.append(edited_rows[edited_rows.size() - 1] + 1)
+
 	var column : int = _selection.get_cell_column(_selection.edited_cells[0])
 	var edited_cells_resources := _get_row_resources(edited_rows)
 

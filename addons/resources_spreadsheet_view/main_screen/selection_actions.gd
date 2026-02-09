@@ -101,7 +101,7 @@ func _on_Duplicate_pressed():
 
 
 func _on_CbCopy_pressed():
-	TextEditingUtilsClass.multi_copy(selection.edited_cells_text)
+	selection.clipboard_copy()
 
 
 func _on_CbPaste_pressed():

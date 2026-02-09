@@ -18,11 +18,12 @@ func set_value(entry, key : String, value, index : int):
 		entry[key] = String(value)
 		return
 
-	if prev_value is float:
+	# Without checking for string here, setting certain values can break their undo history
+	if prev_value is float and value is String:
 		entry[key] = float(value)
 		return
 
-	if prev_value is int:
+	if prev_value is int and value is String:
 		entry[key] = int(value)
 		return
 
