@@ -213,6 +213,8 @@ func _update_visible_rows(force_rebuild : bool = true):
 
 
 func fill_property_data(res : Resource):
+	# Must happen while columns still matches the existing cell nodes.
+	_selection.deselect_all_cells()
 	columns.clear()
 	column_types.clear()
 	column_hints.clear()
@@ -234,6 +236,8 @@ func fill_property_data(res : Resource):
 func fill_property_data_many(resources : Array):
 	node_class_filter.fill(resources)
 
+	# Must happen while columns still matches the existing cell nodes.
+	_selection.deselect_all_cells()
 	columns.clear()
 	column_types.clear()
 	column_hints.clear()
