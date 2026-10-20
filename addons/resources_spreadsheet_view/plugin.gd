@@ -1,20 +1,19 @@
 @tool
 extends EditorPlugin
 
-var editor_view : Control
+const EDITOR_VIEW = preload("uid://5pic6fxx6et3")
+
+var editor_view
 var undo_redo : EditorUndoRedoManager
 
 
 func _enter_tree() -> void:
-	editor_view = load(get_script().resource_path.get_base_dir() + "/editor_view.tscn").instantiate()
-	editor_view.editor_interface = get_editor_interface()
-	if editor_view.editor_interface == null:
-		# 4.2: now a singleton
-		editor_view.editor_interface = Engine.get_singleton("EditorInterface")
-
+	editor_view = EDITOR_VIEW.instantiate()
+	editor_view.editor_interface =  Engine.get_singleton("EditorInterface")
+		
 	editor_view.editor_plugin = self
 	undo_redo = get_undo_redo()
-	get_editor_interface().get_editor_main_screen().add_child(editor_view)
+	editor_view.editor_interface.get_editor_main_screen().add_child(editor_view)
 	_make_visible(false)
 
 
@@ -39,5 +38,4 @@ func _has_main_screen():
 
 
 func _get_plugin_icon():
-	# Until I add an actual icon, this'll do.
-	return get_editor_interface().get_base_control().get_theme_icon("VisualShaderNodeComment", "EditorIcons")
+	return Engine.get_singleton("EditorInterface").get_editor_theme().get_icon("VisualShaderNodeComment", "EditorIcons")

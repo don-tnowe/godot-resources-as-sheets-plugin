@@ -44,7 +44,7 @@ func _ready():
 	if FileAccess.file_exists(save_data_path):
 		var file := FileAccess.open(save_data_path, FileAccess.READ)
 		var as_text := file.get_as_text()
-		var as_var := JSON.parse_string(as_text)
+		var as_var = JSON.parse_string(as_text)
 
 		node_recent_paths.load_paths(as_var.get(&"recent_paths", []))
 		node_columns.column_properties = as_var.get(&"column_properties", {})
