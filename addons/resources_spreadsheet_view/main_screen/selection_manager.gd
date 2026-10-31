@@ -73,7 +73,10 @@ func _draw():
 
 
 func initialize_editors(column_values, column_types, column_hints):
-	_set_visible_selected(false)
+	# The old selection points at the old columns, keeping it breaks when the new table has fewer
+	edited_cells.clear()
+	edited_cells_text.clear()
+	edit_cursor_positions.clear()
 	column_editors.clear()
 	for i in column_values.size():
 		for x in all_cell_editors:
@@ -249,7 +252,7 @@ func _selection_changed():
 func _set_visible_selected(state : bool):	
 	for x in edited_cells:
 		var cell_node := get_cell_node_from_position(x)
-		if cell_node != null:
+		if cell_node != null and get_cell_column(x) < column_editors.size():
 			column_editors[get_cell_column(x)].set_selected(cell_node, state)
 
 

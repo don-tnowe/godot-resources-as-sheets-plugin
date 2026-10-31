@@ -10,6 +10,8 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 var children : Array[Control] = []
 var children_copy_cells : Array[Control] = []
 
+var _update_generation := 0
+
 
 func _ready() -> void:
 	grid_scroll.get_h_scroll_bar().value_changed.connect(_on_scroll_updated, CONNECT_DEFERRED)
@@ -17,11 +19,8 @@ func _ready() -> void:
 
 
 func _on_grid_updated() -> void:
-	if editor_view.rows.size() == 0:
-		hide()
-		return
-
-	visible = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "freeze_first_column")
+	_update_generation += 1
+	var generation := _update_generation
 	for x in get_children():
 		x.queue_free()
 
@@ -29,7 +28,16 @@ func _on_grid_updated() -> void:
 	children_copy_cells.clear()
 	size.x = 0.0
 
+	if editor_view.rows.size() == 0:
+		hide()
+		return
+
+	visible = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "freeze_first_column")
+
 	await get_tree().process_frame
+	# A newer update started while waiting, let that one build the copies.
+	if generation != _update_generation:
+		return
 
 	var first_visible_column := 0
 	for i in editor_view.columns.size():
@@ -45,16 +53,34 @@ func _on_grid_updated() -> void:
 		children[i] = children_copy_cells[i].duplicate()
 		children[i].mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(children[i])
-		size.x = maxf(size.x, children_copy_cells[i].size.x)
+		# Column count changes re-layout the grid a few frames later; each copy must follow its source cell.
+		if !children_copy_cells[i].item_rect_changed.is_connected(_sync_to_grid):
+			children_copy_cells[i].item_rect_changed.connect(_sync_to_grid, CONNECT_DEFERRED)
 
-	size.y = grid.size.y
 	color = get_theme_color(&"background", &"Editor")
 	color.a *= 0.9
-	_on_scroll_updated(0.0)
+	_sync_to_grid()
 
 
 func _on_scroll_updated(_new_value : float):
+	_sync_to_grid()
+
+
+func _sync_to_grid():
+	if !is_inside_tree():
+		return
+
 	position = Vector2(0.0, -grid_scroll.scroll_vertical)
+	size.x = 0.0
 	for i in children.size():
+		if !is_instance_valid(children_copy_cells[i]) or !is_instance_valid(children[i]):
+			continue
+
+		# Width first: wrapping cells clamp height to a cached minimum computed from their previous width.
+		children[i].size.x = children_copy_cells[i].size.x
+		children[i].update_minimum_size()
 		children[i].size = children_copy_cells[i].size
 		children[i].position = children_copy_cells[i].position
+		size.x = maxf(size.x, children_copy_cells[i].size.x)
+
+	size.y = grid.size.y
