@@ -43,8 +43,6 @@ func add_path_to_recent(path : String, is_loading : bool = false):
 	if !is_loading:
 		editor_view.save_data()
 
-func pressed():
-	remove_path_from_recent(selected)
 
 func remove_path_from_recent(index : int):
 	if get_item_count() == 0:
@@ -66,4 +64,4 @@ func _on_item_selected(index : int):
 
 
 func _on_delete_path_pressed() -> void:
-	pass # Replace with function body.
+	remove_path_from_recent(selected)
