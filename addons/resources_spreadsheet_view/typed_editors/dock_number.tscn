@@ -1,58 +1,58 @@
-[gd_scene load_steps=2 format=3 uid="uid://gtbf7b0wptv"]
+[gd_scene format=3 uid="uid://gtbf7b0wptv"]
 
 [ext_resource type="Script" uid="uid://bk11nhque3puc" path="res://addons/resources_spreadsheet_view/typed_editors/dock_number.gd" id="1"]
 
-[node name="EditNumber" type="VBoxContainer"]
+[node name="EditNumber" type="VBoxContainer" unique_id=65907266]
 offset_right = 1141.0
 offset_bottom = 126.0
 mouse_filter = 0
 script = ExtResource("1")
 
-[node name="Header" type="HBoxContainer" parent="."]
+[node name="Header" type="HBoxContainer" parent="." unique_id=862084519]
 layout_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 9
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Header" unique_id=727587365]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Header/HBoxContainer"]
+[node name="Label" type="Label" parent="Header/HBoxContainer" unique_id=159581114]
 layout_mode = 2
 text = "EDIT: Number"
 
-[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer" unique_id=1390891935]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Header"]
+[node name="Label" type="Label" parent="Header" unique_id=1822132130]
 layout_mode = 2
 text = "PROPERTY NAME"
 
-[node name="HSeparator2" type="HSeparator" parent="Header"]
+[node name="HSeparator2" type="HSeparator" parent="Header" unique_id=1418681510]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=661996334]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="CustomX2" type="VBoxContainer" parent="HBoxContainer"]
+[node name="CustomX2" type="VBoxContainer" parent="HBoxContainer" unique_id=1529854954]
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/CustomX2" unique_id=410249298]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer3"]
+[node name="Label" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer3" unique_id=1513269146]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Fill with Sequence"
 
-[node name="Label2" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer3"]
+[node name="Label2" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer3" unique_id=387144321]
 layout_mode = 2
 size_flags_vertical = 6
 tooltip_text = "Fill selected cells with a number sequence. Order is the same as the cells were selected.
@@ -67,192 +67,192 @@ mouse_filter = 0
 mouse_default_cursor_shape = 16
 text = "(?)"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/CustomX2" unique_id=641096396]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/CustomX2/HBoxContainer" unique_id=1164112225]
 visible = false
 layout_mode = 2
 text = "Sequence"
 
-[node name="Start" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="Start" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer" unique_id=16205946]
 layout_mode = 2
 tooltip_text = "Start (must not be blank)"
 placeholder_text = "Start *"
 
-[node name="End" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="End" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer" unique_id=2095451593]
 layout_mode = 2
 tooltip_text = "End"
 placeholder_text = "End"
 
-[node name="Step" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="Step" type="LineEdit" parent="HBoxContainer/CustomX2/HBoxContainer" unique_id=1149219456]
 layout_mode = 2
 tooltip_text = "End"
 placeholder_text = "Step"
 
-[node name="Box" type="HBoxContainer" parent="HBoxContainer/CustomX2/HBoxContainer"]
+[node name="Box" type="HBoxContainer" parent="HBoxContainer/CustomX2/HBoxContainer" unique_id=1027231408]
 visible = false
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer/CustomX2/HBoxContainer/Box"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/CustomX2/HBoxContainer/Box" unique_id=362338348]
 layout_mode = 2
 
-[node name="SequenceFill3" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer/Box"]
+[node name="SequenceFill3" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer/Box" unique_id=2110879108]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Set"
 text = "="
 
-[node name="SequenceFill4" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer/Box"]
+[node name="SequenceFill4" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer/Box" unique_id=1515518981]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Add to each value"
 text = "+"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/CustomX2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/CustomX2" unique_id=534109732]
 layout_mode = 2
 
-[node name="SequenceFill" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2"]
+[node name="SequenceFill" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2" unique_id=1421717117]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Set"
 
-[node name="SequenceFill2" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2"]
+[node name="SequenceFill2" type="Button" parent="HBoxContainer/CustomX2/HBoxContainer2" unique_id=930846769]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Add"
 
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer" unique_id=497415167]
 layout_mode = 2
 
-[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=493439123]
 layout_mode = 2
 alignment = 1
 
-[node name="NumberPanel" type="MarginContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="NumberPanel" type="MarginContainer" parent="HBoxContainer/HBoxContainer" unique_id=561973090]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_default_cursor_shape = 10
 
-[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer/NumberPanel"]
+[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer/NumberPanel" unique_id=61819362]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/NumberPanel"]
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/NumberPanel" unique_id=167486317]
 layout_mode = 2
 text = "1"
 clip_text = true
 
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/HBoxContainer" unique_id=1254444409]
 layout_mode = 2
 columns = 6
 
-[node name="Button15" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button15" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=1407322311]
 layout_mode = 2
 text = "+0.1"
 
-[node name="Button12" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button12" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=626116520]
 layout_mode = 2
 text = "+1"
 
-[node name="Button8" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button8" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=515519809]
 layout_mode = 2
 text = "+10"
 
-[node name="Button13" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button13" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=654121521]
 layout_mode = 2
 text = "+100"
 
-[node name="Button9" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button9" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=919143825]
 layout_mode = 2
 text = "+X"
 
-[node name="Button16" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button16" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=611637466]
 layout_mode = 2
 text = "*X"
 
-[node name="Button14" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button14" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=666148351]
 layout_mode = 2
 text = "-0.1"
 
-[node name="Button11" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button11" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=306148009]
 layout_mode = 2
 text = "-1"
 
-[node name="Button7" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button7" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=1253993100]
 layout_mode = 2
 text = "-10"
 
-[node name="Button10" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button10" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=1315131832]
 layout_mode = 2
 text = "-100"
 
-[node name="Button4" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button4" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=1149936907]
 layout_mode = 2
 text = "-X"
 
-[node name="Button5" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer"]
+[node name="Button5" type="Button" parent="HBoxContainer/HBoxContainer/GridContainer" unique_id=1141424622]
 layout_mode = 2
 text = "/X"
 
-[node name="GridContainerSmall" type="HBoxContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="GridContainerSmall" type="HBoxContainer" parent="HBoxContainer/HBoxContainer" unique_id=1236677967]
 visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/GridContainerSmall" unique_id=76756251]
 layout_mode = 2
 text = "Value"
 
-[node name="Button1" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+[node name="Button1" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall" unique_id=1292913163]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "/X"
 
-[node name="Button2" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+[node name="Button2" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall" unique_id=1413884958]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "-X"
 
-[node name="Button3" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+[node name="Button3" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall" unique_id=657319749]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "-1"
 
-[node name="Button4" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+[node name="Button4" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall" unique_id=702779263]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "+1"
 
-[node name="Button5" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+[node name="Button5" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall" unique_id=1539309862]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "+X"
 
-[node name="Button6" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall"]
+[node name="Button6" type="Button" parent="HBoxContainer/HBoxContainer/GridContainerSmall" unique_id=1479273110]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "*X"
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer" unique_id=1549532314]
 layout_mode = 2
 
-[node name="CustomX" type="VBoxContainer" parent="HBoxContainer"]
+[node name="CustomX" type="VBoxContainer" parent="HBoxContainer" unique_id=1182755450]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/CustomX"]
+[node name="Label" type="Label" parent="HBoxContainer/CustomX" unique_id=950507334]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Custom Value"
 horizontal_alignment = 1
 
-[node name="Box" type="HBoxContainer" parent="HBoxContainer/CustomX"]
+[node name="Box" type="HBoxContainer" parent="HBoxContainer/CustomX" unique_id=1585386050]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/CustomX/Box"]
+[node name="Label" type="Label" parent="HBoxContainer/CustomX/Box" unique_id=1575136045]
 layout_mode = 2
 text = "X ="
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX/Box"]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/CustomX/Box" unique_id=1932981901]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 size_flags_horizontal = 3

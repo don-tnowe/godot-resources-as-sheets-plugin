@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b51hnttsie7k5"]
+[gd_scene format=3 uid="uid://b51hnttsie7k5"]
 
 [ext_resource type="Script" uid="uid://dyxdmrhopt5i0" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="1"]
 [ext_resource type="Script" uid="uid://dhsfesyigu88y" path="res://addons/resources_spreadsheet_view/main_screen/selection_actions.gd" id="1_qv6ov"]
@@ -16,7 +16,7 @@ data = {
 [sub_resource type="ImageTexture" id="2"]
 image = SubResource("Image_qja2v")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2l2b"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kfr3q"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -29,23 +29,23 @@ border_width_right = 2
 border_width_bottom = 2
 corner_detail = 1
 
-[node name="SelectionActions" type="MarginContainer"]
+[node name="SelectionActions" type="MarginContainer" unique_id=1971678297]
 offset_right = 80.0
 offset_bottom = 52.0
 size_flags_horizontal = 9
 mouse_filter = 2
 script = ExtResource("1_qv6ov")
 
-[node name="Control2" type="Panel" parent="."]
+[node name="Control2" type="Panel" parent="." unique_id=590452043]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ColorRect" type="ColorRect" parent="Control2"]
+[node name="ColorRect" type="ColorRect" parent="Control2" unique_id=2044035041]
 show_behind_parent = true
 layout_mode = 0
 mouse_filter = 2
 
-[node name="ColorRect2" type="ColorRect" parent="Control2"]
+[node name="ColorRect2" type="ColorRect" parent="Control2" unique_id=1802874413]
 modulate = Color(0, 0, 0, 1)
 show_behind_parent = true
 layout_mode = 1
@@ -56,14 +56,14 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("2_a4ihj")
 
-[node name="Label" type="Label" parent="Control2"]
+[node name="Label" type="Label" parent="Control2" unique_id=1614282647]
 layout_mode = 0
 offset_top = -26.0
 offset_right = 57.0
 text = "Actions"
 vertical_alignment = 2
 
-[node name="ColorRect3" type="Panel" parent="Control2/Label"]
+[node name="ColorRect3" type="Panel" parent="Control2/Label" unique_id=1374056389]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -76,14 +76,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1262256556]
 layout_mode = 2
 size_flags_horizontal = 9
 size_flags_vertical = 9
 mouse_filter = 2
 columns = 3
 
-[node name="Duplicate" type="Button" parent="GridContainer"]
+[node name="Duplicate" type="Button" parent="GridContainer" unique_id=363260668]
 layout_mode = 2
 tooltip_text = "Duplicate Selected Rows (Ctrl+D)"
 mouse_filter = 1
@@ -91,7 +91,7 @@ icon = SubResource("2")
 script = ExtResource("1")
 icon_name = "Duplicate"
 
-[node name="CbCopy" type="Button" parent="GridContainer"]
+[node name="CbCopy" type="Button" parent="GridContainer" unique_id=1521455647]
 layout_mode = 2
 tooltip_text = "Copy to Clipboard (Ctrl+C)"
 mouse_filter = 1
@@ -99,7 +99,7 @@ icon = SubResource("2")
 script = ExtResource("1")
 icon_name = "ActionCopy"
 
-[node name="CbPaste" type="Button" parent="GridContainer"]
+[node name="CbPaste" type="Button" parent="GridContainer" unique_id=1259722387]
 layout_mode = 2
 tooltip_text = "Paste Clipboard (Ctrl+V)"
 mouse_filter = 1
@@ -107,7 +107,7 @@ icon = SubResource("2")
 script = ExtResource("1")
 icon_name = "ActionPaste"
 
-[node name="Rename" type="Button" parent="GridContainer"]
+[node name="Rename" type="Button" parent="GridContainer" unique_id=1509718744]
 layout_mode = 2
 tooltip_text = "Rename Selected Rows (Ctrl+R)"
 mouse_filter = 1
@@ -115,7 +115,7 @@ icon = SubResource("2")
 script = ExtResource("1")
 icon_name = "Edit"
 
-[node name="Delete" type="Button" parent="GridContainer"]
+[node name="Delete" type="Button" parent="GridContainer" unique_id=1498716094]
 layout_mode = 2
 tooltip_text = "DELETE Selected Rows"
 mouse_filter = 1
@@ -123,7 +123,7 @@ icon = SubResource("2")
 script = ExtResource("1")
 icon_name = "Remove"
 
-[node name="SoloOpen" type="Button" parent="GridContainer"]
+[node name="SoloOpen" type="Button" parent="GridContainer" unique_id=701119568]
 layout_mode = 2
 tooltip_text = "Open selected cells as new table"
 mouse_filter = 1
@@ -131,11 +131,11 @@ icon = SubResource("2")
 script = ExtResource("1")
 icon_name = "Object"
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=173421244]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1151362551]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -147,37 +147,37 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.498039)
 
-[node name="Popup" type="MarginContainer" parent="Control/ColorRect"]
+[node name="Popup" type="MarginContainer" parent="Control/ColorRect" unique_id=1288579988]
 layout_mode = 0
 offset_top = 100.0
 offset_right = 140.0
 offset_bottom = 196.0
 
-[node name="Panel" type="PanelContainer" parent="Control/ColorRect/Popup"]
+[node name="Panel" type="PanelContainer" parent="Control/ColorRect/Popup" unique_id=540434935]
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_r2l2b")
+theme_override_styles/panel = SubResource("StyleBoxFlat_kfr3q")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/Popup/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/Popup/Panel" unique_id=478973339]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/ColorRect/Popup/Panel/VBoxContainer" unique_id=570881539]
 layout_mode = 2
 text = "Input new name..."
 
-[node name="LineEdit" type="LineEdit" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="Control/ColorRect/Popup/Panel/VBoxContainer" unique_id=1343800292]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/ColorRect/Popup/Panel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ColorRect/Popup/Panel/VBoxContainer" unique_id=1694883650]
 layout_mode = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer" unique_id=1112961723]
 layout_mode = 2
 text = "OK"
 
-[node name="Button2" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer"]
+[node name="Button2" type="Button" parent="Control/ColorRect/Popup/Panel/VBoxContainer/HBoxContainer" unique_id=1905806191]
 layout_mode = 2
 text = "Cancel"
 

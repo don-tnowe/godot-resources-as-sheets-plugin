@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cghfjg6qt3rb1"]
 
-[node name="Label" type="Label"]
+[node name="Label" type="Label" unique_id=1382702463]
 offset_right = 20.0
 offset_bottom = 23.0
 size_flags_vertical = 9
 mouse_filter = 0
 
-[node name="Back" type="ColorRect" parent="."]
+[node name="Back" type="ColorRect" parent="." unique_id=1892069344]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -21,7 +21,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.247059, 0.247059, 0.247059, 0.498039)
 
-[node name="Selected" type="ColorRect" parent="."]
+[node name="Selected" type="ColorRect" parent="." unique_id=1456168574]
 visible = false
 layout_mode = 1
 anchors_preset = 15

@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://rww3gpl052bn"]
+[gd_scene format=3 uid="uid://rww3gpl052bn"]
 
 [ext_resource type="Script" uid="uid://b2fvr6tswpfxc" path="res://addons/resources_spreadsheet_view/typed_editors/dock_texture.gd" id="1"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_h3mns"]
 
-[node name="EditTexture" type="VBoxContainer"]
+[node name="EditTexture" type="VBoxContainer" unique_id=1096227401]
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.25463
@@ -14,44 +14,44 @@ mouse_filter = 0
 script = ExtResource("1")
 metadata/_edit_use_anchors_ = true
 
-[node name="Header" type="HBoxContainer" parent="."]
+[node name="Header" type="HBoxContainer" parent="." unique_id=454759386]
 layout_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 9
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Header" unique_id=1976756494]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Header/HBoxContainer"]
+[node name="Label" type="Label" parent="Header/HBoxContainer" unique_id=1172403555]
 layout_mode = 2
 text = "EDIT: Texture"
 
-[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer" unique_id=1433944284]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Header"]
+[node name="Label" type="Label" parent="Header" unique_id=1405613532]
 layout_mode = 2
 text = "PROPERTY NAME"
 
-[node name="HSeparator2" type="HSeparator" parent="Header"]
+[node name="HSeparator2" type="HSeparator" parent="Header" unique_id=1721351164]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1355441584]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Control2" type="Control" parent="HBoxContainer"]
+[node name="Control2" type="Control" parent="HBoxContainer" unique_id=1633173554]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=452412292]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -59,41 +59,41 @@ texture = SubResource("PlaceholderTexture2D_h3mns")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer" unique_id=108439809]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1807473805]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
-auto_translate = false
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1014995486]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Atlas Chopper"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=506965063]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=132203778]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "H Count"
 
-[node name="LineEdit2" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit2" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1329751282]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "V Count"
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=966919695]
 layout_mode = 2
 size_flags_vertical = 4
 text = "Chop chop chop!!!"
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="Control" type="Control" parent="HBoxContainer" unique_id=936882676]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2

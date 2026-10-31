@@ -1,21 +1,21 @@
 [gd_scene format=3 uid="uid://ydrs54md3knl"]
 
-[node name="Label" type="MarginContainer"]
+[node name="Label" type="MarginContainer" unique_id=1255720292]
 offset_right = 16.0
 offset_bottom = 16.0
 size_flags_vertical = 9
 mouse_filter = 0
 
-[node name="Box" type="HFlowContainer" parent="."]
+[node name="Box" type="HFlowContainer" parent="." unique_id=324505633]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Back" type="Control" parent="."]
+[node name="Back" type="Control" parent="." unique_id=1589225700]
 show_behind_parent = true
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ColorRect" type="ColorRect" parent="Back"]
+[node name="ColorRect" type="ColorRect" parent="Back" unique_id=620378793]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.247059, 0.247059, 0.247059, 0.498039)
 
-[node name="Selected" type="ColorRect" parent="."]
+[node name="Selected" type="ColorRect" parent="." unique_id=629146642]
 visible = false
 layout_mode = 2
 mouse_filter = 2

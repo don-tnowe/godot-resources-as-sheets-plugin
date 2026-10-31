@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://p6x03dbvhnqw"]
+[gd_scene format=3 uid="uid://p6x03dbvhnqw"]
 
 [ext_resource type="Script" uid="uid://cx3vjtypcp2jc" path="res://addons/resources_spreadsheet_view/typed_editors/dock_dict.gd" id="1_2yivi"]
 [ext_resource type="Script" uid="uid://dyxdmrhopt5i0" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="2_yck0k"]
@@ -15,82 +15,84 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_3oshq"]
 image = SubResource("Image_a1yjd")
 
-[node name="EditArray" type="VBoxContainer"]
+[node name="EditArray" type="VBoxContainer" unique_id=885102341]
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 mouse_filter = 0
 script = ExtResource("1_2yivi")
 
-[node name="Header" type="HBoxContainer" parent="."]
+[node name="Header" type="HBoxContainer" parent="." unique_id=1707938010]
 layout_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 9
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Header" unique_id=752587536]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Header/HBoxContainer"]
+[node name="Label" type="Label" parent="Header/HBoxContainer" unique_id=2141465446]
 layout_mode = 2
 text = "EDIT: Dict/Object"
 
-[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer" unique_id=1190393925]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Header"]
+[node name="Label" type="Label" parent="Header" unique_id=572331875]
 layout_mode = 2
 text = "PROPERTY NAME"
 
-[node name="HSeparator2" type="HSeparator" parent="Header"]
+[node name="HSeparator2" type="HSeparator" parent="Header" unique_id=480887004]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HSplitContainer" parent="."]
+[node name="HBoxContainer" type="HSplitContainer" parent="." unique_id=1243293486]
 layout_mode = 2
 size_flags_vertical = 3
+split_offsets = PackedInt32Array(520)
 split_offset = 520
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=286405522]
 layout_mode = 2
 alignment = 2
 
-[node name="Panel" type="MarginContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="Panel" type="MarginContainer" parent="HBoxContainer/HBoxContainer" unique_id=910706535]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="TextEdit" parent="HBoxContainer/HBoxContainer/Panel"]
+[node name="Label" type="TextEdit" parent="HBoxContainer/HBoxContainer/Panel" unique_id=658108859]
 layout_mode = 2
 size_flags_vertical = 5
 text = "[]"
 
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer" unique_id=1092841907]
 layout_mode = 2
 
-[node name="Control" type="HBoxContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="Control" type="HBoxContainer" parent="HBoxContainer/HBoxContainer" unique_id=924522970]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/Control" unique_id=406231336]
 layout_mode = 2
 
-[node name="KeyEdit" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer"]
+[node name="KeyEdit" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer" unique_id=1549494528]
 layout_mode = 2
 
-[node name="KeyEdit" type="LineEdit" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/KeyEdit"]
+[node name="KeyEdit" type="LineEdit" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/KeyEdit" unique_id=1343747136]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Input key to add/change/erase..."
 clear_button_enabled = true
 
-[node name="KeyType" type="OptionButton" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/KeyEdit"]
+[node name="KeyType" type="OptionButton" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/KeyEdit" unique_id=1421090988]
 layout_mode = 2
 selected = 0
 fit_to_longest_item = false
 item_count = 5
 popup/item_0/text = "Stringname"
+popup/item_0/id = 0
 popup/item_1/text = "Int"
 popup/item_1/id = 1
 popup/item_2/text = "Float"
@@ -100,66 +102,66 @@ popup/item_3/id = 4
 popup/item_4/text = "Guess type"
 popup/item_4/id = 3
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer" unique_id=646867654]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Input value..."
 clear_button_enabled = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer" unique_id=1293266135]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=1169493229]
 layout_mode = 2
 text = "Set value with type:"
 
-[node name="String" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="String" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=1151918774]
 layout_mode = 2
 tooltip_text = "Set to string"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "String"
 
-[node name="Int" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Int" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=819216568]
 layout_mode = 2
 tooltip_text = "Set to integer"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "int"
 
-[node name="Float" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Float" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=1828770495]
 layout_mode = 2
 tooltip_text = "Set to float"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "float"
 
-[node name="Variant" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Variant" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=124276140]
 layout_mode = 2
 tooltip_text = "Guess type and set"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "Variant"
 
-[node name="Object" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Object" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=864508466]
 layout_mode = 2
 tooltip_text = "Set to resource (by path if string)"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "Object"
 
-[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=989875930]
 layout_mode = 2
 text = "Key:"
 
-[node name="Remove" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Remove" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=393777778]
 layout_mode = 2
 tooltip_text = "Erase keys in Key textbox"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "Remove"
 
-[node name="Replace" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Replace" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer/HBoxContainer" unique_id=1204720827]
 layout_mode = 2
 tooltip_text = "Copy Key's value to new key
 Example:
@@ -171,44 +173,45 @@ icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_yck0k")
 icon_name = "Override"
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/HBoxContainer" unique_id=214115356]
 layout_mode = 2
 
-[node name="Control2" type="ScrollContainer" parent="HBoxContainer"]
+[node name="Control2" type="ScrollContainer" parent="HBoxContainer" unique_id=549815221]
 layout_mode = 2
 size_flags_horizontal = 3
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control2" unique_id=152941085]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
 
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/Control2/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/Control2/HBoxContainer" unique_id=389063638]
 layout_mode = 2
 
-[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/Control2/HBoxContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/Control2/HBoxContainer" unique_id=849677509]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer" unique_id=1085166746]
 layout_mode = 2
 text = "Recent:"
 
-[node name="OptionButton" type="OptionButton" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer" unique_id=97751855]
 layout_mode = 2
 selected = 0
 fit_to_longest_item = false
 item_count = 3
 popup/item_0/text = "Add"
+popup/item_0/id = 0
 popup/item_1/text = "Erase"
 popup/item_1/id = 1
 popup/item_2/text = "Remove From Recent"
 popup/item_2/id = 2
 
-[node name="AddRecentFromSel" type="Button" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+[node name="AddRecentFromSel" type="Button" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer" unique_id=1277332212]
 layout_mode = 2
 tooltip_text = "Add from selected cells"
 icon = SubResource("ImageTexture_3oshq")

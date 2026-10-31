@@ -1,17 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8llymigbprh6"]
+[gd_scene format=3 uid="uid://b8llymigbprh6"]
 
 [ext_resource type="Script" uid="uid://c0j7uonbiyaox" path="res://addons/resources_spreadsheet_view/import_export/property_list_item.gd" id="1"]
 
-[node name="Entry" type="HBoxContainer"]
+[node name="Entry" type="HBoxContainer" unique_id=1653065737]
 script = ExtResource("1")
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1897424357]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 text = "1"
 
-[node name="OptionButton" type="OptionButton" parent="."]
+[node name="OptionButton" type="OptionButton" parent="." unique_id=176435620]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5

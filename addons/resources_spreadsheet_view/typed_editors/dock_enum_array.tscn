@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddqak780cwwfj"]
+[gd_scene format=3 uid="uid://ddqak780cwwfj"]
 
 [ext_resource type="Script" uid="uid://bgxmtx8qujqyi" path="res://addons/resources_spreadsheet_view/typed_editors/dock_enum_array.gd" id="1_n3flg"]
 [ext_resource type="Script" uid="uid://dyxdmrhopt5i0" path="res://addons/resources_spreadsheet_view/editor_icon_button.gd" id="2_mda1e"]
@@ -15,100 +15,101 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_3oshq"]
 image = SubResource("Image_on1yq")
 
-[node name="EditEnumArray" type="VBoxContainer"]
+[node name="EditEnumArray" type="VBoxContainer" unique_id=556695282]
 anchors_preset = 10
 anchor_right = 1.0
 mouse_filter = 0
 script = ExtResource("1_n3flg")
 
-[node name="Header" type="HBoxContainer" parent="."]
+[node name="Header" type="HBoxContainer" parent="." unique_id=578272795]
 layout_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 9
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Header" unique_id=1202617381]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Header/HBoxContainer"]
+[node name="Label" type="Label" parent="Header/HBoxContainer" unique_id=45510335]
 layout_mode = 2
 text = "EDIT: Enum Array"
 
-[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Header/HBoxContainer" unique_id=91009147]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Header"]
+[node name="Label" type="Label" parent="Header" unique_id=489134322]
 layout_mode = 2
 text = "PROPERTY NAME"
 
-[node name="HSeparator2" type="HSeparator" parent="Header"]
+[node name="HSeparator2" type="HSeparator" parent="Header" unique_id=297437919]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HSplitContainer" parent="."]
+[node name="HBoxContainer" type="HSplitContainer" parent="." unique_id=87186136]
 layout_mode = 2
 size_flags_vertical = 3
+split_offsets = PackedInt32Array(250)
 split_offset = 250
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=147176314]
 layout_mode = 2
 alignment = 2
 
-[node name="Panel" type="MarginContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="Panel" type="MarginContainer" parent="HBoxContainer/HBoxContainer" unique_id=1899686165]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="TextEdit" parent="HBoxContainer/HBoxContainer/Panel"]
+[node name="Label" type="TextEdit" parent="HBoxContainer/HBoxContainer/Panel" unique_id=1002356444]
 layout_mode = 2
 size_flags_vertical = 5
 text = "[]"
 
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/HBoxContainer" unique_id=663120561]
 layout_mode = 2
 
-[node name="Control" type="MarginContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="Control" type="MarginContainer" parent="HBoxContainer/HBoxContainer" unique_id=1617445118]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/Control" unique_id=620877977]
 layout_mode = 2
 
-[node name="Remove" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer"]
+[node name="Remove" type="Button" parent="HBoxContainer/HBoxContainer/Control/VBoxContainer" unique_id=1063319821]
 layout_mode = 2
 text = "Remove Last Value"
 icon = SubResource("ImageTexture_3oshq")
 script = ExtResource("2_mda1e")
 icon_name = "Remove"
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/HBoxContainer" unique_id=1766348439]
 layout_mode = 2
 
-[node name="Control2" type="MarginContainer" parent="HBoxContainer"]
+[node name="Control2" type="MarginContainer" parent="HBoxContainer" unique_id=550102150]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control2" unique_id=1577177359]
 layout_mode = 2
 alignment = 2
 
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/Control2/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/Control2/HBoxContainer" unique_id=1375393505]
 layout_mode = 2
 
-[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/Control2/HBoxContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/Control2/HBoxContainer" unique_id=1155975927]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer" unique_id=1454231792]
 layout_mode = 2
 text = "Options:"
 
-[node name="OptionButton" type="OptionButton" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer"]
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/Control2/HBoxContainer/HFlowContainer" unique_id=773896647]
 layout_mode = 2
-item_count = 2
 selected = 0
 fit_to_longest_item = false
+item_count = 2
 popup/item_0/text = "Add"
 popup/item_0/id = 0
 popup/item_1/text = "Erase"

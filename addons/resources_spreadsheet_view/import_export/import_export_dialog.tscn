@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b413igx28kkvb"]
+[gd_scene format=3 uid="uid://b413igx28kkvb"]
 
 [ext_resource type="Script" uid="uid://b1uc8bum4bi01" path="res://addons/resources_spreadsheet_view/import_export/import_export_dialog.gd" id="1"]
 [ext_resource type="Script" uid="uid://bpf5v6r8mrgpy" path="res://addons/resources_spreadsheet_view/import_export/formats_export/export_csv.gd" id="2_33c6s"]
@@ -9,7 +9,7 @@
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_080hd"]
 
-[node name="TabContainer" type="TabContainer"]
+[node name="TabContainer" type="TabContainer" unique_id=194846969]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,60 +21,60 @@ prop_list_item_scene = ExtResource("2_xfhmf")
 formats_export = Array[Script]([ExtResource("2_33c6s")])
 formats_import = Array[Script]([ExtResource("2_fxayt")])
 
-[node name="Import" type="VBoxContainer" parent="."]
+[node name="Import" type="VBoxContainer" parent="." unique_id=442769592]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 metadata/_tab_index = 0
 
-[node name="Margins" type="MarginContainer" parent="Import"]
+[node name="Margins" type="MarginContainer" parent="Import" unique_id=1836047866]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Scroll" type="ScrollContainer" parent="Import/Margins"]
+[node name="Scroll" type="ScrollContainer" parent="Import/Margins" unique_id=2034016412]
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="Box" type="VBoxContainer" parent="Import/Margins/Scroll"]
+[node name="Box" type="VBoxContainer" parent="Import/Margins/Scroll" unique_id=1620402518]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Grid" type="GridContainer" parent="Import/Margins/Scroll/Box"]
+[node name="Grid" type="GridContainer" parent="Import/Margins/Scroll/Box" unique_id=1660366757]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Label" type="Label" parent="Import/Margins/Scroll/Box/Grid" unique_id=1162672436]
 layout_mode = 2
 text = "Column Used as Filename:"
 
-[node name="UseAsFilename" type="OptionButton" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="UseAsFilename" type="OptionButton" parent="Import/Margins/Scroll/Box/Grid" unique_id=159565761]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label4" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Label4" type="Label" parent="Import/Margins/Scroll/Box/Grid" unique_id=718054075]
 layout_mode = 2
 text = "Use Script:"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Import/Margins/Scroll/Box/Grid" unique_id=833695767]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer" unique_id=1748860232]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "(create new GDScript)"
 editable = false
 
-[node name="Button2" type="Button" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+[node name="Button2" type="Button" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer" unique_id=382505679]
 layout_mode = 2
 script = ExtResource("5_k5rhi")
 icon_name = "Clear"
 
-[node name="Button" type="Button" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+[node name="Button" type="Button" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer" unique_id=266171646]
 layout_mode = 2
 script = ExtResource("5_k5rhi")
 icon_name = "Folder"
 
-[node name="FileDialog" type="FileDialog" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer"]
+[node name="FileDialog" type="FileDialog" parent="Import/Margins/Scroll/Box/Grid/HBoxContainer" unique_id=1398584098]
 title = "Choose Script..."
 initial_position = 4
 size = Vector2i(800, 500)
@@ -83,70 +83,70 @@ mode_overrides_title = false
 file_mode = 0
 filters = PackedStringArray("*.gd", "*.cs")
 
-[node name="Control" type="Control" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Control" type="Control" parent="Import/Margins/Scroll/Box/Grid" unique_id=989312375]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Label5" type="Label" parent="Import/Margins/Scroll/Box/Grid" unique_id=1235293099]
 self_modulate = Color(1, 0.84375, 0, 1)
 layout_mode = 2
 text = "WARNING: Importing with a pre-existing Script will not import datatypes not selectible below."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Label2" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Label2" type="Label" parent="Import/Margins/Scroll/Box/Grid" unique_id=1133420517]
 visible = false
 layout_mode = 2
 text = "Class Name"
 
-[node name="Classname" type="LineEdit" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Classname" type="LineEdit" parent="Import/Margins/Scroll/Box/Grid" unique_id=2134047600]
 visible = false
 layout_mode = 2
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Label3" type="Label" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Label3" type="Label" parent="Import/Margins/Scroll/Box/Grid" unique_id=1323020633]
 layout_mode = 2
 text = "Flags:"
 
-[node name="Flags" type="VBoxContainer" parent="Import/Margins/Scroll/Box/Grid"]
+[node name="Flags" type="VBoxContainer" parent="Import/Margins/Scroll/Box/Grid" unique_id=721538651]
 layout_mode = 2
 
-[node name="RemoveFirstRow" type="CheckBox" parent="Import/Margins/Scroll/Box/Grid/Flags"]
+[node name="RemoveFirstRow" type="CheckBox" parent="Import/Margins/Scroll/Box/Grid/Flags" unique_id=1930193248]
 layout_mode = 2
 text = "First row contains property names"
 
-[node name="HSeparator" type="HSeparator" parent="Import/Margins/Scroll/Box"]
+[node name="HSeparator" type="HSeparator" parent="Import/Margins/Scroll/Box" unique_id=1176877516]
 layout_mode = 2
 
-[node name="StyleSettingsI" parent="Import/Margins/Scroll/Box" instance=ExtResource("4")]
+[node name="StyleSettingsI" parent="Import/Margins/Scroll/Box" unique_id=626878950 instance=ExtResource("4")]
 layout_mode = 2
 
-[node name="Box" type="HBoxContainer" parent="Import"]
+[node name="Box" type="HBoxContainer" parent="Import" unique_id=1730736885]
 layout_mode = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="Ok2" type="Button" parent="Import/Box"]
+[node name="Ok2" type="Button" parent="Import/Box" unique_id=1698339159]
 layout_mode = 2
 text = "Confirm and edit"
 
-[node name="Ok" type="Button" parent="Import/Box"]
+[node name="Ok" type="Button" parent="Import/Box" unique_id=957918269]
 layout_mode = 2
 text = "Convert to Resources and edit"
 
-[node name="Cancel" type="Button" parent="Import/Box"]
+[node name="Cancel" type="Button" parent="Import/Box" unique_id=1115954978]
 layout_mode = 2
 text = "Cancel"
 
-[node name="Control" type="Control" parent="Import"]
+[node name="Control" type="Control" parent="Import" unique_id=818517342]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Export" type="VBoxContainer" parent="."]
+[node name="Export" type="VBoxContainer" parent="." unique_id=1286994012]
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Info" type="Label" parent="Export"]
+[node name="Info" type="Label" parent="Export" unique_id=679308471]
 layout_mode = 2
 size_flags_vertical = 0
 text = "The currently edited folder will be exported into the selected file.
@@ -156,68 +156,68 @@ Rows hidden by the filter will NOT be exported, and order follows the current so
 Hidden columns will NOT be exported."
 autowrap_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="Export"]
+[node name="HSeparator" type="HSeparator" parent="Export" unique_id=1630901985]
 layout_mode = 2
 
-[node name="Box" type="HBoxContainer" parent="Export"]
+[node name="Box" type="HBoxContainer" parent="Export" unique_id=1697954270]
 layout_mode = 2
 alignment = 1
 
-[node name="Label2" type="Label" parent="Export/Box"]
+[node name="Label2" type="Label" parent="Export/Box" unique_id=841052179]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Delimiter:"
 
-[node name="Button" type="Button" parent="Export/Box"]
+[node name="Button" type="Button" parent="Export/Box" unique_id=444613008]
 layout_mode = 2
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_080hd")
 text = "Comma (,)"
 
-[node name="Button2" type="Button" parent="Export/Box"]
+[node name="Button2" type="Button" parent="Export/Box" unique_id=724088350]
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_080hd")
 text = "Semicolon (;)"
 
-[node name="Button3" type="Button" parent="Export/Box"]
+[node name="Button3" type="Button" parent="Export/Box" unique_id=209247069]
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_080hd")
 text = "Tab"
 
-[node name="CheckBox" type="CheckBox" parent="Export/Box"]
+[node name="CheckBox" type="CheckBox" parent="Export/Box" unique_id=915963549]
 layout_mode = 2
 text = "With space after"
 
-[node name="Box3" type="HBoxContainer" parent="Export"]
+[node name="Box3" type="HBoxContainer" parent="Export" unique_id=1023466816]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="Export/Box3"]
+[node name="CheckBox" type="CheckBox" parent="Export/Box3" unique_id=86085733]
 layout_mode = 2
 text = "First row contains property names (CSV)"
 
-[node name="StyleSettingsE" parent="Export" instance=ExtResource("4")]
+[node name="StyleSettingsE" parent="Export" unique_id=2067576939 instance=ExtResource("4")]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="Export"]
+[node name="Control" type="Control" parent="Export" unique_id=625406749]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Box2" type="HBoxContainer" parent="Export"]
+[node name="Box2" type="HBoxContainer" parent="Export" unique_id=1061671405]
 layout_mode = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="Export/Box2"]
+[node name="Button" type="Button" parent="Export/Box2" unique_id=1343077254]
 layout_mode = 2
 text = "Export to CSV"
 
-[node name="Cancel" type="Button" parent="Export/Box2"]
+[node name="Cancel" type="Button" parent="Export/Box2" unique_id=1208504328]
 layout_mode = 2
 text = "Cancel"
 
-[node name="Control2" type="Control" parent="Export"]
+[node name="Control2" type="Control" parent="Export" unique_id=2138205996]
 layout_mode = 2
 
 [connection signal="pressed" from="Import/Margins/Scroll/Box/Grid/HBoxContainer/Button2" to="Import/Margins/Scroll/Box/Grid/HBoxContainer/LineEdit" method="set_text" binds= [""]]

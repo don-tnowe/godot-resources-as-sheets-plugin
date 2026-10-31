@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhunxgcae6h1"]
+[gd_scene format=3 uid="uid://dhunxgcae6h1"]
 
 [ext_resource type="Script" uid="uid://8topi2360xak" path="res://addons/resources_spreadsheet_view/settings_grid.gd" id="1_s8s2f"]
 
-[node name="Settings" type="ScrollContainer"]
+[node name="Settings" type="ScrollContainer" unique_id=378892675]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,110 +13,110 @@ offset_bottom = -322.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RichTextLabel" type="VBoxContainer" parent="."]
+[node name="RichTextLabel" type="VBoxContainer" parent="." unique_id=667551369]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="GridContainer" type="GridContainer" parent="RichTextLabel"]
+[node name="GridContainer" type="GridContainer" parent="RichTextLabel" unique_id=493665178]
 layout_mode = 2
 columns = 2
 script = ExtResource("1_s8s2f")
 
-[node name="Label" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label" type="Label" parent="RichTextLabel/GridContainer" unique_id=1048357172]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Color-type cells style rows"
 autowrap_mode = 2
 
-[node name="ColorRows" type="CheckBox" parent="RichTextLabel/GridContainer"]
+[node name="ColorRows" type="CheckBox" parent="RichTextLabel/GridContainer" unique_id=1956835179]
 layout_mode = 2
 button_pressed = true
 text = "Enable"
 
-[node name="Label2" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label2" type="Label" parent="RichTextLabel/GridContainer" unique_id=204510225]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Collection item color tint"
 autowrap_mode = 2
 
-[node name="ArrayColorTint" type="SpinBox" parent="RichTextLabel/GridContainer"]
+[node name="ArrayColorTint" type="SpinBox" parent="RichTextLabel/GridContainer" unique_id=1902894264]
 layout_mode = 2
 value = 100.0
 
-[node name="Label3" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label3" type="Label" parent="RichTextLabel/GridContainer" unique_id=220817019]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Array cell min width"
 autowrap_mode = 2
 
-[node name="ArrayMinWidth" type="SpinBox" parent="RichTextLabel/GridContainer"]
+[node name="ArrayMinWidth" type="SpinBox" parent="RichTextLabel/GridContainer" unique_id=1601042435]
 layout_mode = 2
 min_value = 32.0
 max_value = 512.0
 value = 128.0
 
-[node name="Label8" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label8" type="Label" parent="RichTextLabel/GridContainer" unique_id=1023036080]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Resource preview size (Including Textures)"
 autowrap_mode = 2
 
-[node name="ResourcePreviewSize" type="SpinBox" parent="RichTextLabel/GridContainer"]
+[node name="ResourcePreviewSize" type="SpinBox" parent="RichTextLabel/GridContainer" unique_id=364399532]
 layout_mode = 2
 min_value = 8.0
 max_value = 1024.0
 value = 32.0
 
-[node name="Label7" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label7" type="Label" parent="RichTextLabel/GridContainer" unique_id=2042735766]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Clip header text (makes columns smaller)"
 autowrap_mode = 2
 
-[node name="ClipHeaders" type="CheckBox" parent="RichTextLabel/GridContainer"]
+[node name="ClipHeaders" type="CheckBox" parent="RichTextLabel/GridContainer" unique_id=828194718]
 layout_mode = 2
 text = "Enable"
 
-[node name="Label5" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label5" type="Label" parent="RichTextLabel/GridContainer" unique_id=1947264972]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Duplicate arrays on edit (slower, but allows undo)"
 autowrap_mode = 2
 
-[node name="DupeArrays" type="CheckBox" parent="RichTextLabel/GridContainer"]
+[node name="DupeArrays" type="CheckBox" parent="RichTextLabel/GridContainer" unique_id=937094904]
 layout_mode = 2
 button_pressed = true
 text = "Enable"
 
-[node name="Label6" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label6" type="Label" parent="RichTextLabel/GridContainer" unique_id=1466840403]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Show context menu on left-click (and not just rightclick)"
 autowrap_mode = 2
 
-[node name="ContextMenuOnLeftclick" type="CheckBox" parent="RichTextLabel/GridContainer"]
+[node name="ContextMenuOnLeftclick" type="CheckBox" parent="RichTextLabel/GridContainer" unique_id=515142687]
 layout_mode = 2
 text = "Enable"
 
-[node name="Label9" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label9" type="Label" parent="RichTextLabel/GridContainer" unique_id=1968304132]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Fold bottom docks on startup (drag their top bar to resize)"
 autowrap_mode = 2
 
-[node name="FoldDocks" type="CheckBox" parent="RichTextLabel/GridContainer"]
+[node name="FoldDocks" type="CheckBox" parent="RichTextLabel/GridContainer" unique_id=983015185]
 layout_mode = 2
 button_pressed = true
 text = "Enable"
 
-[node name="Label10" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label10" type="Label" parent="RichTextLabel/GridContainer" unique_id=1495475927]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Resources in cells (allow viewing _to_string() override's result, ONLY WORKS for scripts with @tool annotation)"
 autowrap_mode = 2
 
-[node name="ResourceCellLabelMode" type="OptionButton" parent="RichTextLabel/GridContainer"]
+[node name="ResourceCellLabelMode" type="OptionButton" parent="RichTextLabel/GridContainer" unique_id=518388253]
 layout_mode = 2
 toggle_mode = false
 selected = 1
@@ -129,13 +129,13 @@ popup/item_1/id = 1
 popup/item_2/text = "Name Only"
 popup/item_2/id = 2
 
-[node name="Label11" type="Label" parent="RichTextLabel/GridContainer"]
+[node name="Label11" type="Label" parent="RichTextLabel/GridContainer" unique_id=2074638814]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Freeze/Lock First Column"
 autowrap_mode = 2
 
-[node name="FreezeFirstColumn" type="CheckBox" parent="RichTextLabel/GridContainer"]
+[node name="FreezeFirstColumn" type="CheckBox" parent="RichTextLabel/GridContainer" unique_id=1116159562]
 layout_mode = 2
 button_pressed = true
 text = "Enable"
