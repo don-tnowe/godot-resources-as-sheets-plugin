@@ -45,6 +45,9 @@ func _on_grid_updated() -> void:
 			first_visible_column = i
 			break
 
+	if editor_view.rows.size() == 0:
+		return
+
 	var total_column_count : int = editor_view.columns.size()
 	children.resize(grid.get_child_count() / total_column_count)
 	children_copy_cells.resize(children.size())
