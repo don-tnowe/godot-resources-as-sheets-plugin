@@ -83,6 +83,7 @@ func save_data():
 
 
 func _on_filesystem_changed():
+	node_recent_paths.reload_paths()
 	if current_path == "":
 		return
 
@@ -132,6 +133,13 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 
 	if (folderpath.ends_with(".tres") or folderpath.ends_with(".res")) and !(load(folderpath) is ResourceTablesImport):
 		folderpath = folderpath.get_base_dir() + "/"
+
+	var folder_doesnt_exist_label = %"FolderDoesntExistLabel"
+	if !DirAccess.dir_exists_absolute(folderpath):
+		folder_doesnt_exist_label.visible = true
+		return
+	else:
+		folder_doesnt_exist_label.visible = false
 
 	node_recent_paths.add_path_to_recent(folderpath)
 	node_folder_path.text = folderpath

@@ -18,6 +18,16 @@ func load_paths(paths):
 	selected = recent_paths.size() - 1
 
 
+func reload_paths():
+	var path_count = recent_paths.size()
+	var removed = 0
+	for x in path_count - removed:	
+		x -= removed
+		if !DirAccess.dir_exists_absolute(recent_paths[x]):
+			removed += 1
+			remove_path_from_recent(x)
+
+
 func add_path_to_recent(path : String, is_loading : bool = false):
 	if path in recent_paths: return
 
@@ -33,14 +43,15 @@ func add_path_to_recent(path : String, is_loading : bool = false):
 	if !is_loading:
 		editor_view.save_data()
 
+func pressed():
+	remove_path_from_recent(selected)
 
-func remove_selected_path_from_recent():
+func remove_path_from_recent(index : int):
 	if get_item_count() == 0:
 		return
 	
-	var idx_in_array := selected
-	recent_paths.remove_at(idx_in_array)
-	remove_item(idx_in_array)
+	recent_paths.remove_at(index)
+	remove_item(index)
 
 	if get_item_count() != 0:
 		select(0)
@@ -52,3 +63,7 @@ func _on_item_selected(index : int):
 	editor_view.current_path = recent_paths[index]
 	editor_view.node_folder_path.text = recent_paths[index]
 	editor_view.refresh()
+
+
+func _on_delete_path_pressed() -> void:
+	pass # Replace with function body.
