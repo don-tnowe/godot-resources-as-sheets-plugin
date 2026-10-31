@@ -15,6 +15,8 @@ func _enter_tree() -> void:
 	editor_view.editor_plugin = self
 	editor_view.editor_interface.get_editor_main_screen().add_child(editor_view)
 
+	undo_redo = get_undo_redo()
+
 	popup_plugin = load(base_dir + "/editor_popup_plugin.gd").new()
 	popup_plugin.editor_plugin = self
 	add_context_menu_plugin(EditorContextMenuPlugin.CONTEXT_SLOT_FILESYSTEM, popup_plugin)
