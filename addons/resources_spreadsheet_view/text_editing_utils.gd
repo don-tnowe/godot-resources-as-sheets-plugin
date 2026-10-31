@@ -13,7 +13,7 @@ const whitespace_chars := [
 	46, # "."
 	182, # "¶" Linefeed
 	10, # "\n" Actual Linefeed
-	967, # "●" Whitespace
+	9679, # "●" Whitespace
 ]
 
 
