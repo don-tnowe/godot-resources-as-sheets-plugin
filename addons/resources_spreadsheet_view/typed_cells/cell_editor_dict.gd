@@ -13,12 +13,12 @@ func set_value(node : Control, value):
 	var parent = node.get_node("Box")
 	var children := parent.get_children()
 	node.custom_minimum_size.x = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_min_width")
-	var color_tint : float = 0.01 * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_color_tint", 100.0)
 	var cell_label_mode : int = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_cell_label_mode", 0)
 	while children.size() < value.size():
 		var new_label = Label.new()
 		children.append(new_label)
 		parent.add_child(new_label)
+
 	while children.size() > value.size():
 		var child = parent.get_child(parent.get_child_count() - 1)		
 		child.get_parent().remove_child(child)
@@ -33,7 +33,7 @@ func set_value(node : Control, value):
 		# If there's an int, the dict could be static-typed as enum.
 		for x in column_hints:
 			if x.begins_with("2/2:") or x.find("2/2:") != -1:
-				set_value_enum(node, value, children, keys, values, cell_label_mode, column_hints, color_tint)
+				set_value_enum(node, value, children, keys, values, cell_label_mode, column_hints)
 				return
 
 	for i in children.size():
@@ -50,10 +50,10 @@ func set_value(node : Control, value):
 			if current_key is Resource:
 				current_key = _resource_to_string(current_key, cell_label_mode)
 
-			_write_value_to_child("%s ◆ %s" % [current_key, current_value], current_key, column_hints, children[i], color_tint, cell_label_mode)
+			_write_value_to_child("%s ◆ %s" % [current_key, current_value], current_key, column_hints, children[i], cell_label_mode)
 
 
-func set_value_enum(node : Control, value, children : Array[Node], keys : Array, values : Array, cell_label_mode : int, column_hints : PackedStringArray, color_tint : float) -> void:
+func set_value_enum(node : Control, value, children : Array[Node], keys : Array, values : Array, cell_label_mode : int, column_hints : PackedStringArray) -> void:
 	var key_enum_values : Dictionary[int, String] = {}
 	var value_enum_values : Dictionary[int, String] = {}
 	var parse_phase := 0
@@ -100,7 +100,7 @@ func set_value_enum(node : Control, value, children : Array[Node], keys : Array,
 			if current_key is Resource:
 				current_key = _resource_to_string(current_key, cell_label_mode)
 
-			_write_value_to_child("%s ◆ %s" % [current_key, current_value], current_key, column_hints, children[i], color_tint, cell_label_mode)
+			_write_value_to_child("%s ◆ %s" % [current_key, current_value], current_key, column_hints, children[i], cell_label_mode)
 
 
 func is_text():

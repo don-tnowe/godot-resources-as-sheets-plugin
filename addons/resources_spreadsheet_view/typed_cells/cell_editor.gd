@@ -1,9 +1,14 @@
 class_name ResourceTablesCellEditor
 extends RefCounted
 
-const TextEditingUtilsClass := preload("res://addons/resources_spreadsheet_view/text_editing_utils.gd")
+const TextEditingUtilsClass := preload("uid://cl0y7kaefmwpj")
+const TablesPluginSettingsClass := preload("uid://8topi2360xak")
 
 const CELL_SCENE_DIR := "res://addons/resources_spreadsheet_view/typed_cells/"
+
+static var editor_text_color := Color.WHITE
+static var tint_to_default_text_strength := 0.0
+static var tint_to_default_text_strength_updated_time := 0
 
 var hint_strings_array := []
 
@@ -44,3 +49,17 @@ func from_text(text : String):
 ## Override to change behaviour when there are color cells to the left of this cell.
 func set_color(node : Control, color : Color):
 	node.get_node("Back").modulate = color * 1.0
+
+
+static func text_to_random_color(value : String) -> Color:
+	if Time.get_ticks_msec() - tint_to_default_text_strength_updated_time > 0.6:
+		var color_tint : float = 0.01 * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_color_tint", 100.0)
+		tint_to_default_text_strength = color_tint
+		tint_to_default_text_strength_updated_time = Time.get_ticks_msec()
+		editor_text_color = Engine.get_singleton("EditorInterface").get_editor_theme().get_color("font_color", "Editor")
+
+	var result := Color(value.hash())
+	result.v = lerp(result.v, 1.0, 0.5)
+	result.a = 1.0
+	result = result.blend(Color(editor_text_color, 1.0 - tint_to_default_text_strength))
+	return result

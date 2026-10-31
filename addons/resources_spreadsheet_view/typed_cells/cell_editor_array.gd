@@ -1,7 +1,5 @@
 extends ResourceTablesCellEditor
 
-const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
-
 
 func can_edit_value(value, type, property_hint, column_index) -> bool:
 	return type == TYPE_PACKED_STRING_ARRAY or type == TYPE_ARRAY
@@ -14,7 +12,6 @@ func create_cell(caller : Control) -> Control:
 func set_value(node : Control, value):
 	var children := node.get_node("Box").get_children()
 	node.custom_minimum_size.x = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_min_width")
-	var color_tint : float = 0.01 * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "array_color_tint", 100.0)
 	var cell_label_mode : int = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_cell_label_mode", 0)
 	while children.size() < value.size():
 		children.append(Label.new())
@@ -27,10 +24,10 @@ func set_value(node : Control, value):
 
 		else:
 			children[i].visible = true
-			_write_value_to_child(value[i], value[i], column_hints, children[i], color_tint, cell_label_mode)
+			_write_value_to_child(value[i], value[i], column_hints, children[i], cell_label_mode)
 
 
-func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, color_tint : float, cell_label_mode : int):
+func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Label, cell_label_mode : int):
 	if value is Resource:
 		value = _resource_to_string(value, cell_label_mode)
 
@@ -38,11 +35,8 @@ func _write_value_to_child(value, key, hint_arr : PackedStringArray, child : Lab
 		key = _resource_to_string(key, cell_label_mode)
 
 	child.text = str(value)
-	child.self_modulate = (
-		Color.WHITE * (1.0 - color_tint)
-		+
-		(Color(str(key).hash()) + Color(0.2, 0.2, 0.2, 1.0)) * color_tint
-	)
+	child.add_theme_color_override(&"font_color", Color.WHITE)  # Will be overriden by the same color in text_to_random_color()
+	child.self_modulate = text_to_random_color(str(key))
 
 
 static func _resource_to_string(res : Resource, cell_label_mode : int):
