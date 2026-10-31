@@ -6,7 +6,7 @@ func can_edit_value(value, type, property_hint, column_index) -> bool:
 
 
 func set_value(node : Control, value):
-	if value == null:
+	if value == null or value is not int and value is not float:
 		# Sometimes, when creating new property, becomes null
 		value = 0
 

@@ -401,6 +401,9 @@ func set_edited_cells_values_text(new_cell_values : Array):
 
 func set_edited_cells_values(new_cell_values : Array):
 	var edited_rows : Array = _selection.get_edited_rows()
+	while new_cell_values.size() > edited_rows.size():
+		edited_rows.append(edited_rows[edited_rows.size() - 1] + 1)
+
 	var column : int = _selection.get_cell_column(_selection.edited_cells[0])
 	var edited_cells_resources := _get_row_resources(edited_rows)
 
@@ -413,10 +416,16 @@ func set_edited_cells_values(new_cell_values : Array):
 		column,
 		get_edited_cells_values()
 	)
+	var old_cursor_positions = _selection.old_edit_cursor_positions
+	if old_cursor_positions.size() != _selection.edit_cursor_positions.size():
+		old_cursor_positions = _selection.edit_cursor_positions
 	editor_plugin.undo_redo.add_undo_method(
 		_selection,
-		&"_update_selected_cells_text"
+		&"set_selection",
+		_selection.edited_cells.duplicate(),
+		old_cursor_positions.duplicate()
 	)
+	_selection.old_edit_cursor_positions = _selection.edit_cursor_positions.duplicate()
 	editor_plugin.undo_redo.add_do_method(
 		self,
 		&"_update_resources",
@@ -425,7 +434,23 @@ func set_edited_cells_values(new_cell_values : Array):
 		column,
 		new_cell_values.duplicate()
 	)
-	editor_plugin.undo_redo.commit_action(true)
+	editor_plugin.undo_redo.add_do_method(
+		_selection,
+		&"set_selection",
+		_selection.edited_cells.duplicate(),
+		_selection.edit_cursor_positions.duplicate()
+	)
+
+	# Calling this here to avoid set_selection being called the first time around. 
+	# Doing so isn't a huge issue, but it can cause some jank that I would rather avoid.
+	_update_resources(
+		edited_cells_resources.duplicate(),
+		edited_rows.duplicate(),
+		column,
+		new_cell_values.duplicate()
+	)
+
+	editor_plugin.undo_redo.commit_action(false)
 	_selection._update_selected_cells_text()
 
 
